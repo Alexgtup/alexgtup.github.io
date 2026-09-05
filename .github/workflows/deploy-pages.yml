@@ -24,11 +24,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract site
+      - name: Build static site
         run: |
           mkdir -p _site
           tar -xzf site.tar.gz -C _site
           xz -dc index.html.xz > _site/index.html
+          if [ -d overrides ]; then
+            cp -R overrides/. _site/
+          fi
+          if [ -d assets ]; then
+            mkdir -p _site/assets
+            cp -R assets/. _site/assets/
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5

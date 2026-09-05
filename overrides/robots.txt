@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alexgtup.github.io/sitemap.xml
+Sitemap: https://alexgtup.github.io/sitemap.txt
