@@ -1,6 +1,8 @@
 https://alexgtup.github.io/
 https://alexgtup.github.io/telegram-bots/
 https://alexgtup.github.io/ai-automation/
+https://alexgtup.github.io/n8n-automation/
+https://alexgtup.github.io/crm-development/
 https://alexgtup.github.io/web-development/
 https://alexgtup.github.io/api-integrations/
 https://alexgtup.github.io/project-repair/
