@@ -36,6 +36,11 @@ jobs:
             mkdir -p _site/assets
             cp -R assets/. _site/assets/
           fi
+          while IFS= read -r -d '' page; do
+            if ! grep -q '/assets/universal-media.css' "$page"; then
+              sed -i 's#</head>#<link rel="stylesheet" href="/assets/universal-media.css"></head>#' "$page"
+            fi
+          done < <(find _site -type f -name '*.html' -print0)
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
