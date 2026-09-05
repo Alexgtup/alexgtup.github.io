@@ -77,6 +77,9 @@ jobs:
           test -f _site/services/index.html
           test -f _site/about/index.html
           test -f _site/cases/fin-planner/index.html
+          test -f _site/cases/auto-crm/index.html
+          test -f _site/cases/factory-catalog/index.html
+          test -f _site/cases/taxi-app/index.html
           test -f _site/n8n-automation/index.html
           test -f _site/crm-development/index.html
           grep -q 'Фин Планер' _site/index.html

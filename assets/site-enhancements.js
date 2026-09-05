@@ -196,3 +196,28 @@
     else if (url.pathname === '/about/') goal('about_open');
   }, { capture: true });
 })();
+
+
+// Stage 10: consistent mobile navigation on standalone pages.
+(() => {
+  if (document.body?.dataset.page === 'home' || document.querySelector('.mobile-site-toggle')) return;
+  const head = document.querySelector('.header .head, .site-header .head, .header .container, .site-header .container');
+  if (!head) return;
+  const button = document.createElement('button');
+  button.className = 'mobile-site-toggle';
+  button.type = 'button';
+  button.setAttribute('aria-label','Открыть меню');
+  button.setAttribute('aria-expanded','false');
+  button.textContent = '☰';
+  const drawer = document.createElement('nav');
+  drawer.className = 'mobile-site-drawer';
+  drawer.setAttribute('aria-label','Мобильная навигация');
+  drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a><a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>';
+  head.appendChild(button);
+  document.body.appendChild(drawer);
+  const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};
+  button.addEventListener('click',()=>{const open=!drawer.classList.contains('is-open');drawer.classList.toggle('is-open',open);button.setAttribute('aria-expanded',String(open));button.textContent=open?'×':'☰'});
+  drawer.addEventListener('click',e=>{if(e.target.closest('a')) close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  document.addEventListener('click',e=>{if(drawer.classList.contains('is-open')&&!drawer.contains(e.target)&&!button.contains(e.target))close()});
+})();
