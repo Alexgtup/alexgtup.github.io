@@ -1,19 +1,24 @@
 # Александр — разработчик цифровых продуктов
 
-Telegram-боты, CRM, n8n/Make-автоматизация, API-интеграции и веб-сервисы. Работаю от разбора процесса до запуска и дальнейшей доработки.
+Telegram-боты · CRM · n8n/Make · API · Web · iOS
 
-**Портфолио:** https://alexgtup.github.io/
+Я собираю решения под конкретный рабочий процесс: от разбора задачи и архитектуры до запуска, интеграций и дальнейшей доработки.
 
-### Что посмотреть
-- Telegram-бот «Фин Планер»: https://alexgtup.github.io/cases/fin-planner/
-- CRM для автосалона: https://alexgtup.github.io/cases/auto-crm/
-- iOS-календарь на Swift: https://alexgtup.github.io/cases/swift-calendar/
-- Все кейсы: https://alexgtup.github.io/cases/
+### Избранные кейсы
 
-### Направления
-- Telegram-боты: https://alexgtup.github.io/telegram-bots/
-- CRM: https://alexgtup.github.io/crm-development/
-- n8n / Make: https://alexgtup.github.io/n8n-automation/
-- API: https://alexgtup.github.io/api-integrations/
+- **Фин Планер** — Telegram-бот для бюджета и финансового анализа  
+  https://alexgtup.github.io/cases/fin-planner/?utm_source=github&utm_medium=profile&utm_campaign=authority
+- **CRM для автосалона** — заявки, статусы, менеджеры и рабочий контур  
+  https://alexgtup.github.io/cases/auto-crm/?utm_source=github&utm_medium=profile&utm_campaign=authority
+- **iOS-календарь на Swift** — события, задачи, аккаунт и подписка  
+  https://alexgtup.github.io/cases/swift-calendar/?utm_source=github&utm_medium=profile&utm_campaign=authority
 
-Связь: https://t.me/Alexuys
+### Чем занимаюсь
+
+Telegram-боты: https://alexgtup.github.io/telegram-bots/?utm_source=github&utm_medium=profile&utm_campaign=authority  
+CRM: https://alexgtup.github.io/crm-development/?utm_source=github&utm_medium=profile&utm_campaign=authority  
+n8n / Make: https://alexgtup.github.io/n8n-automation/?utm_source=github&utm_medium=profile&utm_campaign=authority  
+API: https://alexgtup.github.io/api-integrations/?utm_source=github&utm_medium=profile&utm_campaign=authority
+
+**Портфолио:** https://alexgtup.github.io/?utm_source=github&utm_medium=profile&utm_campaign=authority  
+**Telegram:** https://t.me/Alexuys

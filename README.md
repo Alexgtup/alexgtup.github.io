@@ -1,40 +1,27 @@
-# Alexuys — разработка Telegram-ботов, CRM и автоматизации
+# Alexuys — Telegram-боты, CRM, автоматизация и веб-разработка
 
-Портфолио: https://alexgtup.github.io/
+Разрабатываю цифровые продукты под конкретный процесс: Telegram-боты, CRM, n8n/Make-автоматизацию, API-интеграции, веб-сервисы и iOS-приложения.
 
-Разрабатываю цифровые продукты под конкретные рабочие процессы: Telegram-боты, CRM, n8n/Make-автоматизацию, API-интеграции, веб-сервисы и iOS-приложения. На сайте — реальные кейсы, отдельные страницы услуг и практические разборы.
+**Портфолио:** https://alexgtup.github.io/?utm_source=github&utm_medium=repository&utm_campaign=authority
 
-## Услуги
+## Реальные проекты
 
-- Telegram-боты: https://alexgtup.github.io/telegram-bots/
-- n8n / Make автоматизация: https://alexgtup.github.io/n8n-automation/
-- CRM-разработка: https://alexgtup.github.io/crm-development/
-- AI-автоматизация: https://alexgtup.github.io/ai-automation/
-- API-интеграции: https://alexgtup.github.io/api-integrations/
-- Веб-сервисы и MVP: https://alexgtup.github.io/web-development/
-- iOS / Swift: https://alexgtup.github.io/ios-development/
-- Доработка существующих проектов: https://alexgtup.github.io/project-repair/
+- [Фин Планер — Telegram-бот для личного бюджета](case-studies/fin-planner.md)
+- [CRM для автосалона](case-studies/auto-crm.md)
+- [iOS-календарь на Swift](case-studies/swift-calendar.md)
+- [Приложение такси](case-studies/taxi-app.md)
+- [B2B-каталог завода](case-studies/factory-catalog.md)
 
-## Кейсы
+Все кейсы: https://alexgtup.github.io/cases/?utm_source=github&utm_medium=repository&utm_campaign=authority
 
-- Все проекты: https://alexgtup.github.io/cases/
-- Фин Планер — Telegram-бот для личных финансов: https://alexgtup.github.io/cases/fin-planner/
-- CRM для автосалона: https://alexgtup.github.io/cases/auto-crm/
-- iOS-календарь на Swift: https://alexgtup.github.io/cases/swift-calendar/
-- Приложение такси: https://alexgtup.github.io/cases/taxi-app/
-- B2B-каталог завода: https://alexgtup.github.io/cases/factory-catalog/
+## Направления
 
-## Практические разборы
+- Telegram-боты — https://alexgtup.github.io/telegram-bots/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- CRM — https://alexgtup.github.io/crm-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- n8n / Make — https://alexgtup.github.io/n8n-automation/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- AI-автоматизация — https://alexgtup.github.io/ai-automation/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- API-интеграции — https://alexgtup.github.io/api-integrations/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- Веб-сервисы / MVP — https://alexgtup.github.io/web-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- iOS / Swift — https://alexgtup.github.io/ios-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
 
-- Стоимость Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-cost/
-- Шаблон ТЗ на Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-brief/
-- n8n или Make: https://alexgtup.github.io/guides/n8n-vs-make/
-- Своя CRM или готовая система: https://alexgtup.github.io/guides/custom-crm-or-ready/
-
-## Контакты
-
-- Обо мне: https://alexgtup.github.io/about/
-- Telegram: https://t.me/Alexuys
-- Freelance.ru: https://freelance.ru/gglalex
-
-Сайт — статическая сборка на GitHub Pages. Деплой проверяет sitemap, внутренние ссылки, структурированные данные, размеры изображений и performance budget. После публикации изменённые URL автоматически отправляются в IndexNow.
+Telegram: https://t.me/Alexuys

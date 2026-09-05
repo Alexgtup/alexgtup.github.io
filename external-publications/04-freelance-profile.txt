@@ -1,0 +1,14 @@
+Александр — разработка Telegram-ботов, CRM, автоматизации и веб-сервисов.
+
+Работаю с задачами, где нужно не просто собрать интерфейс, а связать процесс целиком: Telegram, CRM, API, n8n/Make, веб-сервис, база данных, уведомления и существующие системы.
+
+Реальные проекты:
+— Фин Планер — Telegram-бот для бюджета и финансового анализа
+— CRM для автосалона
+— iOS-календарь на Swift
+— приложение такси
+— B2B-каталог производственной компании
+
+Портфолио: https://alexgtup.github.io/?utm_source=freelance&utm_medium=profile&utm_campaign=authority
+Кейсы: https://alexgtup.github.io/cases/?utm_source=freelance&utm_medium=profile&utm_campaign=authority
+Telegram: @Alexuys
