@@ -45,7 +45,7 @@ jobs:
             cp -R assets/. _site/assets/
           fi
 
-          for f in favicon-96.png apple-touch-icon.png site.webmanifest robots.txt; do
+          for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest robots.txt; do
             if [ -f "$f" ]; then
               cp "$f" "_site/$f"
             fi
@@ -69,6 +69,10 @@ jobs:
           test -f _site/index.html
           test -f _site/sitemap.xml
           test -f _site/robots.txt
+          test -f _site/favicon.ico
+          test -f _site/favicon.svg
+          test -f _site/favicon-96.png
+          test -f _site/site.webmanifest
           test -f _site/cases/index.html
           test -f _site/services/index.html
           test -f _site/cases/fin-planner/index.html
