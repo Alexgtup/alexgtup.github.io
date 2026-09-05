@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://alexgtup.github.io/</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/fin-planner/fin-planner-card-01.webp</image:loc>
+      <image:title>Портфолио разработчика — кейс Telegram-бота Фин Планер</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://alexgtup.github.io/telegram-bots/</loc>
@@ -41,6 +45,10 @@
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/swift-calendar/calendar-card-03.webp</image:loc>
+      <image:title>Разработка iOS-приложений на Swift — кейс календаря</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://alexgtup.github.io/cases/auto-crm/</loc>
@@ -61,10 +69,40 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://alexgtup.github.io/cases/fin-planner/</loc>
+    <lastmod>2026-09-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.82</priority>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/fin-planner/fin-planner-original.webp</image:loc>
+      <image:title>Оригинальный интерфейс Telegram-бота Фин Планер</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/fin-planner/fin-planner-card-01.webp</image:loc>
+      <image:title>Фин Планер — Telegram-бот для бюджета и финансового анализа</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/fin-planner/fin-planner-card-03.webp</image:loc>
+      <image:title>Карточка кейса Фин Планер для портфолио</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://alexgtup.github.io/cases/swift-calendar/</loc>
     <lastmod>2026-09-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/swift-calendar/calendar-original.webp</image:loc>
+      <image:title>Оригинальный экран iOS-календаря на Swift</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/swift-calendar/calendar-card-01.webp</image:loc>
+      <image:title>Презентационная карточка iOS-календаря на Swift</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://alexgtup.github.io/assets/cases/swift-calendar/calendar-card-03.webp</image:loc>
+      <image:title>Минималистичная карточка кейса Swift-календаря</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://alexgtup.github.io/privacy/</loc>

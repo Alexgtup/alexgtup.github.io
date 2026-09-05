@@ -8,5 +8,6 @@ https://alexgtup.github.io/ios-development/
 https://alexgtup.github.io/cases/auto-crm/
 https://alexgtup.github.io/cases/taxi-app/
 https://alexgtup.github.io/cases/factory-catalog/
+https://alexgtup.github.io/cases/fin-planner/
 https://alexgtup.github.io/cases/swift-calendar/
 https://alexgtup.github.io/privacy/
