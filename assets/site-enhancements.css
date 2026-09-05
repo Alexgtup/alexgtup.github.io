@@ -151,3 +151,65 @@ body.media-lightbox-open { overflow: hidden !important; }
   .media-lightbox__prev,
   .media-lightbox__next { transition: none !important; }
 }
+
+/* Premium responsive layout for showcase cases.
+   The card follows the media, never the other way around. */
+@media (min-width: 761px) {
+  .work-grid > .case-calendar {
+    display:grid;
+    grid-template-columns:minmax(0,1.08fr) minmax(21rem,.92fr);
+    align-items:stretch;
+    min-height:0;
+    overflow:hidden;
+    isolation:isolate;
+    border-radius:1.6rem;
+    background:radial-gradient(circle at 82% 7%,rgba(201,255,74,.06),transparent 21rem),linear-gradient(145deg,#11151a 0%,#0d1115 54%,#0a0d11 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.025),0 22px 65px rgba(0,0,0,.15);
+  }
+  .work-grid > .case-calendar.case-finplanner {
+    background:radial-gradient(circle at 79% 8%,rgba(61,210,255,.1),transparent 22rem),radial-gradient(circle at 94% 88%,rgba(201,255,74,.045),transparent 18rem),linear-gradient(145deg,#11171d 0%,#0c1116 54%,#090d11 100%);
+  }
+  .work-grid > .case-calendar::before {
+    content:"";position:absolute;left:0;top:0;width:42%;height:1px;z-index:4;background:linear-gradient(90deg,rgba(255,255,255,.22),transparent);pointer-events:none;
+  }
+  .work-grid > .case-calendar .case-content {
+    grid-column:1;grid-row:1;min-height:0;padding:clamp(1.8rem,2.5vw,2.45rem);padding-right:clamp(1.7rem,2.4vw,2.25rem);justify-content:flex-start;
+    border-right:1px solid rgba(255,255,255,.06);background:linear-gradient(90deg,rgba(13,17,22,.98),rgba(13,17,22,.91) 74%,rgba(13,17,22,.62));
+  }
+  .work-grid > .case-calendar .case-meta {align-items:center;min-height:2rem;}
+  .work-grid > .case-calendar .case-number {display:grid;place-items:center;min-width:2rem;height:2rem;padding:0 .45rem;border:1px solid rgba(255,255,255,.09);border-radius:999px;background:rgba(255,255,255,.025);color:#aeb5bd;}
+  .work-grid > .case-calendar .case-copy {margin-top:clamp(2.5rem,3.7vw,3.8rem);max-width:31rem;}
+  .work-grid > .case-calendar .case-copy h3 {max-width:12ch;font-size:clamp(2.35rem,3.45vw,3.55rem);line-height:.96;letter-spacing:-.055em;}
+  .work-grid > .case-calendar .case-copy p {max-width:30rem;margin-top:.95rem;font-size:.91rem;line-height:1.68;color:#969ea8;}
+  .case-highlights {display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-top:1.25rem;max-width:31rem;}
+  .case-highlights span {display:flex;flex-direction:column;gap:.28rem;min-width:0;padding:.72rem .78rem;border:1px solid rgba(255,255,255,.075);border-radius:.78rem;background:rgba(255,255,255,.018);}
+  .case-highlights span:last-child {grid-column:1 / -1;}
+  .case-highlights b {font-size:.67rem;letter-spacing:.02em;color:#cfd4da;}
+  .case-highlights small {font-size:.67rem;line-height:1.42;color:#7f8892;}
+  .work-grid > .case-calendar .case-footer {margin-top:1.35rem;align-items:center;}
+  .work-grid > .case-calendar .chip {padding:.4rem .62rem;border-color:rgba(255,255,255,.09);background:rgba(255,255,255,.018);color:#8f98a2;}
+  .work-grid > .case-calendar .case-link {flex:0 0 auto;padding:.66rem .82rem .66rem .92rem;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.035);color:#d6dbe0;transition:background .18s ease,border-color .18s ease,transform .18s ease;}
+  .work-grid > .case-calendar:hover .case-link {background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.2);transform:translateX(2px);}
+  .work-grid > .case-calendar .case-visual {position:relative;inset:auto;grid-column:2;grid-row:1;min-width:0;z-index:2;display:grid;place-items:center;padding:1rem;overflow:hidden;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 28%),radial-gradient(circle at 50% 24%,rgba(124,147,255,.07),transparent 22rem);}
+  .work-grid > .case-calendar.case-finplanner .case-visual {background:linear-gradient(180deg,rgba(255,255,255,.018),transparent 28%),radial-gradient(circle at 50% 22%,rgba(66,203,255,.09),transparent 21rem);}
+  .work-grid > .case-calendar .case-visual::after {content:"";position:absolute;inset:.72rem;z-index:-1;border:1px solid rgba(255,255,255,.055);border-radius:1.25rem;background:rgba(255,255,255,.012);box-shadow:inset 0 1px 0 rgba(255,255,255,.02);pointer-events:none;}
+  .work-grid > .case-calendar .calendar-showcase {position:relative;inset:auto;display:block;width:auto;max-width:100%;height:auto;max-height:30rem;aspect-ratio:auto;object-fit:contain;object-position:center;align-self:center;border-radius:1.15rem;transform:none;filter:drop-shadow(0 22px 42px rgba(0,0,0,.38));}
+  .work-grid > .case-calendar.case-finplanner .calendar-showcase {filter:drop-shadow(0 23px 45px rgba(0,0,0,.42));}
+  .work-grid > .case-calendar .calendar-badge {top:1.45rem;right:1.45rem;left:auto;z-index:4;box-shadow:0 10px 28px rgba(0,0,0,.34);}
+}
+@media (max-width:760px) {
+  .work-grid > .case-calendar {display:grid;grid-template-columns:1fr;min-height:0;border-radius:1.3rem;}
+  .work-grid > .case-calendar .case-content {grid-column:1;grid-row:1;min-height:0;padding:1.25rem 1.15rem 1.2rem;padding-right:1.15rem;}
+  .work-grid > .case-calendar .case-copy {margin-top:2rem;padding-top:0;max-width:none;}
+  .work-grid > .case-calendar .case-copy h3 {max-width:12ch;font-size:clamp(2rem,9.5vw,2.85rem);}
+  .case-highlights {display:grid;grid-template-columns:1fr;gap:.5rem;margin-top:1rem;}
+  .case-highlights span,.case-highlights span:last-child {grid-column:auto;padding:.7rem .75rem;border:1px solid rgba(255,255,255,.075);border-radius:.72rem;background:rgba(255,255,255,.018);}
+  .case-highlights b {display:block;font-size:.67rem;color:#cfd4da;}
+  .case-highlights small {display:block;margin-top:.22rem;font-size:.67rem;line-height:1.42;color:#7f8892;}
+  .work-grid > .case-calendar .case-footer {margin-top:1.15rem;}
+  .work-grid > .case-calendar .case-link {padding:.6rem .76rem;border:1px solid rgba(255,255,255,.11);border-radius:999px;background:rgba(255,255,255,.035);}
+  .work-grid > .case-calendar .case-visual {position:relative;inset:auto;grid-column:1;grid-row:2;display:grid;place-items:center;min-height:0;padding:.15rem .8rem .9rem;overflow:hidden;}
+  .work-grid > .case-calendar .case-visual::after {display:none;}
+  .work-grid > .case-calendar .calendar-showcase {position:relative;inset:auto;display:block;width:auto;max-width:100%;height:auto;max-height:32rem;aspect-ratio:auto;object-fit:contain;object-position:center;border-radius:.95rem;transform:none;}
+  .work-grid > .case-calendar .calendar-badge {top:.85rem;right:1.25rem;left:auto;}
+}
