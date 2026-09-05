@@ -28,6 +28,7 @@ jobs:
         run: |
           mkdir -p _site
           tar -xzf site.tar.gz -C _site
+          xz -dc index.html.xz > _site/index.html
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
