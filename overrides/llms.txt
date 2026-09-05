@@ -3,6 +3,7 @@
 > Портфолио Александра: Telegram-боты, AI-автоматизация, n8n/Make, CRM, API-интеграции, веб-сервисы и iOS на Swift.
 
 ## Основные страницы
+- https://alexgtup.github.io/services/
 - https://alexgtup.github.io/
 - https://alexgtup.github.io/telegram-bots/
 - https://alexgtup.github.io/ai-automation/
@@ -23,3 +24,11 @@
 
 ## Контакт
 Telegram: https://t.me/Alexuys
+
+
+## Практические разборы
+- https://alexgtup.github.io/guides/
+- https://alexgtup.github.io/guides/telegram-bot-cost/
+- https://alexgtup.github.io/guides/telegram-bot-brief/
+- https://alexgtup.github.io/guides/n8n-vs-make/
+- https://alexgtup.github.io/guides/custom-crm-or-ready/

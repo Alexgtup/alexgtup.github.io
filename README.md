@@ -23,3 +23,17 @@
 Связь: https://t.me/Alexuys
 
 Сайт публикуется автоматически через GitHub Pages Actions.
+
+
+### Практические разборы
+- [Стоимость и оценка Telegram-бота](https://alexgtup.github.io/guides/telegram-bot-cost/)
+- [n8n или Make](https://alexgtup.github.io/guides/n8n-vs-make/)
+- [CRM на заказ или готовая система](https://alexgtup.github.io/guides/custom-crm-or-ready/)
+
+- [Шаблон ТЗ на Telegram-бота](https://alexgtup.github.io/guides/telegram-bot-brief/)
+
+
+## Навигация
+- Услуги: https://alexgtup.github.io/services/
+- Кейсы: https://alexgtup.github.io/cases/
+- Разборы: https://alexgtup.github.io/guides/

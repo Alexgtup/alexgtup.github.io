@@ -70,11 +70,13 @@ jobs:
           test -f _site/sitemap.xml
           test -f _site/robots.txt
           test -f _site/cases/index.html
+          test -f _site/services/index.html
           test -f _site/cases/fin-planner/index.html
           test -f _site/n8n-automation/index.html
           test -f _site/crm-development/index.html
           grep -q 'Фин Планер' _site/index.html
           grep -q 'Автоматизация n8n' _site/index.html
+          grep -q 'Сначала задача' _site/index.html
 
           python - <<'PY'
           import xml.etree.ElementTree as ET

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://alexgtup.github.io/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/services/</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://alexgtup.github.io/cases/</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://alexgtup.github.io/telegram-bots/</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://alexgtup.github.io/ai-automation/</loc><lastmod>2026-09-05</lastmod></url>
@@ -16,4 +17,9 @@
   <url><loc>https://alexgtup.github.io/cases/fin-planner/</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://alexgtup.github.io/cases/swift-calendar/</loc><lastmod>2026-09-05</lastmod></url>
   <url><loc>https://alexgtup.github.io/privacy/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/guides/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/guides/telegram-bot-cost/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/guides/n8n-vs-make/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/guides/custom-crm-or-ready/</loc><lastmod>2026-09-05</lastmod></url>
+  <url><loc>https://alexgtup.github.io/guides/telegram-bot-brief/</loc><lastmod>2026-09-05</lastmod></url>
 </urlset>

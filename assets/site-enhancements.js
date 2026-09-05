@@ -119,3 +119,54 @@
     if (event.key === 'ArrowRight' && eligible.length > 1) show(current + 1);
   });
 })();
+
+
+// Stage 5: low-friction brief + mobile contact CTA.
+(() => {
+  const briefButton = document.querySelector('[data-copy-brief]');
+  if (briefButton) {
+    const status = document.querySelector('.brief-status');
+    const template = `Что нужно:\n\nЧто уже есть:\n\nЧто должно связаться:\n\nКак выглядит готовый результат:`;
+    briefButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(template);
+        briefButton.textContent = 'Шаблон скопирован ✓';
+        if (status) status.textContent = 'Можно вставить текст в Telegram и дописать несколько строк.';
+        setTimeout(() => { briefButton.textContent = 'Скопировать шаблон'; }, 2600);
+      } catch (_) {
+        if (status) status.textContent = 'Не удалось скопировать автоматически — выделите четыре пункта слева.';
+      }
+    });
+  }
+
+  if (!document.querySelector('.mobile-project-cta')) {
+    const cta = document.createElement('a');
+    cta.className = 'mobile-project-cta';
+    cta.href = 'https://t.me/Alexuys';
+    cta.target = '_blank';
+    cta.rel = 'noreferrer';
+    cta.textContent = 'Описать задачу в Telegram ↗';
+    cta.setAttribute('aria-label', 'Описать задачу в Telegram');
+    document.body.appendChild(cta);
+
+    const contact = document.querySelector('#contact, .cta-box');
+    const cookie = document.querySelector('.cookie-consent');
+    let contactVisible = false;
+    const sync = () => {
+      const scrolled = window.scrollY > Math.min(520, window.innerHeight * .7);
+      cta.classList.toggle('is-visible', scrolled && !contactVisible);
+      if (cookie) {
+        const cs = getComputedStyle(cookie);
+        const shown = !cookie.hidden && cs.display !== 'none' && cs.visibility !== 'hidden' && Number(cs.opacity || 1) !== 0;
+        cta.classList.toggle('with-cookie', shown);
+      }
+    };
+    if (contact && 'IntersectionObserver' in window) {
+      new IntersectionObserver(entries => { contactVisible = entries.some(e => e.isIntersecting); sync(); }, { threshold: .12 }).observe(contact);
+    }
+    if (cookie && 'MutationObserver' in window) new MutationObserver(sync).observe(cookie,{attributes:true,attributeFilter:['class','style','hidden']});
+    addEventListener('scroll', sync, { passive:true });
+    addEventListener('resize', sync, { passive:true });
+    sync();
+  }
+})();
