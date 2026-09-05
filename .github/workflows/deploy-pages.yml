@@ -51,6 +51,14 @@ jobs:
           test -f _site/sitemap.xml
           test -f _site/robots.txt
           test -f _site/feed.xml
+          test -f _site/development/index.html
+          test -f _site/telegram-mini-apps/index.html
+          test -f _site/python-development/index.html
+          test -f _site/backend-development/index.html
+          test -f _site/mvp-development/index.html
+          test -f _site/app-development/index.html
+          grep -q "OAI-SearchBot" _site/robots.txt
+          grep -q "YandexAdditionalBot" _site/robots.txt
           test -f _site/c25441bbac42b588dd51fcf237159c69.txt
 
           python - <<'PY2'

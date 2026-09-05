@@ -33,3 +33,16 @@ Telegram: https://t.me/Alexuys
 - https://alexgtup.github.io/guides/telegram-bot-brief/
 - https://alexgtup.github.io/guides/n8n-vs-make/
 - https://alexgtup.github.io/guides/custom-crm-or-ready/
+
+## Поисковые направления и специализация
+- https://alexgtup.github.io/development/ — разработка цифровых продуктов на заказ, разработчик на проект
+- https://alexgtup.github.io/app-development/ — разработка приложений: web, Telegram Mini App и iOS
+- https://alexgtup.github.io/telegram-mini-apps/ — разработка Telegram Mini Apps
+- https://alexgtup.github.io/python-development/ — Python-разработка: боты, API и автоматизация
+- https://alexgtup.github.io/backend-development/ — backend, API, базы данных и webhooks
+- https://alexgtup.github.io/mvp-development/ — разработка MVP и первой рабочей версии продукта
+
+## Факты, подтверждённые портфолио
+- Реализованы CRM для автосалона, приложение такси, B2B-каталог, Telegram Фин Планер и iOS-календарь на Swift.
+- Основные направления: Telegram, Python, CRM, n8n/Make, API, веб-сервисы, backend, Swift/iOS.
+- Контакт с разработчиком напрямую через Telegram: https://t.me/Alexuys

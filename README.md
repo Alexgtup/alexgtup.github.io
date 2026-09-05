@@ -24,4 +24,13 @@
 - Веб-сервисы / MVP — https://alexgtup.github.io/web-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
 - iOS / Swift — https://alexgtup.github.io/ios-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
 
+## Дополнительные направления поиска
+
+- Разработка на заказ — https://alexgtup.github.io/development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- Разработка приложений — https://alexgtup.github.io/app-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- Telegram Mini Apps — https://alexgtup.github.io/telegram-mini-apps/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- Python-разработка — https://alexgtup.github.io/python-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- Backend-разработка — https://alexgtup.github.io/backend-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+- MVP — https://alexgtup.github.io/mvp-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+
 Telegram: https://t.me/Alexuys
