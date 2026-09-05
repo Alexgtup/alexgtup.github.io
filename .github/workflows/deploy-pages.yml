@@ -23,87 +23,88 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
-      - name: Build static site
+      - name: Build clean static site
         shell: bash
         run: |
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
-          tar -xzf site.tar.gz -C _site
 
-          if [ -f index.html.xz ]; then
-            xz -dc index.html.xz > _site/index.html
-          fi
+          # Stage 12 no longer deploys the legacy Next export from site.tar.gz.
+          # The public site is built only from the reviewed static overrides + assets.
+          cp -R overrides/. _site/
+          mkdir -p _site/assets
+          cp -R assets/. _site/assets/
 
-          if [ -d overrides ]; then
-            cp -R overrides/. _site/
-          fi
-
-          if [ -d assets ]; then
-            mkdir -p _site/assets
-            cp -R assets/. _site/assets/
-          fi
-
-          for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest robots.txt; do
-            if [ -f "$f" ]; then
-              cp "$f" "_site/$f"
-            fi
+          for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest .nojekyll \
+                   google4d4487812e36d65c.html yandex_d89618159a40495b.html yandex_e868ce83ed0c1276.html \
+                   c25441bbac42b588dd51fcf237159c69.txt; do
+            test -f "$f"
+            cp "$f" "_site/$f"
           done
 
-          # Use one canonical sitemap only. An old text sitemap caused duplicate submissions in Search Console.
-          rm -f _site/sitemap.txt
-
-          while IFS= read -r -d '' page; do
-            if [ -f _site/assets/universal-media.css ] && ! grep -q '/assets/universal-media.css' "$page"; then
-              sed -i 's#</head>#<link rel="stylesheet" href="/assets/universal-media.css"></head>#' "$page"
-            fi
-            if [ -f _site/assets/site-enhancements.css ] && ! grep -q '/assets/site-enhancements.css' "$page"; then
-              sed -i 's#</head>#<link rel="stylesheet" href="/assets/site-enhancements.css"></head>#' "$page"
-            fi
-            if [ -f _site/assets/site-enhancements.js ] && ! grep -q '/assets/site-enhancements.js' "$page"; then
-              sed -i 's#</body>#<script src="/assets/site-enhancements.js" defer></script></body>#' "$page"
-            fi
-          done < <(find _site -type f -name '*.html' -print0)
-
           test -f _site/index.html
+          test -f _site/404.html
           test -f _site/sitemap.xml
           test -f _site/robots.txt
-          test -f _site/favicon.ico
-          test -f _site/favicon.svg
-          test -f _site/favicon-96.png
-          test -f _site/site.webmanifest
-          test -f _site/cases/index.html
-          test -f _site/services/index.html
-          test -f _site/about/index.html
-          test -f _site/cases/fin-planner/index.html
-          test -f _site/cases/auto-crm/index.html
-          test -f _site/cases/factory-catalog/index.html
-          test -f _site/cases/taxi-app/index.html
-          test -f _site/n8n-automation/index.html
-          test -f _site/crm-development/index.html
-          grep -q 'Фин Планер' _site/index.html
-          grep -q 'Автоматизация n8n' _site/index.html
-          grep -q 'Сначала задача' _site/index.html
-          grep -q 'Проекты вместо' _site/about/index.html
+          test -f _site/feed.xml
+          test -f _site/c25441bbac42b588dd51fcf237159c69.txt
 
-          python - <<'PY'
+          python - <<'PY2'
           import glob, os, re, xml.etree.ElementTree as ET
-          ET.parse('_site/sitemap.xml')
-          print('sitemap.xml: valid')
+          from urllib.parse import urlparse
 
-          # Small performance budget to prevent accidental regressions.
-          for path in glob.glob('_site/assets/cases/**/*.webp', recursive=True):
-              size = os.path.getsize(path)
-              if '-720w.' not in path and '-800w.' not in path and size > 400_000:
-                  raise SystemExit(f'Image performance budget exceeded: {path} = {size} bytes')
-          for page in glob.glob('_site/**/*.html', recursive=True):
+          root = '_site'
+          tree = ET.parse(f'{root}/sitemap.xml')
+          ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = [x.text.strip() for x in tree.findall('.//s:loc', ns)]
+          if not urls:
+              raise SystemExit('empty sitemap')
+
+          missing = []
+          for url in urls:
+              path = urlparse(url).path
+              target = os.path.join(root, 'index.html') if path == '/' else os.path.join(root, path.lstrip('/'), 'index.html')
+              if not os.path.isfile(target):
+                  missing.append((url, target))
+          if missing:
+              raise SystemExit(f'sitemap URLs without pages: {missing}')
+
+          htmls = glob.glob(f'{root}/**/*.html', recursive=True) + [f'{root}/index.html']
+          seen = set()
+          for page in htmls:
+              page = os.path.normpath(page)
+              if page in seen: continue
+              seen.add(page)
               text = open(page, encoding='utf-8', errors='ignore').read()
+              name = os.path.basename(page)
+              is_verification = name.startswith('google') or name.startswith('yandex_')
+              if page.endswith('/404.html') or page == f'{root}/404.html' or is_verification:
+                  pass
+              else:
+                  if '<link rel="canonical"' not in text:
+                      raise SystemExit(f'missing canonical: {page}')
               for tag in re.findall(r'<img\b[^>]*>', text, flags=re.I):
                   if 'width=' not in tag or 'height=' not in tag:
-                      raise SystemExit(f'Image without dimensions: {page}: {tag[:160]}')
-          print('performance budget: valid')
-          PY
+                      raise SystemExit(f'image without dimensions: {page}: {tag[:140]}')
+
+          for path in glob.glob(f'{root}/assets/cases/**/*.webp', recursive=True):
+              size = os.path.getsize(path)
+              if '-720w.' not in path and '-800w.' not in path and size > 400_000:
+                  raise SystemExit(f'image budget exceeded: {path} = {size} bytes')
+
+          ET.parse(f'{root}/feed.xml')
+          print(f'clean build valid: {len(urls)} sitemap URLs, {len(seen)} HTML files')
+          PY2
+
+          # Ensure no stale Next.js export leaks into the Pages artifact.
+          if find _site -path '*/_next/*' -o -name '__next.*' | grep -q .; then
+            echo 'Legacy Next files found in clean build' >&2
+            exit 1
+          fi
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -116,3 +117,64 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Notify IndexNow about changed URLs
+        continue-on-error: true
+        shell: bash
+        env:
+          INDEXNOW_KEY: "c25441bbac42b588dd51fcf237159c69"
+        run: |
+          set -u
+          python - <<'PY2'
+          import json, os, subprocess, xml.etree.ElementTree as ET
+          from urllib.parse import urlparse
+
+          host = 'alexgtup.github.io'
+          base = 'https://alexgtup.github.io'
+          key = os.environ['INDEXNOW_KEY']
+          changed = []
+          try:
+              names = subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'], text=True).splitlines()
+          except Exception:
+              names = []
+
+          # First IndexNow deployment: bootstrap from sitemap.
+          if any(name == f'{key}.txt' for name in names) or not names:
+              tree = ET.parse('overrides/sitemap.xml')
+              ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+              changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
+          else:
+              for name in names:
+                  if name == 'overrides/index.html':
+                      changed.append(base + '/')
+                  elif name.startswith('overrides/') and name.endswith('/index.html'):
+                      route = name[len('overrides/'):-len('index.html')]
+                      changed.append(base + '/' + route)
+                  elif name.startswith('assets/cases/fin-planner/'):
+                      changed += [base+'/', base+'/cases/fin-planner/']
+                  elif name.startswith('assets/cases/swift-calendar/'):
+                      changed += [base+'/', base+'/cases/swift-calendar/']
+
+          changed = sorted(set(changed))
+          payload = {
+              'host': host,
+              'key': key,
+              'keyLocation': f'{base}/{key}.txt',
+              'urlList': changed,
+          }
+          with open('/tmp/indexnow.json','w',encoding='utf-8') as f:
+              json.dump(payload, f, ensure_ascii=False)
+          print(f'IndexNow URLs: {len(changed)}')
+          PY2
+
+          COUNT=$(python -c "import json; print(len(json.load(open('/tmp/indexnow.json'))['urlList']))")
+          if [ "$COUNT" -gt 0 ]; then
+            CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
+              -H 'Content-Type: application/json; charset=utf-8' \
+              --data-binary @/tmp/indexnow.json \
+              https://api.indexnow.org/indexnow || true)
+            echo "IndexNow HTTP: $CODE"
+            cat /tmp/indexnow-response.txt || true
+          else
+            echo 'No changed public URLs to submit.'
+          fi
