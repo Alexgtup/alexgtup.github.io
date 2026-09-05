@@ -152,6 +152,16 @@ jobs:
               ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
               changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
           else:
+              global_frontend = {
+                  'assets/site-enhancements.css',
+                  'assets/search-intent.css',
+                  'assets/universal-media.css',
+                  'assets/site-enhancements.js',
+              }
+              if any(name in global_frontend for name in names):
+                  tree = ET.parse('overrides/sitemap.xml')
+                  ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+                  changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
               for name in names:
                   if name == 'overrides/index.html':
                       changed.append(base + '/')

@@ -369,3 +369,104 @@ pre,code{max-width:100%}
 @media (hover:none),(pointer:coarse){
   .work-grid>.case:hover{transform:none}
 }
+
+/* Stage 15 — full responsive QA hardening (320–1920 px) */
+/* Keep decorative layers visually inside their cards instead of relying on body clipping. */
+body[data-page="cases"] .card{isolation:isolate;overflow:hidden!important;}
+body[data-page="cases"] .card .glow{width:14rem!important;height:14rem!important;right:-1.25rem!important;top:-4.5rem!important;opacity:.12!important;filter:blur(10px)!important;pointer-events:none!important;z-index:0!important;}
+body[data-page="cases"] .card>*:not(.glow){position:relative;z-index:1;}
+
+/* Mobile data tables become readable cards instead of a sliced horizontal strip. */
+@media(max-width:620px){
+  .table-wrap[data-stack-mobile]{overflow:visible!important;border:0!important;background:transparent!important;border-radius:0!important;}
+  .table-wrap[data-stack-mobile] table{display:block!important;min-width:0!important;width:100%!important;background:transparent!important;}
+  .table-wrap[data-stack-mobile] thead{display:none!important;}
+  .table-wrap[data-stack-mobile] tbody{display:grid!important;gap:.7rem!important;}
+  .table-wrap[data-stack-mobile] tr{display:grid!important;grid-template-columns:1fr!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:.95rem!important;overflow:hidden!important;background:#0d1116!important;}
+  .table-wrap[data-stack-mobile] td{display:grid!important;grid-template-columns:minmax(6.7rem,.42fr) minmax(0,1fr)!important;gap:.75rem!important;align-items:start!important;width:100%!important;min-width:0!important;padding:.72rem .8rem!important;border-bottom:1px solid rgba(255,255,255,.065)!important;font-size:.78rem!important;line-height:1.5!important;overflow-wrap:anywhere!important;}
+  .table-wrap[data-stack-mobile] td:last-child{border-bottom:0!important;}
+  .table-wrap[data-stack-mobile] td::before{content:attr(data-label);color:#737d87;font:750 .65rem/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.035em;}
+}
+@media(max-width:350px){
+  .table-wrap[data-stack-mobile] td{grid-template-columns:1fr!important;gap:.25rem!important;}
+}
+
+/* Real touch controls: drawers, CTA, FAQ and table-of-contents. Inline prose links are left untouched. */
+@media(max-width:760px){
+  .faq summary,details>summary{min-height:44px;display:flex;align-items:center;}
+  .toc a{min-height:44px;display:flex!important;align-items:center;padding:.65rem 0!important;}
+  .crumbs a{display:inline-flex;align-items:center;min-height:32px;}
+  .footer a,.foot a,.footer-links a{display:inline-flex;align-items:center;min-height:32px;}
+}
+
+/* Raise microcopy to a readable floor on phones without enlarging decorative mock UI. */
+@media(max-width:620px){
+  .eyebrow,.kicker,.section-index,.route-no,.guide-teaser small,.feature>small,.mini>small,.link-card>small,.authority-card>small{font-size:.68rem!important;line-height:1.35!important;}
+  .tag,.tags>span,.facts>span,.stack>span{font-size:.7rem!important;line-height:1.25!important;}
+  .crumbs{font-size:.72rem!important;line-height:1.45!important;overflow-wrap:anywhere;}
+}
+
+/* Homepage product composition: all foreground devices remain inside a 320px viewport. */
+@media(max-width:760px){
+  body[data-page="home"] .product-stage{overflow:hidden!important;border-radius:1.35rem;}
+  body[data-page="home"] .stage-browser{left:0!important;right:auto!important;width:82%!important;}
+  body[data-page="home"] .stage-phone{right:.35rem!important;transform:translateZ(40px) rotate(2.5deg) scale(.96)!important;transform-origin:top right!important;}
+  body[data-page="home"] .stage-chat{right:.35rem!important;max-width:58%!important;}
+  body[data-page="home"] .crm-window{right:-2%!important;width:82%!important;}
+  body[data-page="home"] .crm-floating{left:4%!important;max-width:42%!important;}
+  body[data-page="home"] .taxi-phone{right:3%!important;}
+  body[data-page="home"] .factory-canvas{left:4%!important;right:1%!important;}
+}
+@media(max-width:430px){
+  body[data-page="home"] .stage-browser{width:78%!important;height:16.5rem!important;}
+  body[data-page="home"] .stage-phone{width:6.8rem!important;height:14.1rem!important;right:.2rem!important;}
+  body[data-page="home"] .stage-chat{width:10.3rem!important;max-width:54%!important;right:.25rem!important;}
+  body[data-page="home"] .crm-window{right:1%!important;width:78%!important;height:45%!important;}
+  body[data-page="home"] .crm-floating{left:3%!important;width:7.4rem!important;max-width:40%!important;padding:.6rem!important;}
+  body[data-page="home"] .factory-canvas{left:3%!important;right:2%!important;}
+}
+@media(max-width:350px){
+  body[data-page="home"] .product-stage{min-height:23rem!important;}
+  body[data-page="home"] .stage-browser{width:76%!important;height:15.4rem!important;}
+  body[data-page="home"] .stage-phone{width:6.2rem!important;height:13.1rem!important;}
+  body[data-page="home"] .stage-chat{width:9.3rem!important;max-width:52%!important;}
+  body[data-page="home"] .crm-window{width:76%!important;right:2%!important;}
+}
+
+/* Factory-case mockup: do not crush three product cards at tablet width. */
+@media(min-width:621px) and (max-width:1120px){
+  body[data-page="case-factory-catalog"] .products{grid-template-columns:repeat(2,minmax(0,1fr))!important;}
+  body[data-page="case-factory-catalog"] .products>div:last-child{grid-column:1/-1!important;}
+}
+
+/* Tablet range: avoid awkward half-desktop layouts. */
+@media(min-width:761px) and (max-width:1024px){
+  .section-head{gap:1.25rem!important;}
+  .cta-box,.contact-card{gap:1.25rem!important;}
+  body[data-page="cases"] .grid{gap:.7rem!important;}
+  body[data-page="cases"] .card{padding:1.2rem!important;}
+}
+
+/* Long service names and headings must wrap only at normal word boundaries. */
+@media(max-width:480px){
+  body[data-page="app-development"] h1,
+  body[data-page="backend-development"] h1,
+  body[data-page="telegram-mini-apps"] h1,
+  body[data-page="python-development"] h1,
+  body[data-page="mvp-development"] h1{font-size:clamp(2.45rem,12.5vw,3.1rem)!important;line-height:.97!important;letter-spacing:-.055em!important;overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important;}
+}
+
+/* Prevent fixed widgets from covering the last actionable content on small screens. */
+@media(max-width:760px){
+  body{padding-bottom:max(0px,env(safe-area-inset-bottom));}
+  .mobile-project-cta{left:max(.7rem,env(safe-area-inset-left))!important;right:max(.7rem,env(safe-area-inset-right))!important;}
+}
+
+/* Stage 15.1 — final narrow-screen corrections found by targeted render */
+@media(max-width:350px){
+  body[data-page="app-development"] .hero h1{font-size:2.15rem!important;line-height:.99!important;letter-spacing:-.045em!important;}
+  body[data-page="app-development"] .hero h1 em{display:block!important;max-width:100%!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important;}
+}
+@media(max-width:620px){
+  body[data-page="cases"] .card .glow{right:0!important;top:-3.25rem!important;width:12rem!important;height:12rem!important;}
+}
