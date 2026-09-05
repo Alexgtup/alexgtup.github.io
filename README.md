@@ -52,3 +52,11 @@
 - Added strict 360px/390px/768px overflow protection and responsive CTA rules.
 - Added consistent mobile navigation on standalone pages.
 - Added Swift-case small-screen fixes.
+
+
+## Performance
+- Responsive `srcset` for real case images.
+- Explicit image dimensions to reduce layout shifts.
+- Heavy portfolio WebP assets re-encoded at high visual quality.
+- Decorative pointer/blur effects reduced on mobile and touch devices.
+- Scroll handlers throttled with `requestAnimationFrame`.

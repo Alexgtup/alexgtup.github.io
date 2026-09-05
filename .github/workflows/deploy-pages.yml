@@ -88,9 +88,21 @@ jobs:
           grep -q 'Проекты вместо' _site/about/index.html
 
           python - <<'PY'
-          import xml.etree.ElementTree as ET
+          import glob, os, re, xml.etree.ElementTree as ET
           ET.parse('_site/sitemap.xml')
           print('sitemap.xml: valid')
+
+          # Small performance budget to prevent accidental regressions.
+          for path in glob.glob('_site/assets/cases/**/*.webp', recursive=True):
+              size = os.path.getsize(path)
+              if '-720w.' not in path and '-800w.' not in path and size > 400_000:
+                  raise SystemExit(f'Image performance budget exceeded: {path} = {size} bytes')
+          for page in glob.glob('_site/**/*.html', recursive=True):
+              text = open(page, encoding='utf-8', errors='ignore').read()
+              for tag in re.findall(r'<img\b[^>]*>', text, flags=re.I):
+                  if 'width=' not in tag or 'height=' not in tag:
+                      raise SystemExit(f'Image without dimensions: {page}: {tag[:160]}')
+          print('performance budget: valid')
           PY
 
       - name: Configure Pages

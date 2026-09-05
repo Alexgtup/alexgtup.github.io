@@ -359,3 +359,13 @@ pre,code{max-width:100%}
   .mobile-site-drawer a{display:flex;align-items:center;min-height:2.8rem;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.07);border-radius:.72rem;text-decoration:none;color:#cbd1d7;background:rgba(255,255,255,.018);font-size:.8rem}
   .mobile-site-drawer a:last-child{background:#c9ff4a;color:#08090b;border-color:#c9ff4a;font-weight:850;justify-content:center}
 }
+
+
+/* Stage 11 — performance guards */
+@media (max-width:760px){
+  .header,.site-header{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:rgba(8,9,11,.97)!important}
+  .cookie-consent,.cookie-settings{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media (hover:none),(pointer:coarse){
+  .work-grid>.case:hover{transform:none}
+}

@@ -165,8 +165,14 @@
       new IntersectionObserver(entries => { contactVisible = entries.some(e => e.isIntersecting); sync(); }, { threshold: .12 }).observe(contact);
     }
     if (cookie && 'MutationObserver' in window) new MutationObserver(sync).observe(cookie,{attributes:true,attributeFilter:['class','style','hidden']});
-    addEventListener('scroll', sync, { passive:true });
-    addEventListener('resize', sync, { passive:true });
+    let syncQueued = false;
+    const scheduleSync = () => {
+      if (syncQueued) return;
+      syncQueued = true;
+      requestAnimationFrame(() => { syncQueued = false; sync(); });
+    };
+    addEventListener('scroll', scheduleSync, { passive:true });
+    addEventListener('resize', scheduleSync, { passive:true });
     sync();
   }
 })();
