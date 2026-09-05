@@ -1,0 +1,25 @@
+# Alexuys — разработка цифровых продуктов
+
+> Портфолио Александра: Telegram-боты, AI-автоматизация, n8n/Make, CRM, API-интеграции, веб-сервисы и iOS на Swift.
+
+## Основные страницы
+- https://alexgtup.github.io/
+- https://alexgtup.github.io/telegram-bots/
+- https://alexgtup.github.io/ai-automation/
+- https://alexgtup.github.io/n8n-automation/
+- https://alexgtup.github.io/crm-development/
+- https://alexgtup.github.io/api-integrations/
+- https://alexgtup.github.io/web-development/
+- https://alexgtup.github.io/project-repair/
+- https://alexgtup.github.io/ios-development/
+
+## Кейсы
+- https://alexgtup.github.io/cases/
+- https://alexgtup.github.io/cases/auto-crm/
+- https://alexgtup.github.io/cases/fin-planner/
+- https://alexgtup.github.io/cases/swift-calendar/
+- https://alexgtup.github.io/cases/factory-catalog/
+- https://alexgtup.github.io/cases/taxi-app/
+
+## Контакт
+Telegram: https://t.me/Alexuys

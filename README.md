@@ -1,14 +1,25 @@
-# alexgtup.github.io
+# Alexuys — портфолио разработчика
 
-Статическое портфолио для GitHub Pages.
+Персональный сайт: https://alexgtup.github.io/
 
-## Как собирается сайт
+Разработка Telegram-ботов, AI-автоматизации, n8n/Make workflow, CRM, API-интеграций, веб-сервисов и iOS-приложений на Swift.
 
-1. `site.tar.gz` — базовая статическая сборка старых страниц.
-2. `index.html.xz` — резервная версия главной.
-3. `overrides/` — актуальные страницы, которые поверх базовой сборки копируются в `_site`.
-4. `assets/` — изображения и другие файлы новых кейсов.
+## Услуги
 
-GitHub Actions автоматически публикует изменения после push в `main`.
+- Telegram-боты: https://alexgtup.github.io/telegram-bots/
+- AI-автоматизация: https://alexgtup.github.io/ai-automation/
+- n8n / Make: https://alexgtup.github.io/n8n-automation/
+- CRM-разработка: https://alexgtup.github.io/crm-development/
+- API-интеграции: https://alexgtup.github.io/api-integrations/
+- Веб-сервисы и MVP: https://alexgtup.github.io/web-development/
+- iOS / Swift: https://alexgtup.github.io/ios-development/
 
-Для следующих правок главной редактировать `overrides/index.html`. Новые статические страницы добавлять в `overrides/<slug>/index.html`.
+## Кейсы
+
+Все проекты: https://alexgtup.github.io/cases/
+
+В портфолио: CRM для автосалона, приложение такси, B2B-каталог завода, Telegram-бот «Фин Планер» и iOS-календарь на Swift.
+
+Связь: https://t.me/Alexuys
+
+Сайт публикуется автоматически через GitHub Pages Actions.

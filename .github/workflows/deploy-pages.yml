@@ -25,22 +25,62 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build static site
+        shell: bash
         run: |
+          set -euo pipefail
+          rm -rf _site
           mkdir -p _site
           tar -xzf site.tar.gz -C _site
-          xz -dc index.html.xz > _site/index.html
+
+          if [ -f index.html.xz ]; then
+            xz -dc index.html.xz > _site/index.html
+          fi
+
           if [ -d overrides ]; then
             cp -R overrides/. _site/
           fi
+
           if [ -d assets ]; then
             mkdir -p _site/assets
             cp -R assets/. _site/assets/
           fi
+
+          for f in favicon-96.png apple-touch-icon.png site.webmanifest robots.txt; do
+            if [ -f "$f" ]; then
+              cp "$f" "_site/$f"
+            fi
+          done
+
+          # Use one canonical sitemap only. An old text sitemap caused duplicate submissions in Search Console.
+          rm -f _site/sitemap.txt
+
           while IFS= read -r -d '' page; do
-            if ! grep -q '/assets/universal-media.css' "$page"; then
+            if [ -f _site/assets/universal-media.css ] && ! grep -q '/assets/universal-media.css' "$page"; then
               sed -i 's#</head>#<link rel="stylesheet" href="/assets/universal-media.css"></head>#' "$page"
             fi
+            if [ -f _site/assets/site-enhancements.css ] && ! grep -q '/assets/site-enhancements.css' "$page"; then
+              sed -i 's#</head>#<link rel="stylesheet" href="/assets/site-enhancements.css"></head>#' "$page"
+            fi
+            if [ -f _site/assets/site-enhancements.js ] && ! grep -q '/assets/site-enhancements.js' "$page"; then
+              sed -i 's#</body>#<script src="/assets/site-enhancements.js" defer></script></body>#' "$page"
+            fi
           done < <(find _site -type f -name '*.html' -print0)
+
+          test -f _site/index.html
+          test -f _site/sitemap.xml
+          test -f _site/robots.txt
+          test -f _site/cases/index.html
+          test -f _site/cases/fin-planner/index.html
+          test -f _site/n8n-automation/index.html
+          test -f _site/crm-development/index.html
+          grep -q 'Фин Планер' _site/index.html
+          grep -q 'Автоматизация n8n' _site/index.html
+
+          python - <<'PY'
+          import xml.etree.ElementTree as ET
+          ET.parse('_site/sitemap.xml')
+          print('sitemap.xml: valid')
+          PY
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
