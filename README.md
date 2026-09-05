@@ -37,3 +37,11 @@
 - Услуги: https://alexgtup.github.io/services/
 - Кейсы: https://alexgtup.github.io/cases/
 - Разборы: https://alexgtup.github.io/guides/
+
+
+## Профиль
+
+- Обо мне: https://alexgtup.github.io/about/
+- GitHub: https://github.com/Alexgtup
+- Freelance.ru: https://freelance.ru/gglalex
+- Telegram: https://t.me/Alexuys

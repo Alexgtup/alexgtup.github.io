@@ -170,3 +170,29 @@
     sync();
   }
 })();
+
+
+// Stage 8: useful interaction goals on every page where consented Metrika is already active.
+(() => {
+  const METRIKA_ID = 112290993;
+  const servicePaths = new Set(['/telegram-bots/','/ai-automation/','/n8n-automation/','/crm-development/','/web-development/','/api-integrations/','/project-repair/','/ios-development/','/services/']);
+  const goal = (name, params={}) => {
+    if (typeof window.ym !== 'function') return;
+    try { window.ym(METRIKA_ID, 'reachGoal', name, { page: location.pathname, ...params }); } catch (_) {}
+  };
+  document.addEventListener('click', event => {
+    const el = event.target instanceof Element ? event.target : null;
+    if (!el) return;
+    const copy = el.closest('[data-copy-brief]');
+    if (copy) goal('brief_copy');
+    const a = el.closest('a');
+    if (!a) return;
+    let url;
+    try { url = new URL(a.href, location.href); } catch (_) { return; }
+    if (url.origin !== location.origin) return;
+    if (url.pathname.startsWith('/cases/') && url.pathname !== '/cases/') goal('case_open', { target: url.pathname });
+    else if (servicePaths.has(url.pathname)) goal('service_open', { target: url.pathname });
+    else if (url.pathname.startsWith('/guides/')) goal('guide_open', { target: url.pathname });
+    else if (url.pathname === '/about/') goal('about_open');
+  }, { capture: true });
+})();
