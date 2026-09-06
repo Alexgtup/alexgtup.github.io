@@ -3,6 +3,7 @@ from __future__ import annotations
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
+from collections import defaultdict
 import json, os, re, sys, xml.etree.ElementTree as ET
 
 BASE = 'https://alexgtup.github.io'
@@ -76,12 +77,24 @@ def route_for_file(page: Path) -> str:
     if rel.endswith('/index.html'): return '/'+rel[:-len('index.html')]
     return '/'+rel
 
+def internal_route(href: str) -> str | None:
+    if not href: return None
+    p=urlparse(href)
+    if p.scheme in ('mailto','tel','javascript','data'):
+        return None
+    if p.scheme and p.netloc and p.netloc != 'alexgtup.github.io':
+        return None
+    path=p.path or '/'
+    if not path.startswith('/'):
+        return None
+    if path != '/' and not Path(path).suffix and not path.endswith('/'):
+        path += '/'
+    return path
+
 errors=[]
-# required artifacts
 for req in ['index.html','404.html','sitemap.xml','robots.txt','feed.xml','en/feed.xml','favicon.ico','favicon.svg','favicon-96.png','site.webmanifest','assets/og/alexuys-default.jpg']:
     if not (ROOT/req).is_file(): errors.append(f'missing required artifact: {req}')
 
-# sitemap and hreflang
 ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9','x':'http://www.w3.org/1999/xhtml'}
 tree=ET.parse(ROOT/'sitemap.xml')
 url_nodes=tree.findall('.//s:url',ns)
@@ -97,7 +110,6 @@ for url in sitemap_urls:
     if not target or not target.is_file(): errors.append(f'sitemap URL missing page: {url} -> {target}')
 for forbidden in [BASE+'/privacy/',BASE+'/en/privacy/']:
     if forbidden in sitemap_urls: errors.append(f'noindex privacy URL present in sitemap: {forbidden}')
-# reciprocal hreflang in sitemap
 for url,alts in sitemap_alts.items():
     amap={k:v for k,v in alts if k and v}
     if 'ru' in amap and 'en' in amap:
@@ -150,18 +162,15 @@ for pagefile in html_files:
         if og_target and og_image.startswith(BASE) and not og_target.is_file(): errors.append(f'broken OG image: {route}: {og_image}')
         if not meta_content(pp,'property','og:image:width') or not meta_content(pp,'property','og:image:height'):
             errors.append(f'OG image dimensions missing: {route}')
-        # indexable sitemap pages must be in sitemap (privacy intentionally excluded)
         page_url=BASE+route
         if route not in ('/privacy/','/en/privacy/') and page_url not in sitemap_urls:
             errors.append(f'indexable page absent from sitemap: {route}')
-    # images
     for im in pp.images:
         if 'alt' not in im: errors.append(f'image without alt: {route}: {str(im)[:120]}')
         if not im.get('width') or not im.get('height'): errors.append(f'image without dimensions: {route}: {str(im)[:120]}')
         src=im.get('src','')
         target=public_url_to_file(src)
         if target and src.startswith('/') and not target.is_file(): errors.append(f'broken local image: {route}: {src}')
-    # links and blank safety
     for a in pp.anchors:
         href=a.get('href','')
         if a.get('target')=='_blank':
@@ -170,7 +179,6 @@ for pagefile in html_files:
         target=public_url_to_file(href)
         if target and (href.startswith('/') or href.startswith(BASE)) and not target.exists():
             errors.append(f'broken internal link: {route}: {href} -> {target}')
-    # JSON-LD
     for chunk in pp.jsonld_chunks:
         try:
             data=json.loads(chunk)
@@ -185,21 +193,47 @@ for pagefile in html_files:
                     if not obj.get(k): errors.append(f'Article missing {k}: {route}')
             if typ=='CreativeWork' and not obj.get('author'): errors.append(f'CreativeWork missing author: {route}')
 
-# privacy pages must exist despite noindex
 for path in ['privacy/index.html','en/privacy/index.html']:
     if not (ROOT/path).is_file(): errors.append(f'missing privacy page: {path}')
-# legacy build must not leak
 for p in ROOT.rglob('*'):
     if '_next' in p.parts or p.name.startswith('__next.'):
         errors.append(f'legacy Next file leaked: {p}')
-# image budgets
 for p in ROOT.glob('assets/cases/**/*.webp'):
     if '-720w.' not in p.name and '-800w.' not in p.name and p.stat().st_size > 400_000:
         errors.append(f'case image budget exceeded: {p}: {p.stat().st_size}')
 for p in ROOT.glob('assets/og/*'):
     if p.stat().st_size > 300_000: errors.append(f'OG image budget exceeded: {p}: {p.stat().st_size}')
-# feeds parse
 ET.parse(ROOT/'feed.xml'); ET.parse(ROOT/'en/feed.xml')
+
+# Internal link graph. Report first; do not fail until weak pages are reviewed manually.
+sitemap_routes={urlparse(u).path or '/': u for u in sitemap_urls}
+incoming=defaultdict(set)
+outgoing=defaultdict(set)
+for pagefile in html_files:
+    if pagefile.name.startswith(('google','yandex_')): continue
+    src=route_for_file(pagefile)
+    if src not in sitemap_routes: continue
+    pp=PageParser(); pp.feed(pagefile.read_text(encoding='utf-8',errors='ignore'))
+    for a in pp.anchors:
+        dst=internal_route(a.get('href',''))
+        if dst in sitemap_routes and dst != src:
+            outgoing[src].add(dst)
+            incoming[dst].add(src)
+
+print('internal link graph audit')
+orphans=[r for r in sitemap_routes if r != '/' and len(incoming[r]) == 0]
+weak=sorted((len(incoming[r]),r) for r in sitemap_routes if r != '/' and len(incoming[r]) <= 2)
+dead_ends=sorted(r for r in sitemap_routes if len(outgoing[r]) == 0)
+print(f'  orphan sitemap pages: {len(orphans)}')
+for r in sorted(orphans): print(f'    {r}')
+print(f'  weak inbound pages (<=2 source pages): {len(weak)}')
+for count,r in weak[:40]: print(f'    {count} sources :: {r}')
+print(f'  dead-end sitemap pages: {len(dead_ends)}')
+for r in dead_ends[:40]: print(f'    {r}')
+print('  strongest inbound pages:')
+for count,r in sorted(((len(incoming[r]),r) for r in sitemap_routes), reverse=True)[:12]:
+    print(f'    {count} sources :: {r}')
+
 if errors:
     print('\n'.join('ERROR: '+e for e in errors))
     raise SystemExit(f'validation failed with {len(errors)} error(s)')
