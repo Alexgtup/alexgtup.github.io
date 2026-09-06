@@ -42,16 +42,14 @@ for path in html_files:
         with_container += 1
     else:
         without_container.append(str(path.relative_to(root)))
-        # Count classes on legacy templates to identify their shared shell names.
         for class_value in class_re.findall(html):
             for cls in class_value.split():
                 class_counter[cls] += 1
 
-    if 'data-stage24-layout="true"' in html:
-        continue
-    html = html.replace("</head>", link + "\n</head>", 1)
-    path.write_text(html, encoding="utf-8")
-    changed += 1
+    if 'data-stage24-layout="true"' not in html:
+        html = html.replace("</head>", link + "\n</head>", 1)
+        path.write_text(html, encoding="utf-8")
+        changed += 1
 
 # Production safety: every real HTML document must load the shared geometry layer.
 missing = []
@@ -62,10 +60,24 @@ for path in html_files:
 if missing:
     raise SystemExit("stage24: layout stylesheet missing from: " + ", ".join(missing[:10]))
 
+# 404 and search-engine verification documents are the only allowed pages
+# without the normal content shell. Any future product/content page without
+# .container is a regression and must not be deployed.
+allowed_no_container = {"404.html"}
+regressions = []
+for rel in without_container:
+    name = Path(rel).name
+    if rel in allowed_no_container or name.startswith(("google", "yandex_")):
+        continue
+    regressions.append(rel)
+if regressions:
+    raise SystemExit("stage24: substantive page without shared .container: " + ", ".join(regressions))
+
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
 legacy = ", ".join(without_container) if without_container else "none"
 common_classes = ", ".join(f"{k}×{v}" for k, v in class_counter.most_common(20)) or "none"
 print(f"stage24 layout: {changed} HTML patched; {with_container} pages use .container; original --max values: {values}; skipped stubs: {skipped}")
-print(f"stage24 legacy pages without .container ({len(without_container)}): {legacy}")
+print(f"stage24 allowed utility pages without .container ({len(without_container)}): {legacy}")
 print(f"stage24 legacy common classes: {common_classes}")
+print("stage24 shared container invariant OK")
