@@ -1,14 +1,18 @@
-# Alexuys — разработка Telegram-ботов, CRM и автоматизации
+# Alexuys — Telegram-боты, автоматизация и доработка проектов
 
-Разрабатываю Telegram-ботов, веб-сервисы, CRM, API-интеграции и автоматизацию под реальные рабочие процессы. Основной сайт и портфолио: https://alexgtup.github.io/
+Разрабатываю и дорабатываю Telegram-ботов, автоматизацию, API-интеграции и веб-проекты под реальные рабочие процессы. Если проект уже существует, можно начать с конкретной ошибки, сломанного сценария или функции, а не с большого ТЗ.
 
-## Разработка Telegram-ботов
+Основной сайт и портфолио: https://alexgtup.github.io/
 
-Основная коммерческая страница направления: https://alexgtup.github.io/telegram-bots/
+## Основные направления
 
-Разработка Telegram-бота может включать заявки, анкеты, оплаты, подписки, уведомления, личные кабинеты, базы данных и интеграции с CRM, сайтами и внешними API. Если обычного интерфейса Telegram недостаточно, проект может включать Telegram Mini App.
+### Разработка Telegram-ботов
 
-Полезные материалы по теме:
+Основная коммерческая страница: https://alexgtup.github.io/telegram-bots/
+
+Telegram-бот может включать заявки, анкеты, оплаты, подписки, уведомления, базы данных и интеграции с CRM, сайтами и внешними API. Если обычного интерфейса Telegram недостаточно, проект может включать Telegram Mini App.
+
+Полезные материалы:
 
 - Стоимость разработки Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-cost/
 - Как подготовить задачу на Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-brief/
@@ -16,22 +20,33 @@
 - Telegram Mini Apps: https://alexgtup.github.io/telegram-mini-apps/
 - Реальный кейс «Фин Планер»: https://alexgtup.github.io/cases/fin-planner/
 
+### Доработка существующего проекта
+
+Страница услуги: https://alexgtup.github.io/project-repair/
+
+Подходит, когда уже есть сайт, Telegram-бот, веб-сервис или чужой код, но нужно найти причину ошибки, восстановить интеграцию, поправить адаптив, добавить функцию или довести проект до следующего релиза. Небольшие исправления можно начинать от 5 000 ₽ после просмотра текущей реализации.
+
+### Автоматизация n8n / Make
+
+Страница услуги: https://alexgtup.github.io/n8n-automation/
+
+Webhook, API, CRM, Telegram, формы и таблицы связываются в один воспроизводимый процесс с обработкой ошибок и понятным следующим шагом при сбое.
+
 ## Подтверждённый профиль исполнителя
 
 Публичный профиль на Freelance.ru: https://freelance.ru/gglalex
 
-В профиле опубликованы реальные отзывы заказчиков, выполненные проекты, портфолио и оценки за профессионализм и коммуникацию. Этот профиль используется как внешний источник, подтверждающий связь исполнителя Александр / Alexuys с реальными проектами.
+В профиле опубликованы реальные отзывы заказчиков, выполненные проекты, портфолио и оценки. На момент последней публичной проверки профиль отображался с 20+ отзывами и 20+ выполненными заданиями.
 
 Telegram для связи: https://t.me/Alexuys
 
 ## Другие направления
 
 - CRM-разработка: https://alexgtup.github.io/crm-development/
-- n8n / Make автоматизация: https://alexgtup.github.io/n8n-automation/
-- AI-автоматизация: https://alexgtup.github.io/ai-automation/
 - API-интеграции: https://alexgtup.github.io/api-integrations/
 - Веб-разработка: https://alexgtup.github.io/web-development/
 - Разработка приложений: https://alexgtup.github.io/app-development/
+- AI-автоматизация: https://alexgtup.github.io/ai-automation/
 - Python-разработка: https://alexgtup.github.io/python-development/
 - Backend-разработка: https://alexgtup.github.io/backend-development/
 - MVP-разработка: https://alexgtup.github.io/mvp-development/
@@ -51,4 +66,4 @@ English portfolio: https://alexgtup.github.io/en/
 
 ## Техническое состояние сайта
 
-Статический сайт публикуется через GitHub Pages. Перед деплоем автоматически проверяются sitemap, canonical, уникальность title, descriptions, H1, robots, JSON-LD, hreflang, внутренние ссылки и ресурсы. После успешной публикации изменённые URL отправляются в IndexNow.
+Статический сайт публикуется через GitHub Pages. Перед деплоем автоматически проверяются sitemap, canonical, title, descriptions, H1, robots, JSON-LD, hreflang, адаптивные риски, доступность, внутренние ссылки и ресурсы. В текущем sitemap 56 URL; граф перелинковки не содержит страниц-сирот, тупиковых страниц или URL с двумя и менее внутренними источниками.
