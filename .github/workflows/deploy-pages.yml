@@ -119,6 +119,18 @@ jobs:
                   or '.github/workflows/deploy-pages.yml' in names):
                   changed += sitemap_urls()
 
+              if any(name in names for name in (
+                  'scripts/stage41_asset_fingerprints.py',
+                  'scripts/stage42_competitor_gap.py',
+                  'scripts/stage42_runner.py',
+              )):
+                  changed += [
+                      base + '/telegram-bots/',
+                      base + '/n8n-automation/',
+                      base + '/project-repair/',
+                      base + '/web-development/',
+                  ]
+
               if 'scripts/stage20_patch.py' in names:
                   changed += [
                       base + '/telegram-bots/',
