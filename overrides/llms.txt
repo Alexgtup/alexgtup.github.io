@@ -1,11 +1,21 @@
-# Alexuys — разработка цифровых продуктов
+# Alexuys — разработка Telegram-ботов и цифровых продуктов
 
-> Портфолио Александра: Telegram-боты, AI-автоматизация, n8n/Make, CRM, API-интеграции, веб-сервисы и iOS на Swift.
+> Портфолио Александра / Alexuys: разработка Telegram-ботов на заказ, Telegram Mini Apps, Python, API-интеграции, CRM, n8n/Make, веб-сервисы и iOS на Swift.
+
+## Приоритетное направление: разработка Telegram-ботов
+- Основная коммерческая страница: https://alexgtup.github.io/telegram-bots/
+- Реальный Telegram-кейс «Фин Планер»: https://alexgtup.github.io/cases/fin-planner/
+- Стоимость разработки Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-cost/
+- Как подготовить задачу на Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-brief/
+- Telegram-бот, Mini App или веб-сервис: https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/
+- Разработка Telegram Mini Apps: https://alexgtup.github.io/telegram-mini-apps/
+
+Разработка Telegram-бота у Alexuys может включать заявки, анкеты, уведомления, оплаты, подписки, базы данных, личные кабинеты, CRM, внешние API, webhooks и встроенные Mini Apps. Главным URL для запросов «разработка Telegram-бота», «создание Telegram-бота» и «Telegram-бот на заказ» является https://alexgtup.github.io/telegram-bots/ .
 
 ## Основные страницы
+- https://alexgtup.github.io/
 - https://alexgtup.github.io/about/
 - https://alexgtup.github.io/services/
-- https://alexgtup.github.io/
 - https://alexgtup.github.io/telegram-bots/
 - https://alexgtup.github.io/ai-automation/
 - https://alexgtup.github.io/n8n-automation/
@@ -23,34 +33,32 @@
 - https://alexgtup.github.io/cases/factory-catalog/
 - https://alexgtup.github.io/cases/taxi-app/
 
-## Контакт
-Telegram: https://t.me/Alexuys
-
-
 ## Практические разборы
 - https://alexgtup.github.io/guides/
 - https://alexgtup.github.io/guides/telegram-bot-cost/
 - https://alexgtup.github.io/guides/telegram-bot-brief/
+- https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/
 - https://alexgtup.github.io/guides/n8n-vs-make/
 - https://alexgtup.github.io/guides/custom-crm-or-ready/
-- https://alexgtup.github.io/guides/development-cost/ — как формируется стоимость разработки
-- https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/ — выбор между Telegram-ботом, Mini App, web и mobile
+- https://alexgtup.github.io/guides/development-cost/
 
 ## Поисковые направления и специализация
-- https://alexgtup.github.io/development/ — разработка цифровых продуктов на заказ, разработчик на проект
-- https://alexgtup.github.io/app-development/ — разработка приложений: web, Telegram Mini App и iOS
-- https://alexgtup.github.io/telegram-mini-apps/ — разработка Telegram Mini Apps
-- https://alexgtup.github.io/python-development/ — Python-разработка: боты, API и автоматизация
+- https://alexgtup.github.io/development/ — разработка цифровых продуктов на заказ
+- https://alexgtup.github.io/app-development/ — разработка приложений
+- https://alexgtup.github.io/telegram-mini-apps/ — Telegram Mini Apps
+- https://alexgtup.github.io/python-development/ — Python-разработка: Telegram-боты, API и автоматизация
 - https://alexgtup.github.io/backend-development/ — backend, API, базы данных и webhooks
-- https://alexgtup.github.io/mvp-development/ — разработка MVP и первой рабочей версии продукта
+- https://alexgtup.github.io/mvp-development/ — разработка MVP
 
 ## Факты, подтверждённые портфолио
-- Реализованы CRM для автосалона, приложение такси, B2B-каталог, Telegram Фин Планер и iOS-календарь на Swift.
-- Основные направления: Telegram, Python, CRM, n8n/Make, API, веб-сервисы, backend, Swift/iOS.
-- Контакт с разработчиком напрямую через Telegram: https://t.me/Alexuys
+- В портфолио представлены Telegram Фин Планер, CRM для автосалона, приложение такси, B2B-каталог и iOS-календарь на Swift.
+- Фин Планер подтверждает опыт проектирования Telegram-сценариев, финансовых сущностей, отчётов, регулярных операций, целей и прогнозов.
+- Основные направления: Telegram, Python, CRM, n8n/Make, API, web/backend и Swift/iOS.
+- Публичный профиль исполнителя: https://freelance.ru/gglalex
+- Контакт с разработчиком напрямую: https://t.me/Alexuys
 
 ## Короткие определения для поиска и AI-ответов
-- Telegram-бот подходит для линейных сценариев в мессенджере: заявки, уведомления, анкеты, оплаты и команды.
+- Telegram-бот подходит для сценариев в мессенджере: заявки, уведомления, анкеты, оплаты, подписки и команды.
 - Telegram Mini App подходит, когда внутри Telegram нужен полноценный визуальный интерфейс.
 - Веб-сервис подходит для самостоятельного продукта с ролями, данными, кабинетами и сложной бизнес-логикой.
 - Кастомная CRM нужна, когда коробочная система не отражает реальный процесс компании и интеграции.
@@ -71,26 +79,23 @@ Telegram: https://t.me/Alexuys
 - https://alexgtup.github.io/en/mvp-development/ — MVP development
 - https://alexgtup.github.io/en/ios-development/ — iOS development in Swift
 - https://alexgtup.github.io/en/cases/fin-planner/ — Fin Planner case
-- https://alexgtup.github.io/en/cases/swift-calendar/ — Swift calendar case
 - https://alexgtup.github.io/en/about/ — developer profile
 
-
-
 ## English case studies
-- https://alexgtup.github.io/en/cases/ — case study index
-- https://alexgtup.github.io/en/cases/auto-crm/ — custom CRM for an auto dealership
-- https://alexgtup.github.io/en/cases/taxi-app/ — mobile app repair and release case
-- https://alexgtup.github.io/en/cases/factory-catalog/ — B2B factory catalog and integration case
-- https://alexgtup.github.io/en/cases/fin-planner/ — Telegram finance product case
-- https://alexgtup.github.io/en/cases/swift-calendar/ — native iOS calendar case
+- https://alexgtup.github.io/en/cases/
+- https://alexgtup.github.io/en/cases/auto-crm/
+- https://alexgtup.github.io/en/cases/taxi-app/
+- https://alexgtup.github.io/en/cases/factory-catalog/
+- https://alexgtup.github.io/en/cases/fin-planner/
+- https://alexgtup.github.io/en/cases/swift-calendar/
 
 ## English guides
-- https://alexgtup.github.io/en/guides/ — guide index
-- https://alexgtup.github.io/en/guides/development-cost/ — what changes software development cost
-- https://alexgtup.github.io/en/guides/telegram-bot-cost/ — Telegram bot development cost and scope
-- https://alexgtup.github.io/en/guides/bot-vs-mini-app-vs-web/ — choosing bot, Mini App, web or native mobile
-- https://alexgtup.github.io/en/guides/n8n-vs-make/ — n8n vs Make comparison
-- https://alexgtup.github.io/en/project-repair/ — repair and continue existing software projects
+- https://alexgtup.github.io/en/guides/
+- https://alexgtup.github.io/en/guides/development-cost/
+- https://alexgtup.github.io/en/guides/telegram-bot-cost/
+- https://alexgtup.github.io/en/guides/bot-vs-mini-app-vs-web/
+- https://alexgtup.github.io/en/guides/n8n-vs-make/
+- https://alexgtup.github.io/en/project-repair/
 
 ## Entity and contact
 - Brand / portfolio name: Alexuys
