@@ -63,8 +63,11 @@ jobs:
           # Stage 25: normalize internal RU navigation and footer.
           python scripts/stage25_navigation_patch.py _site
 
-          # Stage 25 audit: report remaining cross-template navigation/footer drift.
+          # Stage 25 guard: shared navigation/footer must stay intact.
           python scripts/stage25_navigation_audit.py _site
+
+          # Stage 27 audit: inspect final CTA/page-ending consistency.
+          python scripts/stage27_endings_audit.py _site
 
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
