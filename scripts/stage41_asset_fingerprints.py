@@ -28,11 +28,15 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         subprocess.check_call([sys.executable, str(stage43), str(root)])
 
     # Rebuild the two highest-level decision pages after all older growth patches.
-    # This deliberately replaces accumulated homepage/service fragments with one
-    # coherent user journey, then improves information scent on core service pages.
     stage44 = Path(__file__).with_name("stage44_experience_rebuild.py")
     if stage44.is_file():
         subprocess.check_call([sys.executable, str(stage44), str(root)])
+
+    # The shared navigation predates the rebuilt homepage and targets these stable
+    # section anchors. Restore them before accessibility/fragment validation.
+    stage45 = Path(__file__).with_name("stage45_home_anchor_fix.py")
+    if stage45.is_file():
+        subprocess.check_call([sys.executable, str(stage45), str(root)])
 
 assets = (
     "/assets/site-enhancements.css",
@@ -58,9 +62,6 @@ for page in root.rglob("*.html"):
     text = page.read_text(encoding="utf-8", errors="ignore")
     original = text
     for public_path, digest in versions.items():
-        # Source templates intentionally keep clean asset URLs. At build time we append
-        # a content-derived version so a changed CSS/JS file cannot be paired with stale
-        # browser/CDN cache from the previous deployment.
         pattern = re.escape(public_path) + r"(?:\?v=[A-Za-z0-9._-]+)?"
         text = re.sub(pattern, f"{public_path}?v={digest}", text)
     if text != original:
