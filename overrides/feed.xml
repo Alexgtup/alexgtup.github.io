@@ -69,4 +69,7 @@
     <updated>2026-09-06T00:00:00Z</updated>
     <summary>Практическое сравнение n8n и Make: self-hosted, интеграции, кастомная логика, обслуживание и сценарии. Когда лучше n8n, а когда Make.</summary>
   </entry>
+
+  <entry><title>Сколько стоит разработка проекта</title><link href="https://alexgtup.github.io/guides/development-cost/"/><id>https://alexgtup.github.io/guides/development-cost/</id><updated>2026-09-06T00:00:00+08:00</updated><summary>Что влияет на оценку Telegram-бота, CRM, приложения, веб-сервиса, MVP и интеграции.</summary></entry>
+  <entry><title>Бот, Mini App или web: что выбрать</title><link href="https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/"/><id>https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/</id><updated>2026-09-06T00:00:00+08:00</updated><summary>Сравнение Telegram-бота, Mini App, веб-приложения и нативного mobile.</summary></entry>
 </feed>

@@ -57,7 +57,11 @@ jobs:
           test -f _site/backend-development/index.html
           test -f _site/mvp-development/index.html
           test -f _site/app-development/index.html
+          test -f _site/guides/development-cost/index.html
+          test -f _site/guides/bot-vs-mini-app-vs-web/index.html
           grep -q "OAI-SearchBot" _site/robots.txt
+          grep -q "PerplexityBot" _site/robots.txt
+          grep -q "Claude-SearchBot" _site/robots.txt
           grep -q "YandexAdditionalBot" _site/robots.txt
           test -f _site/c25441bbac42b588dd51fcf237159c69.txt
 

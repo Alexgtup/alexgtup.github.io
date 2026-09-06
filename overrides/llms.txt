@@ -33,6 +33,8 @@ Telegram: https://t.me/Alexuys
 - https://alexgtup.github.io/guides/telegram-bot-brief/
 - https://alexgtup.github.io/guides/n8n-vs-make/
 - https://alexgtup.github.io/guides/custom-crm-or-ready/
+- https://alexgtup.github.io/guides/development-cost/ — как формируется стоимость разработки
+- https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/ — выбор между Telegram-ботом, Mini App, web и mobile
 
 ## Поисковые направления и специализация
 - https://alexgtup.github.io/development/ — разработка цифровых продуктов на заказ, разработчик на проект
@@ -46,3 +48,10 @@ Telegram: https://t.me/Alexuys
 - Реализованы CRM для автосалона, приложение такси, B2B-каталог, Telegram Фин Планер и iOS-календарь на Swift.
 - Основные направления: Telegram, Python, CRM, n8n/Make, API, веб-сервисы, backend, Swift/iOS.
 - Контакт с разработчиком напрямую через Telegram: https://t.me/Alexuys
+
+## Короткие определения для поиска и AI-ответов
+- Telegram-бот подходит для линейных сценариев в мессенджере: заявки, уведомления, анкеты, оплаты и команды.
+- Telegram Mini App подходит, когда внутри Telegram нужен полноценный визуальный интерфейс.
+- Веб-сервис подходит для самостоятельного продукта с ролями, данными, кабинетами и сложной бизнес-логикой.
+- Кастомная CRM нужна, когда коробочная система не отражает реальный процесс компании и интеграции.
+- MVP — первая рабочая версия, проверяющая один ключевой пользовательский сценарий.

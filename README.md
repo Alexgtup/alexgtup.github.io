@@ -38,3 +38,7 @@ Telegram: https://t.me/Alexuys
 ## Stage 15 — responsive QA
 
 Проведён полный visual/layout QA сайта: исправлены мобильная hero-композиция, `/app-development/`, glow-артефакты кейсов, mobile-таблицы гайдов и tablet-сетка каталога. Финальный Chromium re-run всех маршрутов выполнен на 320/390/768/1024/1440/1920 px без document overflow. Подробности — `STAGE15_REPORT.md`.
+
+
+## Stage 16
+Добавлены AI-friendly краткие ответы на ключевых услугах, два практических гайда, единый бренд в title, schema для старых кейсов и разрешения поисковых AI-crawlerов Perplexity/Claude Search.
