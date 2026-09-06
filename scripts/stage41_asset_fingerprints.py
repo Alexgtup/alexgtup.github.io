@@ -27,6 +27,13 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
     if stage43.is_file():
         subprocess.check_call([sys.executable, str(stage43), str(root)])
 
+    # Rebuild the two highest-level decision pages after all older growth patches.
+    # This deliberately replaces accumulated homepage/service fragments with one
+    # coherent user journey, then improves information scent on core service pages.
+    stage44 = Path(__file__).with_name("stage44_experience_rebuild.py")
+    if stage44.is_file():
+        subprocess.check_call([sys.executable, str(stage44), str(root)])
+
 assets = (
     "/assets/site-enhancements.css",
     "/assets/site-enhancements.js",
