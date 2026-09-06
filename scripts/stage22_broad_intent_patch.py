@@ -85,20 +85,44 @@ def patch_web_development() -> bool:
 
 def patch_internal_anchors() -> list[str]:
     changed = []
-    targets = [
-        ("index.html", "<strong>Веб-продукты</strong>", "<strong>Сайты и веб-сервисы</strong>"),
-        ("services/index.html", ">Веб-разработка<", ">Разработка сайтов и веб-сервисов<"),
-    ]
-    for rel, old, new in targets:
-        path = root / rel
-        if not path.exists():
-            continue
+
+    # Main page: use an explicit commercial phrase for the web-development hub.
+    path = root / "index.html"
+    if path.exists():
         html = path.read_text(encoding="utf-8")
+        old = "<strong>Веб-продукты</strong>"
+        new = "<strong>Сайты и веб-сервисы</strong>"
         if old in html and new not in html:
             html = html.replace(old, new, 1)
             path.write_text(html, encoding="utf-8")
-            changed.append("/" if rel == "index.html" else "/services/")
+            changed.append("/")
+
+    # Services hub: keep visible anchor, description and ItemList schema aligned
+    # with the P0 broad intent owned by /web-development/.
+    path = root / "services/index.html"
+    if path.exists():
+        html = path.read_text(encoding="utf-8")
+        touched = False
+        replacements = [
+            (
+                '<a class="service" href="/web-development/"><div class="meta" data-nosnippet=""><span>WEB · MVP</span><span>05</span></div><h2>Веб-сервисы и MVP</h2><p>Личные кабинеты, SaaS-интерфейсы, внутренние панели, каталоги и сервисы с понятной продуктовой логикой.</p>',
+                '<a class="service" href="/web-development/"><div class="meta" data-nosnippet=""><span>WEB · SITES · MVP</span><span>05</span></div><h2>Разработка сайтов и веб-сервисов</h2><p>Корпоративные сайты, каталоги, личные кабинеты, SaaS и внутренние системы — от интерфейса до backend и API.</p>',
+            ),
+            (
+                '"url":"https://alexgtup.github.io/web-development/","name":"Веб-сервисы и MVP"',
+                '"url":"https://alexgtup.github.io/web-development/","name":"Разработка сайтов и веб-сервисов"',
+            ),
+        ]
+        for old, new in replacements:
+            if old in html:
+                html = html.replace(old, new, 1)
+                touched = True
+        if touched:
+            path.write_text(html, encoding="utf-8")
+            changed.append("/services/")
+
     return changed
+
 
 changed = []
 if patch_web_development():
