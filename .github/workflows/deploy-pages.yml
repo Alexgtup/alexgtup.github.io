@@ -60,6 +60,9 @@ jobs:
           # Stage 24: one shared outer shell across every page family.
           python scripts/stage24_layout_system.py _site
 
+          # Stage 25 audit: report cross-template navigation/footer drift.
+          python scripts/stage25_navigation_audit.py _site
+
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
 
