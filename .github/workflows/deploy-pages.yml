@@ -74,7 +74,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Notify IndexNow about changed URLs
+      - name: Notify IndexNow from final sitemap
         continue-on-error: true
         shell: bash
         env:
@@ -82,130 +82,28 @@ jobs:
         run: |
           set -u
           python - <<'PY2'
-          import json, os, subprocess, xml.etree.ElementTree as ET
+          import json, os, xml.etree.ElementTree as ET
 
-          host = 'alexgtup.github.io'
           base = 'https://alexgtup.github.io'
+          host = 'alexgtup.github.io'
           key = os.environ['INDEXNOW_KEY']
-          changed = []
-          try:
-              names = subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'], text=True).splitlines()
-          except Exception:
-              names = []
-
-          def sitemap_urls():
-              tree = ET.parse('overrides/sitemap.xml')
-              ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
-              return [n.text.strip() for n in tree.findall('.//s:loc', ns)]
-
-          if any(name == f'{key}.txt' for name in names) or not names:
-              changed = sitemap_urls()
-          else:
-              global_frontend = {
-                  'assets/site-enhancements.css',
-                  'assets/search-intent.css',
-                  'assets/international.css',
-                  'assets/universal-media.css',
-                  'assets/site-enhancements.js',
-                  'assets/layout-system.css',
-              }
-              if any(name in global_frontend for name in names):
-                  changed = sitemap_urls()
-
-              if ('scripts/stage24_layout_system.py' in names
-                  or 'scripts/stage25_navigation_patch.py' in names
-                  or 'scripts/stage39_growth_patch.py' in names
-                  or 'scripts/stage40_trust_patch.py' in names
-                  or '.github/workflows/deploy-pages.yml' in names):
-                  changed += sitemap_urls()
-
-              if any(name in names for name in (
-                  'scripts/stage41_asset_fingerprints.py',
-                  'scripts/stage42_competitor_gap.py',
-                  'scripts/stage42_runner.py',
-                  'scripts/stage43_freelance_sync.py',
-                  'scripts/stage44_experience_rebuild.py',
-                  'scripts/stage45_home_anchor_fix.py',
-                  'scripts/stage46_conversion_order.py',
-                  'scripts/stage47_search_quality.py',
-                  'scripts/stage48_service_experience.py',
-                  'scripts/stage49_service_polish.py',
-                  'scripts/stage50_hub_experience.py',
-                  'scripts/stage50_runner.py',
-              )):
-                  changed += [
-                      base + '/',
-                      base + '/services/',
-                      base + '/cases/',
-                      base + '/guides/',
-                      base + '/about/',
-                      base + '/freelance-developer/',
-                      base + '/telegram-bots/',
-                      base + '/web-development/',
-                      base + '/n8n-automation/',
-                      base + '/api-integrations/',
-                      base + '/project-repair/',
-                      base + '/app-development/',
-                      base + '/ai-automation/',
-                      base + '/crm-development/',
-                      base + '/ios-development/',
-                      base + '/telegram-mini-apps/',
-                      base + '/python-development/',
-                      base + '/backend-development/',
-                      base + '/mvp-development/',
-                      base + '/development/',
-                  ]
-
-              if 'scripts/stage20_patch.py' in names:
-                  changed += [
-                      base + '/telegram-bots/',
-                      base + '/cases/fin-planner/',
-                      base + '/guides/telegram-bot-cost/',
-                      base + '/guides/telegram-bot-brief/',
-                      base + '/guides/bot-vs-mini-app-vs-web/',
-                      base + '/services/',
-                  ]
-
-              if 'scripts/stage21_entity_patch.py' in names:
-                  changed += [base + '/telegram-bots/', base + '/about/']
-
-              if 'scripts/stage22_broad_intent_patch.py' in names:
-                  changed += [base + '/web-development/', base + '/', base + '/services/']
-
-              if 'scripts/stage23_telegram_handoff_patch.py' in names:
-                  changed.append(base + '/telegram-bots/')
-
-              for name in names:
-                  if name == 'overrides/index.html':
-                      changed.append(base + '/')
-                  elif name.startswith('overrides/') and name.endswith('/index.html'):
-                      route = name[len('overrides/'):-len('index.html')]
-                      changed.append(base + '/' + route)
-                  elif name.startswith('assets/cases/fin-planner/'):
-                      changed += [base+'/', base+'/cases/fin-planner/']
-                  elif name.startswith('assets/cases/swift-calendar/'):
-                      changed += [base+'/', base+'/cases/swift-calendar/']
-
-          changed = sorted(set(changed))
+          tree = ET.parse('_site/sitemap.xml')
+          ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = sorted({(n.text or '').strip() for n in tree.findall('.//s:loc', ns) if (n.text or '').strip()})
           payload = {
               'host': host,
               'key': key,
               'keyLocation': f'{base}/{key}.txt',
-              'urlList': changed,
+              'urlList': urls,
           }
           with open('/tmp/indexnow.json','w',encoding='utf-8') as f:
               json.dump(payload, f, ensure_ascii=False)
-          print(f'IndexNow URLs: {len(changed)}')
+          print(f'IndexNow URLs from final sitemap: {len(urls)}')
           PY2
 
-          COUNT=$(python -c "import json; print(len(json.load(open('/tmp/indexnow.json'))['urlList']))")
-          if [ "$COUNT" -gt 0 ]; then
-            CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
-              -H 'Content-Type: application/json; charset=utf-8' \
-              --data-binary @/tmp/indexnow.json \
-              https://api.indexnow.org/indexnow || true)
-            echo "IndexNow HTTP: $CODE"
-            cat /tmp/indexnow-response.txt || true
-          else
-            echo 'No changed public URLs to submit.'
-          fi
+          CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            --data-binary @/tmp/indexnow.json \
+            https://api.indexnow.org/indexnow || true)
+          echo "IndexNow HTTP: $CODE"
+          cat /tmp/indexnow-response.txt || true
