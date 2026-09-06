@@ -60,7 +60,10 @@ jobs:
           # Stage 24: one shared outer shell across every page family.
           python scripts/stage24_layout_system.py _site
 
-          # Stage 25 audit: report cross-template navigation/footer drift.
+          # Stage 25: normalize internal RU navigation and footer.
+          python scripts/stage25_navigation_patch.py _site
+
+          # Stage 25 audit: report remaining cross-template navigation/footer drift.
           python scripts/stage25_navigation_audit.py _site
 
           # Parser-based validation: independent of HTML attribute order.
@@ -116,7 +119,9 @@ jobs:
               if any(name in global_frontend for name in names):
                   changed = sitemap_urls()
 
-              if 'scripts/stage24_layout_system.py' in names or '.github/workflows/deploy-pages.yml' in names:
+              if ('scripts/stage24_layout_system.py' in names
+                  or 'scripts/stage25_navigation_patch.py' in names
+                  or '.github/workflows/deploy-pages.yml' in names):
                   changed += sitemap_urls()
 
               if 'scripts/stage20_patch.py' in names:
