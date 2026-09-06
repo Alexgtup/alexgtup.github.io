@@ -1,8 +1,41 @@
-# Alexuys — Telegram-боты, CRM, автоматизация и веб-разработка
+# Alexuys — разработка Telegram-ботов, CRM и автоматизации
 
-Разрабатываю цифровые продукты под конкретный процесс: Telegram-боты, CRM, n8n/Make-автоматизацию, API-интеграции, веб-сервисы и iOS-приложения.
+Разрабатываю Telegram-ботов, веб-сервисы, CRM, API-интеграции и автоматизацию под реальные рабочие процессы. Основной сайт и портфолио: https://alexgtup.github.io/
 
-**Портфолио:** https://alexgtup.github.io/?utm_source=github&utm_medium=repository&utm_campaign=authority
+## Разработка Telegram-ботов
+
+Основная страница услуги: https://alexgtup.github.io/telegram-bots/
+
+Работаю с ботами для заявок, анкет, оплат, подписок, уведомлений, личных кабинетов и интеграций с CRM, сайтами и внешними API. Если обычного интерфейса Telegram недостаточно, проект может включать Mini App.
+
+Полезные материалы по теме:
+
+- Стоимость разработки Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-cost/
+- Как подготовить задачу на Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-brief/
+- Telegram-бот, Mini App или веб-сервис: https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/
+- Telegram Mini Apps: https://alexgtup.github.io/telegram-mini-apps/
+- Реальный кейс «Фин Планер»: https://alexgtup.github.io/cases/fin-planner/
+
+## Подтверждённый профиль исполнителя
+
+Профиль на Freelance.ru: https://freelance.ru/gglalex
+
+На публичном профиле Freelance.ru отображаются 20 отзывов, оценки 9/10 за профессионализм и коммуникацию, 6 лет опыта и статус самозанятого. В профиле также опубликована отдельная услуга по разработке Telegram- и чат-ботов.
+
+Telegram для связи: https://t.me/Alexuys
+
+## Другие направления
+
+- CRM-разработка: https://alexgtup.github.io/crm-development/
+- n8n / Make автоматизация: https://alexgtup.github.io/n8n-automation/
+- AI-автоматизация: https://alexgtup.github.io/ai-automation/
+- API-интеграции: https://alexgtup.github.io/api-integrations/
+- Веб-разработка: https://alexgtup.github.io/web-development/
+- Разработка приложений: https://alexgtup.github.io/app-development/
+- Python-разработка: https://alexgtup.github.io/python-development/
+- Backend-разработка: https://alexgtup.github.io/backend-development/
+- MVP-разработка: https://alexgtup.github.io/mvp-development/
+- iOS / Swift: https://alexgtup.github.io/ios-development/
 
 ## Реальные проекты
 
@@ -12,46 +45,10 @@
 - [Приложение такси](case-studies/taxi-app.md)
 - [B2B-каталог завода](case-studies/factory-catalog.md)
 
-Все кейсы: https://alexgtup.github.io/cases/?utm_source=github&utm_medium=repository&utm_campaign=authority
+Все кейсы: https://alexgtup.github.io/cases/
 
-## Направления
+English portfolio: https://alexgtup.github.io/en/
 
-- Telegram-боты — https://alexgtup.github.io/telegram-bots/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- CRM — https://alexgtup.github.io/crm-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- n8n / Make — https://alexgtup.github.io/n8n-automation/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- AI-автоматизация — https://alexgtup.github.io/ai-automation/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- API-интеграции — https://alexgtup.github.io/api-integrations/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- Веб-сервисы / MVP — https://alexgtup.github.io/web-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- iOS / Swift — https://alexgtup.github.io/ios-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
+## Техническое состояние сайта
 
-## Дополнительные направления поиска
-
-- Разработка на заказ — https://alexgtup.github.io/development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- Разработка приложений — https://alexgtup.github.io/app-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- Telegram Mini Apps — https://alexgtup.github.io/telegram-mini-apps/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- Python-разработка — https://alexgtup.github.io/python-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- Backend-разработка — https://alexgtup.github.io/backend-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-- MVP — https://alexgtup.github.io/mvp-development/?utm_source=github&utm_medium=repository&utm_campaign=authority
-
-Telegram: https://t.me/Alexuys
-
-## Stage 15 — responsive QA
-
-Проведён полный visual/layout QA сайта: исправлены мобильная hero-композиция, `/app-development/`, glow-артефакты кейсов, mobile-таблицы гайдов и tablet-сетка каталога. Финальный Chromium re-run всех маршрутов выполнен на 320/390/768/1024/1440/1920 px без document overflow. Подробности — `STAGE15_REPORT.md`.
-
-
-## Stage 16
-Добавлены AI-friendly краткие ответы на ключевых услугах, два практических гайда, единый бренд в title, schema для старых кейсов и разрешения поисковых AI-crawlerов Perplexity/Claude Search.
-
-## English portfolio
-
-https://alexgtup.github.io/en/
-
-
-
-## Stage 18 — English authority layer
-Added a complete English case hub, three translated case studies, an English guides hub, four English practical guides, an English project-repair service page, unified Person entity IDs, mobile English navigation, English RSS and sitemap hreflang annotations.
-
-## Stage 19 — deployment & metadata hardening
-
-GitHub Pages validation is now parser-based instead of depending on HTML attribute order. Social metadata, bilingual 404, privacy crawl policy, structured data, external-link security and accessibility were normalized across RU/EN pages. See `STAGE19_REPORT.md`.
+Статический сайт публикуется через GitHub Pages. Перед деплоем автоматически проверяются sitemap, canonical, уникальность title, descriptions, H1, robots, JSON-LD, hreflang, внутренние ссылки и ресурсы. После успешной публикации изменённые URL отправляются в IndexNow.
