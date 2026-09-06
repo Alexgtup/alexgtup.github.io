@@ -32,6 +32,7 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         "stage52_search_differentiation.py",
         "stage53_entity_authority.py",
         "stage54_decision_guides.py",
+        "stage55_guide_shell_fix.py",
     ):
         target = Path(__file__).with_name(child)
         if target.is_file():
