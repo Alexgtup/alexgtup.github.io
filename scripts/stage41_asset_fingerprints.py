@@ -21,6 +21,12 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         env["ALEXUYS_STAGE42_CHILD"] = "1"
         subprocess.check_call([sys.executable, str(stage42), str(root)], env=env)
 
+    # Normalize final public claims against the directly verifiable Freelance.ru
+    # profile and install referral tracking after all commercial patches have run.
+    stage43 = Path(__file__).with_name("stage43_freelance_sync.py")
+    if stage43.is_file():
+        subprocess.check_call([sys.executable, str(stage43), str(root)])
+
 assets = (
     "/assets/site-enhancements.css",
     "/assets/site-enhancements.js",
