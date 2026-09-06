@@ -4,6 +4,7 @@ from pathlib import Path
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
+SHELL_CLASSES = {"container", "intl-container"}
 
 class ContainerAudit(HTMLParser):
     def __init__(self):
@@ -14,19 +15,17 @@ class ContainerAudit(HTMLParser):
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         classes = set((a.get("class") or "").split())
-        is_container = "container" in classes
+        is_shell = bool(classes & SHELL_CLASSES)
         active = [x for x in self.stack if x[1]]
-        if is_container and active:
+        if is_shell and active:
             parent_tag, _, parent_classes = active[-1]
-            self.nested.append((parent_tag, " ".join(parent_classes), tag, " ".join(classes)))
-        self.stack.append((tag, is_container, classes))
+            self.nested.append((parent_tag, " ".join(sorted(parent_classes)), tag, " ".join(sorted(classes))))
+        self.stack.append((tag, is_shell, classes))
 
     def handle_startendtag(self, tag, attrs):
         pass
 
     def handle_endtag(self, tag):
-        # HTML in the project is regular enough, but pop defensively to the
-        # matching tag so malformed optional tags do not poison the audit.
         for i in range(len(self.stack)-1, -1, -1):
             if self.stack[i][0] == tag:
                 del self.stack[i:]
@@ -42,7 +41,7 @@ for path in sorted(root.rglob("*.html")):
     if parser.nested:
         issues.append((path.relative_to(root).as_posix(), parser.nested))
 
-print(f"stage30 nested container audit: {len(issues)} pages with nested .container")
+print(f"stage30 nested shared-shell audit: {len(issues)} pages with nested .container/.intl-container")
 for rel, nested in issues:
     print(f"  {rel}")
     for parent_tag, parent_cls, child_tag, child_cls in nested[:12]:
