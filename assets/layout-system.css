@@ -1,4 +1,4 @@
-/* Stage 24-26 — shared page geometry and navigation chrome.
+/* Stage 24-27 — shared page geometry and navigation chrome.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -27,12 +27,15 @@ body section.container.case-cta{
   margin-right:auto !important;
 }
 
-/* Stable internal header height. Homepage keeps its deliberate section-nav. */
+/* Stable internal header rhythm. Homepage keeps its deliberate section-nav. */
 body:not([data-page="home"]) .header .head,
 body:not([data-page="home"]) .header .header-inner,
 body:not([data-page="home"]) .site-header .head,
 body:not([data-page="home"]) .site-header .header-inner{
   min-height:4.8rem !important;
+}
+body:not([data-page="home"]) .crumbs{
+  padding-top:2rem !important;
 }
 
 .header .container,
@@ -85,7 +88,7 @@ body:not([data-page="home"]) .site-header .header-inner{
   color:var(--text,#f4f5f2);
 }
 
-/* The primary header action must not change size between template generations. */
+/* Primary header action and language switch stay dimensionally stable. */
 .header .nav .cta,
 .header .cta,
 .site-header .nav .cta,
@@ -114,7 +117,7 @@ body:not([data-page="home"]) .site-header .header-inner{
   line-height:1;
 }
 
-/* Stage 25 replaces accumulated footer variants with one compact shell. */
+/* Stage 25 replaces accumulated RU footer variants with one compact shell. */
 footer.footer,
 footer.foot,
 footer.site-footer{
@@ -144,7 +147,10 @@ footer.site-footer{
 }
 .stage25-footer-links a:hover{color:var(--text,#f4f5f2);}
 
-/* Legacy footer internals that remain on homepage/EN pages. */
+/* EN/homepage retain their markup, but receive the same vertical footprint. */
+footer.footer>.container,
+footer.foot>.container,
+footer.site-footer>.container,
 .footer .foot,
 .footer .footer-inner,
 .site-footer .foot,
@@ -159,7 +165,6 @@ body[data-page^="guides--"] .article ul,
 body[data-page^="guides--"] .article ol{
   max-width:54rem;
 }
-
 body[data-page^="guides--"] .layout{
   grid-template-columns:minmax(0,1fr) minmax(15rem,17rem);
   gap:clamp(2rem,3vw,3.5rem);
@@ -170,12 +175,15 @@ body[data-page^="guides--"] .layout{
 }
 
 @media(max-width:760px){
-  .stage25-footer-inner{
+  .stage25-footer-inner,
+  footer.footer>.container,
+  footer.foot>.container,
+  footer.site-footer>.container{
     min-height:0;
     padding-block:1.5rem;
     align-items:flex-start;
-    flex-direction:column;
   }
+  .stage25-footer-inner{flex-direction:column;}
   .stage25-footer-links{justify-content:flex-start;}
   .footer .foot,
   .footer .footer-inner,
