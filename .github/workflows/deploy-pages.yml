@@ -48,6 +48,9 @@ jobs:
           # Stage 20: strengthen the Telegram topic cluster in the published static HTML.
           python scripts/stage20_patch.py _site
 
+          # Stage 21: connect the Telegram service entity and add public proof to the profile.
+          python scripts/stage21_entity_patch.py _site
+
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
 
@@ -72,7 +75,6 @@ jobs:
           set -u
           python - <<'PY2'
           import json, os, subprocess, xml.etree.ElementTree as ET
-          from urllib.parse import urlparse
 
           host = 'alexgtup.github.io'
           base = 'https://alexgtup.github.io'
@@ -83,7 +85,6 @@ jobs:
           except Exception:
               names = []
 
-          # First IndexNow deployment: bootstrap from sitemap.
           if any(name == f'{key}.txt' for name in names) or not names:
               tree = ET.parse('overrides/sitemap.xml')
               ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
@@ -100,7 +101,8 @@ jobs:
                   tree = ET.parse('overrides/sitemap.xml')
                   ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
                   changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
-              if 'scripts/stage20_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+
+              if 'scripts/stage20_patch.py' in names:
                   changed += [
                       base + '/telegram-bots/',
                       base + '/cases/fin-planner/',
@@ -109,6 +111,13 @@ jobs:
                       base + '/guides/bot-vs-mini-app-vs-web/',
                       base + '/services/',
                   ]
+
+              if 'scripts/stage21_entity_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+                  changed += [
+                      base + '/telegram-bots/',
+                      base + '/about/',
+                  ]
+
               for name in names:
                   if name == 'overrides/index.html':
                       changed.append(base + '/')
