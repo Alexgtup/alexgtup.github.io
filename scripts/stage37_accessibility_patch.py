@@ -41,6 +41,7 @@ print("stage37 accessibility/interactions: skip-link fixed; linked/button images
 for script_name, label in [
     ("stage39_growth_patch.py", "stage39 growth patch"),
     ("stage40_case_proof_patch.py", "stage40 case proof patch"),
+    ("stage41_metadata_sync.py", "stage41 metadata sync"),
 ]:
     script = Path(__file__).with_name(script_name)
     if not script.is_file():
