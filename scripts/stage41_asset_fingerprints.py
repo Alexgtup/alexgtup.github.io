@@ -21,22 +21,23 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         env["ALEXUYS_STAGE42_CHILD"] = "1"
         subprocess.check_call([sys.executable, str(stage42), str(root)], env=env)
 
-    # Normalize final public claims against the directly verifiable Freelance.ru
-    # profile and install referral tracking after all commercial patches have run.
     stage43 = Path(__file__).with_name("stage43_freelance_sync.py")
     if stage43.is_file():
         subprocess.check_call([sys.executable, str(stage43), str(root)])
 
-    # Rebuild the two highest-level decision pages after all older growth patches.
     stage44 = Path(__file__).with_name("stage44_experience_rebuild.py")
     if stage44.is_file():
         subprocess.check_call([sys.executable, str(stage44), str(root)])
 
-    # The shared navigation predates the rebuilt homepage and targets these stable
-    # section anchors. Restore them before accessibility/fragment validation.
     stage45 = Path(__file__).with_name("stage45_home_anchor_fix.py")
     if stage45.is_file():
         subprocess.check_call([sys.executable, str(stage45), str(root)])
+
+    # A service page should finish with the contact action, not continue selling
+    # after the CTA. Reorder legacy contact blocks after pricing/trust/orientation.
+    stage46 = Path(__file__).with_name("stage46_conversion_order.py")
+    if stage46.is_file():
+        subprocess.check_call([sys.executable, str(stage46), str(root)])
 
 assets = (
     "/assets/site-enhancements.css",
