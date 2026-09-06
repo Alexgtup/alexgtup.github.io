@@ -1,4 +1,4 @@
-/* Stage 24 — shared page geometry.
+/* Stage 24/25 — shared page geometry and navigation chrome.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -11,8 +11,6 @@
 html,body{width:100%;max-width:100%;}
 body{overflow-x:clip;}
 
-/* Every top-level page family already uses .container. Override only the
-   outer geometry; do not replace component padding or vertical margins. */
 body .container{
   width:min(100%,var(--site-shell)) !important;
   max-width:var(--site-shell) !important;
@@ -21,9 +19,6 @@ body .container{
   min-width:0;
 }
 
-/* Components such as .cta-box and .case-cta used margin: ... 0 on the same
-   element as .container, which cancelled centering. Keep their vertical
-   margins but always restore horizontal centering. */
 body .container.cta-box,
 body .container.case-cta,
 body section.container.cta-box,
@@ -32,8 +27,7 @@ body section.container.case-cta{
   margin-right:auto !important;
 }
 
-/* The site accumulated 4.7/4.75/4.8/5rem header variants. Keep one stable
-   internal-page rhythm so navigation does not jump between routes. */
+/* Stable internal header height. Homepage keeps its deliberate section-nav. */
 body:not([data-page="home"]) .header .head,
 body:not([data-page="home"]) .header .header-inner,
 body:not([data-page="home"]) .site-header .head,
@@ -41,19 +35,49 @@ body:not([data-page="home"]) .site-header .header-inner{
   min-height:4.8rem !important;
 }
 
-/* Header/footer should use the exact same shell as main content. */
 .header .container,
 .site-header .container,
 .footer .container,
-.site-footer .container{
+.site-footer .container,
+.foot .container{
   width:min(100%,var(--site-shell)) !important;
   max-width:var(--site-shell) !important;
   margin-left:auto !important;
   margin-right:auto !important;
 }
 
-/* Footer contents may use .foot or .footer-inner depending on template.
-   Normalize only their horizontal/vertical alignment, not their link set. */
+/* Stage 25 replaces the accumulated footer variants with one compact shell
+   on internal RU pages. Reset old template padding so height no longer jumps. */
+footer.footer,
+footer.foot,
+footer.site-footer{
+  padding:0 !important;
+  border-top:1px solid var(--line,rgba(255,255,255,.10));
+}
+.stage25-footer-inner{
+  min-height:6rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:1.25rem;
+  color:#707984;
+  font-size:.72rem;
+}
+.stage25-footer-links{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:.95rem;
+}
+.stage25-footer-links a{
+  color:#707984;
+  font-size:.72rem;
+  text-decoration:none;
+}
+.stage25-footer-links a:hover{color:var(--text,#f4f5f2);}
+
+/* Legacy footer internals that remain on homepage/EN pages. */
 .footer .foot,
 .footer .footer-inner,
 .site-footer .foot,
@@ -62,14 +86,13 @@ body:not([data-page="home"]) .site-header .header-inner{
   align-items:center;
 }
 
-/* Keep readable article text narrow even though the page shell is now shared. */
+/* Keep readable article text narrow even though the outer shell is shared. */
 body[data-page^="guides--"] .article p,
 body[data-page^="guides--"] .article ul,
 body[data-page^="guides--"] .article ol{
   max-width:54rem;
 }
 
-/* Prevent widened shells from producing oversized sidebars or awkward gaps. */
 body[data-page^="guides--"] .layout{
   grid-template-columns:minmax(0,1fr) minmax(15rem,17rem);
   gap:clamp(2rem,3vw,3.5rem);
@@ -80,6 +103,13 @@ body[data-page^="guides--"] .layout{
 }
 
 @media(max-width:760px){
+  .stage25-footer-inner{
+    min-height:0;
+    padding-block:1.5rem;
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .stage25-footer-links{justify-content:flex-start;}
   .footer .foot,
   .footer .footer-inner,
   .site-footer .foot,
