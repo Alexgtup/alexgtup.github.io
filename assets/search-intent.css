@@ -23,3 +23,6 @@
   body[data-page="app-development"] .hero h1{font-size:clamp(2.05rem,9.8vw,2.45rem)!important;line-height:.99!important;letter-spacing:-.04em!important;max-width:100%!important}
   body[data-page="app-development"] .hero h1 em{display:block!important;max-width:100%!important;white-space:normal!important;overflow-wrap:normal!important;word-break:normal!important}
 }
+
+/* Stage 17 language switch */
+.language-switch{display:inline-flex!important;align-items:center;justify-content:center;min-height:2.4rem!important;min-width:2.65rem;padding:.45rem .65rem!important;border:1px solid rgba(255,255,255,.15)!important;border-radius:.72rem!important;text-decoration:none!important;font:800 .68rem/1 ui-monospace,SFMono-Regular,Menlo,monospace!important;letter-spacing:.05em!important;color:#dce1e6!important;background:rgba(255,255,255,.025)!important}.language-switch:hover{border-color:rgba(201,255,74,.45)!important;color:#fff!important}

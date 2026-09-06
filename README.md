@@ -42,3 +42,8 @@ Telegram: https://t.me/Alexuys
 
 ## Stage 16
 Добавлены AI-friendly краткие ответы на ключевых услугах, два практических гайда, единый бренд в title, schema для старых кейсов и разрешения поисковых AI-crawlerов Perplexity/Claude Search.
+
+## English portfolio
+
+https://alexgtup.github.io/en/
+

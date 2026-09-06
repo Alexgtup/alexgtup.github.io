@@ -59,6 +59,24 @@ jobs:
           test -f _site/app-development/index.html
           test -f _site/guides/development-cost/index.html
           test -f _site/guides/bot-vs-mini-app-vs-web/index.html
+          test -f _site/en/index.html
+          test -f _site/en/services/index.html
+          test -f _site/en/telegram-bot-development/index.html
+          test -f _site/en/telegram-mini-app-development/index.html
+          test -f _site/en/ai-automation/index.html
+          test -f _site/en/n8n-automation/index.html
+          test -f _site/en/custom-crm-development/index.html
+          test -f _site/en/web-app-development/index.html
+          test -f _site/en/api-integrations/index.html
+          test -f _site/en/python-development/index.html
+          test -f _site/en/backend-development/index.html
+          test -f _site/en/mvp-development/index.html
+          test -f _site/en/ios-development/index.html
+          test -f _site/en/cases/fin-planner/index.html
+          test -f _site/en/cases/swift-calendar/index.html
+          test -f _site/en/about/index.html
+          grep -q 'hreflang="en"' _site/index.html
+          grep -q 'hreflang="ru"' _site/en/index.html
           grep -q "OAI-SearchBot" _site/robots.txt
           grep -q "PerplexityBot" _site/robots.txt
           grep -q "Claude-SearchBot" _site/robots.txt
@@ -159,6 +177,7 @@ jobs:
               global_frontend = {
                   'assets/site-enhancements.css',
                   'assets/search-intent.css',
+                  'assets/international.css',
                   'assets/universal-media.css',
                   'assets/site-enhancements.js',
               }

@@ -218,7 +218,18 @@
   const drawer = document.createElement('nav');
   drawer.className = 'mobile-site-drawer';
   drawer.setAttribute('aria-label','Мобильная навигация');
-  drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a><a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>';
+  const englishMap = {
+    '/about/':'/en/about/', '/services/':'/en/services/', '/telegram-bots/':'/en/telegram-bot-development/',
+    '/telegram-mini-apps/':'/en/telegram-mini-app-development/', '/ai-automation/':'/en/ai-automation/',
+    '/n8n-automation/':'/en/n8n-automation/', '/crm-development/':'/en/custom-crm-development/',
+    '/web-development/':'/en/web-app-development/', '/api-integrations/':'/en/api-integrations/',
+    '/python-development/':'/en/python-development/', '/backend-development/':'/en/backend-development/',
+    '/mvp-development/':'/en/mvp-development/', '/ios-development/':'/en/ios-development/',
+    '/cases/fin-planner/':'/en/cases/fin-planner/', '/cases/swift-calendar/':'/en/cases/swift-calendar/',
+    '/privacy/':'/en/privacy/'
+  };
+  const enLink = englishMap[location.pathname] ? `<a href="${englishMap[location.pathname]}" hreflang="en" lang="en">English version — EN</a>` : '';
+  drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a>' + enLink + '<a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>';
   head.appendChild(button);
   document.body.appendChild(drawer);
   const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};

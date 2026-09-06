@@ -55,3 +55,22 @@ Telegram: https://t.me/Alexuys
 - Веб-сервис подходит для самостоятельного продукта с ролями, данными, кабинетами и сложной бизнес-логикой.
 - Кастомная CRM нужна, когда коробочная система не отражает реальный процесс компании и интеграции.
 - MVP — первая рабочая версия, проверяющая один ключевой пользовательский сценарий.
+
+## English version
+- https://alexgtup.github.io/en/ — English portfolio home
+- https://alexgtup.github.io/en/services/ — English services index
+- https://alexgtup.github.io/en/telegram-bot-development/ — Telegram bot development
+- https://alexgtup.github.io/en/telegram-mini-app-development/ — Telegram Mini App development
+- https://alexgtup.github.io/en/ai-automation/ — AI automation
+- https://alexgtup.github.io/en/n8n-automation/ — n8n / Make automation
+- https://alexgtup.github.io/en/custom-crm-development/ — custom CRM development
+- https://alexgtup.github.io/en/web-app-development/ — web application development
+- https://alexgtup.github.io/en/api-integrations/ — API integrations
+- https://alexgtup.github.io/en/python-development/ — Python development
+- https://alexgtup.github.io/en/backend-development/ — backend development
+- https://alexgtup.github.io/en/mvp-development/ — MVP development
+- https://alexgtup.github.io/en/ios-development/ — iOS development in Swift
+- https://alexgtup.github.io/en/cases/fin-planner/ — Fin Planner case
+- https://alexgtup.github.io/en/cases/swift-calendar/ — Swift calendar case
+- https://alexgtup.github.io/en/about/ — developer profile
+
