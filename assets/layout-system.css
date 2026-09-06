@@ -1,4 +1,4 @@
-/* Stage 24-29 — shared page geometry and navigation chrome.
+/* Stage 24-31 — shared page geometry and navigation chrome.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -8,8 +8,12 @@
   --page:clamp(1.15rem,4vw,4.5rem) !important;
 }
 
+*,*::before,*::after{box-sizing:border-box;}
 html,body{width:100%;max-width:100%;}
 body{overflow-x:clip;}
+main,section,article,aside,header,footer,nav{min-width:0;}
+img,video,canvas,iframe{max-width:100%;}
+img,video{height:auto;}
 
 body .container{
   width:min(100%,var(--site-shell)) !important;
