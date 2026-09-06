@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -34,3 +35,10 @@ elif new_predicate not in text:
 js.write_text(text, encoding="utf-8")
 
 print("stage37 accessibility/interactions: skip-link fixed; linked/button images excluded from lightbox")
+
+# Stage 39 is chained here because the protected deployment workflow contains the
+# IndexNow key and should not be rewritten just to add another build step.
+stage39 = Path(__file__).with_name("stage39_growth_patch.py")
+if not stage39.is_file():
+    raise SystemExit("stage37: stage39 growth patch not found")
+subprocess.run([sys.executable, str(stage39), str(root)], check=True)
