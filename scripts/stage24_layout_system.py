@@ -28,14 +28,24 @@ if not html_files:
 max_values = Counter()
 changed = 0
 with_container = 0
+without_container = []
+class_counter = Counter()
+container_re = re.compile(r'class=["\'][^"\']*\bcontainer\b[^"\']*["\']', re.I)
+class_re = re.compile(r'class=["\']([^"\']+)["\']', re.I)
 
 for path in html_files:
     html = path.read_text(encoding="utf-8")
     for value in re.findall(r"--max\s*:\s*([^;}]+)", html):
         max_values[value.strip()] += 1
 
-    if 'class="container' in html or ' container"' in html or " container'" in html:
+    if container_re.search(html):
         with_container += 1
+    else:
+        without_container.append(str(path.relative_to(root)))
+        # Count classes on legacy templates to identify their shared shell names.
+        for class_value in class_re.findall(html):
+            for cls in class_value.split():
+                class_counter[cls] += 1
 
     if 'data-stage24-layout="true"' in html:
         continue
@@ -54,4 +64,8 @@ if missing:
 
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
+legacy = ", ".join(without_container) if without_container else "none"
+common_classes = ", ".join(f"{k}×{v}" for k, v in class_counter.most_common(20)) or "none"
 print(f"stage24 layout: {changed} HTML patched; {with_container} pages use .container; original --max values: {values}; skipped stubs: {skipped}")
+print(f"stage24 legacy pages without .container ({len(without_container)}): {legacy}")
+print(f"stage24 legacy common classes: {common_classes}")
