@@ -74,7 +74,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Notify IndexNow from final sitemap
+      - name: Notify IndexNow and Yandex from final sitemap
         continue-on-error: true
         shell: bash
         env:
@@ -101,9 +101,12 @@ jobs:
           print(f'IndexNow URLs from final sitemap: {len(urls)}')
           PY2
 
-          CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
-            -H 'Content-Type: application/json; charset=utf-8' \
-            --data-binary @/tmp/indexnow.json \
-            https://api.indexnow.org/indexnow || true)
-          echo "IndexNow HTTP: $CODE"
-          cat /tmp/indexnow-response.txt || true
+          for ENDPOINT in https://api.indexnow.org/indexnow https://yandex.com/indexnow; do
+            CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
+              -H 'Content-Type: application/json; charset=utf-8' \
+              --data-binary @/tmp/indexnow.json \
+              "$ENDPOINT" || true)
+            echo "$ENDPOINT HTTP: $CODE"
+            cat /tmp/indexnow-response.txt || true
+            echo
+          done
