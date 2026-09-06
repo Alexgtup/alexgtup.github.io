@@ -10,10 +10,8 @@ import sys
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 
 # Stage 40 already calls this finalization step on every production build. Run the
-# competitor-gap patch here so it is part of the same validated pipeline without
-# duplicating another fragile workflow entry. The child flag prevents recursion:
-# Stage 42 calls this script once more after changing CSS, and that child run only
-# fingerprints the final assets.
+# commercial experience passes here so the final fingerprint is generated only
+# after every shared CSS/HTML mutation has finished.
 if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
     stage42 = Path(__file__).with_name("stage42_runner.py")
     if stage42.is_file():
@@ -21,27 +19,17 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         env["ALEXUYS_STAGE42_CHILD"] = "1"
         subprocess.check_call([sys.executable, str(stage42), str(root)], env=env)
 
-    stage43 = Path(__file__).with_name("stage43_freelance_sync.py")
-    if stage43.is_file():
-        subprocess.check_call([sys.executable, str(stage43), str(root)])
-
-    stage44 = Path(__file__).with_name("stage44_experience_rebuild.py")
-    if stage44.is_file():
-        subprocess.check_call([sys.executable, str(stage44), str(root)])
-
-    stage45 = Path(__file__).with_name("stage45_home_anchor_fix.py")
-    if stage45.is_file():
-        subprocess.check_call([sys.executable, str(stage45), str(root)])
-
-    stage46 = Path(__file__).with_name("stage46_conversion_order.py")
-    if stage46.is_file():
-        subprocess.check_call([sys.executable, str(stage46), str(root)])
-
-    # Final search-quality pass: unique SERP copy and useful proof/crawl links
-    # between commercial pages, real cases and decision guides.
-    stage47 = Path(__file__).with_name("stage47_search_quality.py")
-    if stage47.is_file():
-        subprocess.check_call([sys.executable, str(stage47), str(root)])
+    for child in (
+        "stage43_freelance_sync.py",
+        "stage44_experience_rebuild.py",
+        "stage45_home_anchor_fix.py",
+        "stage46_conversion_order.py",
+        "stage47_search_quality.py",
+        "stage48_service_experience.py",
+    ):
+        target = Path(__file__).with_name(child)
+        if target.is_file():
+            subprocess.check_call([sys.executable, str(target), str(root)])
 
 assets = (
     "/assets/site-enhancements.css",
