@@ -51,6 +51,7 @@ jobs:
           python scripts/stage24_layout_system.py _site
           python scripts/stage25_navigation_patch.py _site
           python scripts/stage37_accessibility_patch.py _site
+          python scripts/stage39_growth_patch.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
@@ -112,6 +113,7 @@ jobs:
 
               if ('scripts/stage24_layout_system.py' in names
                   or 'scripts/stage25_navigation_patch.py' in names
+                  or 'scripts/stage39_growth_patch.py' in names
                   or '.github/workflows/deploy-pages.yml' in names):
                   changed += sitemap_urls()
 
