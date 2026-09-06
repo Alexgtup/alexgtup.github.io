@@ -128,16 +128,25 @@ jobs:
                   'scripts/stage45_home_anchor_fix.py',
                   'scripts/stage46_conversion_order.py',
                   'scripts/stage47_search_quality.py',
+                  'scripts/stage48_service_experience.py',
               )):
                   changed += [
                       base + '/',
                       base + '/services/',
                       base + '/telegram-bots/',
-                      base + '/n8n-automation/',
-                      base + '/project-repair/',
                       base + '/web-development/',
+                      base + '/n8n-automation/',
                       base + '/api-integrations/',
+                      base + '/project-repair/',
                       base + '/app-development/',
+                      base + '/ai-automation/',
+                      base + '/crm-development/',
+                      base + '/ios-development/',
+                      base + '/telegram-mini-apps/',
+                      base + '/python-development/',
+                      base + '/backend-development/',
+                      base + '/mvp-development/',
+                      base + '/development/',
                   ]
 
               if 'scripts/stage20_patch.py' in names:
