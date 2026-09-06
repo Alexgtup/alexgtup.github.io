@@ -1,4 +1,4 @@
-/* Stage 24/25 — shared page geometry and navigation chrome.
+/* Stage 24-26 — shared page geometry and navigation chrome.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -46,8 +46,75 @@ body:not([data-page="home"]) .site-header .header-inner{
   margin-right:auto !important;
 }
 
-/* Stage 25 replaces the accumulated footer variants with one compact shell
-   on internal RU pages. Reset old template padding so height no longer jumps. */
+/* Stage 26: normalize two generations of the Alexuys lockup. */
+.header .brand,
+.site-header .brand{
+  display:inline-flex !important;
+  align-items:center !important;
+  gap:.72rem !important;
+  min-width:max-content;
+  text-decoration:none;
+  font-weight:850 !important;
+}
+.header .brand-mark,
+.header .brand-icon,
+.site-header .brand-mark,
+.site-header .brand-icon{
+  width:2.25rem !important;
+  height:2.25rem !important;
+  flex:0 0 2.25rem !important;
+  display:grid !important;
+  place-items:center !important;
+  border-radius:.78rem !important;
+}
+.header .brand-mark svg,
+.header .brand-icon svg,
+.site-header .brand-mark svg,
+.site-header .brand-icon svg{
+  width:1.55rem !important;
+  height:1.55rem !important;
+  display:block;
+}
+.header .brand>strong,
+.header .brand-word,
+.site-header .brand>strong,
+.site-header .brand-word{
+  font-size:.9rem !important;
+  line-height:1 !important;
+  letter-spacing:-.025em !important;
+  color:var(--text,#f4f5f2);
+}
+
+/* The primary header action must not change size between template generations. */
+.header .nav .cta,
+.header .cta,
+.site-header .nav .cta,
+.site-header .cta{
+  min-height:2.65rem !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:.65rem .9rem !important;
+  border-radius:.8rem !important;
+  font-size:.79rem !important;
+  line-height:1 !important;
+  font-weight:850 !important;
+  white-space:nowrap;
+}
+.header .language-switch,
+.site-header .language-switch{
+  min-width:2.35rem;
+  min-height:2.35rem;
+  display:inline-flex !important;
+  align-items:center;
+  justify-content:center;
+  padding:.45rem .62rem !important;
+  border:1px solid var(--line,rgba(255,255,255,.1));
+  border-radius:.72rem;
+  line-height:1;
+}
+
+/* Stage 25 replaces accumulated footer variants with one compact shell. */
 footer.footer,
 footer.foot,
 footer.site-footer{
@@ -116,6 +183,17 @@ body[data-page^="guides--"] .layout{
   .site-footer .footer-inner{
     min-height:0;
     align-items:flex-start;
+  }
+}
+
+@media(max-width:560px){
+  .header .nav .cta,
+  .header .cta,
+  .site-header .nav .cta,
+  .site-header .cta{
+    min-height:2.55rem !important;
+    padding:.62rem .78rem !important;
+    font-size:.72rem !important;
   }
 }
 
