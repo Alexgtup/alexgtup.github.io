@@ -36,9 +36,13 @@ js.write_text(text, encoding="utf-8")
 
 print("stage37 accessibility/interactions: skip-link fixed; linked/button images excluded from lightbox")
 
-# Stage 39 is chained here because the protected deployment workflow contains the
-# IndexNow key and should not be rewritten just to add another build step.
-stage39 = Path(__file__).with_name("stage39_growth_patch.py")
-if not stage39.is_file():
-    raise SystemExit("stage37: stage39 growth patch not found")
-subprocess.run([sys.executable, str(stage39), str(root)], check=True)
+# Later build-time patches are chained here because the protected deployment workflow
+# contains the IndexNow key and should not be rewritten just to add build steps.
+for script_name, label in [
+    ("stage39_growth_patch.py", "stage39 growth patch"),
+    ("stage40_case_proof_patch.py", "stage40 case proof patch"),
+]:
+    script = Path(__file__).with_name(script_name)
+    if not script.is_file():
+        raise SystemExit(f"stage37: {label} not found")
+    subprocess.run([sys.executable, str(script), str(root)], check=True)
