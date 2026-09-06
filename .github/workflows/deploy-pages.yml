@@ -33,7 +33,6 @@ jobs:
           rm -rf _site
           mkdir -p _site
 
-          # Publish only reviewed static pages and assets.
           cp -R overrides/. _site/
           mkdir -p _site/assets
           cp -R assets/. _site/assets/
@@ -54,6 +53,7 @@ jobs:
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
+          python scripts/stage30_nested_container_audit.py _site
           python scripts/validate_site.py _site
 
       - name: Configure Pages
