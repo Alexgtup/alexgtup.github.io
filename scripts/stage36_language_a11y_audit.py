@@ -84,7 +84,6 @@ class AuditParser(HTMLParser):
         for node in self.stack:
             node["text"].append(text)
         if self.html_lang.lower().startswith("en"):
-            # Intentional Russian language-switch content must be explicitly marked lang/hreflang=ru.
             intentional = any(n["ru_switch"] for n in self.stack)
             if not intentional and CYR.search(text):
                 self.en_cyrillic.append(text[:140])
@@ -109,7 +108,6 @@ class AuditParser(HTMLParser):
 
 
 issues = defaultdict(list)
-counts = defaultdict(int)
 for page in sorted(root.rglob("*.html")):
     html = page.read_text(encoding="utf-8", errors="ignore")
     if "</head>" not in html or page.name.startswith(("google","yandex_")): continue
@@ -146,3 +144,8 @@ for kind in order:
     rows = issues.get(kind, [])
     print(f"  {kind}: {len(rows)}")
     for rt, detail in rows[:40]: print(f"    {rt} :: {detail}")
+
+total = sum(len(issues.get(kind, [])) for kind in order)
+if total:
+    raise SystemExit(f"stage36: {total} language/accessibility regression(s)")
+print("stage36 language/accessibility invariant OK")
