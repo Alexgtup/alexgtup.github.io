@@ -1,4 +1,4 @@
-/* Stage 24-27 — shared page geometry and navigation chrome.
+/* Stage 24-29 — shared page geometry and navigation chrome.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -36,6 +36,18 @@ body:not([data-page="home"]) .site-header .header-inner{
 }
 body:not([data-page="home"]) .crumbs{
   padding-top:2rem !important;
+}
+body:not([data-page="home"]) .header .nav,
+body:not([data-page="home"]) .site-header .nav{
+  display:flex !important;
+  align-items:center !important;
+  gap:.95rem !important;
+}
+body:not([data-page="home"]) .header .nav>a:not(.cta),
+body:not([data-page="home"]) .site-header .nav>a:not(.cta){
+  font-size:.79rem !important;
+  line-height:1 !important;
+  text-decoration:none;
 }
 
 .header .container,
@@ -172,6 +184,13 @@ body[data-page^="guides--"] .layout{
 
 @media(max-width:900px){
   body[data-page^="guides--"] .layout{grid-template-columns:1fr;gap:1.25rem;}
+}
+
+@media(max-width:860px){
+  body:not([data-page="home"]) .header .nav>a:not(.cta):not(.language-switch),
+  body:not([data-page="home"]) .site-header .nav>a:not(.cta):not(.language-switch){
+    display:none !important;
+  }
 }
 
 @media(max-width:760px){
