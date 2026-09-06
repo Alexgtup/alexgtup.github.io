@@ -11,8 +11,6 @@ all_html = sorted(root.rglob("*.html"))
 if not all_html:
     raise SystemExit("stage24: no HTML files found")
 
-# Search-engine verification stubs can be plain text wrapped in an .html file.
-# Only real documents with a closing </head> participate in layout normalization.
 html_files = []
 skipped_stubs = []
 for path in all_html:
@@ -25,33 +23,48 @@ for path in all_html:
 if not html_files:
     raise SystemExit("stage24: no full HTML documents found")
 
+class_re = re.compile(r'class=["\']([^"\']+)["\']', re.I)
+
+def class_tokens(html: str) -> set[str]:
+    out = set()
+    for class_value in class_re.findall(html):
+        out.update(class_value.split())
+    return out
+
 max_values = Counter()
 changed = 0
-with_container = 0
-without_container = []
+classic_container = 0
+intl_container = 0
+with_shared_shell = 0
+without_shared_shell = []
 class_counter = Counter()
-container_re = re.compile(r'class=["\'][^"\']*\bcontainer\b[^"\']*["\']', re.I)
-class_re = re.compile(r'class=["\']([^"\']+)["\']', re.I)
 
 for path in html_files:
     html = path.read_text(encoding="utf-8")
     for value in re.findall(r"--max\s*:\s*([^;}]+)", html):
         max_values[value.strip()] += 1
+    for value in re.findall(r"--imax\s*:\s*([^;}]+)", html):
+        max_values[f"intl:{value.strip()}"] += 1
 
-    if container_re.search(html):
-        with_container += 1
+    tokens = class_tokens(html)
+    has_classic = "container" in tokens
+    has_intl = "intl-container" in tokens
+    if has_classic:
+        classic_container += 1
+    if has_intl:
+        intl_container += 1
+    if has_classic or has_intl:
+        with_shared_shell += 1
     else:
-        without_container.append(str(path.relative_to(root)))
-        for class_value in class_re.findall(html):
-            for cls in class_value.split():
-                class_counter[cls] += 1
+        without_shared_shell.append(str(path.relative_to(root)))
+        for cls in tokens:
+            class_counter[cls] += 1
 
     if 'data-stage24-layout="true"' not in html:
         html = html.replace("</head>", link + "\n</head>", 1)
         path.write_text(html, encoding="utf-8")
         changed += 1
 
-# Production safety: every real HTML document must load the shared geometry layer.
 missing = []
 for path in html_files:
     html = path.read_text(encoding="utf-8")
@@ -60,24 +73,24 @@ for path in html_files:
 if missing:
     raise SystemExit("stage24: layout stylesheet missing from: " + ", ".join(missing[:10]))
 
-# 404 and search-engine verification documents are the only allowed pages
-# without the normal content shell. Any future product/content page without
-# .container is a regression and must not be deployed.
-allowed_no_container = {"404.html"}
+allowed_no_shell = {"404.html"}
 regressions = []
-for rel in without_container:
+for rel in without_shared_shell:
     name = Path(rel).name
-    if rel in allowed_no_container or name.startswith(("google", "yandex_")):
+    if rel in allowed_no_shell or name.startswith(("google", "yandex_")):
         continue
     regressions.append(rel)
 if regressions:
-    raise SystemExit("stage24: substantive page without shared .container: " + ", ".join(regressions))
+    raise SystemExit("stage24: substantive page without shared shell (.container or .intl-container): " + ", ".join(regressions))
 
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
-legacy = ", ".join(without_container) if without_container else "none"
+legacy = ", ".join(without_shared_shell) if without_shared_shell else "none"
 common_classes = ", ".join(f"{k}×{v}" for k, v in class_counter.most_common(20)) or "none"
-print(f"stage24 layout: {changed} HTML patched; {with_container} pages use .container; original --max values: {values}; skipped stubs: {skipped}")
-print(f"stage24 allowed utility pages without .container ({len(without_container)}): {legacy}")
-print(f"stage24 legacy common classes: {common_classes}")
-print("stage24 shared container invariant OK")
+print(
+    f"stage24 layout: {changed} HTML patched; shared shell {with_shared_shell} pages "
+    f"(.container={classic_container}, .intl-container={intl_container}); original width vars: {values}; skipped stubs: {skipped}"
+)
+print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
+print(f"stage24 non-shell common classes: {common_classes}")
+print("stage24 shared shell invariant OK")
