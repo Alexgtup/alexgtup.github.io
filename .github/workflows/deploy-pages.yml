@@ -50,6 +50,7 @@ jobs:
           python scripts/stage23_telegram_handoff_patch.py _site
           python scripts/stage24_layout_system.py _site
           python scripts/stage25_navigation_patch.py _site
+          python scripts/stage37_accessibility_patch.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
