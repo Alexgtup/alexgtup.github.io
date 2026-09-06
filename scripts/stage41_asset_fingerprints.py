@@ -26,6 +26,7 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         "stage46_conversion_order.py",
         "stage47_search_quality.py",
         "stage48_service_experience.py",
+        "stage49_service_polish.py",
     ):
         target = Path(__file__).with_name(child)
         if target.is_file():
