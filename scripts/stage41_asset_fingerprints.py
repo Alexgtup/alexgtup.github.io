@@ -9,31 +9,13 @@ import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 
-
-def normalize_hero_opening_tag(path: Path) -> None:
-    """Put the hero class first so downstream build patches do not depend on source attribute order."""
-    if not path.is_file():
-        return
-    text = path.read_text(encoding="utf-8")
-    pattern = re.compile(r'<section(?P<before>[^>]*?)class="(?P<classes>[^"]*\bhero\b[^"]*)"(?P<after>[^>]*)>', re.I)
-    match = pattern.search(text)
-    if not match:
-        return
-    classes = match.group("classes")
-    replacement = f'<section class="{classes}"{match.group("before")}{match.group("after")}>'
-    text = text[:match.start()] + replacement + text[match.end():]
-    path.write_text(text, encoding="utf-8")
-
-
 # Stage 40 already calls this finalization step on every production build. Run the
 # competitor-gap patch here so it is part of the same validated pipeline without
-# duplicating another fragile workflow entry. Normalize hero attribute order first:
-# some service sources use `class="hero container"`, others put class after aria attrs.
-# The child flag prevents recursion when Stage 42 fingerprints its final CSS.
+# duplicating another fragile workflow entry. The child flag prevents recursion:
+# Stage 42 calls this script once more after changing CSS, and that child run only
+# fingerprints the final assets.
 if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
-    for route in ("telegram-bots", "n8n-automation", "project-repair", "web-development"):
-        normalize_hero_opening_tag(root / route / "index.html")
-    stage42 = Path(__file__).with_name("stage42_competitor_gap.py")
+    stage42 = Path(__file__).with_name("stage42_runner.py")
     if stage42.is_file():
         env = os.environ.copy()
         env["ALEXUYS_STAGE42_CHILD"] = "1"
