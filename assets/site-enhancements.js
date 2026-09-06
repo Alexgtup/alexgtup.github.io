@@ -181,7 +181,7 @@
 // Stage 8: useful interaction goals on every page where consented Metrika is already active.
 (() => {
   const METRIKA_ID = 112290993;
-  const servicePaths = new Set(['/telegram-bots/','/ai-automation/','/n8n-automation/','/crm-development/','/web-development/','/api-integrations/','/project-repair/','/ios-development/','/services/']);
+  const servicePaths = new Set(['/telegram-bots/','/ai-automation/','/n8n-automation/','/crm-development/','/web-development/','/api-integrations/','/project-repair/','/ios-development/','/services/', '/en/services/','/en/telegram-bot-development/','/en/telegram-mini-app-development/','/en/ai-automation/','/en/n8n-automation/','/en/custom-crm-development/','/en/web-app-development/','/en/api-integrations/','/en/python-development/','/en/backend-development/','/en/mvp-development/','/en/ios-development/','/en/project-repair/']);
   const goal = (name, params={}) => {
     if (typeof window.ym !== 'function') return;
     try { window.ym(METRIKA_ID, 'reachGoal', name, { page: location.pathname, ...params }); } catch (_) {}
@@ -196,10 +196,10 @@
     let url;
     try { url = new URL(a.href, location.href); } catch (_) { return; }
     if (url.origin !== location.origin) return;
-    if (url.pathname.startsWith('/cases/') && url.pathname !== '/cases/') goal('case_open', { target: url.pathname });
+    if ((url.pathname.startsWith('/cases/') && url.pathname !== '/cases/') || (url.pathname.startsWith('/en/cases/') && url.pathname !== '/en/cases/')) goal('case_open', { target: url.pathname });
     else if (servicePaths.has(url.pathname)) goal('service_open', { target: url.pathname });
-    else if (url.pathname.startsWith('/guides/')) goal('guide_open', { target: url.pathname });
-    else if (url.pathname === '/about/') goal('about_open');
+    else if (url.pathname.startsWith('/guides/') || url.pathname.startsWith('/en/guides/')) goal('guide_open', { target: url.pathname });
+    else if (url.pathname === '/about/' || url.pathname === '/en/about/') goal('about_open');
   }, { capture: true });
 })();
 
@@ -225,8 +225,10 @@
     '/web-development/':'/en/web-app-development/', '/api-integrations/':'/en/api-integrations/',
     '/python-development/':'/en/python-development/', '/backend-development/':'/en/backend-development/',
     '/mvp-development/':'/en/mvp-development/', '/ios-development/':'/en/ios-development/',
-    '/cases/fin-planner/':'/en/cases/fin-planner/', '/cases/swift-calendar/':'/en/cases/swift-calendar/',
-    '/privacy/':'/en/privacy/'
+    '/cases/':'/en/cases/', '/cases/auto-crm/':'/en/cases/auto-crm/', '/cases/taxi-app/':'/en/cases/taxi-app/',
+    '/cases/factory-catalog/':'/en/cases/factory-catalog/', '/cases/fin-planner/':'/en/cases/fin-planner/', '/cases/swift-calendar/':'/en/cases/swift-calendar/',
+    '/guides/':'/en/guides/', '/guides/development-cost/':'/en/guides/development-cost/', '/guides/bot-vs-mini-app-vs-web/':'/en/guides/bot-vs-mini-app-vs-web/',
+    '/guides/telegram-bot-cost/':'/en/guides/telegram-bot-cost/', '/guides/n8n-vs-make/':'/en/guides/n8n-vs-make/', '/project-repair/':'/en/project-repair/', '/privacy/':'/en/privacy/'
   };
   const enLink = englishMap[location.pathname] ? `<a href="${englishMap[location.pathname]}" hreflang="en" lang="en">English version — EN</a>` : '';
   drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a>' + enLink + '<a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>';
@@ -235,6 +237,25 @@
   const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};
   button.addEventListener('click',()=>{const open=!drawer.classList.contains('is-open');drawer.classList.toggle('is-open',open);button.setAttribute('aria-expanded',String(open));button.textContent=open?'×':'☰'});
   drawer.addEventListener('click',e=>{if(e.target.closest('a')) close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+  document.addEventListener('click',e=>{if(drawer.classList.contains('is-open')&&!drawer.contains(e.target)&&!button.contains(e.target))close()});
+})();
+
+
+// Stage 18: English mobile navigation for international pages.
+(() => {
+  const head = document.querySelector('.intl-header .intl-head');
+  const button = document.querySelector('.intl-mobile-toggle');
+  if (!head || !button || document.querySelector('.intl-mobile-drawer')) return;
+  const ru = document.querySelector('.intl-lang')?.getAttribute('href') || '/';
+  const drawer = document.createElement('nav');
+  drawer.className = 'intl-mobile-drawer';
+  drawer.setAttribute('aria-label','Mobile navigation');
+  drawer.innerHTML = '<a href="/en/services/">Services</a><a href="/en/cases/">Cases</a><a href="/en/guides/">Guides</a><a href="/en/about/">About</a><a href="'+ru+'" hreflang="ru" lang="ru">Русская версия — RU</a><a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Discuss a project ↗</a>';
+  document.body.appendChild(drawer);
+  const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};
+  button.addEventListener('click',()=>{const open=!drawer.classList.contains('is-open');drawer.classList.toggle('is-open',open);button.setAttribute('aria-expanded',String(open));button.textContent=open?'×':'☰'});
+  drawer.addEventListener('click',e=>{if(e.target.closest('a'))close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
   document.addEventListener('click',e=>{if(drawer.classList.contains('is-open')&&!drawer.contains(e.target)&&!button.contains(e.target))close()});
 })();

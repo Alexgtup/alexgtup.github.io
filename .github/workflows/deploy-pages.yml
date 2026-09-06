@@ -75,6 +75,17 @@ jobs:
           test -f _site/en/cases/fin-planner/index.html
           test -f _site/en/cases/swift-calendar/index.html
           test -f _site/en/about/index.html
+          test -f _site/en/cases/index.html
+          test -f _site/en/cases/auto-crm/index.html
+          test -f _site/en/cases/taxi-app/index.html
+          test -f _site/en/cases/factory-catalog/index.html
+          test -f _site/en/guides/index.html
+          test -f _site/en/guides/development-cost/index.html
+          test -f _site/en/guides/telegram-bot-cost/index.html
+          test -f _site/en/guides/bot-vs-mini-app-vs-web/index.html
+          test -f _site/en/guides/n8n-vs-make/index.html
+          test -f _site/en/project-repair/index.html
+          test -f _site/en/feed.xml
           grep -q 'hreflang="en"' _site/index.html
           grep -q 'hreflang="ru"' _site/en/index.html
           grep -q "OAI-SearchBot" _site/robots.txt
@@ -127,6 +138,7 @@ jobs:
                   raise SystemExit(f'image budget exceeded: {path} = {size} bytes')
 
           ET.parse(f'{root}/feed.xml')
+          ET.parse(f'{root}/en/feed.xml')
           print(f'clean build valid: {len(urls)} sitemap URLs, {len(seen)} HTML files')
           PY2
 

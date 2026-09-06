@@ -74,3 +74,28 @@ Telegram: https://t.me/Alexuys
 - https://alexgtup.github.io/en/cases/swift-calendar/ — Swift calendar case
 - https://alexgtup.github.io/en/about/ — developer profile
 
+
+
+## English case studies
+- https://alexgtup.github.io/en/cases/ — case study index
+- https://alexgtup.github.io/en/cases/auto-crm/ — custom CRM for an auto dealership
+- https://alexgtup.github.io/en/cases/taxi-app/ — mobile app repair and release case
+- https://alexgtup.github.io/en/cases/factory-catalog/ — B2B factory catalog and integration case
+- https://alexgtup.github.io/en/cases/fin-planner/ — Telegram finance product case
+- https://alexgtup.github.io/en/cases/swift-calendar/ — native iOS calendar case
+
+## English guides
+- https://alexgtup.github.io/en/guides/ — guide index
+- https://alexgtup.github.io/en/guides/development-cost/ — what changes software development cost
+- https://alexgtup.github.io/en/guides/telegram-bot-cost/ — Telegram bot development cost and scope
+- https://alexgtup.github.io/en/guides/bot-vs-mini-app-vs-web/ — choosing bot, Mini App, web or native mobile
+- https://alexgtup.github.io/en/guides/n8n-vs-make/ — n8n vs Make comparison
+- https://alexgtup.github.io/en/project-repair/ — repair and continue existing software projects
+
+## Entity and contact
+- Brand / portfolio name: Alexuys
+- Developer identity: Alexander / Александр, represented publicly as Alexuys
+- Canonical developer entity: https://alexgtup.github.io/#person
+- GitHub: https://github.com/Alexgtup
+- Freelance profile: https://freelance.ru/gglalex
+- Direct contact: https://t.me/Alexuys

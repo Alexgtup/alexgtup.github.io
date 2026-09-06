@@ -47,3 +47,7 @@ Telegram: https://t.me/Alexuys
 
 https://alexgtup.github.io/en/
 
+
+
+## Stage 18 — English authority layer
+Added a complete English case hub, three translated case studies, an English guides hub, four English practical guides, an English project-repair service page, unified Person entity IDs, mobile English navigation, English RSS and sitemap hreflang annotations.
