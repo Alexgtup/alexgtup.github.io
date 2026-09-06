@@ -33,11 +33,15 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
     if stage45.is_file():
         subprocess.check_call([sys.executable, str(stage45), str(root)])
 
-    # A service page should finish with the contact action, not continue selling
-    # after the CTA. Reorder legacy contact blocks after pricing/trust/orientation.
     stage46 = Path(__file__).with_name("stage46_conversion_order.py")
     if stage46.is_file():
         subprocess.check_call([sys.executable, str(stage46), str(root)])
+
+    # Final search-quality pass: unique SERP copy and useful proof/crawl links
+    # between commercial pages, real cases and decision guides.
+    stage47 = Path(__file__).with_name("stage47_search_quality.py")
+    if stage47.is_file():
+        subprocess.check_call([sys.executable, str(stage47), str(root)])
 
 assets = (
     "/assets/site-enhancements.css",
