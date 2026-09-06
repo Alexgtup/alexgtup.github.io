@@ -51,6 +51,9 @@ jobs:
           # Stage 21: connect the Telegram service entity and add public proof to the profile.
           python scripts/stage21_entity_patch.py _site
 
+          # Stage 22: assign broad "website development" intent to the web-development page.
+          python scripts/stage22_broad_intent_patch.py _site
+
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
 
@@ -112,10 +115,17 @@ jobs:
                       base + '/services/',
                   ]
 
-              if 'scripts/stage21_entity_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+              if 'scripts/stage21_entity_patch.py' in names:
                   changed += [
                       base + '/telegram-bots/',
                       base + '/about/',
+                  ]
+
+              if 'scripts/stage22_broad_intent_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+                  changed += [
+                      base + '/web-development/',
+                      base + '/',
+                      base + '/services/',
                   ]
 
               for name in names:
