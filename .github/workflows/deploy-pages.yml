@@ -123,8 +123,14 @@ jobs:
                   'scripts/stage41_asset_fingerprints.py',
                   'scripts/stage42_competitor_gap.py',
                   'scripts/stage42_runner.py',
+                  'scripts/stage43_freelance_sync.py',
+                  'scripts/stage44_experience_rebuild.py',
+                  'scripts/stage45_home_anchor_fix.py',
+                  'scripts/stage46_conversion_order.py',
               )):
                   changed += [
+                      base + '/',
+                      base + '/services/',
                       base + '/telegram-bots/',
                       base + '/n8n-automation/',
                       base + '/project-repair/',
