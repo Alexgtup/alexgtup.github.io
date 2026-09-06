@@ -2,10 +2,24 @@
 from __future__ import annotations
 from pathlib import Path
 import hashlib
+import os
 import re
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
+
+# Stage 40 already calls this finalization step on every production build. Run the
+# competitor-gap patch here so it is part of the same validated pipeline without
+# duplicating another fragile workflow entry. The child flag prevents recursion:
+# Stage 42 calls this script once more after changing CSS, and that child run only
+# fingerprints the final assets.
+if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
+    stage42 = Path(__file__).with_name("stage42_competitor_gap.py")
+    if stage42.is_file():
+        env = os.environ.copy()
+        env["ALEXUYS_STAGE42_CHILD"] = "1"
+        subprocess.check_call([sys.executable, str(stage42), str(root)], env=env)
 
 assets = (
     "/assets/site-enhancements.css",
