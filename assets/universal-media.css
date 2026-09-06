@@ -1,5 +1,6 @@
 /* Universal non-destructive media rules.
-   Images keep their intrinsic proportions. Containers grow from the image; no crop/stretch. */
+   Images keep their intrinsic proportions. Containers grow from the image; no crop/stretch.
+   Stage 41 metadata refresh reindex trigger: 2026-09-06. */
 img,
 video {
   max-width: 100%;
