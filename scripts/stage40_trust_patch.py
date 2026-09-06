@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -105,5 +106,13 @@ if "/* stage40 verified trust */" not in css_text:
 @media(max-width:560px){.verified-trust{padding:4rem 0}.verified-trust__actions,.verified-trust__compact-actions{display:grid}.verified-trust .button{width:100%}}
 '''
     css.write_text(css_text, encoding="utf-8")
+
+# Stage 40 changes the shared stylesheet during the build. Fingerprint the final
+# shared assets immediately afterwards so browsers and intermediary caches cannot
+# combine new HTML with a stale CSS/JS response from a previous deployment.
+fingerprint_script = Path(__file__).with_name("stage41_asset_fingerprints.py")
+if not fingerprint_script.is_file():
+    raise SystemExit("stage40: stage41_asset_fingerprints.py missing")
+subprocess.check_call([sys.executable, str(fingerprint_script), str(root)])
 
 print("stage40 trust patched:", ", ".join(changed) if changed else "already applied")
