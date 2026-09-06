@@ -36,6 +36,7 @@ if os.environ.get("ALEXUYS_STAGE42_CHILD") != "1":
         "stage56_guide_seo_invariants.py",
         "stage57_visual_integrity.py",
         "stage58_visual_polish.py",
+        "stage59_decision_guide_header.py",
     ):
         target = Path(__file__).with_name(child)
         if target.is_file():
