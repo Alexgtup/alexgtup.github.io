@@ -19,20 +19,23 @@ for path in sorted(root.rglob("*.html")):
     if "</head>" not in html or path.name.startswith(("google", "yandex_")): continue
     rt = route(path)
     if rt in ("/", "/404.html") or rt.startswith("/en/"): continue
-    main_m = re.search(r'<main\b[^>]*>(.*?)</main>', html, re.I|re.S)
+    main_m = re.search(r'<main\b([^>]*)>(.*?)</main>', html, re.I|re.S)
     if not main_m: continue
-    main = main_m.group(1)
+    main_attrs = main_m.group(1)
+    main = main_m.group(2)
+    main_has_container = bool(re.search(r'class=["\'][^"\']*\bcontainer\b', main_attrs, re.I))
     sections = list(re.finditer(r'<section\b([^>]*)>', main, re.I|re.S))
     if not sections: continue
     last = sections[-1]
     attrs = last.group(1)
     class_m = re.search(r'class=["\']([^"\']*)["\']', attrs, re.I)
     classes = class_m.group(1).strip() if class_m else "(none)"
-    # Slice from final section to end of main. This is enough for conversion-link checks.
     tail = main[last.start():]
     has_tg = 'https://t.me/Alexuys' in tail
     has_mail = 'mailto:alexgtup@gmail.com' in tail
-    has_container = bool(re.search(r'\bcontainer\b', attrs)) or bool(re.search(r'<div\b[^>]*class=["\'][^"\']*\bcontainer\b', tail, re.I))
+    section_has_container = bool(re.search(r'\bcontainer\b', attrs))
+    child_has_container = bool(re.search(r'<(?:div|section)\b[^>]*class=["\'][^"\']*\bcontainer\b', tail, re.I))
+    has_container = main_has_container or section_has_container or child_has_container
     patterns[(classes, has_container, has_tg, has_mail)] += 1
     rows.append((rt, classes, has_container, has_tg, has_mail))
 
