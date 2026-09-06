@@ -46,7 +46,9 @@ replacement = r'''def insert_after_hero(text: str, block: str, route: str) -> st
 
 def insert_before_trust'''
 
-source, count = pattern.subn(replacement, source, count=1)
+# Use a callable replacement so backslashes in the injected Python source are
+# treated literally rather than as re.sub replacement escapes.
+source, count = pattern.subn(lambda _m: replacement, source, count=1)
 if count != 1:
     raise SystemExit("stage42-runner: could not replace insert_after_hero helper")
 
