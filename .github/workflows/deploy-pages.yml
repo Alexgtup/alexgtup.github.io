@@ -57,6 +57,9 @@ jobs:
           # Stage 23: make Telegram project ownership and handoff explicit.
           python scripts/stage23_telegram_handoff_patch.py _site
 
+          # Stage 24: one shared outer shell across every page family.
+          python scripts/stage24_layout_system.py _site
+
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
 
@@ -91,10 +94,13 @@ jobs:
           except Exception:
               names = []
 
-          if any(name == f'{key}.txt' for name in names) or not names:
+          def sitemap_urls():
               tree = ET.parse('overrides/sitemap.xml')
               ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
-              changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
+              return [n.text.strip() for n in tree.findall('.//s:loc', ns)]
+
+          if any(name == f'{key}.txt' for name in names) or not names:
+              changed = sitemap_urls()
           else:
               global_frontend = {
                   'assets/site-enhancements.css',
@@ -102,11 +108,13 @@ jobs:
                   'assets/international.css',
                   'assets/universal-media.css',
                   'assets/site-enhancements.js',
+                  'assets/layout-system.css',
               }
               if any(name in global_frontend for name in names):
-                  tree = ET.parse('overrides/sitemap.xml')
-                  ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
-                  changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
+                  changed = sitemap_urls()
+
+              if 'scripts/stage24_layout_system.py' in names or '.github/workflows/deploy-pages.yml' in names:
+                  changed += sitemap_urls()
 
               if 'scripts/stage20_patch.py' in names:
                   changed += [
@@ -131,7 +139,7 @@ jobs:
                       base + '/services/',
                   ]
 
-              if 'scripts/stage23_telegram_handoff_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+              if 'scripts/stage23_telegram_handoff_patch.py' in names:
                   changed.append(base + '/telegram-bots/')
 
               for name in names:
