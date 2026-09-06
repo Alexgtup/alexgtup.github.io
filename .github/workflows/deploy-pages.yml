@@ -55,6 +55,7 @@ jobs:
           python scripts/stage28_overflow_audit.py _site
           python scripts/stage30_nested_container_audit.py _site
           python scripts/stage32_rhythm_audit.py _site
+          python scripts/stage35_responsive_risk_audit.py _site
           python scripts/validate_site.py _site
 
       - name: Configure Pages
