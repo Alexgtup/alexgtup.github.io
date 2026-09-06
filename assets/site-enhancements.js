@@ -1,4 +1,23 @@
 (() => {
+  const isEnglish = (document.documentElement.lang || '').toLowerCase().startsWith('en');
+  const ui = isEnglish ? {
+    imageFallback: 'project image',
+    openImage: 'Open image',
+    dialog: 'Image viewer',
+    close: 'Close',
+    previous: 'Previous image',
+    next: 'Next image',
+    captionFallback: 'Project image'
+  } : {
+    imageFallback: 'изображение проекта',
+    openImage: 'Открыть изображение',
+    dialog: 'Просмотр изображения',
+    close: 'Закрыть',
+    previous: 'Предыдущее изображение',
+    next: 'Следующее изображение',
+    captionFallback: 'Изображение проекта'
+  };
+
   const eligible = [...document.querySelectorAll('main img:not([data-no-lightbox])')].filter(img => {
     const src = img.currentSrc || img.getAttribute('src') || '';
     return src && !src.startsWith('data:');
@@ -11,8 +30,8 @@
     img.tabIndex = img.tabIndex >= 0 ? img.tabIndex : 0;
     img.setAttribute('role', 'button');
     if (!img.getAttribute('aria-label')) {
-      const alt = img.getAttribute('alt') || 'изображение проекта';
-      img.setAttribute('aria-label', `Открыть изображение: ${alt}`);
+      const alt = img.getAttribute('alt') || ui.imageFallback;
+      img.setAttribute('aria-label', `${ui.openImage}: ${alt}`);
     }
   });
 
@@ -20,15 +39,16 @@
   root.className = 'media-lightbox';
   root.setAttribute('role', 'dialog');
   root.setAttribute('aria-modal', 'true');
-  root.setAttribute('aria-label', 'Просмотр изображения');
+  root.setAttribute('aria-label', ui.dialog);
+  root.setAttribute('aria-hidden', 'true');
   root.innerHTML = `
     <div class="media-lightbox__backdrop" data-lightbox-close></div>
     <div class="media-lightbox__dialog">
       <div class="media-lightbox__stage">
-        <button class="media-lightbox__close" type="button" aria-label="Закрыть">×</button>
-        <button class="media-lightbox__prev" type="button" aria-label="Предыдущее изображение">←</button>
+        <button class="media-lightbox__close" type="button" aria-label="${ui.close}">×</button>
+        <button class="media-lightbox__prev" type="button" aria-label="${ui.previous}">←</button>
         <img class="media-lightbox__image" alt="">
-        <button class="media-lightbox__next" type="button" aria-label="Следующее изображение">→</button>
+        <button class="media-lightbox__next" type="button" aria-label="${ui.next}">→</button>
       </div>
       <div class="media-lightbox__bar">
         <div class="media-lightbox__caption"></div>
@@ -53,7 +73,7 @@
     const source = eligible[current];
     viewer.src = source.currentSrc || source.src;
     viewer.alt = source.alt || '';
-    caption.textContent = source.dataset.caption || source.alt || 'Изображение проекта';
+    caption.textContent = source.dataset.caption || source.alt || ui.captionFallback;
     count.textContent = eligible.length > 1 ? `${current + 1} / ${eligible.length}` : '';
     prevBtn.hidden = eligible.length < 2;
     nextBtn.hidden = eligible.length < 2;
@@ -71,11 +91,13 @@
     show(index);
     document.body.classList.add('media-lightbox-open');
     root.classList.add('is-open');
+    root.setAttribute('aria-hidden', 'false');
     requestAnimationFrame(() => closeBtn.focus({ preventScroll: true }));
   }
 
   function close() {
     root.classList.remove('is-open');
+    root.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('media-lightbox-open');
     viewer.removeAttribute('src');
     if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus({ preventScroll: true });
@@ -114,42 +136,67 @@
   }, { passive: true });
   document.addEventListener('keydown', event => {
     if (!root.classList.contains('is-open')) return;
-    if (event.key === 'Escape') close();
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      close();
+      return;
+    }
     if (event.key === 'ArrowLeft' && eligible.length > 1) show(current - 1);
     if (event.key === 'ArrowRight' && eligible.length > 1) show(current + 1);
+    if (event.key === 'Tab') {
+      const focusable = [closeBtn, prevBtn, nextBtn].filter(el => !el.hidden && !el.disabled);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
   });
 })();
 
 
 // Stage 5: low-friction brief + mobile contact CTA.
 (() => {
+  const isEnglish = (document.documentElement.lang || '').toLowerCase().startsWith('en');
   const briefButton = document.querySelector('[data-copy-brief]');
   if (briefButton) {
     const status = document.querySelector('.brief-status');
-    const template = `Что нужно:\n\nЧто уже есть:\n\nЧто должно связаться:\n\nКак выглядит готовый результат:`;
+    const template = isEnglish
+      ? `What is needed:\n\nWhat already exists:\n\nWhat needs to be connected:\n\nWhat the finished result should look like:`
+      : `Что нужно:\n\nЧто уже есть:\n\nЧто должно связаться:\n\nКак выглядит готовый результат:`;
     briefButton.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(template);
-        briefButton.textContent = 'Шаблон скопирован ✓';
-        if (status) status.textContent = 'Можно вставить текст в Telegram и дописать несколько строк.';
-        setTimeout(() => { briefButton.textContent = 'Скопировать шаблон'; }, 2600);
+        briefButton.textContent = isEnglish ? 'Template copied ✓' : 'Шаблон скопирован ✓';
+        if (status) status.textContent = isEnglish
+          ? 'Paste it into Telegram and add a few details.'
+          : 'Можно вставить текст в Telegram и дописать несколько строк.';
+        setTimeout(() => { briefButton.textContent = isEnglish ? 'Copy template' : 'Скопировать шаблон'; }, 2600);
       } catch (_) {
-        if (status) status.textContent = 'Не удалось скопировать автоматически — выделите четыре пункта слева.';
+        if (status) status.textContent = isEnglish
+          ? 'Automatic copy failed — copy the four prompts manually.'
+          : 'Не удалось скопировать автоматически — выделите четыре пункта слева.';
       }
     });
   }
 
-  if (!document.querySelector('.mobile-project-cta')) {
+  const floatingCtaExcluded = new Set(['/privacy/', '/en/privacy/']);
+  if (!document.querySelector('.mobile-project-cta') && !floatingCtaExcluded.has(location.pathname)) {
     const cta = document.createElement('a');
     cta.className = 'mobile-project-cta';
     cta.href = 'https://t.me/Alexuys';
     cta.target = '_blank';
-    cta.rel = 'noreferrer';
-    cta.textContent = 'Описать задачу в Telegram ↗';
-    cta.setAttribute('aria-label', 'Описать задачу в Telegram');
+    cta.rel = 'noopener noreferrer';
+    cta.textContent = isEnglish ? 'Describe your project in Telegram ↗' : 'Описать задачу в Telegram ↗';
+    cta.setAttribute('aria-label', isEnglish ? 'Describe your project in Telegram' : 'Описать задачу в Telegram');
     document.body.appendChild(cta);
 
-    const contact = document.querySelector('#contact, .cta-box');
+    const contact = document.querySelector('#contact, .cta-box, .contact, .intl-cta, .intl-contact');
     const cookie = document.querySelector('.cookie-consent');
     let contactVisible = false;
     const sync = () => {
@@ -231,7 +278,7 @@
     '/guides/telegram-bot-cost/':'/en/guides/telegram-bot-cost/', '/guides/n8n-vs-make/':'/en/guides/n8n-vs-make/', '/project-repair/':'/en/project-repair/', '/privacy/':'/en/privacy/'
   };
   const enLink = englishMap[location.pathname] ? `<a href="${englishMap[location.pathname]}" hreflang="en" lang="en">English version — EN</a>` : '';
-  drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a>' + enLink + '<a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Обсудить задачу ↗</a>';
+  drawer.innerHTML = '<a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a>' + enLink + '<a href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Обсудить задачу ↗</a>';
   head.appendChild(button);
   document.body.appendChild(drawer);
   const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};
@@ -251,7 +298,7 @@
   const drawer = document.createElement('nav');
   drawer.className = 'intl-mobile-drawer';
   drawer.setAttribute('aria-label','Mobile navigation');
-  drawer.innerHTML = '<a href="/en/services/">Services</a><a href="/en/cases/">Cases</a><a href="/en/guides/">Guides</a><a href="/en/about/">About</a><a href="'+ru+'" hreflang="ru" lang="ru">Русская версия — RU</a><a href="https://t.me/Alexuys" target="_blank" rel="noreferrer">Discuss a project ↗</a>';
+  drawer.innerHTML = '<a href="/en/services/">Services</a><a href="/en/cases/">Cases</a><a href="/en/guides/">Guides</a><a href="/en/about/">About</a><a href="'+ru+'" hreflang="ru" lang="ru">Русская версия — RU</a><a href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Discuss a project ↗</a>';
   document.body.appendChild(drawer);
   const close=()=>{drawer.classList.remove('is-open');button.setAttribute('aria-expanded','false');button.textContent='☰'};
   button.addEventListener('click',()=>{const open=!drawer.classList.contains('is-open');drawer.classList.toggle('is-open',open);button.setAttribute('aria-expanded',String(open));button.textContent=open?'×':'☰'});
