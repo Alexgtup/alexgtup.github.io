@@ -32,17 +32,13 @@ body section.container.case-cta{
   margin-right:auto !important;
 }
 
-/* Keep readable article text narrow even though the page shell is now shared. */
-body[data-page^="guides--"] .article p,
-body[data-page^="guides--"] .article ul,
-body[data-page^="guides--"] .article ol{
-  max-width:54rem;
-}
-
-/* Prevent widened shells from producing oversized sidebars or awkward gaps. */
-body[data-page^="guides--"] .layout{
-  grid-template-columns:minmax(0,1fr) minmax(15rem,17rem);
-  gap:clamp(2rem,3vw,3.5rem);
+/* The site accumulated 4.7/4.75/4.8/5rem header variants. Keep one stable
+   internal-page rhythm so navigation does not jump between routes. */
+body:not([data-page="home"]) .header .head,
+body:not([data-page="home"]) .header .header-inner,
+body:not([data-page="home"]) .site-header .head,
+body:not([data-page="home"]) .site-header .header-inner{
+  min-height:4.8rem !important;
 }
 
 /* Header/footer should use the exact same shell as main content. */
@@ -56,8 +52,41 @@ body[data-page^="guides--"] .layout{
   margin-right:auto !important;
 }
 
+/* Footer contents may use .foot or .footer-inner depending on template.
+   Normalize only their horizontal/vertical alignment, not their link set. */
+.footer .foot,
+.footer .footer-inner,
+.site-footer .foot,
+.site-footer .footer-inner{
+  min-height:6rem;
+  align-items:center;
+}
+
+/* Keep readable article text narrow even though the page shell is now shared. */
+body[data-page^="guides--"] .article p,
+body[data-page^="guides--"] .article ul,
+body[data-page^="guides--"] .article ol{
+  max-width:54rem;
+}
+
+/* Prevent widened shells from producing oversized sidebars or awkward gaps. */
+body[data-page^="guides--"] .layout{
+  grid-template-columns:minmax(0,1fr) minmax(15rem,17rem);
+  gap:clamp(2rem,3vw,3.5rem);
+}
+
 @media(max-width:900px){
   body[data-page^="guides--"] .layout{grid-template-columns:1fr;gap:1.25rem;}
+}
+
+@media(max-width:760px){
+  .footer .foot,
+  .footer .footer-inner,
+  .site-footer .foot,
+  .site-footer .footer-inner{
+    min-height:0;
+    align-items:flex-start;
+  }
 }
 
 @media(max-width:480px){
