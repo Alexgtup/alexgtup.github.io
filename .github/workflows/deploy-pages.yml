@@ -126,7 +126,12 @@ jobs:
               if page.endswith('/404.html') or page == f'{root}/404.html' or is_verification:
                   pass
               else:
-                  if '<link rel="canonical"' not in text:
+                  link_tags = re.findall(r'<link\b[^>]*>', text, flags=re.I)
+                  has_canonical = any(
+                      'rel="canonical"' in tag.lower() or "rel='canonical'" in tag.lower()
+                      for tag in link_tags
+                  )
+                  if not has_canonical:
                       raise SystemExit(f'missing canonical: {page}')
               for tag in re.findall(r'<img\b[^>]*>', text, flags=re.I):
                   if 'width=' not in tag or 'height=' not in tag:
