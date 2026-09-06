@@ -127,6 +127,7 @@ jobs:
                   'scripts/stage44_experience_rebuild.py',
                   'scripts/stage45_home_anchor_fix.py',
                   'scripts/stage46_conversion_order.py',
+                  'scripts/stage47_search_quality.py',
               )):
                   changed += [
                       base + '/',
@@ -135,6 +136,8 @@ jobs:
                       base + '/n8n-automation/',
                       base + '/project-repair/',
                       base + '/web-development/',
+                      base + '/api-integrations/',
+                      base + '/app-development/',
                   ]
 
               if 'scripts/stage20_patch.py' in names:
