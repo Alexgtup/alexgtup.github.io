@@ -31,7 +31,7 @@ STYLE = r'''<style data-stage59-decision-guide-header>
 .s59-action{justify-self:end;display:inline-flex;align-items:center;gap:.55rem;color:#f4f5f2;text-decoration:none;font-size:.88rem;font-weight:700;white-space:nowrap}
 .s59-action svg{transition:transform .18s ease}.s59-action:hover svg{transform:translate(2px,-2px)}
 @media(max-width:980px){.s59-nav{gap:1rem}.s59-nav a{font-size:.8rem}.s59-brand-copy small{display:none}}
-@media(max-width:760px){.s59-header-inner{grid-template-columns:minmax(0,1fr) auto;min-height:4.4rem}.s59-nav{display:none}.s59-action{font-size:.8rem;padding:.58rem .72rem;border:1px solid rgba(255,255,255,.11);border-radius:.72rem;background:rgba(255,255,255,.03)}.s59-brand-copy small{display:block}}
+@media(max-width:760px){.s59-header{position:relative!important;top:auto!important}.s59-header-inner{grid-template-columns:minmax(0,1fr) auto;min-height:4.4rem}.s59-nav{display:none}.s59-action{font-size:.8rem;padding:.58rem .72rem;border:1px solid rgba(255,255,255,.11);border-radius:.72rem;background:rgba(255,255,255,.03)}.s59-brand-copy small{display:block}}
 @media(max-width:430px){.s59-brand-copy small{display:none}.s59-mark{width:2.2rem}.s59-action{font-size:0}.s59-action::before{content:"Telegram";font-size:.78rem}.s59-action svg{width:13px;height:13px}}
 </style>'''
 
