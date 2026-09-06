@@ -45,6 +45,9 @@ jobs:
             cp "$f" "_site/$f"
           done
 
+          # Stage 20: strengthen the Telegram topic cluster in the published static HTML.
+          python scripts/stage20_patch.py _site
+
           # Parser-based validation: independent of HTML attribute order.
           python scripts/validate_site.py _site
 
@@ -97,6 +100,15 @@ jobs:
                   tree = ET.parse('overrides/sitemap.xml')
                   ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
                   changed = [n.text.strip() for n in tree.findall('.//s:loc', ns)]
+              if 'scripts/stage20_patch.py' in names or '.github/workflows/deploy-pages.yml' in names:
+                  changed += [
+                      base + '/telegram-bots/',
+                      base + '/cases/fin-planner/',
+                      base + '/guides/telegram-bot-cost/',
+                      base + '/guides/telegram-bot-brief/',
+                      base + '/guides/bot-vs-mini-app-vs-web/',
+                      base + '/services/',
+                  ]
               for name in names:
                   if name == 'overrides/index.html':
                       changed.append(base + '/')
