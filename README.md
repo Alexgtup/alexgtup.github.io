@@ -51,3 +51,7 @@ https://alexgtup.github.io/en/
 
 ## Stage 18 — English authority layer
 Added a complete English case hub, three translated case studies, an English guides hub, four English practical guides, an English project-repair service page, unified Person entity IDs, mobile English navigation, English RSS and sitemap hreflang annotations.
+
+## Stage 19 — deployment & metadata hardening
+
+GitHub Pages validation is now parser-based instead of depending on HTML attribute order. Social metadata, bilingual 404, privacy crawl policy, structured data, external-link security and accessibility were normalized across RU/EN pages. See `STAGE19_REPORT.md`.

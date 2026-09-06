@@ -26,15 +26,14 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Build clean static site
+      - name: Build and validate clean static site
         shell: bash
         run: |
           set -euo pipefail
           rm -rf _site
           mkdir -p _site
 
-          # Stage 12 no longer deploys the legacy Next export from site.tar.gz.
-          # The public site is built only from the reviewed static overrides + assets.
+          # Publish only reviewed static pages and assets.
           cp -R overrides/. _site/
           mkdir -p _site/assets
           cp -R assets/. _site/assets/
@@ -46,118 +45,14 @@ jobs:
             cp "$f" "_site/$f"
           done
 
-          test -f _site/index.html
-          test -f _site/404.html
-          test -f _site/sitemap.xml
-          test -f _site/robots.txt
-          test -f _site/feed.xml
-          test -f _site/development/index.html
-          test -f _site/telegram-mini-apps/index.html
-          test -f _site/python-development/index.html
-          test -f _site/backend-development/index.html
-          test -f _site/mvp-development/index.html
-          test -f _site/app-development/index.html
-          test -f _site/guides/development-cost/index.html
-          test -f _site/guides/bot-vs-mini-app-vs-web/index.html
-          test -f _site/en/index.html
-          test -f _site/en/services/index.html
-          test -f _site/en/telegram-bot-development/index.html
-          test -f _site/en/telegram-mini-app-development/index.html
-          test -f _site/en/ai-automation/index.html
-          test -f _site/en/n8n-automation/index.html
-          test -f _site/en/custom-crm-development/index.html
-          test -f _site/en/web-app-development/index.html
-          test -f _site/en/api-integrations/index.html
-          test -f _site/en/python-development/index.html
-          test -f _site/en/backend-development/index.html
-          test -f _site/en/mvp-development/index.html
-          test -f _site/en/ios-development/index.html
-          test -f _site/en/cases/fin-planner/index.html
-          test -f _site/en/cases/swift-calendar/index.html
-          test -f _site/en/about/index.html
-          test -f _site/en/cases/index.html
-          test -f _site/en/cases/auto-crm/index.html
-          test -f _site/en/cases/taxi-app/index.html
-          test -f _site/en/cases/factory-catalog/index.html
-          test -f _site/en/guides/index.html
-          test -f _site/en/guides/development-cost/index.html
-          test -f _site/en/guides/telegram-bot-cost/index.html
-          test -f _site/en/guides/bot-vs-mini-app-vs-web/index.html
-          test -f _site/en/guides/n8n-vs-make/index.html
-          test -f _site/en/project-repair/index.html
-          test -f _site/en/feed.xml
-          grep -q 'hreflang="en"' _site/index.html
-          grep -q 'hreflang="ru"' _site/en/index.html
-          grep -q "OAI-SearchBot" _site/robots.txt
-          grep -q "PerplexityBot" _site/robots.txt
-          grep -q "Claude-SearchBot" _site/robots.txt
-          grep -q "YandexAdditionalBot" _site/robots.txt
-          test -f _site/c25441bbac42b588dd51fcf237159c69.txt
-
-          python - <<'PY2'
-          import glob, os, re, xml.etree.ElementTree as ET
-          from urllib.parse import urlparse
-
-          root = '_site'
-          tree = ET.parse(f'{root}/sitemap.xml')
-          ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
-          urls = [x.text.strip() for x in tree.findall('.//s:loc', ns)]
-          if not urls:
-              raise SystemExit('empty sitemap')
-
-          missing = []
-          for url in urls:
-              path = urlparse(url).path
-              target = os.path.join(root, 'index.html') if path == '/' else os.path.join(root, path.lstrip('/'), 'index.html')
-              if not os.path.isfile(target):
-                  missing.append((url, target))
-          if missing:
-              raise SystemExit(f'sitemap URLs without pages: {missing}')
-
-          htmls = glob.glob(f'{root}/**/*.html', recursive=True) + [f'{root}/index.html']
-          seen = set()
-          for page in htmls:
-              page = os.path.normpath(page)
-              if page in seen: continue
-              seen.add(page)
-              text = open(page, encoding='utf-8', errors='ignore').read()
-              name = os.path.basename(page)
-              is_verification = name.startswith('google') or name.startswith('yandex_')
-              if page.endswith('/404.html') or page == f'{root}/404.html' or is_verification:
-                  pass
-              else:
-                  link_tags = re.findall(r'<link\b[^>]*>', text, flags=re.I)
-                  has_canonical = any(
-                      'rel="canonical"' in tag.lower() or "rel='canonical'" in tag.lower()
-                      for tag in link_tags
-                  )
-                  if not has_canonical:
-                      raise SystemExit(f'missing canonical: {page}')
-              for tag in re.findall(r'<img\b[^>]*>', text, flags=re.I):
-                  if 'width=' not in tag or 'height=' not in tag:
-                      raise SystemExit(f'image without dimensions: {page}: {tag[:140]}')
-
-          for path in glob.glob(f'{root}/assets/cases/**/*.webp', recursive=True):
-              size = os.path.getsize(path)
-              if '-720w.' not in path and '-800w.' not in path and size > 400_000:
-                  raise SystemExit(f'image budget exceeded: {path} = {size} bytes')
-
-          ET.parse(f'{root}/feed.xml')
-          ET.parse(f'{root}/en/feed.xml')
-          print(f'clean build valid: {len(urls)} sitemap URLs, {len(seen)} HTML files')
-          PY2
-
-          # Ensure no stale Next.js export leaks into the Pages artifact.
-          if find _site -path '*/_next/*' -o -name '__next.*' | grep -q .; then
-            echo 'Legacy Next files found in clean build' >&2
-            exit 1
-          fi
+          # Parser-based validation: independent of HTML attribute order.
+          python scripts/validate_site.py _site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
       - name: Upload site
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: _site
 
