@@ -63,7 +63,78 @@ if 'id="quick-start"' not in html:
     if work_marker not in html:
         raise SystemExit("stage39: homepage work marker not found")
     html = html.replace(work_marker, quick_start + work_marker, 1)
+
+# Replace copy-paste-only brief with a real low-friction form. Telegram officially
+# supports t.me/<username>?text=<draft_text>, so no backend/API key is required.
+old_brief = '''<div class="brief-action">
+<span class="eyebrow" data-nosnippet="">Можно начать за 2 минуты</span>
+<h3>Скопируйте шаблон и заполните своими словами.</h3>
+<p>Не нужно придумывать архитектуру или технические термины — это уже часть моей работы.</p>
+<div class="brief-buttons"><button class="button" data-copy-brief="" type="button">Скопировать шаблон</button><a class="button primary" href="https://t.me/Alexuys" rel="noreferrer noopener" target="_blank">Открыть Telegram ↗</a></div>
+<div aria-live="polite" class="brief-status"></div>
+</div>'''
+new_brief = '''<div class="brief-action">
+<span class="eyebrow" data-nosnippet="">Можно начать за 2 минуты</span>
+<h3>Коротко опишите задачу — текст сразу откроется в Telegram.</h3>
+<p>Без регистрации и без отправки данных на сайт. Форма только собирает сообщение и открывает чат @Alexuys с готовым черновиком.</p>
+<form class="lead-brief" data-lead-brief>
+<label><span>Что нужно сделать</span><textarea name="task" rows="4" required placeholder="Например: бот принимает заявки, но перестала работать передача в CRM"></textarea></label>
+<label><span>Тип задачи</span><select name="kind"><option value="Доработка существующего проекта">Доработка существующего проекта</option><option value="Telegram-бот">Telegram-бот</option><option value="n8n / Make автоматизация">n8n / Make автоматизация</option><option value="Интеграция API / CRM">Интеграция API / CRM</option><option value="Другая задача">Другая задача</option></select></label>
+<label><span>Ориентир по бюджету</span><select name="budget"><option value="Не определён">Пока не определён</option><option value="до 10 000 ₽">до 10 000 ₽</option><option value="10 000–30 000 ₽">10 000–30 000 ₽</option><option value="30 000–70 000 ₽">30 000–70 000 ₽</option><option value="от 70 000 ₽">от 70 000 ₽</option></select></label>
+<div class="brief-buttons"><button class="button primary" type="submit">Открыть Telegram с текстом ↗</button><button class="button" data-copy-brief="" type="button">Скопировать шаблон</button></div>
+<div aria-live="polite" class="brief-status"></div>
+</form>
+</div>'''
+html = replace_once(html, old_brief, new_brief, "homepage lead form")
 write(p, html)
+
+# Form styling is appended to the built shared stylesheet so source templates stay small.
+css = root / "assets" / "site-enhancements.css"
+if not css.is_file():
+    raise SystemExit("stage39: site-enhancements.css not found")
+css_text = css.read_text(encoding="utf-8")
+css_marker = "/* stage39 lead brief */"
+if css_marker not in css_text:
+    css_text += '''\n\n/* stage39 lead brief */
+.lead-brief{display:grid;gap:.75rem;margin-top:1.15rem}.lead-brief label{display:grid;gap:.4rem}.lead-brief label>span{color:#929aa4;font-size:.72rem;font-weight:700}.lead-brief textarea,.lead-brief select{width:100%;min-height:2.85rem;border:1px solid rgba(255,255,255,.11);border-radius:.8rem;background:#0b0e12;color:#f4f5f2;padding:.72rem .8rem;font:inherit;font-size:.82rem;outline:none}.lead-brief textarea{resize:vertical;min-height:7rem;line-height:1.55}.lead-brief textarea:focus,.lead-brief select:focus{border-color:rgba(201,255,74,.55);box-shadow:0 0 0 3px rgba(201,255,74,.07)}.lead-brief textarea::placeholder{color:#68717b}.lead-brief .brief-buttons{margin-top:.15rem}.lead-brief .brief-status{min-height:1.25rem;color:#8f98a2;font-size:.72rem;line-height:1.45}@media(max-width:560px){.lead-brief .brief-buttons{display:grid}.lead-brief .button{width:100%}}\n'''
+    css.write_text(css_text, encoding="utf-8")
+
+# Telegram public username links support a pre-filled draft via ?text=.
+js = root / "assets" / "site-enhancements.js"
+if not js.is_file():
+    raise SystemExit("stage39: site-enhancements.js not found")
+js_text = js.read_text(encoding="utf-8")
+js_marker = "// Stage 39: pre-filled Telegram lead form."
+if js_marker not in js_text:
+    js_text += r'''
+
+// Stage 39: pre-filled Telegram lead form.
+(() => {
+  const form = document.querySelector('[data-lead-brief]');
+  if (!form) return;
+  const status = form.querySelector('.brief-status');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const task = String(data.get('task') || '').trim();
+    if (!task) {
+      if (status) status.textContent = 'Опишите задачу хотя бы одной строкой.';
+      form.querySelector('[name="task"]')?.focus();
+      return;
+    }
+    const kind = String(data.get('kind') || 'Другая задача');
+    const budget = String(data.get('budget') || 'Не определён');
+    const draft = `Приветствую. Пишу с сайта Alexuys.\n\nТип задачи: ${kind}\nБюджет: ${budget}\n\nЧто нужно:\n${task}`;
+    const url = `https://t.me/Alexuys?text=${encodeURIComponent(draft)}`;
+    if (status) status.textContent = 'Открываю Telegram с готовым сообщением…';
+    if (typeof window.ym === 'function') {
+      try { window.ym(112290993, 'reachGoal', 'lead_brief_submit', { page: location.pathname, kind, budget }); } catch (_) {}
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+})();
+'''
+    js.write_text(js_text, encoding="utf-8")
 
 # 2) Project repair becomes the primary landing for small/medium existing-project work.
 p, html = read("/project-repair/")
@@ -79,7 +150,6 @@ html = replace_once(
     'Доработка сайтов, Telegram-ботов и существующих проектов: исправление ошибок, API и интеграций, чужой код, адаптив, завершение и подготовка к релизу.',
     "repair description first occurrence",
 )
-# Keep social title synchronized if the old wording survived in twitter/og.
 html = html.replace('Доработка сайта и чужого проекта — исправление ошибок | Alexuys', 'Доработка сайтов и Telegram-ботов — исправление ошибок | Alexuys')
 html = replace_once(
     html,
@@ -139,4 +209,4 @@ new = '<a href="/en/backend-development/"><strong>Backend development</strong><s
 html = replace_once(html, old, new, "en n8n service -> comparison guide")
 write(p, html)
 
-print("stage39 growth: homepage focus + pricing, project-repair commercialized, weak internal links strengthened")
+print("stage39 growth: homepage focus + pricing + Telegram lead form, project-repair commercialized, weak internal links strengthened")
