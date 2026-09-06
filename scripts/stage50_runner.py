@@ -21,6 +21,11 @@ replacement = r'''def replace_main(route: str, main: str) -> None:
         legacy = re.compile(r'<main\b[^>]*>.*?</main>', re.S | re.I)
         text, n = legacy.subn(lambda _m: main, text, count=1)
     if n != 1:
+        # A legacy hub may have its content directly between header and footer.
+        # Keep the shared shell and replace only that content region.
+        shell = re.compile(r'(</header>).*?(<footer\b)', re.S | re.I)
+        text, n = shell.subn(lambda m: m.group(1) + main + m.group(2), text, count=1)
+    if n != 1:
         raise SystemExit(f"stage50 main replace failed {route}")
     path.write_text(text, encoding="utf-8")
 
