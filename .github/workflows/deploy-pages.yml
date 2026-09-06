@@ -129,10 +129,17 @@ jobs:
                   'scripts/stage46_conversion_order.py',
                   'scripts/stage47_search_quality.py',
                   'scripts/stage48_service_experience.py',
+                  'scripts/stage49_service_polish.py',
+                  'scripts/stage50_hub_experience.py',
+                  'scripts/stage50_runner.py',
               )):
                   changed += [
                       base + '/',
                       base + '/services/',
+                      base + '/cases/',
+                      base + '/guides/',
+                      base + '/about/',
+                      base + '/freelance-developer/',
                       base + '/telegram-bots/',
                       base + '/web-development/',
                       base + '/n8n-automation/',
