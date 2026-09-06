@@ -1,0 +1,66 @@
+/* Stage 24 — shared page geometry.
+   One outer shell across homepage, services, cases, guides and EN pages.
+   Reading measure stays controlled by each page's inner article rules. */
+
+:root{
+  --site-shell:92rem;
+  --max:92rem !important;
+  --page:clamp(1.15rem,4vw,4.5rem) !important;
+}
+
+html,body{width:100%;max-width:100%;}
+body{overflow-x:clip;}
+
+/* Every top-level page family already uses .container. Override only the
+   outer geometry; do not replace component padding or vertical margins. */
+body .container{
+  width:min(100%,var(--site-shell)) !important;
+  max-width:var(--site-shell) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  min-width:0;
+}
+
+/* Components such as .cta-box and .case-cta used margin: ... 0 on the same
+   element as .container, which cancelled centering. Keep their vertical
+   margins but always restore horizontal centering. */
+body .container.cta-box,
+body .container.case-cta,
+body section.container.cta-box,
+body section.container.case-cta{
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+/* Keep readable article text narrow even though the page shell is now shared. */
+body[data-page^="guides--"] .article p,
+body[data-page^="guides--"] .article ul,
+body[data-page^="guides--"] .article ol{
+  max-width:54rem;
+}
+
+/* Prevent widened shells from producing oversized sidebars or awkward gaps. */
+body[data-page^="guides--"] .layout{
+  grid-template-columns:minmax(0,1fr) minmax(15rem,17rem);
+  gap:clamp(2rem,3vw,3.5rem);
+}
+
+/* Header/footer should use the exact same shell as main content. */
+.header .container,
+.site-header .container,
+.footer .container,
+.site-footer .container{
+  width:min(100%,var(--site-shell)) !important;
+  max-width:var(--site-shell) !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+
+@media(max-width:900px){
+  body[data-page^="guides--"] .layout{grid-template-columns:1fr;gap:1.25rem;}
+}
+
+@media(max-width:480px){
+  :root{--page:clamp(.9rem,4.5vw,1.15rem) !important;}
+  body .container{max-width:100% !important;}
+}
