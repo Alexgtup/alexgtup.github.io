@@ -1,4 +1,4 @@
-/* Stage 24-31 — shared page geometry and navigation chrome.
+/* Stage 24-33 — shared page geometry, navigation chrome and vertical rhythm.
    One outer shell across homepage, services, cases, guides and EN pages.
    Reading measure stays controlled by each page's inner article rules. */
 
@@ -133,6 +133,48 @@ body:not([data-page="home"]) .site-header .nav>a:not(.cta){
   line-height:1;
 }
 
+/* Stage 33: one vertical rhythm for RU service/profile templates.
+   Hubs, guides and case details keep their own family rules below. */
+html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .hero{
+  padding:2.3rem 0 5.8rem !important;
+}
+html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .section{
+  padding:5.6rem 0 !important;
+}
+html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .section-head{
+  margin-bottom:2.1rem !important;
+}
+html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .contact{
+  padding:6.4rem 0 4rem !important;
+}
+html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .cta-box{
+  margin-top:3.5rem !important;
+  margin-bottom:5rem !important;
+}
+
+/* Case details share the same outer cadence, while the cases hub remains denser. */
+html[lang="ru"] body[data-page^="cases--"] .hero{
+  padding:2.3rem 0 5.8rem !important;
+}
+html[lang="ru"] body[data-page^="cases--"] .section{
+  padding:5.6rem 0 !important;
+}
+html[lang="ru"] body[data-page^="cases--"] .section-head{
+  margin-bottom:2.1rem !important;
+}
+html[lang="ru"] body[data-page^="cases--"] .contact{
+  padding:6.4rem 0 4rem !important;
+}
+
+/* Guides stay more compact because the reading column is the focus. */
+html[lang="ru"] body[data-page^="guides--"] .hero{
+  padding:2.1rem 0 4rem !important;
+}
+html[lang="ru"] body[data-page^="guides--"] .cta-box{
+  margin-top:3.5rem !important;
+  margin-bottom:5rem !important;
+}
+
 /* Stage 25 replaces accumulated RU footer variants with one compact shell. */
 footer.footer,
 footer.foot,
@@ -198,6 +240,21 @@ body[data-page^="guides--"] .layout{
 }
 
 @media(max-width:760px){
+  html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .hero,
+  html[lang="ru"] body[data-page^="cases--"] .hero{
+    padding:1.3rem 0 4rem !important;
+  }
+  html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .section,
+  html[lang="ru"] body[data-page^="cases--"] .section{
+    padding:4.3rem 0 !important;
+  }
+  html[lang="ru"] body:not([data-page="home"]):not([data-page="cases"]):not([data-page="guides"]):not([data-page^="cases--"]):not([data-page^="guides--"]) .contact,
+  html[lang="ru"] body[data-page^="cases--"] .contact{
+    padding:4.8rem 0 3.2rem !important;
+  }
+  html[lang="ru"] body[data-page^="guides--"] .hero{
+    padding:1.3rem 0 3.5rem !important;
+  }
   .stage25-footer-inner,
   footer.footer>.container,
   footer.foot>.container,
