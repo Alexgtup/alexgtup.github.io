@@ -20,13 +20,13 @@ STYLE = r'''
 
 HOME_CARD = r'''
 <a class="s44-case s44-case--visual s44-case--sheetpilot" href="/cases/sheetpilot-ai/">
-  <div class="s44-case__image"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" loading="lazy" decoding="async" alt="SheetPilot AI — ИИ-ассистент для обработки Excel-файлов"/></div>
+  <div class="s44-case__image"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="SheetPilot AI — ИИ-ассистент для обработки Excel-файлов"/></div>
   <div class="s44-case__body"><span>AI · EXCEL · FULLSTACK</span><h3>SheetPilot AI</h3><p>Рабочий MVP для обработки Excel обычным языком: загрузка XLSX, ограниченный план изменений, предпросмотр результата и экспорт нового файла.</p><b>Открыть полный кейс ↗</b></div>
 </a>
 '''
 
 CASES_CARD = r'''
-<a class="visual sp-sheetpilot-case" href="/cases/sheetpilot-ai/"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" loading="lazy" decoding="async" alt="Интерфейс SheetPilot AI для обработки Excel"/><div><span>AI · EXCEL · FULLSTACK</span><h3>SheetPilot AI</h3><p>Excel-ассистент: команда обычным языком, безопасный preview изменений и экспорт нового файла.</p><b>Открыть кейс ↗</b></div></a>
+<a class="visual sp-sheetpilot-case" href="/cases/sheetpilot-ai/"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="Интерфейс SheetPilot AI для обработки Excel"/><div><span>AI · EXCEL · FULLSTACK</span><h3>SheetPilot AI</h3><p>Excel-ассистент: команда обычным языком, безопасный preview изменений и экспорт нового файла.</p><b>Открыть кейс ↗</b></div></a>
 '''
 
 
@@ -54,6 +54,9 @@ def patch_home(path: Path) -> None:
         if marker not in text:
             raise SystemExit('sheetpilot: home project grid not found')
         text = text.replace(marker, marker + HOME_CARD, 1)
+    else:
+        text = text.replace('/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp', '/assets/cases/sheetpilot-ai/sheetpilot-01.svg')
+        text = text.replace('width="720" height="540" loading="lazy" decoding="async" alt="SheetPilot AI — ИИ-ассистент для обработки Excel-файлов"', 'width="1440" height="1080" loading="lazy" decoding="async" alt="SheetPilot AI — ИИ-ассистент для обработки Excel-файлов"')
     text = text.replace('<strong>5</strong><span>подробных кейсов на сайте</span>', '<strong>6</strong><span>подробных кейсов на сайте</span>', 1)
     path.write_text(text, encoding='utf-8')
 
@@ -68,12 +71,30 @@ def patch_cases(path: Path) -> None:
         if marker not in text:
             raise SystemExit('sheetpilot: cases list not found')
         text = text.replace(marker, marker + CASES_CARD, 1)
+    else:
+        text = text.replace('/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp', '/assets/cases/sheetpilot-ai/sheetpilot-01.svg')
     text = text.replace('<strong>5</strong><span>подробных кейсов</span>', '<strong>6</strong><span>подробных кейсов</span>', 1)
+    path.write_text(text, encoding='utf-8')
+
+
+def patch_case_page(path: Path) -> None:
+    if not path.is_file():
+        raise SystemExit(f'sheetpilot: case page not found: {path}')
+    text = path.read_text(encoding='utf-8')
+    # Replace only visible image/source references. Keep raster OG/Twitter metadata intact.
+    for n in range(1, 5):
+        old = f'/assets/cases/sheetpilot-ai/sheetpilot-0{n}-720w.webp'
+        new = f'/assets/cases/sheetpilot-ai/sheetpilot-0{n}.svg'
+        text = re.sub(rf'(?<=src="){re.escape(old)}(?=")', new, text)
+        text = re.sub(rf'(?<=srcset="){re.escape(old)}(?=[ \"\,])', new, text)
+    # SVGs are 4:3 at 1440×1080; keep declared dimensions accurate for layout stability.
+    text = re.sub(r'(<img\b[^>]*src="/assets/cases/sheetpilot-ai/sheetpilot-0[1-4]\.svg"[^>]*?)width="720"\s+height="540"', r'\1width="1440" height="1080"', text)
     path.write_text(text, encoding='utf-8')
 
 
 patch_home(root / 'index.html')
 patch_cases(root / 'cases' / 'index.html')
+patch_case_page(root / 'cases' / 'sheetpilot-ai' / 'index.html')
 
 sm = root / 'sitemap.xml'
 ET.register_namespace('', 'http://www.sitemaps.org/schemas/sitemap/0.9')
@@ -96,4 +117,4 @@ for name in ('sitemap.txt', 'llms.txt'):
         if line not in text:
             p.write_text(text.rstrip() + '\n' + line + '\n', encoding='utf-8')
 
-print('stage58: SheetPilot AI integrated into existing project grids + sitemap')
+print('stage58: SheetPilot AI integrated into project grids; reliable SVG visuals enabled; sitemap updated')
