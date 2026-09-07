@@ -1,1 +1,0 @@
-document.addEventListener('DOMContentLoaded',()=>{console.log('SheetPilot demo live')});
