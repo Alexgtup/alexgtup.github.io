@@ -53,6 +53,7 @@ jobs:
           python scripts/stage37_accessibility_patch.py _site
           python scripts/stage39_growth_patch.py _site
           python scripts/stage40_trust_patch.py _site
+          python scripts/stage58_sheetpilot_case.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
