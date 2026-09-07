@@ -56,6 +56,18 @@ jobs:
           python scripts/stage58_sheetpilot_case.py _site
           python scripts/stage59_sheetpilot_grid_fix.py _site
           python scripts/stage60_project_carousel.py _site
+
+          python - <<'PY3'
+          from pathlib import Path
+          p = Path('_site/cases/sheetpilot-ai/index.html')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('Публичное демо — <em>следующий шаг.</em>', 'Публичное демо — <em>уже работает.</em>')
+          text = text.replace('Кейс уже опубликован как рабочий MVP. После размещения backend добавлю сюда кнопку «Открыть демо», чтобы можно было загрузить тестовый Excel и проверить обработку прямо из портфолио.', 'SheetPilot AI уже развёрнут как публичный сервис. Можно открыть демо, загрузить Excel-файл, описать изменение обычным языком, проверить предпросмотр и скачать новый файл.')
+          text = text.replace('<span class="btn status">Демо готовится к публикации</span>', '<a class="btn primary" href="https://sheetpilot-ai-6omr.onrender.com" target="_blank" rel="noopener noreferrer">Открыть демо ↗</a>')
+          text = text.replace('Публичную демо-версию добавлю после отдельного развёртывания сервиса.', 'Публичная демо-версия уже развёрнута и доступна для тестирования.')
+          p.write_text(text, encoding='utf-8')
+          PY3
+
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
