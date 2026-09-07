@@ -181,7 +181,7 @@ new_page = page(NEW_ROUTE)
 new_page.parent.mkdir(parents=True, exist_ok=True)
 new_page.write_text(text, encoding="utf-8")
 
-ENTRY_BLOCK = f'''<section class="s48-section" data-stage60-repair-entry="true" aria-labelledby="s60-entry-title"><div class="container"><div class="s48-head"><span class="s48-index">УЖЕ ЕСТЬ БОТ</span><div><h2 id="s60-entry-title">Нужна не разработка с нуля, <em>а доработка существующего Telegram-бота?</em></h2><p>Для чужого Python-кода, aiogram 3, ошибок запуска, меню, базы данных, рассылок и API есть отдельная посадочная без смешивания с новым проектом.</p></div></div><div class="s48-related"><a href="{NEW_ROUTE}"><strong>Доработка Telegram-бота</strong><span>Python / aiogram 3 →</span></a></div></div></section>'''
+ENTRY_BLOCK = f'''<section class="s48-section" data-stage60-repair-entry="true" aria-labelledby="s60-entry-title"><div class="container"><div class="s48-head"><span class="s48-index">УЖЕ ЕСТЬ БОТ</span><div><h2 id="s60-entry-title">Нужно исправить <em>или расширить Telegram-бота?</em></h2><p>Исправление ошибок запуска, новые функции и интеграции в существующем боте на Python и aiogram 3. Можно начать с конкретной ошибки или списка изменений.</p></div></div><div class="s48-related"><a href="{NEW_ROUTE}"><strong>Доработка Telegram-бота</strong><span>Python / aiogram 3 →</span></a></div></div></section>'''
 
 for route in ("/telegram-bots/", "/project-repair/", "/python-development/"):
     p = page(route)
