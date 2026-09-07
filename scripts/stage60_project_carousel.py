@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import re
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
@@ -9,188 +10,143 @@ if not page.is_file():
 
 text = page.read_text(encoding='utf-8')
 
+# Keep the original project grid. Only SheetPilot's visual area becomes a smooth image slider.
 STYLE = r'''
-<style id="stage60-project-carousel-style">
-.s44-projects .s44-case-grid.s60-carousel{
-  display:grid!important;
-  grid-template-columns:none!important;
-  grid-auto-flow:column!important;
-  grid-auto-columns:clamp(24rem,47vw,43rem)!important;
-  gap:1rem!important;
-  overflow-x:auto!important;
-  overflow-y:hidden!important;
-  scroll-snap-type:x mandatory;
-  scroll-behavior:smooth;
-  overscroll-behavior-inline:contain;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  padding:.2rem 0 1rem!important;
-  margin-top:1rem;
-  touch-action:pan-x pan-y;
-  -webkit-overflow-scrolling:touch;
+<style id="stage60-sheetpilot-slider-style">
+.s44-case--sheetpilot .s44-case__image{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  background:#07100b;
 }
-.s44-projects .s44-case-grid.s60-carousel::-webkit-scrollbar{display:none}
-.s44-projects .s44-case-grid.s60-carousel>*{
-  grid-column:auto!important;
-  min-width:0!important;
-  scroll-snap-align:start;
-  scroll-snap-stop:always;
-  opacity:.68;
-  transform:scale(.978);
-  transform-origin:center;
-  transition:opacity .45s ease,transform .55s cubic-bezier(.2,.7,.2,1),border-color .35s ease,box-shadow .45s ease;
+.s44-case--sheetpilot .sp-image-track{
+  display:flex;
+  width:500%;
+  height:100%;
+  will-change:transform;
+  animation:sp-image-scroll 22s cubic-bezier(.72,0,.28,1) infinite;
 }
-.s44-projects .s44-case-grid.s60-carousel>*.is-active{
-  opacity:1;
-  transform:scale(1);
-  box-shadow:0 24px 70px rgba(0,0,0,.28);
+.s44-case--sheetpilot .sp-image-track img{
+  width:20%!important;
+  height:100%!important;
+  flex:0 0 20%;
+  object-fit:cover!important;
+  object-position:center;
+  display:block;
 }
-.s44-projects .s44-case--sheetpilot{grid-template-columns:minmax(0,.56fr) minmax(0,.44fr)!important;min-height:22rem!important}
-.s60-carousel-tools{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:.3rem 0 .35rem}
-.s60-carousel-hint{display:flex;align-items:center;gap:.65rem;color:#7f8993;font-size:.72rem}
-.s60-carousel-hint i{width:.42rem;height:.42rem;border-radius:50%;background:#d4fe6a;box-shadow:0 0 18px rgba(212,254,106,.45)}
-.s60-carousel-ui{display:flex;align-items:center;gap:.55rem}
-.s60-carousel-progress{width:clamp(5.5rem,10vw,9rem);height:3px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden}
-.s60-carousel-progress>i{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:left center;background:#d4fe6a;transition:transform .18s ease}
-.s60-carousel-btn{width:2.55rem;height:2.55rem;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:#10151a;color:#f4f6f4;display:grid;place-items:center;cursor:pointer;font-size:1rem;transition:transform .22s ease,border-color .22s ease,background .22s ease,color .22s ease,opacity .22s ease}
-.s60-carousel-btn:hover{transform:translateY(-2px);border-color:rgba(212,254,106,.38);background:#151c18;color:#d4fe6a}
-.s60-carousel-btn:active{transform:translateY(0) scale(.96)}
-.s60-carousel-btn[disabled]{opacity:.35;cursor:default;transform:none}
-.s60-carousel-btn:focus-visible{outline:2px solid #d4fe6a;outline-offset:3px}
-.s60-carousel-edge{position:relative}
-.s60-carousel-edge:after{content:"";position:absolute;right:0;top:3.3rem;bottom:1rem;width:clamp(2rem,6vw,5rem);pointer-events:none;background:linear-gradient(90deg,transparent,rgba(8,11,15,.88));opacity:.85}
-@media(max-width:900px){
-  .s44-projects .s44-case-grid.s60-carousel{grid-auto-columns:min(86vw,38rem)!important;gap:.75rem!important}
-  .s44-projects .s44-case--sheetpilot{grid-template-columns:1fr!important;min-height:0!important}
-  .s60-carousel-progress{width:5.5rem}
+.s44-case--sheetpilot:hover .sp-image-track,
+.s44-case--sheetpilot:focus-visible .sp-image-track{
+  animation-play-state:paused;
 }
-@media(max-width:620px){
-  .s44-projects .s44-case-grid.s60-carousel{grid-auto-columns:88vw!important;padding-bottom:.55rem!important}
-  .s60-carousel-hint span{display:none}
-  .s60-carousel-btn{width:2.35rem;height:2.35rem}
-  .s60-carousel-edge:after{width:1.5rem;top:3rem}
+.s44-case--sheetpilot .sp-slider-shade{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  background:linear-gradient(90deg,rgba(5,10,7,.06),transparent 22%,transparent 78%,rgba(5,10,7,.12));
+}
+.s44-case--sheetpilot .sp-slider-progress{
+  position:absolute;
+  left:1rem;
+  right:1rem;
+  bottom:.8rem;
+  z-index:3;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:.35rem;
+  pointer-events:none;
+}
+.s44-case--sheetpilot .sp-slider-progress i{
+  height:3px;
+  border-radius:999px;
+  background:rgba(255,255,255,.22);
+  overflow:hidden;
+}
+.s44-case--sheetpilot .sp-slider-progress i::after{
+  content:"";
+  display:block;
+  width:100%;
+  height:100%;
+  background:#d4fe6a;
+  transform:scaleX(0);
+  transform-origin:left;
+  animation:sp-dot-1 22s linear infinite;
+}
+.s44-case--sheetpilot .sp-slider-progress i:nth-child(2)::after{animation-name:sp-dot-2}
+.s44-case--sheetpilot .sp-slider-progress i:nth-child(3)::after{animation-name:sp-dot-3}
+.s44-case--sheetpilot .sp-slider-progress i:nth-child(4)::after{animation-name:sp-dot-4}
+.s44-case--sheetpilot:hover .sp-slider-progress i::after,
+.s44-case--sheetpilot:focus-visible .sp-slider-progress i::after{animation-play-state:paused}
+
+@keyframes sp-image-scroll{
+  0%,18%{transform:translate3d(0,0,0)}
+  23%,41%{transform:translate3d(-20%,0,0)}
+  46%,64%{transform:translate3d(-40%,0,0)}
+  69%,87%{transform:translate3d(-60%,0,0)}
+  92%,100%{transform:translate3d(-80%,0,0)}
+}
+@keyframes sp-dot-1{
+  0%{transform:scaleX(0)} 17%{transform:scaleX(1)} 18%,91%{transform:scaleX(0)} 92%{transform:scaleX(0)} 100%{transform:scaleX(1)}
+}
+@keyframes sp-dot-2{
+  0%,22%{transform:scaleX(0)} 40%{transform:scaleX(1)} 41%,100%{transform:scaleX(0)}
+}
+@keyframes sp-dot-3{
+  0%,45%{transform:scaleX(0)} 63%{transform:scaleX(1)} 64%,100%{transform:scaleX(0)}
+}
+@keyframes sp-dot-4{
+  0%,68%{transform:scaleX(0)} 86%{transform:scaleX(1)} 87%,100%{transform:scaleX(0)}
 }
 @media(prefers-reduced-motion:reduce){
-  .s44-projects .s44-case-grid.s60-carousel{scroll-behavior:auto}
-  .s44-projects .s44-case-grid.s60-carousel>*{transition:none;transform:none;opacity:1}
+  .s44-case--sheetpilot .sp-image-track{animation:none;transform:none}
+  .s44-case--sheetpilot .sp-slider-progress i::after{animation:none}
+  .s44-case--sheetpilot .sp-image-track img:not(:first-child){display:none}
+  .s44-case--sheetpilot .sp-image-track{width:100%}
+  .s44-case--sheetpilot .sp-image-track img:first-child{width:100%!important;flex-basis:100%}
 }
 </style>
 '''
 
-TOOLS = r'''
-<div class="s60-carousel-tools" data-stage60-carousel-tools="true">
-  <div class="s60-carousel-hint"><i aria-hidden="true"></i><span>Листайте проекты — стрелками, трекпадом или свайпом</span></div>
-  <div class="s60-carousel-ui">
-    <div class="s60-carousel-progress" aria-hidden="true"><i></i></div>
-    <button class="s60-carousel-btn" type="button" data-s60-prev aria-label="Предыдущий проект">←</button>
-    <button class="s60-carousel-btn" type="button" data-s60-next aria-label="Следующий проект">→</button>
+SLIDER = r'''<div class="s44-case__image sp-image-slider" aria-label="Четыре экрана SheetPilot AI">
+  <div class="sp-image-track">
+    <img src="/assets/cases/sheetpilot-ai/sheetpilot-01.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="SheetPilot AI — редактирование Excel обычным языком"/>
+    <img src="/assets/cases/sheetpilot-ai/sheetpilot-02.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true"/>
+    <img src="/assets/cases/sheetpilot-ai/sheetpilot-03.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true"/>
+    <img src="/assets/cases/sheetpilot-ai/sheetpilot-04.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true"/>
+    <img src="/assets/cases/sheetpilot-ai/sheetpilot-01.svg" width="1440" height="1080" loading="lazy" decoding="async" alt="" aria-hidden="true"/>
   </div>
-</div>
-'''
+  <span class="sp-slider-shade" aria-hidden="true"></span>
+  <span class="sp-slider-progress" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</div>'''
 
-SCRIPT = r'''
-<script id="stage60-project-carousel-script">
-(()=>{
-  const init=()=>{
-    const track=document.querySelector('.s44-projects .s44-case-grid.s60-carousel');
-    if(!track || track.dataset.s60Ready==='1') return;
-    track.dataset.s60Ready='1';
-    const prev=document.querySelector('[data-s60-prev]');
-    const next=document.querySelector('[data-s60-next]');
-    const bar=document.querySelector('.s60-carousel-progress>i');
-    const items=[...track.children];
-    if(!items.length) return;
-
-    const gap=()=>parseFloat(getComputedStyle(track).columnGap||getComputedStyle(track).gap||'16')||16;
-    const step=()=>Math.max(1,items[0].getBoundingClientRect().width+gap());
-    const maxScroll=()=>Math.max(0,track.scrollWidth-track.clientWidth);
-
-    let raf=0;
-    const update=()=>{
-      raf=0;
-      const max=maxScroll();
-      const ratio=max>0?Math.min(1,Math.max(0,track.scrollLeft/max)):0;
-      if(bar) bar.style.transform=`scaleX(${Math.max(.045,ratio)})`;
-      if(prev) prev.disabled=track.scrollLeft<=3;
-      if(next) next.disabled=track.scrollLeft>=max-3;
-    };
-    const schedule=()=>{if(!raf) raf=requestAnimationFrame(update)};
-    const move=(dir)=>track.scrollBy({left:dir*step(),behavior:'smooth'});
-
-    prev?.addEventListener('click',()=>{move(-1);pauseAuto()});
-    next?.addEventListener('click',()=>{move(1);pauseAuto()});
-    track.addEventListener('scroll',schedule,{passive:true});
-    track.addEventListener('keydown',(e)=>{
-      if(e.key==='ArrowRight'){e.preventDefault();move(1);pauseAuto()}
-      if(e.key==='ArrowLeft'){e.preventDefault();move(-1);pauseAuto()}
-    });
-
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>entry.target.classList.toggle('is-active',entry.intersectionRatio>=.58));
-    },{root:track,threshold:[.2,.58,.85]});
-    items.forEach(item=>observer.observe(item));
-
-    let timer=null;
-    let resumeTimer=null;
-    const fine=matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)');
-    const startAuto=()=>{
-      if(!fine.matches || document.hidden || timer) return;
-      timer=setInterval(()=>{
-        const max=maxScroll();
-        if(max<8) return;
-        const atEnd=track.scrollLeft>=max-6;
-        track.scrollTo({left:atEnd?0:Math.min(max,track.scrollLeft+step()),behavior:'smooth'});
-      },5200);
-    };
-    const stopAuto=()=>{if(timer){clearInterval(timer);timer=null}};
-    function pauseAuto(){
-      stopAuto();
-      if(resumeTimer) clearTimeout(resumeTimer);
-      resumeTimer=setTimeout(startAuto,9000);
-    }
-    track.addEventListener('mouseenter',stopAuto);
-    track.addEventListener('mouseleave',startAuto);
-    track.addEventListener('pointerdown',pauseAuto,{passive:true});
-    track.addEventListener('touchstart',pauseAuto,{passive:true});
-    track.addEventListener('focusin',stopAuto);
-    track.addEventListener('focusout',startAuto);
-    document.addEventListener('visibilitychange',()=>document.hidden?stopAuto():startAuto());
-    fine.addEventListener?.('change',()=>{stopAuto();startAuto()});
-    window.addEventListener('resize',schedule,{passive:true});
-
-    update();
-    startAuto();
-  };
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init,{once:true});
-  else init();
-})();
-</script>
-'''
-
-if 'id="stage60-project-carousel-style"' not in text:
+if 'id="stage60-sheetpilot-slider-style"' not in text:
     if '</head>' not in text:
         raise SystemExit('stage60: </head> not found')
     text = text.replace('</head>', STYLE + '</head>', 1)
 
-if 'data-stage60-carousel-tools="true"' not in text:
-    marker = '<div class="s44-case-grid">'
-    if marker not in text:
-        marker = '<div class="s44-case-grid s60-carousel" id="project-carousel" tabindex="0" aria-label="Карусель проектов">'
-    if marker.startswith('<div class="s44-case-grid">'):
-        replacement = TOOLS + '<div class="s44-case-grid s60-carousel" id="project-carousel" tabindex="0" aria-label="Карусель проектов">'
-        text = text.replace(marker, replacement, 1)
-    else:
-        text = text.replace(marker, TOOLS + marker, 1)
-else:
-    text = text.replace('<div class="s44-case-grid">','<div class="s44-case-grid s60-carousel" id="project-carousel" tabindex="0" aria-label="Карусель проектов">',1)
+if 'class="s44-case__image sp-image-slider"' not in text:
+    card_start = text.find('<a class="s44-case s44-case--visual s44-case--sheetpilot"')
+    if card_start < 0:
+        raise SystemExit('stage60: SheetPilot card not found')
+    body_start = text.find('<div class="s44-case__body">', card_start)
+    if body_start < 0:
+        raise SystemExit('stage60: SheetPilot body not found')
+    segment = text[card_start:body_start]
+    image_match = re.search(r'<div class="s44-case__image">\s*<img\b[^>]*>\s*</div>', segment, flags=re.S)
+    if not image_match:
+        raise SystemExit('stage60: SheetPilot image block not found')
+    absolute_start = card_start + image_match.start()
+    absolute_end = card_start + image_match.end()
+    text = text[:absolute_start] + SLIDER + text[absolute_end:]
 
-if 'id="stage60-project-carousel-script"' not in text:
-    if '</body>' not in text:
-        raise SystemExit('stage60: </body> not found')
-    text = text.replace('</body>', SCRIPT + '</body>', 1)
-
-if 's60-carousel' not in text or 'data-s60-next' not in text or 'stage60-project-carousel-script' not in text:
-    raise SystemExit('stage60: carousel injection failed')
+# Build-time guards: the global grid must remain untouched, while all four SheetPilot visuals exist.
+if 's60-carousel' in text or 'data-stage60-carousel-tools' in text:
+    raise SystemExit('stage60: project carousel remnants detected')
+for n in range(1, 5):
+    if f'/assets/cases/sheetpilot-ai/sheetpilot-0{n}.svg' not in text:
+        raise SystemExit(f'stage60: missing SheetPilot visual {n}')
+if 'class="s44-case-grid"' not in text:
+    raise SystemExit('stage60: original project grid missing')
 
 page.write_text(text, encoding='utf-8')
-print('stage60: smooth project carousel enabled on homepage')
+print('stage60: original project grid restored; SheetPilot visuals slide smoothly inside its card')
