@@ -88,6 +88,19 @@ jobs:
               exit 1
             fi
 
+            PAGE_CONTENT_TYPE=$(awk 'BEGIN{IGNORECASE=1} /^content-type:/{gsub("\r",""); print substr($0,index($0,":")+2)}' "$HEADERS" | tail -1)
+            X_ROBOTS=$(awk 'BEGIN{IGNORECASE=1} /^x-robots-tag:/{gsub("\r",""); print substr($0,index($0,":")+2)}' "$HEADERS" | tr '\n' ',' | tr '[:upper:]' '[:lower:]')
+
+            case "${PAGE_CONTENT_TYPE,,}" in
+              text/html*) ;;
+              *) echo "::error::$TARGET unexpected Content-Type: ${PAGE_CONTENT_TYPE:-<missing>}"; exit 1 ;;
+            esac
+
+            if [[ "$X_ROBOTS" == *noindex* ]]; then
+              echo "::error::$TARGET has X-Robots-Tag noindex: $X_ROBOTS"
+              exit 1
+            fi
+
             EXPECTED="$TARGET" PAGE="$PAGE" python - <<'PY'
           import os
           from html.parser import HTMLParser
@@ -119,6 +132,6 @@ jobs:
           if 'noindex' in robots:
               raise SystemExit(f'{expected}: noindex detected in robots meta: {parser.robots!r}')
 
-          print(f'P0 page OK: {expected} HTTP 200, self-canonical, indexable, present in sitemap')
+          print(f'P0 page OK: {expected} HTTP 200, text/html, no X-Robots noindex, self-canonical, indexable, present in sitemap')
           PY
           done
