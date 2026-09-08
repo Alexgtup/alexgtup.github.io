@@ -92,8 +92,6 @@ jobs:
           node --test tests/analytics.test.cjs
           # Patch/check the final generated HTML after all trust/conversion layers.
           python scripts/stage73_trust_freshness.py _site
-          # Add differentiated, evidence-backed proof only to the money pages that lacked a real case block.
-          python scripts/stage74_money_page_proof.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
