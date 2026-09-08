@@ -90,6 +90,8 @@ jobs:
           python scripts/stage63_scc_production_demo.py _site
           python scripts/stage65_analytics_centralization.py _site --check
           node --test tests/analytics.test.cjs
+          # Patch/check the final generated HTML after all trust/conversion layers.
+          python scripts/stage73_trust_freshness.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
