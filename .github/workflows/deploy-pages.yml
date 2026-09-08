@@ -68,6 +68,8 @@ jobs:
           python scripts/stage70_freelanceos_responsive.py _site
           # Keep a second machine-readable discovery path aligned with key sitemap targets.
           python scripts/stage71_feed_discovery.py _site
+          # Keep the Freelance.ru landing aligned with the actual packaged offers.
+          python scripts/stage72_freelance_offer_hub.py _site
           node --check _site/assets/freelance-os.js
 
           python - <<'PY3'
