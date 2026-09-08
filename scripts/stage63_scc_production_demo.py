@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from pathlib import Path
+from xml.sax.saxutils import escape
 import sys
+import xml.etree.ElementTree as ET
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 old_urls = (
@@ -29,4 +31,30 @@ for path in required:
     if new_url not in path.read_text(encoding='utf-8'):
         raise SystemExit(f'stage63: production SEO Control Center demo link missing: {path}')
 
+# Generate a deliberately minimal Google sitemap alongside the full hreflang sitemap.
+# This gives Search Console a clean fallback with only <loc> elements and no extensions.
+sitemap_path = root / 'sitemap.xml'
+if not sitemap_path.is_file():
+    raise SystemExit(f'stage63: missing sitemap: {sitemap_path}')
+
+tree = ET.parse(sitemap_path)
+ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+urls = []
+for node in tree.findall('.//s:loc', ns):
+    value = (node.text or '').strip()
+    if value and value not in urls:
+        urls.append(value)
+
+if not urls:
+    raise SystemExit('stage63: source sitemap contains no URLs')
+
+simple_lines = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+]
+simple_lines.extend(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
+simple_lines.append('</urlset>')
+(root / 'sitemap-google.xml').write_text('\n'.join(simple_lines) + '\n', encoding='utf-8')
+
 print(f'stage63: production SEO Control Center demo link applied to {changed} pages')
+print(f'stage63: generated minimal sitemap-google.xml with {len(urls)} URLs')
