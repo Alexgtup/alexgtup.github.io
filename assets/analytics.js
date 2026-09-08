@@ -61,7 +61,7 @@
     if (!link) return;
     let url;
     try { url = new URL(link.href, location.href); } catch (_) { return; }
-    if (url.hostname === 't.me') goal('telegram_click');
+    if (url.hostname === 't.me') goal('telegram_click', link.dataset.cta ? { placement: link.dataset.cta } : {});
     else if (url.protocol === 'mailto:') goal('email_click');
     else if (url.hostname === 'freelance.ru') goal('freelance_click');
     if (link.dataset.demo) goal('demo_open', { project: link.dataset.demo });
