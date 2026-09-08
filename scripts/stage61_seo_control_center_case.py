@@ -5,6 +5,7 @@ import re, sys, xml.etree.ElementTree as ET
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 route = '/cases/seo-control-center/'
 url = 'https://alexgtup.github.io' + route
+demo_url = 'https://seo-control-center-live-demo.onrender.com/'
 
 STYLE = r'''<style id="seo-control-center-integrated-style">
 .s44-case--seo-control{grid-column:span 12!important;grid-template-columns:minmax(0,.56fr) minmax(0,.44fr)!important;min-height:23rem!important;border-color:rgba(129,149,255,.22)!important;background:radial-gradient(circle at 90% 0,rgba(129,149,255,.12),transparent 25rem),#0d1116!important}
@@ -44,6 +45,18 @@ if 'data-project="seo-control-center"' not in text:
 text = re.sub(r'<strong>6</strong><span>подробных кейсов</span>', '<strong>7</strong><span>подробных кейсов</span>', text, count=1)
 cases.write_text(text, encoding='utf-8')
 
+# Add a live read-only demo button to the SEO Control Center case page.
+case_page = root / 'cases' / 'seo-control-center' / 'index.html'
+if case_page.is_file():
+    t = case_page.read_text(encoding='utf-8')
+    if demo_url not in t:
+        old = '<a class="btn" href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Обсудить задачу ↗</a>'
+        new = f'<div style="display:flex;gap:.65rem;flex-wrap:wrap"><a class="btn" href="{demo_url}" target="_blank" rel="noopener noreferrer">Открыть демо ↗</a>{old}</div>'
+        if old not in t:
+            raise SystemExit('stage61: SEO Control Center CTA marker not found')
+        t = t.replace(old, new, 1)
+        case_page.write_text(t, encoding='utf-8')
+
 sm = root / 'sitemap.xml'
 ET.register_namespace('', 'http://www.sitemaps.org/schemas/sitemap/0.9')
 ET.register_namespace('xhtml', 'http://www.w3.org/1999/xhtml')
@@ -60,10 +73,12 @@ for name in ('sitemap.txt','llms.txt'):
         line = url if name == 'sitemap.txt' else f'- {url} — SEO Control Center, мониторинг индексации, поисковых метрик и технического SEO'
         if line not in t: p.write_text(t.rstrip() + '\n' + line + '\n', encoding='utf-8')
 
-# Build guard: fail deploy instead of silently publishing without the cards.
+# Build guard: fail deploy instead of silently publishing without the cards/demo link.
 if 'data-project="seo-control-center"' not in home.read_text(encoding='utf-8'):
     raise SystemExit('stage61: homepage SEO Control Center card missing after patch')
 if 'data-project="seo-control-center"' not in cases.read_text(encoding='utf-8'):
     raise SystemExit('stage61: cases SEO Control Center card missing after patch')
+if case_page.is_file() and demo_url not in case_page.read_text(encoding='utf-8'):
+    raise SystemExit('stage61: SEO Control Center demo link missing after patch')
 
-print('stage61: SEO Control Center integrated into home/cases; presentation cards enabled; sitemap updated')
+print('stage61: SEO Control Center integrated into home/cases; live demo enabled; sitemap updated')
