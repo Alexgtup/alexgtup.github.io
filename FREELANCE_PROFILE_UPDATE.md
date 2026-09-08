@@ -1,152 +1,161 @@
-# Freelance.ru profile sync - 2026-09-08
+# Freelance.ru profile sync — актуально 09.09.2026
 
-Цель: синхронизировать публичный профиль Freelance.ru с текущим портфолио и вести трафик на измеримую посадочную.
+Цель: получить заказы с самой площадки и одновременно использовать уже индексируемый Freelance.ru как внешний discovery/trust-источник для портфолио.
 
 ## Текущее публичное состояние
 
-На 08.09.2026 публично видно:
+Проверено по публичному профилю:
 - 20 отзывов
-- профиль на площадке с 2023 года
 - самозанятый
-- 5 работ в портфолио
-- 1 опубликованная услуга
-- публичная ставка ранее отображалась как 15 000 ₽/час и 200 000 ₽/месяц - проверить вручную, намеренно ли это
+- профиль с 2023 года
+- 6 работ в портфолио
+- 1 опубликованная типовая услуга — Telegram-бот
+- в «Обо мне» уже есть ссылки на главную, `/telegram-bots/`, `/project-repair/`, `/cases/` и Telegram
+- уже опубликованы SEO Control Center и SheetPilot AI
+- публично отображается `15 000 ₽/час` и `200 000 ₽/месяц`
 
-Не использовать в текстах быстро устаревающие claims вроде «6 лет», «9/10», «9/9», фиксированного количества кейсов/отзывов. Для доверия ссылаться на сам профиль Freelance.ru и актуальные кейсы.
+### P0 — проверить ставку
 
-## 1. Обо мне
+Если `15 000 ₽/час` выставлено не намеренно, заменить на `1 500 ₽/час`.
 
-Разрабатываю и дорабатываю веб-сервисы, fullstack-проекты, Telegram-ботов, CRM, внутренние системы и автоматизации. Работаю и с проектами с нуля, и с существующим кодом: исправление ошибок, развитие функционала, интеграции и подготовка рабочего релиза.
+Почему: текущие сопоставимые профили на Freelance.ru часто показывают около 1 700–2 000 ₽/час, а типовые предложения по n8n/Telegram/доработке находятся примерно в диапазоне 8–25 тыс. ₽ за законченную небольшую задачу. Ставка 15 000 ₽/час визуально конфликтует с пакетами 10–15 тыс. ₽ и может отрезать клиента ещё на карточке профиля.
 
-Основные задачи - frontend + backend, API, базы данных, авторизация, платежи, Telegram, CRM, Google Sheets, webhooks, админ-панели, n8n/Make, MVP и SaaS.
+Месячную ставку `200 000 ₽/месяц` можно оставить, если она соответствует цели.
 
-Отдельное направление - техническое SEO и поисковая инфраструктура: индексация, sitemap/robots/canonical, Search Console, Яндекс.Вебмастер, Метрика и аналитика конверсий. Есть собственные рабочие продукты SEO Control Center и SiteAudit Studio.
+## 1. «Обо мне» — не переписывать заново
 
-Стек: Python, JavaScript/TypeScript, Node.js, React, Next.js, Swift, WordPress, PostgreSQL, Prisma, REST API, Telegram Bot API, n8n, Make, VPS.
+Текущий текст уже широкий и нормальный. Нужно только заменить/расширить нижний блок ссылок.
+
+### Готовый блок ссылок
 
 Портфолио:
 https://alexgtup.github.io/freelance-developer/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=freelance_profile
 
+Telegram-боты:
+https://alexgtup.github.io/telegram-bots/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=telegram_bots
+
+CRM и внутренние системы:
+https://alexgtup.github.io/crm-development/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=crm
+
+n8n / автоматизация:
+https://alexgtup.github.io/n8n-automation/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=n8n
+
+Python-разработка:
+https://alexgtup.github.io/python-development/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=python
+
+Backend / API:
+https://alexgtup.github.io/backend-development/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=backend
+
+Доработка существующих проектов:
+https://alexgtup.github.io/project-repair/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=repair
+
 Кейсы:
-https://alexgtup.github.io/cases/
+https://alexgtup.github.io/cases/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=cases
 
 Telegram:
 https://t.me/Alexuys
 
-## 2. Услуги
+Причина deep-links: в Google URL Inspection у homepage, Telegram, CRM, n8n, Python и Backend сейчас `referringUrls=[]`. Freelance.ru уже индексируется Google, поэтому прямые тематические ссылки полезнее ещё одного общего линка на главную.
 
-### 1. Доработка существующего сайта / проекта
+## 2. Типовые услуги — опубликовать ещё 4
 
-Название: Доработаю существующий сайт или веб-проект без переписывания с нуля
+Текущую услугу Telegram-бота оставить.
 
-Старт: 10 000 ₽
-Срок: 3 дня
+### 2.1 Доработка существующего сайта / проекта
 
-Состав: разбор текущей реализации, одна ограниченная задача или группа связанных правок, frontend/backend логика в рамках задачи, проверка связанных сценариев, аккуратная интеграция в существующий код.
+Название: `Доработаю существующий сайт или веб-проект без переписывания с нуля`
+
+Цена: `10 000 ₽`
+Срок: `3 дня`
+
+Описание:
+Разбор текущей реализации и одна законченная задача или группа связанных правок: ошибка, новый блок или функция, API/CRM-интеграция, форма, backend-логика, адаптив или подготовка существующего проекта к запуску. Сначала сохраняется рабочая часть текущего кода, переписывание с нуля — только если оно действительно нужно.
 
 Ссылка:
 https://alexgtup.github.io/project-repair/?utm_source=freelance_ru&utm_medium=offer&utm_campaign=project_repair
 
-### 2. Telegram-бот
+### 2.2 n8n / Make
 
-Название: Telegram-бот под ключ: заявки, CRM, API, оплаты и автоматизация
+Название: `Настрою n8n-автоматизацию для сайта, CRM, Telegram и API`
 
-Старт: 15 000 ₽
-Срок: 3 дня
+Цена: `15 000 ₽`
+Срок: `5 дней`
 
-Базовый пакет: один законченный пользовательский сценарий, меню/анкета/диалоговый flow, до одной внешней интеграции, уведомления, базовая валидация и обработка ошибок, тестирование, инструкция по запуску.
-
-Ссылка:
-https://alexgtup.github.io/telegram-bots/?utm_source=freelance_ru&utm_medium=offer&utm_campaign=telegram_bot
-
-### 3. n8n / Make
-
-Название: Настрою n8n-автоматизацию для сайта, CRM, Telegram и API
-
-Старт: 15 000 ₽
-Срок: 5 дней
-
-Один законченный workflow, до 3 сервисов/точек интеграции, webhook/API, обработка основных ошибок, тестирование и передача workflow.
+Описание:
+Один законченный workflow: до 3 сервисов или точек интеграции, webhook/API, преобразование данных, обработка основных ошибок и тестовый сценарий. Подходит для заявок, CRM, уведомлений, таблиц, API-синхронизации и регулярных процессов.
 
 Ссылка:
 https://alexgtup.github.io/n8n-automation/?utm_source=freelance_ru&utm_medium=offer&utm_campaign=n8n
 
-### 4. API / CRM интеграция
+### 2.3 API / CRM интеграция
 
-Название: Свяжу сайт, CRM, Telegram или сервисы по API и webhooks
+Название: `Свяжу сайт, CRM, Telegram или сервисы по API и webhooks`
 
-Старт: 15 000 ₽
-Срок: 5 дней
+Цена: `15 000 ₽`
+Срок: `5 дней`
 
-До 2 систем + один источник/получатель данных, REST API или webhook, преобразование/валидация данных, обработка основных ошибок, тестовый сценарий и краткая схема интеграции.
+Описание:
+Связка до 2 систем и одного законченного потока данных: REST API или webhook, преобразование и валидация данных, обработка ошибок, тестирование и краткая схема интеграции.
 
 Ссылка:
 https://alexgtup.github.io/api-integrations/?utm_source=freelance_ru&utm_medium=offer&utm_campaign=api
 
-### 5. Технический SEO-аудит
+### 2.4 Технический SEO-аудит
 
-Название: Проведу технический SEO-аудит сайта и дам план исправлений
+Название: `Проведу технический SEO-аудит сайта и дам план исправлений`
 
-Старт: 12 000 ₽
-Срок: 3 дня
+Цена: `12 000 ₽`
+Срок: `3 дня`
 
-Проверка robots/sitemap/canonical/indexability, status codes/redirects, базовых дублей, внутренних ссылок, микроразметки и данных Search Console/Яндекс.Вебмастера при наличии доступа. Результат - приоритеты P0/P1/P2 и конкретный план исправлений.
+Описание:
+Проверка indexability, robots.txt, sitemap, canonical, status codes, redirects, дублей, внутренних ссылок, метаданных и технических сигналов. При наличии доступа — Search Console / Яндекс.Вебмастер. Результат: список проблем P0/P1/P2 и конкретные шаги исправления.
 
 Ссылка:
 https://alexgtup.github.io/cases/siteaudit-studio/?utm_source=freelance_ru&utm_medium=offer&utm_campaign=seo_audit
 
-## 3. Витрина портфолио
+## 3. Портфолио на Freelance.ru — порядок
 
-Первые работы должны подтверждать коммерческие направления, а не эксперименты.
+Цель первых позиций — сразу подтвердить направления, за которые платят.
 
 Рекомендуемый порядок:
-1. CRM для автосалона - заявки и автоматизация рабочего процесса
-2. SEO Control Center - мониторинг индексации и поисковых метрик
-3. SiteAudit Studio - технический SEO-аудит и безопасный crawler
-4. FreelanceOS - local-first CRM от лида до оплаты
-5. SheetPilot AI - обработка Excel с предпросмотром изменений
-6. B2B-каталог завода - продукция, заявки и внутренний контур
-7. iOS-календарь на Swift - дополнительный mobile/iOS кейс
+1. CRM для автосалона
+2. SEO Control Center
+3. SiteAudit Studio
+4. FreelanceOS
+5. SheetPilot AI
+6. B2B-каталог производственной компании
+7. iOS-календарь на Swift
 
-Убрать с первых позиций или скрыть, если площадка позволяет: шутер на Python, generic portfolio-site, устаревший barcode scanner.
+Опустить ниже: generic portfolio-site, старый barcode scanner, шутер на Python.
 
-### Готовые короткие описания
+### Готовые ссылки для работ
 
 CRM для автосалона:
-Внутренняя CRM для работы с заявками и данными автосалона: единый учёт, статусы, рабочий процесс, webhooks и автоматизация действий сотрудников.
 https://alexgtup.github.io/cases/auto-crm/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=auto_crm
 
 SEO Control Center:
-Единая панель для контроля sitemap, crawler, индексации, GSC, Яндекс.Вебмастера, Метрики, технических событий и истории изменений.
 https://alexgtup.github.io/cases/seo-control-center/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=seo_control_center
 
 SiteAudit Studio:
-Production web-сервис для технического SEO-аудита публичных сайтов: live crawl, explainable score, проверка технических сигналов и защита от SSRF.
 https://alexgtup.github.io/cases/siteaudit-studio/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=siteaudit
 
 FreelanceOS:
-Local-first CRM для фриланс-практики: лиды, pipeline, follow-up, задачи, источники/UTM, бюджеты, выручка, конверсия и JSON backup.
 https://alexgtup.github.io/cases/freelance-os/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=freelanceos
 
 SheetPilot AI:
-Ассистент для обработки Excel-файлов по текстовой команде: загрузка XLSX, предпросмотр изменений и выгрузка нового файла.
 https://alexgtup.github.io/cases/sheetpilot-ai/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=sheetpilot
 
-B2B-каталог завода:
-Корпоративный каталог продукции для производственной компании: карточки товаров, структура данных, заявки и связь внешнего интерфейса с внутренним рабочим контуром.
+B2B-каталог:
 https://alexgtup.github.io/cases/factory-catalog/?utm_source=freelance_ru&utm_medium=portfolio&utm_campaign=factory_catalog
 
-## 4. Аналитика
+## 4. После ручного сохранения
 
-Главная ссылка профиля должна вести на:
-https://alexgtup.github.io/freelance-developer/?utm_source=freelance_ru&utm_medium=profile&utm_campaign=freelance_profile
+Я проверяю сам:
+- публичный профиль и количество услуг
+- отображаемую часовую ставку
+- наличие deep-links
+- доступность карточек в Google
+- UTM-переходы и цели
+- изменения `referringUrls` / crawl date в GSC Tracker
 
-На сайте уже используются цели:
-- freelance_referral_visit
-- freelance_profile_click
-- freelance_offer_open
-- telegram_click
-- freelance_to_telegram
-- lead_brief_submit
-
-После ручного обновления профиля и услуг проверить публичную страницу, UTM-переходы и цели в Яндекс.Метрике.
+Не нужно снова переписывать весь профиль или добавлять десятки однотипных услуг. Здесь цель — четыре коммерческих entrypoint + сильная витрина работ + естественные индексируемые deep-links.
