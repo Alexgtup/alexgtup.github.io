@@ -44,6 +44,8 @@ jobs:
             cp "$f" "_site/$f"
           done
 
+          # DevTools pages keep their own visual system but join the shared .container invariant before Stage24.
+          python scripts/stage67_devtools_hub.py _site
           python scripts/stage20_patch.py _site
           python scripts/stage21_entity_patch.py _site
           python scripts/stage22_broad_intent_patch.py _site
@@ -58,6 +60,7 @@ jobs:
           python scripts/stage60_project_carousel.py _site
           python scripts/stage61_seo_control_center_case.py _site
           python scripts/stage66_siteaudit_case.py _site
+          # Re-assert sitemap, crosslinks and services entry after later page rebuilds.
           python scripts/stage67_devtools_hub.py _site
 
           python - <<'PY3'
