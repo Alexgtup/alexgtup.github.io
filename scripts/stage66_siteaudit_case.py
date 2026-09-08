@@ -10,8 +10,8 @@ url = 'https://alexgtup.github.io' + route
 demo_url = 'https://siteaudit-studio.onrender.com/'
 
 STYLE = r'''<style id="siteaudit-integrated-style">
-.s44-case--siteaudit{grid-column:span 12!important;grid-template-columns:minmax(0,.52fr) minmax(0,.48fr)!important;min-height:22rem!important;border-color:rgba(201,255,74,.22)!important;background:radial-gradient(circle at 92% 0,rgba(201,255,74,.09),transparent 25rem),#0d1116!important}.s44-case--siteaudit .s44-case__body>span,.s44-case--siteaudit .s44-case__body b{color:#c9ff4a}.s44-case--siteaudit .s44-case__body h3{font-size:clamp(2rem,4vw,4rem)}.siteaudit-card-preview{min-height:22rem;padding:1rem;background:#081016;display:flex;flex-direction:column;justify-content:center;gap:.7rem}.siteaudit-card-preview__top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;color:#aab5bf;font:700 .66rem ui-monospace,monospace}.siteaudit-live{background:#c9ff4a;color:#090b0d;padding:.28rem .42rem;border-radius:999px;font-size:.55rem;font-weight:900}.siteaudit-card-preview__body{display:grid;grid-template-columns:.44fr 1.56fr;gap:.6rem}.siteaudit-score{min-height:9rem;border:1px solid rgba(255,255,255,.1);border-radius:.85rem;display:grid;place-items:center;background:#0e141a}.siteaudit-score strong{font-size:2.4rem;color:#c9ff4a}.siteaudit-score small{display:block;text-align:center;color:#6f7c87;font-size:.55rem}.siteaudit-checks{display:grid;gap:.45rem}.siteaudit-check{border:1px solid rgba(255,255,255,.1);border-radius:.7rem;padding:.65rem;background:#10161d;display:grid;grid-template-columns:auto 1fr auto;gap:.5rem;align-items:center}.siteaudit-dot{width:.5rem;height:.5rem;border-radius:50%;background:#c9ff4a}.siteaudit-dot.warn{background:#ffc857}.siteaudit-check span{font-size:.65rem;color:#c2cbd3}.siteaudit-check b{font:800 .57rem ui-monospace,monospace!important;color:#83909b!important}.s50-case-list>.siteaudit-case{border-color:rgba(201,255,74,.22)!important;background:radial-gradient(circle at 90% 0,rgba(201,255,74,.08),transparent 22rem),#0d1116!important}.s50-case-list>.siteaudit-case span,.s50-case-list>.siteaudit-case b{color:#c9ff4a!important}.siteaudit-case-mini{border:1px solid rgba(255,255,255,.09);border-radius:1rem;padding:1rem;background:#0a1016;display:grid;grid-template-columns:.38fr 1.62fr;gap:.6rem;align-items:center;min-height:12rem}.siteaudit-case-mini__score{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#c9ff4a 82%,rgba(255,255,255,.08) 0);position:relative}.siteaudit-case-mini__score:before{content:"";position:absolute;inset:.48rem;border-radius:50%;background:#0c1218}.siteaudit-case-mini__score strong{position:relative;font-size:1.5rem!important;color:#f3f5f2!important}.siteaudit-case-mini__rows{display:grid;gap:.4rem}.siteaudit-case-mini__rows i{display:block;height:.58rem;border-radius:999px;background:linear-gradient(90deg,rgba(201,255,74,.65),rgba(255,255,255,.07))}
-@media(max-width:900px){.s44-case--siteaudit{grid-template-columns:1fr!important}.siteaudit-card-preview{min-height:auto}.siteaudit-card-preview__body{grid-template-columns:1fr}.siteaudit-score{min-height:7rem}}@media(max-width:560px){.siteaudit-case-mini{grid-template-columns:1fr}.siteaudit-case-mini__score{width:6rem;justify-self:center}}
+.s44-case--siteaudit{grid-column:span 12!important;grid-template-columns:minmax(0,.52fr) minmax(0,.48fr)!important;min-height:22rem!important;border-color:rgba(201,255,74,.22)!important;background:radial-gradient(circle at 92% 0,rgba(201,255,74,.09),transparent 25rem),#0d1116!important}.s44-case--siteaudit .s44-case__body>span,.s44-case--siteaudit .s44-case__body b{color:#c9ff4a}.s44-case--siteaudit .s44-case__body h3{font-size:clamp(2rem,4vw,4rem)}.siteaudit-card-preview{min-height:22rem;padding:1rem;background:#081016;display:flex;flex-direction:column;justify-content:center;gap:.7rem}.siteaudit-card-preview__top{display:flex;justify-content:space-between;align-items:center;gap:.8rem;color:#aab5bf;font:700 .66rem ui-monospace,monospace}.siteaudit-live{background:#c9ff4a;color:#090b0d;padding:.28rem .42rem;border-radius:999px;font-size:.55rem;font-weight:900}.siteaudit-card-preview__body{display:grid;grid-template-columns:.44fr 1.56fr;gap:.6rem}.siteaudit-score{min-height:9rem;border:1px solid rgba(255,255,255,.1);border-radius:.85rem;display:grid;place-items:center;background:#0e141a}.siteaudit-score strong{font-size:2.4rem;color:#c9ff4a}.siteaudit-score small{display:block;text-align:center;color:#6f7c87;font-size:.55rem}.siteaudit-checks{display:grid;gap:.45rem}.siteaudit-check{border:1px solid rgba(255,255,255,.1);border-radius:.7rem;padding:.65rem;background:#10161d;display:grid;grid-template-columns:auto 1fr auto;gap:.5rem;align-items:center}.siteaudit-dot{width:.5rem;height:.5rem;border-radius:50%;background:#c9ff4a}.siteaudit-dot.warn{background:#ffc857}.siteaudit-check span{font-size:.65rem;color:#c2cbd3}.siteaudit-check b{font:800 .57rem ui-monospace,monospace!important;color:#83909b!important}.s50-case-list>.siteaudit-case{border-color:rgba(201,255,74,.22)!important;background:radial-gradient(circle at 90% 0,rgba(201,255,74,.08),transparent 22rem),#0d1116!important}.s50-case-list>.siteaudit-case span,.s50-case-list>.siteaudit-case b{color:#c9ff4a!important}.siteaudit-case-mini{border:1px solid rgba(255,255,255,.09);border-radius:1rem;padding:1rem;background:#0a1016;display:grid;grid-template-columns:.38fr 1.62fr;gap:.6rem;align-items:center;min-height:12rem}.siteaudit-case-mini__score{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#c9ff4a 82%,rgba(255,255,255,.08) 0);position:relative}.siteaudit-case-mini__score:before{content:"";position:absolute;inset:.48rem;border-radius:50%;background:#0c1218}.siteaudit-case-mini__score strong{position:relative;font-size:1.5rem!important;color:#f3f5f2!important}.siteaudit-case-mini__rows{display:grid;gap:.4rem}.siteaudit-case-mini__rows i{display:block;height:.58rem;border-radius:999px;background:linear-gradient(90deg,rgba(201,255,74,.65),rgba(255,255,255,.07))}.s66-tool-link{padding:0 0 4rem}.s66-tool-link__card{display:flex;justify-content:space-between;gap:1.5rem;align-items:center;border:1px solid rgba(201,255,74,.18);border-radius:1rem;padding:1rem 1.1rem;background:radial-gradient(circle at 100% 0,rgba(201,255,74,.06),transparent 20rem),rgba(255,255,255,.025)}.s66-tool-link__card span{display:block;color:#c9ff4a;font:800 .61rem ui-monospace,monospace;letter-spacing:.06em}.s66-tool-link__card strong{display:block;margin-top:.35rem;font-size:1rem}.s66-tool-link__card p{margin:.3rem 0 0;color:#8f9aa5;font-size:.78rem}.s66-tool-link__card a{flex:0 0 auto;text-decoration:none;border:1px solid rgba(201,255,74,.25);border-radius:.75rem;padding:.65rem .8rem;color:#c9ff4a;font-size:.73rem;font-weight:850}
+@media(max-width:900px){.s44-case--siteaudit{grid-template-columns:1fr!important}.siteaudit-card-preview{min-height:auto}.siteaudit-card-preview__body{grid-template-columns:1fr}.siteaudit-score{min-height:7rem}}@media(max-width:660px){.s66-tool-link__card{align-items:flex-start;flex-direction:column}.s66-tool-link__card a{width:100%;text-align:center}}@media(max-width:560px){.siteaudit-case-mini{grid-template-columns:1fr}.siteaudit-case-mini__score{width:6rem;justify-self:center}}
 </style>'''
 
 HOME_CARD = r'''<a class="s44-case s44-case--visual s44-case--siteaudit" data-project="siteaudit-studio" href="/cases/siteaudit-studio/">
@@ -20,6 +20,8 @@ HOME_CARD = r'''<a class="s44-case s44-case--visual s44-case--siteaudit" data-pr
 </a>'''
 
 CASES_CARD = r'''<a class="visual siteaudit-case" data-project="siteaudit-studio" href="/cases/siteaudit-studio/"><div class="siteaudit-case-mini" aria-hidden="true"><div class="siteaudit-case-mini__score"><strong>82</strong></div><div class="siteaudit-case-mini__rows"><i></i><i></i><i></i><i></i></div></div><div><span>SEO · NODE.JS · CRAWLER</span><h3>SiteAudit Studio</h3><p>Объяснимый технический аудит публичных сайтов с live-demo, limited crawl и защитой от SSRF.</p><b>Открыть кейс ↗</b></div></a>'''
+
+WEB_LINK = r'''<section class="s66-tool-link" data-siteaudit-context="true"><div class="container"><div class="s66-tool-link__card"><div><span>БЕСПЛАТНЫЙ ИНСТРУМЕНТ</span><strong>Проверить техническую базу сайта до доработки</strong><p>SiteAudit Studio проверяет HTTP, meta, canonical, robots/sitemap, ссылки и базовые security headers.</p></div><a href="/cases/siteaudit-studio/">Кейс SiteAudit Studio →</a></div></div></section>'''
 
 def add_style(text: str) -> str:
     if 'id="siteaudit-integrated-style"' not in text:
@@ -58,6 +60,23 @@ if not case_page.is_file():
 case_text = case_page.read_text(encoding='utf-8')
 if demo_url not in case_text:
     raise SystemExit('stage66: live demo URL missing from case page')
+if 'property="og:image:width"' not in case_text:
+    marker = '<meta name="twitter:card" content="summary_large_image"/>'
+    dims = '<meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>'
+    if marker not in case_text:
+        raise SystemExit('stage66: twitter card marker missing for OG dimensions')
+    case_text = case_text.replace(marker, dims + marker, 1)
+    case_page.write_text(case_text, encoding='utf-8')
+
+web = root / 'web-development' / 'index.html'
+if not web.is_file():
+    raise SystemExit('stage66: web-development page missing')
+web_text = add_style(web.read_text(encoding='utf-8'))
+if 'data-siteaudit-context="true"' not in web_text:
+    if '</main>' not in web_text:
+        raise SystemExit('stage66: web-development </main> missing')
+    web_text = web_text.replace('</main>', WEB_LINK + '</main>', 1)
+web.write_text(web_text, encoding='utf-8')
 
 sm = root / 'sitemap.xml'
 ET.register_namespace('', 'http://www.sitemaps.org/schemas/sitemap/0.9')
@@ -83,11 +102,17 @@ for name in ('sitemap.txt', 'llms.txt'):
 
 home_body = home.read_text(encoding='utf-8')
 cases_body = cases.read_text(encoding='utf-8')
+web_body = web.read_text(encoding='utf-8')
+case_body = case_page.read_text(encoding='utf-8')
 if 'data-project="siteaudit-studio"' not in home_body:
     raise SystemExit('stage66: homepage SiteAudit card missing after patch')
 if 'data-project="siteaudit-studio"' not in cases_body:
     raise SystemExit('stage66: cases SiteAudit card missing after patch')
+if 'data-siteaudit-context="true"' not in web_body:
+    raise SystemExit('stage66: contextual web-development link missing after patch')
+if 'property="og:image:width"' not in case_body or 'property="og:image:height"' not in case_body:
+    raise SystemExit('stage66: SiteAudit OG dimensions missing after patch')
 if url not in {(n.text or '').strip() for n in ET.parse(sm).getroot().findall('.//' + ns + 'loc')}:
     raise SystemExit('stage66: SiteAudit sitemap URL missing after patch')
 
-print('stage66: SiteAudit Studio integrated into home/cases; live demo + sitemap guarded')
+print('stage66: SiteAudit Studio integrated; live demo, OG metadata, inbound link and sitemap guarded')
