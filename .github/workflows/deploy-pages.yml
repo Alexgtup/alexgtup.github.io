@@ -44,7 +44,6 @@ jobs:
             cp "$f" "_site/$f"
           done
 
-          # DevTools pages keep their own visual system but join the shared .container invariant before Stage24.
           python scripts/stage67_devtools_hub.py _site
           python scripts/stage20_patch.py _site
           python scripts/stage21_entity_patch.py _site
@@ -60,15 +59,11 @@ jobs:
           python scripts/stage60_project_carousel.py _site
           python scripts/stage61_seo_control_center_case.py _site
           python scripts/stage66_siteaudit_case.py _site
-          # Re-assert sitemap, crosslinks and services entry after later page rebuilds.
           python scripts/stage67_devtools_hub.py _site
-          # FreelanceOS joins the final project grid and gets production hardening before analytics/validation.
           python scripts/stage68_freelanceos.py _site
           python scripts/stage69_freelanceos_hardening.py _site
           python scripts/stage70_freelanceos_responsive.py _site
-          # Keep a second machine-readable discovery path aligned with key sitemap targets.
           python scripts/stage71_feed_discovery.py _site
-          # Keep the Freelance.ru landing aligned with the actual packaged offers.
           python scripts/stage72_freelance_offer_hub.py _site
           node --check _site/assets/freelance-os.js
 
@@ -90,19 +85,14 @@ jobs:
           python scripts/stage63_scc_production_demo.py _site
           python scripts/stage65_analytics_centralization.py _site --check
           node --test tests/analytics.test.cjs
-          # Patch/check the final generated HTML after all trust/conversion layers.
           python scripts/stage73_trust_freshness.py _site
-          # Make the responsible author visible on cases and the decision guides that lacked a byline.
           python scripts/stage75_visible_authorship.py _site
-          # Tune only proven Yandex query/page pairs from the latest Webmaster export.
           python scripts/stage76_yandex_serp_tuning.py _site
-          # Add useful product context before the global depth audit.
           python scripts/stage77_freelanceos_depth.py _site
-          # Audit every sitemap page and strengthen only the weak search entries.
+          # First pass strengthens weak search entries and audits all 74 sitemap pages.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Stage77 can add useful content below an existing CTA; restore a direct final action,
-          # then re-run the full search audit on the actual final HTML.
-          python scripts/stage64_conversion_paths.py _site
+          # Make the final Stage77 blocks actionable for organic visitors, then audit the actual final HTML again.
+          python scripts/stage78_search_to_contact.py _site
           python scripts/stage77_sitewide_search_quality_v2.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
