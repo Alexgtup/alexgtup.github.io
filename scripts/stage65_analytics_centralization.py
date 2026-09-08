@@ -50,14 +50,19 @@ if not check_only:
         """  const goal = (name, params = {}) => {\n    window.alexuysAnalytics?.goal(name, params);\n  };""",
     )
 
-    if text == original:
-        # Idempotence is expected on repeated calls, but on a clean build we should
-        # either already be centralized or have applied at least one known rewrite.
-        if "reachGoal" in text:
-            raise SystemExit("stage65: direct reachGoal found but no known rewrite matched")
+    if text == original and "reachGoal" in text:
+        raise SystemExit("stage65: direct reachGoal found in site-enhancements.js but no known rewrite matched")
     js_path.write_text(text, encoding="utf-8")
 
-# Production invariant: analytics.js is the only file allowed to know Yandex reachGoal.
+    # Pre-stage62 guard: only the shared JS is final enough to validate here.
+    # Some source HTML still contains legacy inline snippets that stage62 removes.
+    if "reachGoal" in text:
+        raise SystemExit("stage65: direct reachGoal remains in site-enhancements.js after patch")
+    print("stage65 analytics centralization patch: OK; site-enhancements.js direct reachGoal = 0")
+    raise SystemExit(0)
+
+# Final production invariant, intentionally run after stage62/stage64/stage63:
+# analytics.js is the only built file allowed to know Yandex reachGoal.
 violations = []
 for path in sorted(root.rglob("*.js")) + sorted(root.rglob("*.html")):
     if path == root / "assets" / "analytics.js":
@@ -69,5 +74,4 @@ for path in sorted(root.rglob("*.js")) + sorted(root.rglob("*.html")):
 if violations:
     raise SystemExit("stage65: direct reachGoal outside analytics.js: " + ", ".join(violations))
 
-mode = "check" if check_only else "patch"
-print(f"stage65 analytics centralization {mode}: OK; direct reachGoal outside analytics.js = 0")
+print("stage65 analytics centralization check: OK; direct reachGoal outside analytics.js = 0")
