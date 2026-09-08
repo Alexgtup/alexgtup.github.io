@@ -11,7 +11,6 @@ base='https://alexgtup.github.io'
 
 contact='''<section class="dt-contact" data-devtools-contact="true"><div class="container dt-container"><div class="dt-contact__card"><div><strong>Нужен похожий инструмент или доработка проекта?</strong><p>Опишите задачу и текущее состояние - можно начать с конкретного рабочего шага.</p></div><a href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Написать в Telegram ↗</a></div></div></section>'''
 
-# DevTools has its own visual system, but participates in the shared layout invariant.
 for route in routes:
     p=root/(route.strip('/')+'/index.html')
     if not p.is_file(): raise SystemExit(f'stage67: missing {route}')
@@ -64,6 +63,18 @@ if services.is_file():
         card='<section data-devtools-entry="true" style="padding:0 0 4rem"><div class="container"><div style="border:1px solid rgba(201,255,74,.18);border-radius:1rem;padding:1rem 1.1rem;background:rgba(201,255,74,.035)"><strong style="display:block">6 бесплатных инструментов для разработки, SEO и маркетинга</strong><p style="color:#8f9aa5;font-size:.8rem">JSON Formatter, UTM Builder, Cron Builder, JWT Decoder, robots.txt Validator и Sitemap Validator работают без регистрации.</p><a href="/tools/">Открыть DevTools Hub →</a></div></div></section>'
         if '</main>' not in body: raise SystemExit('stage67: services </main> missing')
         services.write_text(body.replace('</main>',card+'</main>',1),encoding='utf-8')
+
+# Stage66 adds the SiteAudit context as the final section on web-development.
+# Keep that useful discovery block, but make the final section itself actionable.
+web=root/'web-development/index.html'
+if web.is_file():
+    body=web.read_text(encoding='utf-8')
+    if 'data-siteaudit-context="true"' in body and 'data-siteaudit-contact="true"' not in body:
+        old='<a href="/cases/siteaudit-studio/">Кейс SiteAudit Studio →</a>'
+        new=old+'<a data-siteaudit-contact="true" href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Обсудить сайт ↗</a>'
+        if old not in body: raise SystemExit('stage67: SiteAudit context link marker missing')
+        body=body.replace(old,new,1)
+        web.write_text(body,encoding='utf-8')
 
 locs={(n.text or '').strip() for n in ET.parse(sm).getroot().findall('.//'+ns+'loc')}
 for route in routes:
