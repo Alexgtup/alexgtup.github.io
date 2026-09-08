@@ -65,6 +65,7 @@
     else if (url.protocol === 'mailto:') goal('email_click');
     else if (url.hostname === 'freelance.ru') goal('freelance_click');
     if (link.dataset.demo) goal('demo_open', { project: link.dataset.demo });
+    if (link.dataset.offer) goal('freelance_offer_open', { offer: link.dataset.offer });
   });
   choose(consent, false);
 })();
