@@ -65,6 +65,7 @@ jobs:
           # FreelanceOS joins the final project grid and gets production hardening before analytics/validation.
           python scripts/stage68_freelanceos.py _site
           python scripts/stage69_freelanceos_hardening.py _site
+          python scripts/stage70_freelanceos_responsive.py _site
           node --check _site/assets/freelance-os.js
 
           python - <<'PY3'
