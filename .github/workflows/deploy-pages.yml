@@ -94,6 +94,8 @@ jobs:
           python scripts/stage73_trust_freshness.py _site
           # Make the responsible author visible on cases and the decision guides that lacked a byline.
           python scripts/stage75_visible_authorship.py _site
+          # Tune only proven Yandex query/page pairs from the latest Webmaster export.
+          python scripts/stage76_yandex_serp_tuning.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
