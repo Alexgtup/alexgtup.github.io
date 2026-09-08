@@ -44,6 +44,8 @@ def html_path(route: str) -> Path:
 def category(route: str) -> str:
     if route == "/":
         return "home"
+    if route == "/freelance-os/":
+        return "product"
     if route.startswith("/en/cases/") and route != "/en/cases/":
         return "en_case"
     if route.startswith("/en/guides/") and route != "/en/guides/":
@@ -64,9 +66,10 @@ def category(route: str) -> str:
 MIN_WORDS = {
     "home": 350,
     "service": 280,
+    "product": 200,
     "case": 250,
     "guide": 300,
-    "tool": 220,
+    "tool": 180,
     "hub": 160,
     "en_case": 180,
     "en_guide": 250,
