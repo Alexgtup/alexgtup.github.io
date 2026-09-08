@@ -62,6 +62,10 @@ jobs:
           python scripts/stage66_siteaudit_case.py _site
           # Re-assert sitemap, crosslinks and services entry after later page rebuilds.
           python scripts/stage67_devtools_hub.py _site
+          # FreelanceOS joins the final project grid and gets production hardening before analytics/validation.
+          python scripts/stage68_freelanceos.py _site
+          python scripts/stage69_freelanceos_hardening.py _site
+          node --check _site/assets/freelance-os.js
 
           python - <<'PY3'
           from pathlib import Path
