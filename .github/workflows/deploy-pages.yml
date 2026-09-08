@@ -58,6 +58,7 @@ jobs:
           python scripts/stage60_project_carousel.py _site
           python scripts/stage61_seo_control_center_case.py _site
           python scripts/stage66_siteaudit_case.py _site
+          python scripts/stage67_devtools_hub.py _site
 
           python - <<'PY3'
           from pathlib import Path
@@ -70,14 +71,11 @@ jobs:
           p.write_text(text, encoding='utf-8')
           PY3
 
-          # First pass patches shared JS/CSS before stage62 fingerprints assets.
           python scripts/stage64_conversion_paths.py _site
           python scripts/stage65_analytics_centralization.py _site
           python scripts/stage62_search_and_conversion.py _site
-          # stage62 rebuilds some page endings, so enforce the final conversion path again.
           python scripts/stage64_conversion_paths.py _site
           python scripts/stage63_scc_production_demo.py _site
-          # Fail the build if any producer reintroduced direct reachGoal calls.
           python scripts/stage65_analytics_centralization.py _site --check
           node --test tests/analytics.test.cjs
           python scripts/validate_growth.py _site
