@@ -21,10 +21,23 @@
 - [Telegram Mini Apps](https://alexgtup.github.io/telegram-mini-apps/) — кабинеты, каталоги и сложные формы внутри Telegram.
 - [Доработка существующего проекта](https://alexgtup.github.io/project-repair/) — диагностика, чужой код, ошибки, интеграции и подготовка следующего релиза.
 
+## Рабочие продукты и бесплатные инструменты
+
+Это не только описания кейсов — ссылки ведут на работающие продукты и инструменты, которые можно открыть без регистрации.
+
+- [FreelanceOS — local-first CRM фрилансера](https://alexgtup.github.io/freelance-os/) — лиды, pipeline, follow-up, задачи, источники/UTM, бюджеты, выручка, конверсия и JSON backup.
+- [DevTools Hub](https://alexgtup.github.io/tools/) — набор браузерных инструментов для разработчиков и SEO.
+- [robots.txt Validator](https://alexgtup.github.io/tools/robots-validator/) — локальная проверка robots.txt.
+- [Sitemap XML Validator](https://alexgtup.github.io/tools/sitemap-validator/) — локальная проверка sitemap.xml.
+- [JSON Formatter / Validator](https://alexgtup.github.io/tools/json-formatter/) — форматирование и проверка JSON в браузере.
+- [SiteAudit Studio](https://siteaudit-studio.onrender.com/) — live технический аудит публичного сайта с ограниченным crawler и SSRF-защитой.
+
 ## Реальные кейсы
 
 На сайте опубликованы подробные страницы проектов с пользовательскими сценариями и разбором реализации.
 
+- [FreelanceOS — CRM фрилансера от лида до оплаты](https://alexgtup.github.io/cases/freelance-os/)
+- [SiteAudit Studio — технический аудит сайта и безопасный crawler](https://alexgtup.github.io/cases/siteaudit-studio/)
 - [SheetPilot AI — обработка Excel с предпросмотром изменений](https://alexgtup.github.io/cases/sheetpilot-ai/)
 - [SEO Control Center — мониторинг сайтов и поисковых метрик](https://alexgtup.github.io/cases/seo-control-center/)
 - [Фин Планер — Telegram-продукт для личных финансов](https://alexgtup.github.io/cases/fin-planner/)
@@ -55,7 +68,7 @@
 
 ## Техническое состояние
 
-Сайт публикуется через GitHub Pages. Production-сборка автоматически проверяет sitemap, canonical, title, description, H1, robots, JSON-LD, hreflang, внутренние ссылки, доступность и responsive-риски. В production sitemap — 60+ индексируемых URL; страницы из sitemap имеют соответствующие HTML-файлы и внутренние пути обхода.
+Сайт публикуется через GitHub Pages. Production-сборка автоматически проверяет sitemap, canonical, title, description, H1, robots, JSON-LD, hreflang, внутренние ссылки, доступность и responsive-риски. В текущем generated search sitemap — 74 индексируемых URL; страницы из sitemap имеют соответствующие HTML-файлы и внутренние пути обхода.
 
 English portfolio: https://alexgtup.github.io/en/
 
