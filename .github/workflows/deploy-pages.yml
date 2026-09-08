@@ -69,8 +69,11 @@ jobs:
           p.write_text(text, encoding='utf-8')
           PY3
 
+          # First pass patches shared JS/CSS before stage62 fingerprints assets.
           python scripts/stage64_conversion_paths.py _site
           python scripts/stage62_search_and_conversion.py _site
+          # stage62 rebuilds some page endings, so enforce the final conversion path again.
+          python scripts/stage64_conversion_paths.py _site
           python scripts/stage63_scc_production_demo.py _site
           node --test tests/analytics.test.cjs
           python scripts/validate_growth.py _site
