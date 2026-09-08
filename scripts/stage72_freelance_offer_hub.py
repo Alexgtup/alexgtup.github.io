@@ -9,7 +9,8 @@ if not page.is_file():
 
 html = page.read_text(encoding="utf-8")
 
-# Stage50 owns the final freelance page body. Patch that final DOM rather than the older override shell.
+# Stage50 owns the final freelance page body; Stage53 owns durable trust stats.
+# Patch only positioning/offers and preserve Stage53's non-stale reputation block.
 old_desc = 'Фриланс-разработчик с публичным профилем Freelance.ru: сайты, приложения, Telegram, автоматизация, API и доработка проектов. Реальные кейсы и прямой контакт.'
 new_desc = 'Фриланс-разработчик с публичным профилем Freelance.ru: сайты и веб-сервисы, Telegram, n8n/Make, API-интеграции, доработка проектов и технический SEO. Реальные кейсы и прямой контакт.'
 html = html.replace(old_desc, new_desc)
@@ -21,12 +22,10 @@ if old_hero in html:
 elif new_hero not in html:
     raise SystemExit('Stage72 hero marker changed')
 
-old_stats = '<div class="s50-stats"><div><strong>20</strong><span>публичных отзывов</span></div><div><strong>9 / 10</strong><span>профессионализм и коммуникация</span></div><div><strong>6 лет</strong><span>опыта в профиле</span></div></div>'
-new_stats = '<div class="s50-stats"><div><strong>Freelance.ru</strong><span>внешний профиль и отзывы</span></div><div><strong>20+</strong><span>публичных отзывов и оценок</span></div><div><strong>с 2023</strong><span>публичная история на площадке</span></div></div>'
-if old_stats in html:
-    html = html.replace(old_stats, new_stats)
-elif new_stats not in html:
-    raise SystemExit('Stage72 stats marker changed')
+# Stage53 must remain the source of truth for reputation facts.
+stage53_stats = '<div class="s50-stats"><div><strong>Отзывы</strong><span>публично на Freelance.ru</span></div><div><strong>Задания</strong><span>история выполненных работ</span></div><div><strong>2023</strong><span>профиль на площадке</span></div></div>'
+if stage53_stats not in html:
+    raise SystemExit('Stage72 expected Stage53 trust stats are missing')
 
 html = html.replace(
     '<a href="/cases/"><strong>Реальные кейсы</strong><span>5 проектов →</span></a>',
@@ -50,14 +49,13 @@ elif new_schema not in html:
 required = [
     'data-stage50-hub="freelance"',
     'data-freelance-offers="v2"',
+    stage53_stats,
     'href="/project-repair/"',
     'href="/telegram-bots/"',
     'href="/n8n-automation/"',
     'href="/api-integrations/"',
     'href="/cases/siteaudit-studio/"',
     'Технический SEO-аудит',
-    '20+',
-    'с 2023',
 ]
 missing = [item for item in required if item not in html]
 if missing:
