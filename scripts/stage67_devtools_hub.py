@@ -9,6 +9,8 @@ tools=['/tools/json-formatter/','/tools/utm-builder/','/tools/cron-builder/','/t
 routes=[hub,*tools]
 base='https://alexgtup.github.io'
 
+contact='''<section class="dt-contact" data-devtools-contact="true"><div class="container dt-container"><div class="dt-contact__card"><div><strong>Нужен похожий инструмент или доработка проекта?</strong><p>Опишите задачу и текущее состояние - можно начать с конкретного рабочего шага.</p></div><a href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Написать в Telegram ↗</a></div></div></section>'''
+
 # DevTools has its own visual system, but participates in the shared layout invariant.
 for route in routes:
     p=root/(route.strip('/')+'/index.html')
@@ -16,10 +18,14 @@ for route in routes:
     body=p.read_text(encoding='utf-8')
     body=body.replace('class="dt-container ', 'class="container dt-container ')
     body=body.replace('class="dt-container"', 'class="container dt-container"')
+    if 'data-devtools-contact="true"' not in body:
+        if '</main>' not in body: raise SystemExit(f'stage67: </main> missing {route}')
+        body=body.replace('</main>',contact+'</main>',1)
     p.write_text(body,encoding='utf-8')
     if hub not in body: raise SystemExit(f'stage67: {route} missing hub link')
     if 'og:image:width' not in body or 'og:image:height' not in body: raise SystemExit(f'stage67: OG dimensions missing {route}')
     if 'class="container dt-container' not in body: raise SystemExit(f'stage67: shared container missing {route}')
+    if 'https://t.me/Alexuys' not in body: raise SystemExit(f'stage67: final contact missing {route}')
 
 hub_body=(root/'tools/index.html').read_text(encoding='utf-8')
 for href in tools:
@@ -62,4 +68,4 @@ if services.is_file():
 locs={(n.text or '').strip() for n in ET.parse(sm).getroot().findall('.//'+ns+'loc')}
 for route in routes:
     if base+route not in locs: raise SystemExit(f'stage67: sitemap missing {route}')
-print('stage67: DevTools Hub + 6 local tools integrated; shared shell, sitemap, hub links and service entry guarded')
+print('stage67: DevTools Hub + 6 local tools integrated; shared shell, sitemap, hub links, final contact and service entry guarded')
