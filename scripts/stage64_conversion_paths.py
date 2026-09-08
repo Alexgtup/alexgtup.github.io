@@ -37,6 +37,17 @@ if start >= 0 and listener > start:
 elif "const analytics = window.alexuysAnalytics;" not in js[stage8:listener if listener > 0 else None]:
     raise SystemExit("stage64: Stage 8 analytics block has unexpected shape")
 
+# Mark the dynamically-created mobile CTA so telegram_click can be segmented by placement.
+mobile_marker = "    cta.rel = 'noopener noreferrer';\n    cta.textContent ="
+if "cta.dataset.cta = 'mobile_floating';" not in js:
+    if mobile_marker not in js:
+        raise SystemExit("stage64: mobile CTA marker not found")
+    js = js.replace(
+        mobile_marker,
+        "    cta.rel = 'noopener noreferrer';\n    cta.dataset.cta = 'mobile_floating';\n    cta.textContent =",
+        1,
+    )
+
 js_path.write_text(js, encoding="utf-8")
 
 # 2) Add a clear static conversion path at the end of individual cases and guides.
