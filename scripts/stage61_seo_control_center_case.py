@@ -13,12 +13,12 @@ STYLE = r'''<style id="seo-control-center-integrated-style">
 @media(max-width:900px){.s44-case--seo-control{grid-template-columns:1fr!important}.s44-case--seo-control .s44-case__image{min-height:0}}
 </style>'''
 
-HOME_CARD = r'''<a class="s44-case s44-case--visual s44-case--seo-control" href="/cases/seo-control-center/">
+HOME_CARD = r'''<a class="s44-case s44-case--visual s44-case--seo-control" data-project="seo-control-center" href="/cases/seo-control-center/">
   <div class="s44-case__image"><img src="/assets/cases/seo-control-center/seo-control-center-card-01.svg" width="1536" height="1024" loading="lazy" decoding="async" alt="SEO Control Center — презентационная карточка SEO-платформы"/></div>
   <div class="s44-case__body"><span>SEO · FULLSTACK · AUTOMATION</span><h3>SEO Control Center</h3><p>Operational dashboard для sitemap, crawler, индексации, поисковых метрик и истории SEO-событий.</p><b>Открыть полный кейс ↗</b></div>
 </a>'''
 
-CASES_CARD = r'''<a class="visual scc-case" href="/cases/seo-control-center/"><img src="/assets/cases/seo-control-center/seo-control-center-card-02.svg" width="1536" height="1024" loading="lazy" decoding="async" alt="SEO Control Center — презентационный dashboard"/><div><span>SEO · FULLSTACK · AUTOMATION</span><h3>SEO Control Center</h3><p>Единая панель: sitemap, crawler, индексация, GSC, Яндекс, технические события и история изменений.</p><b>Открыть кейс ↗</b></div></a>'''
+CASES_CARD = r'''<a class="visual scc-case" data-project="seo-control-center" href="/cases/seo-control-center/"><img src="/assets/cases/seo-control-center/seo-control-center-card-02.svg" width="1536" height="1024" loading="lazy" decoding="async" alt="SEO Control Center — презентационный dashboard"/><div><span>SEO · FULLSTACK · AUTOMATION</span><h3>SEO Control Center</h3><p>Единая панель: sitemap, crawler, индексация, GSC, Яндекс, технические события и история изменений.</p><b>Открыть кейс ↗</b></div></a>'''
 
 def add_style(text: str) -> str:
     if 'id="seo-control-center-integrated-style"' not in text:
@@ -28,7 +28,7 @@ def add_style(text: str) -> str:
 
 home = root / 'index.html'
 text = add_style(home.read_text(encoding='utf-8'))
-if 's44-case--seo-control' not in text:
+if 'data-project="seo-control-center"' not in text:
     marker = '<div class="s44-case-grid">'
     if marker not in text: raise SystemExit('stage61: home project grid not found')
     text = text.replace(marker, marker + HOME_CARD, 1)
@@ -37,7 +37,7 @@ home.write_text(text, encoding='utf-8')
 
 cases = root / 'cases' / 'index.html'
 text = add_style(cases.read_text(encoding='utf-8'))
-if 'scc-case' not in text:
+if 'data-project="seo-control-center"' not in text:
     marker = '<div class="s50-case-list">'
     if marker not in text: raise SystemExit('stage61: cases list not found')
     text = text.replace(marker, marker + CASES_CARD, 1)
@@ -59,5 +59,11 @@ for name in ('sitemap.txt','llms.txt'):
         t = p.read_text(encoding='utf-8')
         line = url if name == 'sitemap.txt' else f'- {url} — SEO Control Center, мониторинг индексации, поисковых метрик и технического SEO'
         if line not in t: p.write_text(t.rstrip() + '\n' + line + '\n', encoding='utf-8')
+
+# Build guard: fail deploy instead of silently publishing without the cards.
+if 'data-project="seo-control-center"' not in home.read_text(encoding='utf-8'):
+    raise SystemExit('stage61: homepage SEO Control Center card missing after patch')
+if 'data-project="seo-control-center"' not in cases.read_text(encoding='utf-8'):
+    raise SystemExit('stage61: cases SEO Control Center card missing after patch')
 
 print('stage61: SEO Control Center integrated into home/cases; presentation cards enabled; sitemap updated')
