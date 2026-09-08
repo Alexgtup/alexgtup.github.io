@@ -27,7 +27,7 @@ function page(saved, storageBlocked = false) {
   return { context, calls, scripts, box, settings,
     choose(value) { handlers['box:click']({ target: { closest() { return { dataset: { analyticsChoice: value } }; } } }); },
     storage(value) { handlers['window:storage']({ key: 'alexuys-analytics-consent-v1', newValue: value }); },
-    click(url, demo) { handlers['document:click']({ target: { closest() { return { href: url, dataset: { demo } }; } } }); },
+    click(url, demo, offer) { handlers['document:click']({ target: { closest() { return { href: url, dataset: { demo, offer } }; } } }); },
   };
 }
 test('no tracking or remote script before consent', () => {
@@ -50,6 +50,14 @@ test('contact and demo goals are recorded after consent without message text', (
   p.click('https://sheetpilot-ai-6omr.onrender.com', 'sheetpilot-ai');
   assert.deepEqual(p.calls.filter(c => c[1] === 'reachGoal').map(c => c[2]), ['telegram_click', 'demo_open']);
   assert.equal(JSON.stringify(p.calls).includes('private'), false);
+});
+test('freelance offer interest is recorded with a bounded offer key', () => {
+  const p = page(null); p.choose('accepted');
+  p.click('https://alexgtup.github.io/n8n-automation/', undefined, 'n8n');
+  const hit = p.calls.filter(c => c[1] === 'reachGoal').at(-1);
+  assert.equal(hit[2], 'freelance_offer_open');
+  assert.equal(hit[3].offer, 'n8n');
+  assert.equal(hit[3].page, '/web-development/');
 });
 test('revocation destroys tracking and reaccepting initializes again without a second script', () => {
   const p = page('accepted'); p.choose('declined');
