@@ -6,13 +6,20 @@ import xml.etree.ElementTree as ET
 root=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 routes=['/tools/','/tools/json-formatter/','/tools/utm-builder/','/tools/cron-builder/','/tools/jwt-decoder/']
 base='https://alexgtup.github.io'
+
+# DevTools has its own visual system, but must still participate in the site's
+# shared layout invariant used by Stage24 and later audits.
 for route in routes:
     p=root/(route.strip('/')+'/index.html')
     if not p.is_file(): raise SystemExit(f'stage67: missing {route}')
     body=p.read_text(encoding='utf-8')
-    for href in ['/tools/','/tools/json-formatter/','/tools/utm-builder/','/tools/cron-builder/','/tools/jwt-decoder/']:
+    body=body.replace('class="dt-container ', 'class="container dt-container ')
+    body=body.replace('class="dt-container"', 'class="container dt-container"')
+    p.write_text(body,encoding='utf-8')
+    for href in routes:
         if href!=route and href not in body: raise SystemExit(f'stage67: {route} missing crosslink {href}')
     if 'og:image:width' not in body or 'og:image:height' not in body: raise SystemExit(f'stage67: OG dimensions missing {route}')
+    if 'class="container dt-container' not in body: raise SystemExit(f'stage67: shared container missing {route}')
 
 sm=root/'sitemap.xml'; ET.register_namespace('','http://www.sitemaps.org/schemas/sitemap/0.9'); ET.register_namespace('xhtml','http://www.w3.org/1999/xhtml')
 tree=ET.parse(sm); r=tree.getroot(); ns='{http://www.sitemaps.org/schemas/sitemap/0.9}'
@@ -43,4 +50,4 @@ if services.is_file():
 locs={(n.text or '').strip() for n in ET.parse(sm).getroot().findall('.//'+ns+'loc')}
 for route in routes:
     if base+route not in locs: raise SystemExit(f'stage67: sitemap missing {route}')
-print('stage67: DevTools Hub + 4 local tools integrated; sitemap and crosslinks guarded')
+print('stage67: DevTools Hub + 4 local tools integrated; shared shell, sitemap and crosslinks guarded')
