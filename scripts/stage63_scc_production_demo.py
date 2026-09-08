@@ -31,8 +31,7 @@ for path in required:
     if new_url not in path.read_text(encoding='utf-8'):
         raise SystemExit(f'stage63: production SEO Control Center demo link missing: {path}')
 
-# Generate a deliberately minimal Google sitemap alongside the full hreflang sitemap.
-# This gives Search Console a clean fallback with only <loc> elements and no extensions.
+# Build fallback sitemap formats from the same source URL list so all variants stay in sync.
 sitemap_path = root / 'sitemap.xml'
 if not sitemap_path.is_file():
     raise SystemExit(f'stage63: missing sitemap: {sitemap_path}')
@@ -48,6 +47,7 @@ for node in tree.findall('.//s:loc', ns):
 if not urls:
     raise SystemExit('stage63: source sitemap contains no URLs')
 
+# Minimal XML fallback for Search Console diagnostics.
 simple_lines = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -56,5 +56,9 @@ simple_lines.extend(f'  <url><loc>{escape(url)}</loc></url>' for url in urls)
 simple_lines.append('</urlset>')
 (root / 'sitemap-google.xml').write_text('\n'.join(simple_lines) + '\n', encoding='utf-8')
 
+# Plain-text sitemap is an independent format supported by Google.
+(root / 'sitemap.txt').write_text('\n'.join(urls) + '\n', encoding='utf-8')
+
 print(f'stage63: production SEO Control Center demo link applied to {changed} pages')
 print(f'stage63: generated minimal sitemap-google.xml with {len(urls)} URLs')
+print(f'stage63: generated sitemap.txt with {len(urls)} URLs')
