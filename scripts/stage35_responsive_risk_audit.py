@@ -165,6 +165,11 @@ for owner, source_name, css in sources:
         if re.search(r'position\s*:\s*fixed', dec, re.I):
             if any(x in low for x in known_fixed):
                 continue
+            # A fixed desktop control is acceptable only when the stylesheet explicitly
+            # releases it from the viewport on mobile. This keeps the guard strict while
+            # avoiding false positives for reviewed responsive controls such as toasts.
+            if has_mobile_decl(css, selector, 'position', r'static|relative|absolute'):
+                continue
             key=('fixed',selector)
             if key not in seen:
                 seen.add(key); issues['fixed-review'].append((owner,source_name,selector))
