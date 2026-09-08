@@ -39,7 +39,7 @@ jobs:
 
           for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest .nojekyll \
                    google4d4487812e36d65c.html yandex_d89618159a40495b.html yandex_e868ce83ed0c1276.html \
-                   c25441bbac42b588dd51fcf237159c69.txt; do
+                   *.txt; do
             test -f "$f"
             cp "$f" "_site/$f"
           done
@@ -69,6 +69,7 @@ jobs:
           p.write_text(text, encoding='utf-8')
           PY3
 
+          python scripts/stage64_conversion_paths.py _site
           python scripts/stage62_search_and_conversion.py _site
           python scripts/stage63_scc_production_demo.py _site
           node --test tests/analytics.test.cjs
@@ -97,16 +98,24 @@ jobs:
       - name: Notify IndexNow and Yandex from final sitemap
         continue-on-error: true
         shell: bash
-        env:
-          INDEXNOW_KEY: "c25441bbac42b588dd51fcf237159c69"
         run: |
           set -u
           python - <<'PY2'
-          import json, os, xml.etree.ElementTree as ET
+          import json
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
 
           base = 'https://alexgtup.github.io'
           host = 'alexgtup.github.io'
-          key = os.environ['INDEXNOW_KEY']
+          key = None
+          for path in Path('_site').glob('*.txt'):
+              value = path.read_text(encoding='utf-8').strip()
+              if len(path.stem) == 32 and value == path.stem:
+                  key = value
+                  break
+          if not key:
+              raise SystemExit('IndexNow key file not found in published site')
+
           tree = ET.parse('_site/sitemap.xml')
           ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
           urls = sorted({(n.text or '').strip() for n in tree.findall('.//s:loc', ns) if (n.text or '').strip()})
