@@ -17,12 +17,17 @@ def save(path, text):
 
 # Homepage: keep independently verifiable trust links, not marketplace counters that become stale.
 p, home = read("index.html")
-old_proof = '<div class="s44-proofline" aria-label="Проверяемые факты">         <a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>20</strong><span>публичных отзывов на Freelance.ru</span></a>         <a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>9 / 10</strong><span>профессионализм и коммуникация</span></a>         <div><strong>6 лет</strong><span>опыта в публичном профиле</span></div>         <a href="/cases/"><strong>9</strong><span>подробных кейсов на сайте</span></a>       </div>'
-new_proof = '<div class="s44-proofline" aria-label="Проверяемые факты">         <a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>Отзывы</strong><span>публично на Freelance.ru</span></a>         <a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>Задания</strong><span>история выполненных работ</span></a>         <div><strong>2023</strong><span>профиль на площадке</span></div>         <a href="/cases/"><strong>Кейсы</strong><span>проекты и рабочие продукты</span></a>       </div>'
-if old_proof in home:
-    home = home.replace(old_proof, new_proof)
-elif new_proof not in home:
-    raise SystemExit("Stage73 homepage proofline marker changed")
+home_pairs = [
+    ('<strong>20</strong><span>публичных отзывов на Freelance.ru</span>', '<strong>Отзывы</strong><span>публично на Freelance.ru</span>'),
+    ('<strong>9 / 10</strong><span>профессионализм и коммуникация</span>', '<strong>Задания</strong><span>история выполненных работ</span>'),
+    ('<strong>6 лет</strong><span>опыта в публичном профиле</span>', '<strong>2023</strong><span>профиль на площадке</span>'),
+    ('<strong>9</strong><span>подробных кейсов на сайте</span>', '<strong>Кейсы</strong><span>проекты и рабочие продукты</span>'),
+]
+for old, new in home_pairs:
+    if old in home:
+        home = home.replace(old, new)
+    elif new not in home:
+        raise SystemExit(f"Stage73 homepage fact marker changed: {old}")
 old_trust = 'Публичный профиль Freelance.ru можно открыть до обращения: 20 отзывов, оценки 9/10 по профессионализму и коммуникации, 6 лет опыта в профиле. В профиле доступны отзывы заказчиков и история работы на площадке.'
 new_trust = 'Публичный профиль Freelance.ru можно открыть до обращения. В профиле доступны отзывы заказчиков, оценки и история выполненных работ на независимой площадке.'
 if old_trust in home:
