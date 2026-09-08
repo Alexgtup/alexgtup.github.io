@@ -20,8 +20,10 @@ jobs:
           URL="https://alexgtup.github.io/sitemap.xml"
 
           for attempt in {1..12}; do
-            CODE=$(curl -L -sS -o /tmp/live-sitemap.xml -w '%{http_code}' "$URL" || true)
+            CODE=$(curl -L -sS -D /tmp/live-sitemap.headers -o /tmp/live-sitemap.xml -w '%{http_code}' "$URL" || true)
             if [ "$CODE" = "200" ]; then
+              CONTENT_TYPE=$(awk 'BEGIN{IGNORECASE=1} /^content-type:/{gsub("\r",""); print substr($0,index($0,":")+2)}' /tmp/live-sitemap.headers | tail -1)
+              echo "Live sitemap Content-Type: ${CONTENT_TYPE:-<missing>}"
               python - <<'PY'
           import xml.etree.ElementTree as ET
 
