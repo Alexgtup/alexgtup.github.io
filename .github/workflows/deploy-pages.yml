@@ -57,6 +57,7 @@ jobs:
           python scripts/stage59_sheetpilot_grid_fix.py _site
           python scripts/stage60_project_carousel.py _site
           python scripts/stage61_seo_control_center_case.py _site
+          python scripts/stage66_siteaudit_case.py _site
 
           python - <<'PY3'
           from pathlib import Path
