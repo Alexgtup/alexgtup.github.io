@@ -13,17 +13,19 @@ PAGES = {
     "/": {
         "title": "Разработчик Telegram-ботов, сайтов и автоматизации | Alexuys",
         "description": "Частный разработчик Telegram-ботов, сайтов, CRM и автоматизации на заказ. Python, n8n/Make, API-интеграции, реальные кейсы и прямой контакт.",
-        "old_h1": "Сайты, приложения, Telegram-боты и автоматизация.",
-        "h1": "Разработчик Telegram-ботов, сайтов и автоматизации.",
+        "old_h1_html": "Сайты, приложения, Telegram-боты <em>и автоматизация.</em>",
+        "h1_html": "Разработчик <em>Telegram-ботов</em>, сайтов и автоматизации.",
+        "h1_text": "Разработчик Telegram-ботов, сайтов и автоматизации.",
         "old_lead": "Разрабатываю цифровые продукты с нуля и подключаюсь к уже существующим проектам. Веб-сервисы, мобильные приложения, боты, CRM, API-интеграции и автоматизация — напрямую с разработчиком, без передачи задачи между менеджерами.",
         "lead": "Разрабатываю Telegram-ботов, сайты и веб-сервисы, CRM, API-интеграции и автоматизацию. Можно прийти с новой задачей или существующим проектом — общение напрямую с разработчиком, без передачи между менеджерами.",
-        "must": ["Разработчик Telegram-ботов", "CRM", "n8n/Make"],
+        "must": ["Telegram-ботов", "CRM", "n8n/Make"],
     },
     "/telegram-bots/": {
         "title": "Telegram-бот на заказ — стоимость от 15 000 ₽ | Alexuys",
         "description": "Сколько стоит Telegram-бот на заказ: первый рабочий сценарий от 15 000 ₽. Python и aiogram 3, CRM/API, оплаты, базы данных, исходники и запуск.",
-        "old_h1": "Разработка Telegram-ботов на заказ. Python, aiogram 3, CRM и API.",
-        "h1": "Telegram-бот на заказ: разработка от 15 000 ₽.",
+        "old_h1_html": "Разработка Telegram-ботов на заказ. <em>Python, aiogram 3, CRM и API.</em>",
+        "h1_html": "Telegram-бот на заказ: <em>разработка от 15 000 ₽.</em>",
+        "h1_text": "Telegram-бот на заказ: разработка от 15 000 ₽.",
         "old_lead": "Новый Telegram-бот под рабочий сценарий: заявки, анкеты, база данных, оплаты, CRM/API и уведомления. Код и окружение передаются, а сложность определяется логикой, а не числом кнопок.",
         "lead": "Стоимость первого рабочего сценария — от 15 000 ₽. Разработка на Python и aiogram 3: заявки, анкеты, база данных, оплаты, CRM/API и уведомления. Код и окружение передаются заказчику.",
         "must": ["от 15 000 ₽", "Python", "aiogram 3", "CRM/API"],
@@ -31,8 +33,9 @@ PAGES = {
     "/telegram-mini-apps/": {
         "title": "Telegram Mini App на заказ — разработка под ключ | Alexuys",
         "description": "Заказать Telegram Mini App: интерфейс внутри Telegram для каталога, кабинета, форм и оплат. Web App API, backend, Bot API, адаптив и запуск.",
-        "old_h1": "Mini App, когда боту уже тесно внутри сообщений и кнопок.",
-        "h1": "Telegram Mini App на заказ — интерфейс внутри Telegram.",
+        "old_h1_html": "Mini App, когда боту <em>уже тесно внутри сообщений и кнопок.</em>",
+        "h1_html": "Telegram Mini App на заказ — <em>интерфейс внутри Telegram.</em>",
+        "h1_text": "Telegram Mini App на заказ — интерфейс внутри Telegram.",
         "old_lead": "Веб-интерфейс внутри Telegram для каталогов, кабинетов, сложных форм, выбора и интерактивных сценариев. Bot API остаётся точкой входа, а Mini App даёт полноценный интерфейс там, где он действительно нужен.",
         "lead": "Разработка Telegram Mini App для каталогов, кабинетов, сложных форм, заказов и интерактивных сценариев. Пользователь остаётся внутри Telegram, а Web App связывается с Bot API, backend и рабочими данными.",
         "must": ["Telegram Mini App на заказ", "Bot API", "backend"],
@@ -40,8 +43,9 @@ PAGES = {
     "/n8n-automation/": {
         "title": "n8n Automation Workflow на заказ — настройка и API | Alexuys",
         "description": "Разработка n8n automation workflow на заказ: webhooks, API, Telegram, CRM, Google Sheets, error handling и self-hosted запуск. От 15 000 ₽ за первый workflow.",
-        "old_h1": "Настройка n8n и автоматизация на заказ. Workflow, API, Telegram и CRM.",
-        "h1": "n8n Automation Workflow на заказ. API, Telegram и CRM.",
+        "old_h1_html": "Настройка n8n и автоматизация на заказ. <em>Workflow, API, Telegram и CRM.</em>",
+        "h1_html": "n8n Automation Workflow на заказ. <em>API, Telegram и CRM.</em>",
+        "h1_text": "n8n Automation Workflow на заказ. API, Telegram и CRM.",
         "old_lead": "Собираю и дорабатываю workflows в n8n: формы и Telegram, CRM и таблицы, HTTP/API, webhooks, ветки ошибок и уведомления. Можно начать с одного рабочего сценария.",
         "lead": "Разрабатываю и дорабатываю n8n automation workflows: Telegram, CRM, Google Sheets, HTTP/API, webhooks, ветки ошибок и уведомления. Первый законченный workflow — от 15 000 ₽.",
         "must": ["n8n Automation Workflow", "webhooks", "от 15 000 ₽"],
@@ -90,14 +94,14 @@ for route, cfg in PAGES.items():
         raise SystemExit(f"stage76: missing {route}: {p}")
     text = p.read_text(encoding="utf-8")
     text = set_meta(text, title=cfg["title"], description=cfg["description"], route=route)
-    text = replace_once(text, cfg["old_h1"], cfg["h1"], route, "h1")
-    text = replace_once(text, cfg["old_lead"], cfg["lead"], route, "hero lead")
+    text = replace_once(text, cfg["old_h1_html"], cfg["h1_html"], route, "final hero h1")
+    text = replace_once(text, cfg["old_lead"], cfg["lead"], route, "final hero lead")
     p.write_text(text, encoding="utf-8")
 
     final = p.read_text(encoding="utf-8")
     if f"<title>{escape(cfg['title'], quote=False)}</title>" not in final:
         raise SystemExit(f"stage76: title invariant failed: {route}")
-    if cfg["h1"] not in final or cfg["lead"] not in final:
+    if cfg["h1_html"] not in final or cfg["lead"] not in final:
         raise SystemExit(f"stage76: visible intent invariant failed: {route}")
     for token in cfg["must"]:
         if token not in final:
