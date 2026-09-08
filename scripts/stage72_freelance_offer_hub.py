@@ -9,44 +9,46 @@ if not page.is_file():
 
 html = page.read_text(encoding="utf-8")
 
-# Keep search snippets durable: avoid counters that become stale every time the marketplace changes.
+# Stage50 owns the final freelance page body. Patch that final DOM rather than the older override shell.
+old_desc = 'Фриланс-разработчик с публичным профилем Freelance.ru: сайты, приложения, Telegram, автоматизация, API и доработка проектов. Реальные кейсы и прямой контакт.'
+new_desc = 'Фриланс-разработчик с публичным профилем Freelance.ru: сайты и веб-сервисы, Telegram, n8n/Make, API-интеграции, доработка проектов и технический SEO. Реальные кейсы и прямой контакт.'
+html = html.replace(old_desc, new_desc)
+
+old_hero = 'Если важно сначала проверить исполнителя, а потом писать — здесь собраны понятные точки доверия: реальные кейсы, публичный профиль Freelance.ru, ориентиры первого этапа и прямой контакт.'
+new_hero = 'Если важно сначала проверить исполнителя, а потом писать — здесь собраны реальные кейсы, публичный профиль Freelance.ru и конкретные форматы первого этапа: Telegram, n8n, API-интеграции, доработка проекта и технический SEO.'
+if old_hero in html:
+    html = html.replace(old_hero, new_hero)
+elif new_hero not in html:
+    raise SystemExit('Stage72 hero marker changed')
+
+old_stats = '<div class="s50-stats"><div><strong>20</strong><span>публичных отзывов</span></div><div><strong>9 / 10</strong><span>профессионализм и коммуникация</span></div><div><strong>6 лет</strong><span>опыта в профиле</span></div></div>'
+new_stats = '<div class="s50-stats"><div><strong>Freelance.ru</strong><span>внешний профиль и отзывы</span></div><div><strong>20+</strong><span>публичных отзывов и оценок</span></div><div><strong>с 2023</strong><span>публичная история на площадке</span></div></div>'
+if old_stats in html:
+    html = html.replace(old_stats, new_stats)
+elif new_stats not in html:
+    raise SystemExit('Stage72 stats marker changed')
+
 html = html.replace(
-    'Частный фриланс-разработчик: Telegram-боты, доработка сайтов, n8n/Make, API и автоматизация. Публичный профиль Freelance.ru, 19 выполненных заданий, оценки 9/9, реальные кейсы.',
-    'Частный фриланс-разработчик: Telegram-боты, доработка сайтов и веб-проектов, n8n/Make, API-интеграции, технический SEO и автоматизация. Публичный профиль Freelance.ru и реальные кейсы.'
-)
-html = html.replace(
-    'Telegram-боты, автоматизация, API-интеграции и доработка существующих проектов. Без передачи задачи менеджеру: обсуждение, реализация и доработка идут напрямую с разработчиком.',
-    'Telegram-боты, автоматизация, API-интеграции, доработка существующих проектов и технический SEO. Без передачи задачи менеджеру: обсуждение, реализация и доработка идут напрямую с разработчиком.'
+    '<a href="/cases/"><strong>Реальные кейсы</strong><span>5 проектов →</span></a>',
+    '<a href="/cases/"><strong>Реальные кейсы</strong><span>кейсы и рабочие продукты →</span></a>'
 )
 
-old_proof = '<div class="proofbar"><a href="https://freelance.ru/gglalex" rel="noopener noreferrer" target="_blank"><strong>19</strong><span>выполненных заданий</span></a><a href="https://freelance.ru/gglalex" rel="noopener noreferrer" target="_blank"><strong>9 / 9</strong><span>профессионализм и коммуникация</span></a><div><strong>с 2023</strong><span>публичная история на площадке</span></div><a href="/cases/"><strong>5</strong><span>подробных кейсов на сайте</span></a></div>'
-new_proof = '<div class="proofbar"><a href="https://freelance.ru/gglalex" rel="noopener noreferrer" target="_blank"><strong>Freelance.ru</strong><span>внешний профиль и отзывы</span></a><a href="https://freelance.ru/reviews/gglalex/" rel="noopener noreferrer" target="_blank"><strong>20+</strong><span>публичных отзывов и оценок</span></a><div><strong>с 2023</strong><span>публичная история на площадке</span></div><a href="/cases/"><strong>10+</strong><span>кейсов и рабочих продуктов</span></a></div>'
-if old_proof in html:
-    html = html.replace(old_proof, new_proof)
-elif new_proof not in html:
-    raise SystemExit("freelance proofbar marker changed; review Stage72")
-
-# Five distinct entry offers: keep Telegram as an established offer and add four marketplace-ready scopes.
-old_cards = '<div class="cards"><article class="card"><div class="price">ОТ 5 000 ₽</div><h3>Доработка проекта</h3><p>Локальная ошибка, чужой код, форма, адаптив, интеграция или незавершённый функционал.</p><a href="/project-repair/">Что входит →</a></article><article class="card"><div class="price">ОТ 15 000 ₽</div><h3>Telegram-бот</h3><p>Первый рабочий сценарий: заявки, анкета, уведомления, данные или интеграция.</p><a href="/telegram-bots/">Разработка бота →</a></article><article class="card"><div class="price">ОТ 15 000 ₽</div><h3>n8n / Make</h3><p>Webhook, API, CRM, Telegram и таблицы в одном автоматизированном процессе.</p><a href="/n8n-automation/">Автоматизация →</a></article></div>'
-new_cards = '<div class="cards" data-freelance-offers="v2"><article class="card"><div class="price">ОТ 10 000 ₽</div><h3>Доработка проекта</h3><p>Одна законченная правка или связанный блок: ошибка, форма, API, каталог, кабинет или существующий функционал.</p><a href="/project-repair/">Доработка проекта →</a></article><article class="card"><div class="price">ОТ 15 000 ₽</div><h3>Telegram-бот</h3><p>Первый рабочий сценарий: заявки, анкета, уведомления, данные, CRM, API или оплаты.</p><a href="/telegram-bots/">Разработка бота →</a></article><article class="card"><div class="price">ОТ 15 000 ₽</div><h3>n8n / Make</h3><p>Один законченный workflow: webhook, CRM, Telegram, таблицы и внешние API в одном процессе.</p><a href="/n8n-automation/">Автоматизация →</a></article><article class="card"><div class="price">ОТ 15 000 ₽</div><h3>API / CRM интеграция</h3><p>Связка существующих систем через REST API и webhooks с проверкой данных и сценария от события до результата.</p><a href="/api-integrations/">Интеграции по API →</a></article><article class="card"><div class="price">ОТ 12 000 ₽</div><h3>Технический SEO-аудит</h3><p>Индексация, robots/sitemap, canonical, технические дубли, внутренние ссылки и приоритетный план исправлений.</p><a href="/cases/siteaudit-studio/">Посмотреть аудит →</a></article></div>'
-if old_cards in html:
-    html = html.replace(old_cards, new_cards)
+old_step = '<section class="s50-section"><div class="container"><div class="s50-head"><span>02 / ПЕРВЫЙ ШАГ</span><div><h2>Не обязательно заказывать <em>большой проект сразу.</em></h2><p>Для существующего проекта можно начать с небольшой правки. Для нового — с одного законченного сценария. Полный объём оценивается после понимания задачи, поэтому стартовая цена не превращается в потолок бюджета.</p></div></div><div class="s50-principles"><article><strong>от 5 000 ₽</strong><h3>Небольшая доработка</h3><p>Ошибка или изолированная функция в существующем проекте.</p></article><article><strong>от 15 000 ₽</strong><h3>Bot / automation</h3><p>Первый рабочий сценарий Telegram или n8n/Make.</p></article><article><strong>по задаче</strong><h3>Полный продукт</h3><p>Web, mobile, CRM, backend или проект с несколькими интеграциями.</p></article></div></div></section>'
+new_step = '<section class="s50-section" data-freelance-offers="v2"><div class="container"><div class="s50-head"><span>02 / ГОТОВЫЕ ФОРМАТЫ</span><div><h2>Можно начать <em>с конкретного законченного результата.</em></h2><p>Это не фиксированная цена на любой проект, а понятная граница первого этапа. Если задача шире, объём согласуется до расширения работ.</p></div></div><div class="s50-principles"><article><strong>от 10 000 ₽</strong><h3><a href="/project-repair/">Доработка проекта →</a></h3><p>Одна ограниченная задача или связанный блок правок в существующем сайте, backend или приложении.</p></article><article><strong>от 15 000 ₽</strong><h3><a href="/telegram-bots/">Telegram-бот →</a></h3><p>Первый рабочий сценарий: заявки, данные, CRM/API, уведомления или оплаты.</p></article><article><strong>от 15 000 ₽</strong><h3><a href="/n8n-automation/">n8n / Make →</a></h3><p>Один законченный workflow с webhook, CRM, Telegram, таблицами или внешним API.</p></article><article><strong>от 15 000 ₽</strong><h3><a href="/api-integrations/">API / CRM интеграция →</a></h3><p>Связка существующих систем через REST API и webhooks с проверкой данных и результата.</p></article><article><strong>от 12 000 ₽</strong><h3><a href="/cases/siteaudit-studio/">Технический SEO-аудит →</a></h3><p>Индексация, robots/sitemap, canonical, технические дубли, внутренние ссылки и план исправлений.</p></article></div></div></section>'
+if old_step in html:
+    html = html.replace(old_step, new_step)
 elif 'data-freelance-offers="v2"' not in html:
-    raise SystemExit("freelance offer cards marker changed; review Stage72")
-
-html = html.replace(
-    '.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.72rem}',
-    '.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.72rem}'
-)
+    raise SystemExit('Stage72 offer section marker changed')
 
 old_schema = '{"@context":"https://schema.org","@type":"ItemList","name":"Основные услуги фриланс-разработчика","itemListElement":[{"@type":"ListItem","position":1,"url":"https://alexgtup.github.io/project-repair/","name":"Доработка существующего проекта"},{"@type":"ListItem","position":2,"url":"https://alexgtup.github.io/telegram-bots/","name":"Разработка Telegram-бота"},{"@type":"ListItem","position":3,"url":"https://alexgtup.github.io/n8n-automation/","name":"Автоматизация n8n / Make"}]}'
 new_schema = '{"@context":"https://schema.org","@type":"ItemList","name":"Основные услуги фриланс-разработчика","itemListElement":[{"@type":"ListItem","position":1,"url":"https://alexgtup.github.io/project-repair/","name":"Доработка существующего проекта"},{"@type":"ListItem","position":2,"url":"https://alexgtup.github.io/telegram-bots/","name":"Разработка Telegram-бота"},{"@type":"ListItem","position":3,"url":"https://alexgtup.github.io/n8n-automation/","name":"Автоматизация n8n / Make"},{"@type":"ListItem","position":4,"url":"https://alexgtup.github.io/api-integrations/","name":"Интеграция API / CRM / Telegram"},{"@type":"ListItem","position":5,"url":"https://alexgtup.github.io/cases/siteaudit-studio/","name":"Технический SEO-аудит"}]}'
 if old_schema in html:
     html = html.replace(old_schema, new_schema)
 elif new_schema not in html:
-    raise SystemExit("freelance ItemList marker changed; review Stage72")
+    raise SystemExit('Stage72 ItemList marker changed')
 
 required = [
+    'data-stage50-hub="freelance"',
     'data-freelance-offers="v2"',
     'href="/project-repair/"',
     'href="/telegram-bots/"',
@@ -54,10 +56,12 @@ required = [
     'href="/api-integrations/"',
     'href="/cases/siteaudit-studio/"',
     'Технический SEO-аудит',
+    '20+',
+    'с 2023',
 ]
 missing = [item for item in required if item not in html]
 if missing:
-    raise SystemExit("Stage72 missing targets: " + ", ".join(missing))
+    raise SystemExit('Stage72 missing targets: ' + ', '.join(missing))
 
 page.write_text(html, encoding="utf-8")
-print("Stage72 freelance offer hub: OK")
+print('Stage72 freelance offer hub: OK')
