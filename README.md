@@ -23,8 +23,10 @@
 
 ## Реальные кейсы
 
-На сайте опубликованы подробные страницы проектов. В описаниях не используются придуманные проценты роста или неподтверждённые бизнес-результаты.
+На сайте опубликованы подробные страницы проектов с пользовательскими сценариями и разбором реализации.
 
+- [SheetPilot AI — обработка Excel с предпросмотром изменений](https://alexgtup.github.io/cases/sheetpilot-ai/)
+- [SEO Control Center — мониторинг сайтов и поисковых метрик](https://alexgtup.github.io/cases/seo-control-center/)
 - [Фин Планер — Telegram-продукт для личных финансов](https://alexgtup.github.io/cases/fin-planner/)
 - [CRM для автосалона — заявки и рабочие статусы](https://alexgtup.github.io/cases/auto-crm/)
 - [Календарь на Swift — нативное iOS-приложение](https://alexgtup.github.io/cases/swift-calendar/)
@@ -32,6 +34,8 @@
 - [B2B-каталог завода — структура продукции и заявки](https://alexgtup.github.io/cases/factory-catalog/)
 
 Все кейсы: https://alexgtup.github.io/cases/
+
+Демо и возможности продуктов: https://alexgtup.github.io/demos/
 
 ## Материалы перед заказом
 
@@ -54,3 +58,11 @@
 Сайт публикуется через GitHub Pages. Production-сборка автоматически проверяет sitemap, canonical, title, description, H1, robots, JSON-LD, hreflang, внутренние ссылки, доступность и responsive-риски. В production sitemap — 60+ индексируемых URL; страницы из sitemap имеют соответствующие HTML-файлы и внутренние пути обхода.
 
 English portfolio: https://alexgtup.github.io/en/
+
+### Проверка аналитики и публикации
+
+Финальный этап сборки `stage62_search_and_conversion.py` подключает единый `assets/analytics.js` на все публичные страницы. Метрика запускается только после согласия; старые форматы выбора `yes/no` и `accepted/declined` поддерживаются, отзыв согласия останавливает счётчик. Текст заявок не передаётся в цели.
+
+Сборка проверяет покрытие страниц аналитикой, отсутствие старых загрузчиков, соответствие WebPage/Service canonical-адресу и ссылки на новые проекты. Сценарии согласия проверяются командой `node --test tests/analytics.test.cjs`.
+
+Цели `telegram_click`, `email_click`, `freelance_click`, `demo_open` и `brief_to_telegram` обозначают действия на сайте. Они не подтверждают доставку сообщения или получение заказа. Показы и клики поиска проверяются отдельно в Search Console и Вебмастере.

@@ -69,6 +69,9 @@ jobs:
           p.write_text(text, encoding='utf-8')
           PY3
 
+          python scripts/stage62_search_and_conversion.py _site
+          node --test tests/analytics.test.cjs
+          python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
