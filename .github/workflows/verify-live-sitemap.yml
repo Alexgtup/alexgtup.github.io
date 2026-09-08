@@ -1,0 +1,47 @@
+name: Verify live sitemap
+
+on:
+  workflow_run:
+    workflows: ["Deploy GitHub Pages"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify sitemap is publicly reachable and valid
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://alexgtup.github.io/sitemap.xml"
+
+          for attempt in {1..12}; do
+            CODE=$(curl -L -sS -o /tmp/live-sitemap.xml -w '%{http_code}' "$URL" || true)
+            if [ "$CODE" = "200" ]; then
+              python - <<'PY'
+          import xml.etree.ElementTree as ET
+
+          path = '/tmp/live-sitemap.xml'
+          root = ET.parse(path)
+          ns = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = [(n.text or '').strip() for n in root.findall('.//s:loc', ns) if (n.text or '').strip()]
+          if not urls:
+              raise SystemExit('Live sitemap is valid XML but contains no URLs')
+          bad = [u for u in urls if not u.startswith('https://alexgtup.github.io/')]
+          if bad:
+              raise SystemExit(f'Unexpected sitemap hosts: {bad[:10]}')
+          print(f'Live sitemap OK: HTTP 200, valid XML, {len(urls)} URLs')
+          PY
+              exit 0
+            fi
+
+            echo "Attempt $attempt/12 returned HTTP $CODE; waiting for Pages/CDN propagation..."
+            sleep 10
+          done
+
+          echo "::error::https://alexgtup.github.io/sitemap.xml was not reachable after successful Pages deploy"
+          exit 1
