@@ -13,18 +13,32 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Verify sitemap is publicly reachable and valid
+      - name: Verify sitemap and P0 pages are publicly reachable and indexable
         shell: bash
         run: |
           set -euo pipefail
-          URL="https://alexgtup.github.io/sitemap.xml"
+
+          BASE="https://alexgtup.github.io"
+          SITEMAP="$BASE/sitemap.xml"
 
           for attempt in {1..12}; do
-            CODE=$(curl -L -sS -D /tmp/live-sitemap.headers -o /tmp/live-sitemap.xml -w '%{http_code}' "$URL" || true)
+            CODE=$(curl -L -sS -D /tmp/live-sitemap.headers -o /tmp/live-sitemap.xml -w '%{http_code}' "$SITEMAP" || true)
             if [ "$CODE" = "200" ]; then
-              CONTENT_TYPE=$(awk 'BEGIN{IGNORECASE=1} /^content-type:/{gsub("\r",""); print substr($0,index($0,":")+2)}' /tmp/live-sitemap.headers | tail -1)
-              echo "Live sitemap Content-Type: ${CONTENT_TYPE:-<missing>}"
-              python - <<'PY'
+              break
+            fi
+            echo "Attempt $attempt/12 returned HTTP $CODE; waiting for Pages/CDN propagation..."
+            sleep 10
+          done
+
+          if [ "${CODE:-}" != "200" ]; then
+            echo "::error::$SITEMAP was not reachable after successful Pages deploy"
+            exit 1
+          fi
+
+          CONTENT_TYPE=$(awk 'BEGIN{IGNORECASE=1} /^content-type:/{gsub("\r",""); print substr($0,index($0,":")+2)}' /tmp/live-sitemap.headers | tail -1)
+          echo "Live sitemap Content-Type: ${CONTENT_TYPE:-<missing>}"
+
+          python - <<'PY'
           import xml.etree.ElementTree as ET
 
           path = '/tmp/live-sitemap.xml'
@@ -36,14 +50,75 @@ jobs:
           bad = [u for u in urls if not u.startswith('https://alexgtup.github.io/')]
           if bad:
               raise SystemExit(f'Unexpected sitemap hosts: {bad[:10]}')
+          with open('/tmp/sitemap-urls.txt', 'w', encoding='utf-8') as f:
+              f.write('\n'.join(urls) + '\n')
           print(f'Live sitemap OK: HTTP 200, valid XML, {len(urls)} URLs')
           PY
-              exit 0
+
+          TARGETS=(
+            "$BASE/telegram-bots/"
+            "$BASE/crm-development/"
+            "$BASE/n8n-automation/"
+            "$BASE/python-development/"
+            "$BASE/backend-development/"
+          )
+
+          i=0
+          for TARGET in "${TARGETS[@]}"; do
+            i=$((i + 1))
+            if ! grep -Fxq "$TARGET" /tmp/sitemap-urls.txt; then
+              echo "::error::$TARGET is missing from live sitemap"
+              exit 1
             fi
 
-            echo "Attempt $attempt/12 returned HTTP $CODE; waiting for Pages/CDN propagation..."
-            sleep 10
-          done
+            PAGE="/tmp/p0-$i.html"
+            HEADERS="/tmp/p0-$i.headers"
+            PAGE_CODE=""
+            for attempt in {1..6}; do
+              PAGE_CODE=$(curl -L -sS -D "$HEADERS" -o "$PAGE" -w '%{http_code}' "$TARGET" || true)
+              if [ "$PAGE_CODE" = "200" ]; then
+                break
+              fi
+              echo "$TARGET attempt $attempt/6 returned HTTP $PAGE_CODE; retrying..."
+              sleep 5
+            done
 
-          echo "::error::https://alexgtup.github.io/sitemap.xml was not reachable after successful Pages deploy"
-          exit 1
+            if [ "$PAGE_CODE" != "200" ]; then
+              echo "::error::$TARGET returned HTTP $PAGE_CODE"
+              exit 1
+            fi
+
+            EXPECTED="$TARGET" PAGE="$PAGE" python - <<'PY'
+          import os
+          from html.parser import HTMLParser
+
+          expected = os.environ['EXPECTED']
+          path = os.environ['PAGE']
+
+          class Parser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.canonicals = []
+                  self.robots = []
+              def handle_starttag(self, tag, attrs):
+                  a = {k.lower(): v for k, v in attrs if k}
+                  if tag.lower() == 'link' and 'canonical' in (a.get('rel') or '').lower().split():
+                      if a.get('href'):
+                          self.canonicals.append(a['href'])
+                  if tag.lower() == 'meta' and (a.get('name') or '').lower() == 'robots':
+                      self.robots.append(a.get('content') or '')
+
+          parser = Parser()
+          with open(path, encoding='utf-8') as f:
+              parser.feed(f.read())
+
+          if parser.canonicals != [expected]:
+              raise SystemExit(f'{expected}: expected one self-canonical, got {parser.canonicals!r}')
+
+          robots = ','.join(parser.robots).lower()
+          if 'noindex' in robots:
+              raise SystemExit(f'{expected}: noindex detected in robots meta: {parser.robots!r}')
+
+          print(f'P0 page OK: {expected} HTTP 200, self-canonical, indexable, present in sitemap')
+          PY
+          done
