@@ -96,6 +96,8 @@ jobs:
           python scripts/stage75_visible_authorship.py _site
           # Tune only proven Yandex query/page pairs from the latest Webmaster export.
           python scripts/stage76_yandex_serp_tuning.py _site
+          # Audit every sitemap page and strengthen only the weak search entries.
+          python scripts/stage77_sitewide_search_quality.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
