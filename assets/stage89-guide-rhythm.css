@@ -36,3 +36,58 @@
     padding-bottom:2.55rem !important;
   }
 }
+
+/* Stage 93.1 - visual QA corrections for the project showcase and case library.
+   These selectors intentionally use !important because universal-media.css
+   protects arbitrary content images from cropping globally, while project
+   preview frames require a fixed visual crop. */
+.portfolio-showcase__layout{
+  align-items:start !important;
+}
+
+.portfolio-carousel__viewport{
+  min-height:0 !important;
+}
+
+.project-radar__filters{
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:.32rem !important;
+}
+
+.project-radar__filters button:first-child{
+  grid-column:1/-1 !important;
+}
+
+.project-radar__filters button{
+  min-height:2.3rem !important;
+}
+
+.portfolio-card__media img,
+.case-library-card__media img{
+  width:100% !important;
+  height:100% !important;
+  max-width:none !important;
+  aspect-ratio:auto !important;
+  object-fit:cover !important;
+  object-position:center !important;
+}
+
+@media (max-width:900px){
+  .project-radar__filters,
+  .case-filter__list{
+    display:flex !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    overflow-x:auto !important;
+  }
+
+  .project-radar__filters button:first-child{
+    grid-column:auto !important;
+  }
+}
+
+@media (max-width:640px){
+  .portfolio-carousel__viewport{
+    min-height:0 !important;
+  }
+}
