@@ -21,10 +21,12 @@
     }
 
     if (cookieIsVisible()) {
-      cta.dataset.stage84Suppressed = 'true';
-      cta.style.setProperty('display', 'none', 'important');
-      cta.setAttribute('aria-hidden', 'true');
-      cta.tabIndex = -1;
+      if (cta.dataset.stage84Suppressed !== 'true') {
+        cta.dataset.stage84Suppressed = 'true';
+        cta.style.setProperty('display', 'none', 'important');
+        cta.setAttribute('aria-hidden', 'true');
+        cta.tabIndex = -1;
+      }
       return;
     }
 
@@ -37,8 +39,8 @@
   };
 
   const normalizeCookieSettings = () => {
+    if (innerWidth > 900) return;
     document.querySelectorAll('.growth-cookie-settings, .cookie-settings').forEach(button => {
-      if (innerWidth > 900) return;
       button.style.setProperty('position', 'static', 'important');
       button.style.setProperty('inset', 'auto', 'important');
       button.style.setProperty('transform', 'none', 'important');
@@ -67,7 +69,7 @@
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['class', 'style', 'hidden']
+      attributeFilter: ['class', 'hidden']
     });
 
     addEventListener('resize', schedule, { passive: true });
