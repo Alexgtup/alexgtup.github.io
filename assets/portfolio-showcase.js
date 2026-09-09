@@ -9,19 +9,22 @@
     const status = root.querySelector('[data-project-status]');
     const matchCount = root.querySelector('[data-project-match-count]');
     const viewport = root.querySelector('[data-project-viewport]');
-    const pageSize = Math.max(1, Number(root.dataset.pageSize || 4));
+    const desktopPageSize = Math.max(1, Number(root.dataset.pageSize || 4));
+    const mobileQuery = window.matchMedia('(max-width: 640px)');
     let filter = 'all';
     let page = 0;
     let startX = null;
 
+    const pageSize = () => mobileQuery.matches ? 1 : desktopPageSize;
     const matches = () => cards.filter((card) => filter === 'all' || (card.dataset.categories || '').split(/\s+/).includes(filter));
 
     function render(direction = 0) {
       const visible = matches();
-      const pages = Math.max(1, Math.ceil(visible.length / pageSize));
+      const size = pageSize();
+      const pages = Math.max(1, Math.ceil(visible.length / size));
       page = Math.max(0, Math.min(page, pages - 1));
-      const start = page * pageSize;
-      const end = Math.min(start + pageSize, visible.length);
+      const start = page * size;
+      const end = Math.min(start + size, visible.length);
       cards.forEach((card) => {
         card.hidden = true;
         card.setAttribute('aria-hidden', 'true');
@@ -37,6 +40,7 @@
       if (next) next.disabled = page >= pages - 1;
       root.dataset.page = String(page + 1);
       root.dataset.pages = String(pages);
+      root.dataset.visibleCards = String(size);
       if (viewport && direction && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
         viewport.animate(
           [{ opacity: .45, transform: `translateX(${direction > 0 ? '10px' : '-10px'})` }, { opacity: 1, transform: 'translateX(0)' }],
@@ -64,6 +68,9 @@
       if (delta < 0 && next && !next.disabled) { page += 1; render(1); }
       if (delta > 0 && prev && !prev.disabled) { page -= 1; render(-1); }
     });
+    const onViewportChange = () => { page = 0; render(); };
+    if (typeof mobileQuery.addEventListener === 'function') mobileQuery.addEventListener('change', onViewportChange);
+    else if (typeof mobileQuery.addListener === 'function') mobileQuery.addListener(onViewportChange);
     render();
   }
 
