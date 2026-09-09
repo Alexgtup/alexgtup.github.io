@@ -7,7 +7,7 @@ root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 design_marker = 'data-stage98-design="true"'
 shell_marker = 'data-stage98-shell="true"'
 design_link = '<link href="/assets/stage98-design-system.css?v=20260909-1" rel="stylesheet" data-stage98-design="true"/>'
-shell_link = '<link href="/assets/stage98-shell.css?v=20260909-1" rel="stylesheet" data-stage98-shell="true"/>'
+shell_link = '<link href="/assets/stage98-shell.css?v=20260909-2" rel="stylesheet" data-stage98-shell="true"/>'
 design_css = root / 'assets/stage98-design-system.css'
 shell_css = root / 'assets/stage98-shell.css'
 if not design_css.exists():
@@ -27,8 +27,9 @@ design_text = design_css.read_text(encoding='utf-8')
 for token in required_css:
     if token not in design_text:
         raise SystemExit('stage98: required design token/rule missing: ' + token)
-for token in ('.header,.site-header,.intl-header', '.cta-box,.contact-card', '.footer,.foot,.site-footer'):
-    if token not in shell_css.read_text(encoding='utf-8'):
+shell_text = shell_css.read_text(encoding='utf-8')
+for token in ('.header,.site-header,.intl-header', '.cta-box,.contact-card', '.footer,.foot,.site-footer', 'repeat(4,minmax(0,1fr))'):
+    if token not in shell_text:
         raise SystemExit('stage98: required shell rule missing: ' + token)
 
 project_copy = {
@@ -44,7 +45,33 @@ project_copy = {
     'Мобильный пользовательский сценарий и работа с существующим продуктом сервиса поездок.': 'Ключевой сценарий заказа поездки и доработка существующего мобильного продукта.',
     '<span>Automation</span>': '<span>Автоматизация</span>',
     '<span>Mobile</span>': '<span>Мобильные</span>',
+    '>Featured<': '>Флагман<',
+    '>Live<': '>Демо<',
+    '>Platform<': '>Платформа<',
+    '>CASE<': '>КЕЙС<',
 }
+
+featured_order = [
+    'seo-control-center','sheetpilot-ai','fin-planner','swift-calendar',
+    'freelance-os','siteaudit-studio','auto-crm','taxi-app','factory-catalog'
+]
+
+def reorder_anchor_cards(html: str, start_token: str, end_token: str, class_prefix: str) -> str:
+    start = html.find(start_token)
+    if start < 0:
+        return html
+    content_start = start + len(start_token)
+    end = html.find(end_token, content_start)
+    if end < 0:
+        return html
+    fragment = html[content_start:end]
+    pat = re.compile(rf'<a class="{re.escape(class_prefix)}[^\"]*"[^>]*href="/cases/([^/]+)/"[^>]*>.*?</a>', re.S)
+    cards = [(m.group(1), m.group(0)) for m in pat.finditer(fragment)]
+    if len(cards) < 2:
+        return html
+    rank = {slug: i for i, slug in enumerate(featured_order)}
+    cards.sort(key=lambda item: rank.get(item[0], 999))
+    return html[:content_start] + ''.join(card for _, card in cards) + html[end:]
 
 checked = changed = 0
 errors = []
@@ -63,10 +90,26 @@ for path in sorted(root.rglob('*.html')):
 
     if rel == 'index.html':
         home_seen = True
-        html = html.replace('data-project-showcase data-page-size="4"', 'data-project-showcase data-page-size="3"')
+        html = html.replace('data-project-showcase data-page-size="3"', 'data-project-showcase data-page-size="4"')
         html = html.replace('Выбранные проекты. <em>Реальная работа.</em>', 'Выбранные проекты. <em>Реальные интерфейсы и логика.</em>')
         html = html.replace('CRM, автоматизация, web, mobile и Telegram. Коротко о задаче, интерфейсе и результате.', 'Несколько сильных работ вместо длинной витрины: задача, интерфейс, логика и то, что получилось в итоге.')
         html = html.replace('<strong>5</strong><span>подробных кейсов на сайте</span>', '<strong>9</strong><span>подробных кейсов на сайте</span>')
+        html = reorder_anchor_cards(html, '<div class="portfolio-carousel__grid">', '</div></div></div><aside class="project-radar"', 'portfolio-card')
+        # One header action language across the Russian shell.
+        def ru_header(match):
+            part = match.group(0)
+            for old in ('Обсудить задачу в Telegram ↗','Описать задачу в Telegram ↗','Написать в Telegram ↗'):
+                part = part.replace(old, 'Обсудить проект ↗')
+            return part
+        html = re.sub(r'<header\b.*?</header>', ru_header, html, count=1, flags=re.I|re.S)
+
+    if rel == 'cases/index.html':
+        html = reorder_anchor_cards(html, '<div class="case-library__grid">', '</div><div class="case-library-empty"', 'case-library-card')
+
+    if rel.startswith('en/'):
+        html = re.sub(r'(<header\b.*?</header>)', lambda m: m.group(1).replace('Describe your project in Telegram ↗','Discuss a project ↗').replace('Contact in Telegram ↗','Discuss a project ↗'), html, count=1, flags=re.I|re.S)
+    elif rel != 'index.html':
+        html = re.sub(r'(<header\b.*?</header>)', lambda m: m.group(1).replace('Обсудить задачу в Telegram ↗','Обсудить проект ↗').replace('Описать задачу в Telegram ↗','Обсудить проект ↗').replace('Написать в Telegram ↗','Обсудить проект ↗'), html, count=1, flags=re.I|re.S)
 
     html = re.sub(r'\s*<link\b[^>]*data-stage98-design=["\']true["\'][^>]*/?>', '', html, flags=re.I)
     html = re.sub(r'\s*<link\b[^>]*data-stage98-shell=["\']true["\'][^>]*/?>', '', html, flags=re.I)
@@ -90,15 +133,18 @@ if not home_seen:
     errors.append('homepage not found')
 else:
     home = (root / 'index.html').read_text(encoding='utf-8', errors='ignore')
-    if 'data-project-showcase data-page-size="3"' not in home:
-        errors.append('homepage showcase is not 3-up')
+    if 'data-project-showcase data-page-size="4"' not in home:
+        errors.append('homepage showcase is not 4-up')
     if 'project-radar' not in home or 'portfolio-carousel' not in home:
         errors.append('homepage showcase structure missing')
     if 'LOCAL-FIRST' in home or 'INTERNAL PRODUCT' in home or 'FULLSTACK · AUTOMATION' in home:
         errors.append('developer-facing project jargon remains on homepage')
+    first_four = [home.find(f'/cases/{slug}/') for slug in featured_order[:4]]
+    if any(pos < 0 for pos in first_four) or first_four != sorted(first_four):
+        errors.append('real-interface projects are not leading the homepage showcase')
 
 if errors:
     raise SystemExit('stage98 design audit failed:\n' + '\n'.join(errors[:30]))
 
 print(f'stage98 design system: {changed} pages patched; {checked} user-facing pages audited')
-print('stage98: unified surfaces, shell, forms, footer, calmer homepage, 3-up projects and consistent project language')
+print('stage98: unified shell, forms and surfaces; 4-up desktop projects; real-interface work first; consistent project and CTA language')
