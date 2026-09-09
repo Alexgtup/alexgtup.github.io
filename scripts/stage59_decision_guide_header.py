@@ -40,7 +40,7 @@ STYLE = r'''<style data-stage59-decision-guide-header>
 @media(max-width:430px){.s59-brand-copy small{display:none}.s59-mark{width:2.2rem}.s59-action{font-size:0}.s59-action::before{content:"Telegram";font-size:.78rem}.s59-action svg{width:13px;height:13px}}
 </style>'''
 
-HEADER = r'''<header class="header s59-header" data-stage59-header data-nosnippet=""><div class="s59-shell s59-header-inner"><a class="s59-brand" href="/" aria-label="Alexuys — на главную"><span class="s59-mark" aria-hidden="true"><svg fill="none" viewBox="0 0 32 32"><path d="M8.5 9.5 14 15l-5.5 5.5" stroke="#c9ff4a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"/><path d="M16 21h7.5" stroke="#8195ff" stroke-linecap="round" stroke-width="2.2"/><circle cx="24" cy="8" r="2.2" fill="#c9ff4a"/></svg></span><span class="s59-brand-copy"><strong>alexuys</strong><small>AI · WEB · AUTOMATION</small></span></a><nav class="s59-nav" aria-label="Основная навигация" data-nosnippet=""><a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/" aria-current="page">Разборы</a><a href="/#process">Процесс</a><a href="/about/">Обо мне</a><a class="s59-lang" href="/en/" hreflang="en" lang="en" aria-label="English version">EN</a></nav><a class="s59-action" href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Обсудить проект <svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="15" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header>'''
+HEADER = r'''<header class="header s59-header" data-stage59-header data-nosnippet=""><div class="s59-shell s59-header-inner"><a class="s59-brand" href="/" aria-label="Alexuys — на главную"><span class="s59-mark" aria-hidden="true"><svg fill="none" viewBox="0 0 32 32"><path d="M8.5 9.5 14 15l-5.5 5.5" stroke="#c9ff4a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"/><path d="M16 21h7.5" stroke="#8195ff" stroke-linecap="round" stroke-width="2.2"/><circle cx="24" cy="8" r="2.2" fill="#c9ff4a"/></svg></span><span class="s59-brand-copy"><strong>alexuys</strong><small>AI · WEB · AUTOMATION</small></span></a><nav class="s59-nav" aria-label="Основная навигация" data-nosnippet=""><a href="/cases/">Кейсы</a><a href="/services/">Услуги</a><a href="/guides/" aria-current="page">Разборы</a><a href="/about/">Обо мне</a><a class="s59-lang" href="/en/guides/" hreflang="en" lang="en" aria-label="English guides">EN</a></nav><a class="s59-action" href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer">Обсудить проект <svg fill="none" height="15" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="15" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a></div></header>'''
 
 changed = 0
 for page in TARGETS:
@@ -76,7 +76,12 @@ for page in TARGETS:
     rel = "/" + page.relative_to(root).as_posix().removesuffix("index.html")
     if text.count("data-stage59-header") != 1:
         raise SystemExit(f"stage59: normalized header missing on {rel}")
-    if "s59-brand-copy" not in text or "Обсудить проект" not in text or ">Процесс<" not in text:
+    if (
+        "s59-brand-copy" not in text
+        or "Обсудить проект" not in text
+        or 'href="/en/guides/"' not in text
+        or ">Процесс<" in text
+    ):
         raise SystemExit(f"stage59: header content incomplete on {rel}")
 
 home_after = hashlib.sha256(home.read_bytes()).hexdigest()
