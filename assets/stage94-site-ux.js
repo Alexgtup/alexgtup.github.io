@@ -55,7 +55,7 @@
 
   const markCurrentNavigation = () => {
     const hub = hubFor();
-    document.querySelectorAll('nav.nav a[href], nav.intl-nav a[href], nav.dt-navlinks a[href]').forEach(link => {
+    document.querySelectorAll('nav.nav a[href], nav.intl-nav a[href], nav.dt-navlinks a[href], .fos-nav nav a[href]').forEach(link => {
       let href = link.getAttribute('href') || '';
       if (!href.startsWith('/')) return;
       href = href.split('#')[0].split('?')[0];
@@ -81,8 +81,8 @@
     return target;
   };
 
-  const addActionRow = (hero, anchor, primary, secondary = null) => {
-    if (!hero || !anchor || hero.querySelector('.stage94-hero-actions')) return;
+  const addActionRow = (section, anchor, primary, secondary = null) => {
+    if (!section || !anchor || section.querySelector('.stage94-hero-actions')) return;
     const row = document.createElement('div');
     row.className = 'stage94-hero-actions';
     const a = document.createElement('a');
@@ -144,6 +144,44 @@
         addActionRow(hero, hero?.querySelector('.intl-lead'), { href: '#browse', label: labels[path] });
       }
     }
+
+    if (path === '/en/project-repair/') {
+      const sections = [...document.querySelectorAll('main > section.intl-section')];
+      const last = sections.at(-1);
+      const links = last?.querySelector('.intl-links');
+      addActionRow(last, links || last?.querySelector('.intl-section-head'),
+        { href: 'https://t.me/Alexuys', label: 'Discuss the repair ↗' },
+        { href: '/en/services/', label: 'All services' });
+    }
+  };
+
+  const normalizeEndingOrder = () => {
+    if (path !== '/freelance-developer/') return;
+    const main = document.querySelector('main');
+    const contact = document.getElementById('hub-contact');
+    const extra = main?.querySelector('.s68-entry');
+    if (main && contact && extra && extra.compareDocumentPosition(contact) & Node.DOCUMENT_POSITION_PRECEDING) {
+      main.insertBefore(extra, contact);
+    }
+  };
+
+  const improveLiveFeedback = () => {
+    document.querySelectorAll('.dt-status').forEach(status => {
+      status.setAttribute('role', 'status');
+      status.setAttribute('aria-live', 'polite');
+      status.setAttribute('aria-atomic', 'true');
+    });
+    document.querySelectorAll('.project-radar__filters,.case-filter__list,.ux-filterbar').forEach(row => {
+      row.setAttribute('role', 'toolbar');
+      if (!row.getAttribute('aria-label')) row.setAttribute('aria-label', isEn ? 'Content filters' : 'Фильтры');
+    });
+    document.querySelectorAll('[data-case-count]').forEach(counter => {
+      const container = counter.closest('.case-library__toolbar,.case-filter__top');
+      if (container) {
+        container.setAttribute('aria-live', 'polite');
+        container.setAttribute('aria-atomic', 'true');
+      }
+    });
   };
 
   const improveSearchEscape = () => {
@@ -180,6 +218,8 @@
   ensureLandmarks();
   markCurrentNavigation();
   addEntryActions();
+  normalizeEndingOrder();
+  improveLiveFeedback();
   improveSearchEscape();
   keyboardFilterRows();
   document.documentElement.dataset.stage94Ux = 'ready';
