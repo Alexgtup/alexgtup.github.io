@@ -2,6 +2,7 @@
 from pathlib import Path
 from collections import Counter
 import re
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -94,6 +95,8 @@ for rel in without_shared_shell:
     regressions.append(rel)
 if regressions:
     raise SystemExit("stage24: substantive page without shared shell (.container or .intl-container): " + ", ".join(regressions))
+
+subprocess.run(['node', '--check', str(root / 'assets/stage94-site-ux.js')], check=True)
 
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
