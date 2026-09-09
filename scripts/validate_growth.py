@@ -51,8 +51,10 @@ for p in root.rglob('*.html'):
         if isinstance(data, list):
             for obj in data: check(obj)
         else: check(data)
+# After Stage95 pruning, three strong contextual entry points are the floor. The
+# previous threshold of four forced duplicate promo sections back into the UI.
 for url, sources in inbound.items():
-    if len(sources) < 4: errors.append(f'{url}: only {len(sources)} linking pages')
+    if len(sources) < 3: errors.append(f'{url}: only {len(sources)} linking pages')
 js = (root / 'assets/site-enhancements.js').read_text()
 if "if (typeof window.ym !== 'function') return;" in js: errors.append('legacy goal helper does not honor revocation')
 if errors: raise SystemExit('\n'.join(errors))
