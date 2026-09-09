@@ -4,11 +4,16 @@ import re
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
-marker = 'data-stage98-design="true"'
-link = '<link href="/assets/stage98-design-system.css?v=20260909-1" rel="stylesheet" data-stage98-design="true"/>'
-css = root / 'assets/stage98-design-system.css'
-if not css.exists():
+design_marker = 'data-stage98-design="true"'
+shell_marker = 'data-stage98-shell="true"'
+design_link = '<link href="/assets/stage98-design-system.css?v=20260909-1" rel="stylesheet" data-stage98-design="true"/>'
+shell_link = '<link href="/assets/stage98-shell.css?v=20260909-1" rel="stylesheet" data-stage98-shell="true"/>'
+design_css = root / 'assets/stage98-design-system.css'
+shell_css = root / 'assets/stage98-shell.css'
+if not design_css.exists():
     raise SystemExit('stage98: design stylesheet missing')
+if not shell_css.exists():
+    raise SystemExit('stage98: shell stylesheet missing')
 
 required_css = (
     '--ds-accent:#c9ff4a;',
@@ -18,10 +23,13 @@ required_css = (
     '.stage95-service-core',
     '.case-library__grid',
 )
-css_text = css.read_text(encoding='utf-8')
+design_text = design_css.read_text(encoding='utf-8')
 for token in required_css:
-    if token not in css_text:
+    if token not in design_text:
         raise SystemExit('stage98: required design token/rule missing: ' + token)
+for token in ('.header,.site-header,.intl-header', '.cta-box,.contact-card', '.footer,.foot,.site-footer'):
+    if token not in shell_css.read_text(encoding='utf-8'):
+        raise SystemExit('stage98: required shell rule missing: ' + token)
 
 project_copy = {
     'CRM · LOCAL-FIRST': 'CRM · WORKFLOW',
@@ -61,7 +69,8 @@ for path in sorted(root.rglob('*.html')):
         html = html.replace('<strong>5</strong><span>подробных кейсов на сайте</span>', '<strong>9</strong><span>подробных кейсов на сайте</span>')
 
     html = re.sub(r'\s*<link\b[^>]*data-stage98-design=["\']true["\'][^>]*/?>', '', html, flags=re.I)
-    html = html.replace('</head>', link + '\n</head>', 1)
+    html = re.sub(r'\s*<link\b[^>]*data-stage98-shell=["\']true["\'][^>]*/?>', '', html, flags=re.I)
+    html = html.replace('</head>', design_link + '\n' + shell_link + '\n</head>', 1)
     if html != original:
         path.write_text(html, encoding='utf-8')
         changed += 1
@@ -71,11 +80,11 @@ for path in sorted(root.rglob('*.html')):
     if '<main' not in html or '</head>' not in html:
         continue
     rel = str(path.relative_to(root)).replace('\\', '/')
-    if html.count(marker) != 1:
-        errors.append(f'{rel}: design system missing or duplicated')
+    if html.count(design_marker) != 1 or html.count(shell_marker) != 1:
+        errors.append(f'{rel}: stage98 design/shell missing or duplicated')
     head = html.split('</head>', 1)[0]
-    if not head.rstrip().endswith(link):
-        errors.append(f'{rel}: stage98 is not the final stylesheet')
+    if not head.rstrip().endswith(shell_link):
+        errors.append(f'{rel}: stage98 shell is not the final stylesheet')
 
 if not home_seen:
     errors.append('homepage not found')
@@ -92,4 +101,4 @@ if errors:
     raise SystemExit('stage98 design audit failed:\n' + '\n'.join(errors[:30]))
 
 print(f'stage98 design system: {changed} pages patched; {checked} user-facing pages audited')
-print('stage98: one neutral surface language; lime accent; calmer homepage; 3-up projects; unified hub/service/card rhythm')
+print('stage98: unified surfaces, shell, forms, footer, calmer homepage, 3-up projects and consistent project language')
