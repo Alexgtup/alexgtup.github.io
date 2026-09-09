@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
-"""Deployment gate for analytics coverage and cloned structured-data regressions."""
+"""Final UX normalization plus deployment gate for analytics and structured-data regressions."""
 from pathlib import Path
 from html.parser import HTMLParser
 import json
 import re
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
+repo_root = Path(__file__).resolve().parents[1]
+
+# These finalizers intentionally run after all content/SEO generators so the published
+# artifact, not an intermediate template, gets the same UX baseline and pruning pass.
+subprocess.run([sys.executable, str(repo_root / 'scripts/stage94_sitewide_ux.py'), str(root)], check=True)
+subprocess.run([sys.executable, str(repo_root / 'scripts/stage95_prune_and_unify.py'), str(root)], check=True)
+subprocess.run(['node', '--check', str(root / 'assets/stage94-site-ux.js')], check=True)
+
 errors = []
 pages = 0
 class Page(HTMLParser):
