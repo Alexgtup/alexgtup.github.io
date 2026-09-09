@@ -96,7 +96,9 @@ jobs:
           # Add contextual crawl bridges from the five pages already indexed by Google
           # to the next commercial URLs that Yandex already keeps SEARCHABLE.
           python scripts/stage79_seed_crawl_bridges.py _site
-          # Audit the actual final HTML after conversion and crawl-bridge changes.
+          # Keep Article structured data eligible for article/search features.
+          python scripts/stage80_article_schema_image.py _site
+          # Audit the actual final HTML after conversion, crawl-bridge and schema changes.
           python scripts/stage77_sitewide_search_quality_v2.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
