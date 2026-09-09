@@ -13,6 +13,7 @@ CSS_LINK = '<link href="/assets/ux-interactions.css?v=20260909-2" rel="styleshee
 JS_LINK = '<script defer src="/assets/ux-interactions.js?v=20260909-1" data-stage92-ux-js="true"></script>'
 MAIN_OPEN_RE = re.compile(r'<main\b[^>]*>', re.I | re.S)
 SECTION_RE = re.compile(r'<section\b[^>]*>.*?</section>', re.I | re.S)
+DECISION_GUIDES = {'n8n-vs-backend', 'repair-vs-rewrite', 'site-vs-web-app'}
 
 
 def add_assets(text: str) -> str:
@@ -42,19 +43,6 @@ def add_id_to_opening(tag: str, element_id: str) -> str:
     if re.search(r'\bid=["\']', tag, re.I):
         return tag
     return tag[:-1] + f' id="{element_id}">'
-
-
-def add_id_first_section_class(text: str, class_name: str, element_id: str, nth: int = 1) -> str:
-    pat = re.compile(
-        rf'<section\b(?=[^>]*class=["\'][^"\']*\b{re.escape(class_name)}\b[^"\']*["\'])[^>]*>',
-        re.I | re.S,
-    )
-    matches = list(pat.finditer(text))
-    if len(matches) < nth:
-        return text
-    m = matches[nth - 1]
-    tag = add_id_to_opening(m.group(0), element_id)
-    return text[:m.start()] + tag + text[m.end():]
 
 
 def add_progress(text: str) -> str:
@@ -102,7 +90,6 @@ def collapse_section_by_heading(text: str, phrase: str, element_id: str) -> str:
             continue
         opening_end = block.find('>') + 1
         inner = block[opening_end:-len('</section>')]
-        # Remove the visible heading from its original location; retain semantic H2 as sr-only.
         inner_hm = re.search(r'<h([23])\b[^>]*>.*?</h\1>', inner, re.I | re.S)
         if inner_hm:
             inner = inner[:inner_hm.start()] + inner[inner_hm.end():]
@@ -136,18 +123,11 @@ def ensure_section_id_by_heading(text: str, phrase: str, element_id: str) -> str
 def insert_decision_jumps(text: str) -> str:
     if 'class="ux-guide-jumps"' in text:
         return text
-    links = [
-        ('compare', 'Сравнение'),
-        ('guide-differences', 'Различия'),
-        ('guide-estimate', 'Оценка'),
-        ('guide-faq', 'FAQ'),
-    ]
+    links = [('compare', 'Сравнение'), ('guide-differences', 'Различия'), ('guide-estimate', 'Оценка'), ('guide-faq', 'FAQ')]
     available = [(i, label) for i, label in links if re.search(rf'\bid=["\']{re.escape(i)}["\']', text, re.I)]
     if len(available) < 2:
         return text
-    nav = '<nav class="ux-guide-jumps" aria-label="Навигация по разбору"><div class="container ux-guide-jumps__inner">' + ''.join(
-        f'<a href="#{i}">{label}</a>' for i, label in available
-    ) + '</div></nav>'
+    nav = '<nav class="ux-guide-jumps" aria-label="Навигация по разбору"><div class="container ux-guide-jumps__inner">' + ''.join(f'<a href="#{i}">{label}</a>' for i, label in available) + '</div></nav>'
     hero_pat = re.compile(r'(<section\b(?=[^>]*class=["\'][^"\']*\bhero\b[^"\']*["\'])[^>]*>.*?</section>)', re.I | re.S)
     return hero_pat.sub(lambda m: m.group(1) + '\n' + nav, text, count=1)
 
@@ -170,26 +150,24 @@ for path in sorted((root / 'guides').glob('*/index.html')):
     text = add_assets(text)
     text = add_main_class(text, 'ux-guide-main')
     text = add_progress(text)
-
-    # Three decision-guide templates do not have the article TOC used by the regular guides.
-    is_decision = 'class="layout"' not in text and "class='layout'" not in text
+    is_decision = path.parent.name in DECISION_GUIDES
     if is_decision:
         text = ensure_section_id_by_heading(text, 'Выбирайте по ограничениям задачи', 'compare')
         text = collapse_section_by_heading(text, 'Где решение начинает отличаться', 'guide-differences')
         text = collapse_section_by_heading(text, 'Ориентир до технического задания', 'guide-estimate')
         text = ensure_section_id_by_heading(text, 'Два частых пограничных случая', 'guide-faq')
         text = insert_decision_jumps(text)
-
     if text != original:
         path.write_text(text, encoding='utf-8')
         changed_guides.append('/' + path.relative_to(root).parent.as_posix() + '/')
 
-# Guards.
 problems: list[str] = []
 for path in sorted((root / 'tools').glob('*/index.html')):
     text = path.read_text(encoding='utf-8')
     rel = '/' + path.relative_to(root).parent.as_posix() + '/'
-    if CSS_MARK not in text or JS_MARK not in text or 'class="ux-tool-helperbar"' not in text:
+    if CSS_MARK not in text or JS_MARK not in text:
+        problems.append(rel + ':tool-assets')
+    if 'dt-workspace' in text and 'class="ux-tool-helperbar"' not in text:
         problems.append(rel + ':tool-helper')
 
 for path in sorted((root / 'guides').glob('*/index.html')):
@@ -197,14 +175,18 @@ for path in sorted((root / 'guides').glob('*/index.html')):
     rel = '/' + path.relative_to(root).parent.as_posix() + '/'
     if CSS_MARK not in text or JS_MARK not in text or 'class="ux-reading-progress"' not in text:
         problems.append(rel + ':reading-assets')
-    if 'class="layout"' not in text and "class='layout'" not in text:
+    if path.parent.name in DECISION_GUIDES:
         required = ('compare', 'guide-differences', 'guide-estimate', 'guide-faq')
         ids = set(re.findall(r'\bid=["\']([^"\']+)["\']', text, re.I))
         if not set(required).issubset(ids):
             problems.append(rel + ':decision-sections')
-        for href in re.findall(r'class=["\']ux-guide-jumps[^>]*>.*?href=["\']#([^"\']+)', text, re.I | re.S):
-            if href not in ids:
-                problems.append(rel + ':#' + href)
+        jump_block = re.search(r'<nav\b(?=[^>]*class=["\'][^"\']*\bux-guide-jumps\b[^"\']*["\'])[^>]*>.*?</nav>', text, re.I | re.S)
+        if not jump_block:
+            problems.append(rel + ':decision-nav')
+        else:
+            for href in re.findall(r'href=["\']#([^"\']+)', jump_block.group(0), re.I):
+                if href not in ids:
+                    problems.append(rel + ':#' + href)
 
 if problems:
     raise SystemExit('stage92 UX invariant failed: ' + ', '.join(problems[:30]))
