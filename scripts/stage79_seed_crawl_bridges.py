@@ -160,6 +160,22 @@ def build_section(route: str, cfg: dict) -> str:
     )
 
 
+def insertion_pos(text: str, route: str) -> int:
+    # Preserve the existing conversion ending. Commercial service templates do
+    # not all share the same final section, so try the strongest contact anchor
+    # first, then FAQ, and only then fall back to the closing main tag.
+    anchors = (
+        '<section class="s48-contact"',
+        '<section class="growth-section growth-faq"',
+        '</main>',
+    )
+    for anchor in anchors:
+        pos = text.find(anchor)
+        if pos >= 0:
+            return pos
+    raise SystemExit(f"stage79: no safe insertion anchor found on /{route}/")
+
+
 changed = []
 for route, cfg in BRIDGES.items():
     page = ROOT / route / "index.html"
@@ -169,12 +185,7 @@ for route, cfg in BRIDGES.items():
     text = page.read_text(encoding="utf-8")
     marker = 'data-stage79="true"'
     if marker not in text:
-        # Keep existing FAQ/contact ending intact. Insert the crawl bridge just
-        # before the final FAQ block used across commercial service pages.
-        anchor = '<section class="growth-section growth-faq"'
-        pos = text.find(anchor)
-        if pos < 0:
-            raise SystemExit(f"stage79: FAQ insertion anchor not found on /{route}/")
+        pos = insertion_pos(text, route)
         text = text[:pos] + build_section(route, cfg) + text[pos:]
         page.write_text(text, encoding="utf-8")
         changed.append(route)
