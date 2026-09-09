@@ -10,7 +10,7 @@ links = (
     ('data-stage81-mobile-polish="true"', '<link href="/assets/mobile-polish.css" rel="stylesheet" data-stage81-mobile-polish="true"/>'),
     ('data-stage82-visual-system="true"', '<link href="/assets/visual-system.css?v=20260909-3" rel="stylesheet" data-stage82-visual-system="true"/>'),
     ('data-stage83-mobile-actions="true"', '<link href="/assets/stage83-mobile-actions.css?v=20260909-2" rel="stylesheet" data-stage83-mobile-actions="true"/>'),
-    ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-1" data-stage84-mobile-runtime="true"></script>'),
+    ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-2" data-stage84-mobile-runtime="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
