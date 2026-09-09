@@ -132,17 +132,30 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
   }
 
   /* Large desktop hero typography was the main reason many legacy pages looked
-     technically responsive but visually broken at 390–440px. */
+     technically responsive but visually broken at 390–440px. This selector also
+     catches stage48 service pages and older case-study templates. */
   body:not([data-page="home"]) .hero h1,
   body:not([data-page="home"]) .hub h1,
-  body:not([data-page="home"]) .service-hero-copy h1{
+  body:not([data-page="home"]) .service-hero-copy h1,
+  body:not([data-page="home"]) .s48-hero h1,
+  body:not([data-page="home"]) .case-study-copy h1{
     font-size:clamp(2.35rem,10.5vw,3.65rem) !important;
     line-height:.96 !important;
     letter-spacing:-.045em !important;
     max-width:14ch !important;
   }
 
-  .hero h1,.hub h1,.section h2,.article h2,.cta-box h2,.contact-card h2{
+  /* Stage48 still had a 3rem/4.5rem+ mobile hero after its columns collapsed.
+     Reduce only vertical chrome; content and conversion blocks remain intact. */
+  .s48-hero{
+    padding:2.25rem 0 3rem !important;
+  }
+  .case-study-hero{
+    padding-top:2rem !important;
+  }
+
+  .hero h1,.hub h1,.section h2,.article h2,.cta-box h2,.contact-card h2,
+  .s48-hero h1,.case-study-copy h1{
     text-wrap:balance;
   }
 
