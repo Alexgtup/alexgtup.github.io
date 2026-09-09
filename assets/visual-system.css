@@ -120,10 +120,24 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
 .footer a:hover,.foot a:hover,.site-footer a:hover{color:var(--text,var(--ui-text));}
 
 @media (max-width:760px){
+  .header .head,.site-header .head,
+  .header .header-inner,.site-header .header-inner{
+    min-height:4.25rem !important;
+  }
+
   .card,.service,.guide-card,.link-card,.mini,.trust-card,.case-proof-card,
   .route-card,.authority-card,.market-proof-card,
   .cta-box,.contact-card,.case-cta,.answer{
     border-radius:1rem !important;
+  }
+
+  /* Large desktop hero typography was the main reason many legacy pages looked
+     technically responsive but visually broken at 390–440px. */
+  body:not([data-page="home"]) .hero h1{
+    font-size:clamp(2.35rem,10.5vw,3.65rem) !important;
+    line-height:.96 !important;
+    letter-spacing:-.045em !important;
+    max-width:14ch !important;
   }
 
   .hero h1,.hub h1,.section h2,.article h2,.cta-box h2,.contact-card h2{
@@ -134,6 +148,111 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
   .s50-card:hover,.s51-card:hover,.s72-offer:hover,.s77-card:hover{
     transform:none;
     box-shadow:none;
+  }
+
+  /* Guide-family reading mode. Desktop TOC/sidebar becomes a compact horizontal
+     chapter rail so the article starts in the first mobile viewport. */
+  body[data-page^="guides--"] .crumbs{
+    padding-top:1rem !important;
+    font-size:.65rem !important;
+  }
+  body[data-page^="guides--"] .hero{
+    padding:1rem 0 1.9rem !important;
+  }
+  body[data-page^="guides--"] .hero h1{
+    margin-top:.7rem !important;
+    font-size:clamp(2.2rem,9.8vw,3.25rem) !important;
+    line-height:.98 !important;
+    letter-spacing:-.042em !important;
+    max-width:15ch !important;
+  }
+  body[data-page^="guides--"] .lead{
+    margin-top:.9rem !important;
+    font-size:.94rem !important;
+    line-height:1.62 !important;
+  }
+  body[data-page^="guides--"] .meta{
+    margin-top:.85rem !important;
+    gap:.38rem !important;
+  }
+  body[data-page^="guides--"] .meta span{
+    padding:.34rem .5rem !important;
+    font-size:.61rem !important;
+  }
+  body[data-page^="guides--"] .layout{
+    gap:1rem !important;
+  }
+  body[data-page^="guides--"] .toc{
+    position:relative !important;
+    top:auto !important;
+    order:-1;
+    display:flex !important;
+    align-items:center;
+    gap:.4rem;
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    padding:.48rem !important;
+    border-radius:.85rem !important;
+    white-space:nowrap;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  body[data-page^="guides--"] .toc::-webkit-scrollbar{display:none;}
+  body[data-page^="guides--"] .toc strong{display:none !important;}
+  body[data-page^="guides--"] .toc a{
+    flex:0 0 auto;
+    display:inline-flex !important;
+    align-items:center;
+    min-height:2.2rem;
+    padding:.45rem .62rem !important;
+    border:1px solid var(--line,var(--ui-line)) !important;
+    border-radius:.65rem;
+    font-size:.67rem !important;
+    line-height:1.1;
+    white-space:nowrap;
+  }
+  body[data-page^="guides--"] .article section{
+    padding:.5rem 0 1.9rem !important;
+  }
+  body[data-page^="guides--"] .article h2{
+    margin-bottom:.8rem !important;
+    font-size:clamp(1.7rem,7.8vw,2.25rem) !important;
+    line-height:1.03 !important;
+    letter-spacing:-.035em !important;
+  }
+  body[data-page^="guides--"] .article h3{
+    margin-top:1.3rem !important;
+  }
+  body[data-page^="guides--"] .answer,
+  body[data-page^="guides--"] .mini,
+  body[data-page^="guides--"] .link-card{
+    padding:1rem !important;
+  }
+
+  /* A full-width fixed sales CTA competes with long-form reading on guides. */
+  body[data-page^="guides--"] .mobile-project-cta{
+    display:none !important;
+  }
+
+  /* Cookie preferences must remain reachable without sitting over article text. */
+  .cookie-settings{
+    position:static !important;
+    inset:auto !important;
+    display:inline-flex !important;
+    width:max-content;
+    max-width:calc(100% - 2rem);
+    min-height:2.35rem !important;
+    margin:1rem max(var(--mobile-gutter,1rem),env(safe-area-inset-right)) 1.5rem auto !important;
+    padding:.52rem .68rem !important;
+    font-size:.69rem !important;
+  }
+}
+
+@media (max-width:420px){
+  body[data-page^="guides--"] .hero h1{
+    font-size:clamp(2.05rem,9.6vw,2.75rem) !important;
   }
 }
 
