@@ -10,11 +10,34 @@ main [id]{scroll-margin-top:7rem}
 nav a.is-current,[aria-current="page"]{color:#f4f6f2!important}
 .nav a.is-current:not(.cta),.intl-nav a.is-current,.dt-navlinks a.is-current{background:rgba(201,255,74,.075);border-color:rgba(201,255,74,.2)!important}
 
+/* Lightweight parent context: useful on detail pages without adding another navigation bar. */
+.stage94-context-link{display:inline-flex;align-items:center;gap:.42rem;margin:0 0 .9rem;color:#8e979f!important;text-decoration:none;font-size:.72rem;font-weight:780;letter-spacing:.015em}
+.stage94-context-link::before{content:'←';color:#c9ff4a;font-size:.86rem}
+.stage94-context-link:hover{color:#e9ece8!important}
+
 .stage94-hero-actions{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-top:1.15rem}
 .stage94-hero-actions a{min-height:2.75rem;display:inline-flex;align-items:center;justify-content:center;padding:.7rem .9rem;border:1px solid rgba(255,255,255,.11);border-radius:.78rem;text-decoration:none;font-size:.8rem;font-weight:820;letter-spacing:-.01em}
 .stage94-action-primary{background:#c9ff4a;color:#090b0d!important;border-color:#c9ff4a!important}
 .stage94-action-secondary{background:rgba(255,255,255,.025);color:#c8ced4!important}
 .stage94-action-secondary:hover{border-color:rgba(201,255,74,.24);color:#ecffbd!important}
+
+/* A Telegram-specific cross-link should not look like another full service section on generic repair/Python pages. */
+body[data-page="project-repair"] [data-stage60-repair-entry],
+body[data-page="python-development"] [data-stage60-repair-entry]{padding-block:1.7rem!important;border-block:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.012)!important}
+body[data-page="project-repair"] [data-stage60-repair-entry] .container,
+body[data-page="python-development"] [data-stage60-repair-entry] .container{display:grid;grid-template-columns:minmax(0,1fr) minmax(15rem,.45fr);gap:1rem;align-items:center}
+body[data-page="project-repair"] [data-stage60-repair-entry] .s48-head,
+body[data-page="python-development"] [data-stage60-repair-entry] .s48-head{display:block!important;margin:0!important}
+body[data-page="project-repair"] [data-stage60-repair-entry] .s48-index,
+body[data-page="python-development"] [data-stage60-repair-entry] .s48-index{display:block;margin-bottom:.45rem;color:#7d868e;font-size:.62rem}
+body[data-page="project-repair"] [data-stage60-repair-entry] h2,
+body[data-page="python-development"] [data-stage60-repair-entry] h2{margin:0 0 .42rem!important;font-size:clamp(1.15rem,2vw,1.55rem)!important;line-height:1.08!important}
+body[data-page="project-repair"] [data-stage60-repair-entry] p,
+body[data-page="python-development"] [data-stage60-repair-entry] p{margin:0!important;max-width:60ch;color:#8f979f!important;font-size:.84rem!important;line-height:1.55!important}
+body[data-page="project-repair"] [data-stage60-repair-entry] .s48-related,
+body[data-page="python-development"] [data-stage60-repair-entry] .s48-related{margin:0!important}
+body[data-page="project-repair"] [data-stage60-repair-entry] .s48-related a,
+body[data-page="python-development"] [data-stage60-repair-entry] .s48-related a{min-height:3.4rem!important;padding:.8rem .9rem!important;border-radius:.85rem!important}
 
 /* Horizontal controls scroll inside their own rail instead of widening the page. */
 .ux-quicknav__inner,.ux-content-nav__inner,.ux-filterbar,.project-radar__filters,.case-filter__list,.fos-nav nav{max-width:100%;min-width:0;contain:inline-size}
@@ -36,6 +59,12 @@ nav a.is-current,[aria-current="page"]{color:#f4f6f2!important}
 
   .stage94-hero-actions{display:grid;grid-template-columns:1fr;margin-top:1rem}
   .stage94-hero-actions a{width:100%}
+  .stage94-context-link{min-height:40px;margin-bottom:.55rem}
+
+  body[data-page="project-repair"] [data-stage60-repair-entry] .container,
+  body[data-page="python-development"] [data-stage60-repair-entry] .container{grid-template-columns:1fr}
+  body[data-page="project-repair"] [data-stage60-repair-entry],
+  body[data-page="python-development"] [data-stage60-repair-entry]{padding-block:1.35rem!important}
 }
 
 @media(prefers-reduced-motion:reduce){
