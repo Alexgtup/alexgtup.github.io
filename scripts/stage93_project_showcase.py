@@ -10,15 +10,15 @@ root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 CSS_MARK = 'data-stage93-project-css="true"'
 JS_MARK = 'data-stage93-project-js="true"'
 CSS_LINK = '<link href="/assets/portfolio-showcase.css?v=20260909-1" rel="stylesheet" data-stage93-project-css="true"/>'
-JS_LINK = '<script defer src="/assets/portfolio-showcase.js?v=20260909-1" data-stage93-project-js="true"></script>'
+JS_LINK = '<script defer src="/assets/portfolio-showcase.js?v=20260909-2" data-stage93-project-js="true"></script>'
 
 PROJECTS = [
     dict(slug='freelance-os', title='FreelanceOS', meta='CRM · LOCAL-FIRST', desc='CRM фрилансера: лиды, pipeline, follow-up, задачи, бюджеты и аналитика без регистрации.', cats='crm automation web', tags=['CRM','Kanban','Analytics'], accent='#c9ff4a', kind='poster', glyph='FO', badge='Featured'),
     dict(slug='siteaudit-studio', title='SiteAudit Studio', meta='SEO · NODE.JS · CRAWLER', desc='Live-аудит сайта: meta, robots, sitemap, links, accessibility и security с защищённым crawler.', cats='seo automation web', tags=['SEO','Crawler','Audit'], accent='#c9ff4a', kind='poster', glyph='82', badge='Live'),
-    dict(slug='seo-control-center', title='SEO Control Center', meta='SEO · FULLSTACK · AUTOMATION', desc='Панель мониторинга: sitemap, технический аудит, индексация, поисковые метрики и история изменений.', cats='seo automation web', tags=['SEO','GSC','Automation'], accent='#8195ff', kind='image', image='/assets/cases/seo-control-center/seo-control-center-card-02.svg', badge='Platform'),
-    dict(slug='sheetpilot-ai', title='SheetPilot AI', meta='AI · EXCEL · FULLSTACK', desc='Excel-ассистент: команда обычным языком, безопасный preview изменений и экспорт нового файла.', cats='ai automation web', tags=['AI','XLSX','Fullstack'], accent='#c9ff4a', kind='image', image='/assets/cases/sheetpilot-ai/sheetpilot-01.svg', badge='MVP'),
-    dict(slug='fin-planner', title='Фин Планер', meta='TELEGRAM · FINANCE', desc='Telegram-продукт для бюджета: расходы, регулярные операции, цели, отчёты и сценарии внутри бота.', cats='telegram automation', tags=['Telegram','Finance','Reports'], accent='#4bbcff', kind='image', image='/assets/cases/fin-planner/fin-planner-card-02-720w.webp', badge='Telegram'),
-    dict(slug='swift-calendar', title='Календарь на Swift', meta='iOS · SWIFT · PRODUCT UI', desc='Нативное iOS-приложение с календарными сценариями, событиями, состояниями и подпиской.', cats='mobile', tags=['iOS','Swift','Product UI'], accent='#9d7fff', kind='image', image='/assets/cases/swift-calendar/calendar-card-02-720w.webp', badge='iOS'),
+    dict(slug='seo-control-center', title='SEO Control Center', meta='SEO · FULLSTACK · AUTOMATION', desc='Панель мониторинга: sitemap, технический аудит, индексация, поисковые метрики и история изменений.', cats='seo automation web', tags=['SEO','GSC','Automation'], accent='#8195ff', kind='image', image='/assets/cases/seo-control-center/seo-control-center-card-02.svg', width=1536, height=1024, badge='Platform'),
+    dict(slug='sheetpilot-ai', title='SheetPilot AI', meta='AI · EXCEL · FULLSTACK', desc='Excel-ассистент: команда обычным языком, безопасный preview изменений и экспорт нового файла.', cats='ai automation web', tags=['AI','XLSX','Fullstack'], accent='#c9ff4a', kind='image', image='/assets/cases/sheetpilot-ai/sheetpilot-01.svg', width=1440, height=1080, badge='MVP'),
+    dict(slug='fin-planner', title='Фин Планер', meta='TELEGRAM · FINANCE', desc='Telegram-продукт для бюджета: расходы, регулярные операции, цели, отчёты и сценарии внутри бота.', cats='telegram automation', tags=['Telegram','Finance','Reports'], accent='#4bbcff', kind='image', image='/assets/cases/fin-planner/fin-planner-card-02-720w.webp', width=720, height=900, badge='Telegram'),
+    dict(slug='swift-calendar', title='Календарь на Swift', meta='iOS · SWIFT · PRODUCT UI', desc='Нативное iOS-приложение с календарными сценариями, событиями, состояниями и подпиской.', cats='mobile', tags=['iOS','Swift','Product UI'], accent='#9d7fff', kind='image', image='/assets/cases/swift-calendar/calendar-card-02-720w.webp', width=720, height=900, badge='iOS'),
     dict(slug='auto-crm', title='CRM автосалона', meta='CRM · INTERNAL PRODUCT', desc='Единый внутренний контур для заявок, статусов и рабочих данных сотрудников.', cats='crm automation web', tags=['CRM','Workflow','Internal'], accent='#85e7dc', kind='poster', glyph='CRM', badge='CRM'),
     dict(slug='taxi-app', title='Приложение такси', meta='MOBILE · EXISTING PRODUCT', desc='Мобильный пользовательский сценарий и работа с существующим продуктом сервиса поездок.', cats='mobile', tags=['Mobile','UX','Product'], accent='#ff967d', kind='poster', glyph='↗', badge='Mobile'),
     dict(slug='factory-catalog', title='Каталог завода', meta='WEB · B2B', desc='Корпоративный каталог продукции: структура данных, навигация по ассортименту и путь до заявки.', cats='web', tags=['B2B','Web','Catalog'], accent='#8195ff', kind='poster', glyph='B2B', badge='Web'),
@@ -31,9 +31,14 @@ def poster(p: dict) -> str:
     return f'''<div class="portfolio-poster" aria-hidden="true"><div class="portfolio-poster__top"><span>{p['badge']}</span><span>CASE</span></div><div class="portfolio-poster__glyph">{p['glyph']}</div><div class="portfolio-poster__bars"><i></i><i></i><i></i></div></div>'''
 
 
+def image_tag(p: dict) -> str:
+    return (f'<img src="{p["image"]}" alt="Превью проекта {p["title"]}" '
+            f'width="{p["width"]}" height="{p["height"]}" loading="lazy" decoding="async"/>')
+
+
 def home_media(p: dict) -> str:
     if p['kind'] == 'image':
-        return f'''<div class="portfolio-card__media"><img src="{p['image']}" alt="Превью проекта {p['title']}" loading="lazy" decoding="async"/><span class="portfolio-card__shade" aria-hidden="true"></span></div>'''
+        return f'''<div class="portfolio-card__media">{image_tag(p)}<span class="portfolio-card__shade" aria-hidden="true"></span></div>'''
     return f'''<div class="portfolio-card__media">{poster(p)}</div>'''
 
 
@@ -46,7 +51,7 @@ def case_card(p: dict) -> str:
     extra = ' case-library-card--poster' if p['kind'] == 'poster' else ''
     tags = ''.join(f'<span>{tag}</span>' for tag in p['tags'])
     search = f"{p['title']} {p['meta']} {p['desc']} {' '.join(p['tags'])}".replace('"','&quot;')
-    visual = f'<img src="{p["image"]}" alt="Превью проекта {p["title"]}" loading="lazy" decoding="async"/>' if p['kind'] == 'image' else poster(p)
+    visual = image_tag(p) if p['kind'] == 'image' else poster(p)
     return f'''<a class="case-library-card{extra}" href="/cases/{p['slug']}/" data-case-card data-categories="{p['cats']}" data-search="{search}" style="--card-accent:{p['accent']}"><div class="case-library-card__media">{visual}<span class="case-library-card__badge">{p['badge']}</span></div><div class="case-library-card__body"><div class="case-library-card__meta">{p['meta']}</div><h3>{p['title']}</h3><p>{p['desc']}</p><div class="case-library-card__tags">{tags}</div><div class="case-library-card__action"><span>Открыть кейс</span><i aria-hidden="true">↗</i></div></div></a>'''
 
 
@@ -58,7 +63,10 @@ def filter_buttons(attr: str, projects: list[dict]) -> str:
         for key, _ in FILTERS:
             if key != 'all' and key in cats:
                 counts[key] += 1
-    return ''.join(f'<button type="button" {attr}="{key}" aria-pressed="{str(key == "all").lower()}"><span>{label}</span><b>{counts[key]}</b></button>' for key, label in FILTERS if counts[key] > 0)
+    return ''.join(
+        f'<button type="button" {attr}="{key}" aria-pressed="{str(key == "all").lower()}"><span>{label}</span><b>{counts[key]}</b></button>'
+        for key, label in FILTERS if counts[key] > 0
+    )
 
 
 def build_home() -> str:
@@ -72,7 +80,7 @@ def build_home() -> str:
 def build_cases() -> str:
     buttons = filter_buttons('data-case-filter', PROJECTS)
     cards = ''.join(case_card(p) for p in PROJECTS)
-    return f'''<section class="case-library" id="case-list" aria-labelledby="case-library-title" data-case-library><div class="container"><div class="case-library__head"><div><div class="case-library__kicker">PROJECT LIBRARY · {len(PROJECTS):02d} CASES</div><h2 id="case-library-title">Не листайте всё. <em>Выберите тип задачи.</em></h2></div><p class="case-library__lead">Полная витрина проектов с коротким описанием, визуальным превью и фильтрацией. Внутри каждого кейса — детали, интерфейс и контекст реализации.</p></div><div class="case-library__layout"><aside class="case-filter" aria-label="Фильтр библиотеки кейсов"><div class="case-filter__top"><span>Project radar</span><strong><span data-case-count>{len(PROJECTS)}</span> / {len(PROJECTS)}</strong></div><label class="case-filter__search"><input type="search" aria-label="Поиск по кейсам" placeholder="Название или задача" autocomplete="off" data-case-search/></label><div class="case-filter__list">{buttons}</div><button class="case-filter__reset" type="button" data-case-reset>Сбросить фильтр</button></aside><div class="case-library__content"><div class="case-library__toolbar"><span>Показываю <strong data-case-count>{len(PROJECTS)}</strong> проектов</span><span>Фильтр работает без перезагрузки</span></div><div class="case-library__grid">{cards}</div><div class="case-library-empty" data-case-empty>По этому фильтру проектов не нашлось. Попробуйте другую категорию или очистите поиск.</div></div></div></div></section>'''
+    return f'''<section class="case-library" id="case-list" aria-labelledby="case-library-title" data-case-library><div class="container"><div class="case-library__head"><div><div class="case-library__kicker">PROJECT LIBRARY · {len(PROJECTS):02d} CASES</div><h2 id="case-library-title">Не листайте всё. <em>Выберите тип задачи.</em></h2></div><p class="case-library__lead">Полная витрина проектов с коротким описанием, визуальным превью и фильтрацией. Внутри каждого кейса - детали, интерфейс и контекст реализации.</p></div><div class="case-library__layout"><aside class="case-filter" aria-label="Фильтр библиотеки кейсов"><div class="case-filter__top"><span>Project radar</span><strong><span data-case-count>{len(PROJECTS)}</span> / {len(PROJECTS)}</strong></div><label class="case-filter__search"><input type="search" aria-label="Поиск по кейсам" placeholder="Название или задача" autocomplete="off" data-case-search/></label><div class="case-filter__list">{buttons}</div><button class="case-filter__reset" type="button" data-case-reset>Сбросить фильтр</button></aside><div class="case-library__content"><div class="case-library__toolbar"><span>Показываю <strong data-case-count>{len(PROJECTS)}</strong> проектов</span><span>Фильтр работает без перезагрузки</span></div><div class="case-library__grid">{cards}</div><div class="case-library-empty" data-case-empty>По этому фильтру проектов не нашлось. Попробуйте другую категорию или очистите поиск.</div></div></div></div></section>'''
 
 
 def inject_assets(text: str) -> str:
@@ -97,8 +105,7 @@ def remove_old_case_filter_assets(text: str) -> str:
 
 
 def refresh_collection_schema(text: str) -> str:
-    scripts = re.finditer(r'<script type="application/ld\+json">(.*?)</script>', text, re.I | re.S)
-    for m in scripts:
+    for m in re.finditer(r'<script type="application/ld\+json">(.*?)</script>', text, re.I | re.S):
         try:
             data = json.loads(m.group(1))
         except Exception:
@@ -123,6 +130,10 @@ for p in PROJECTS:
     target = root / 'cases' / p['slug'] / 'index.html'
     if not target.is_file():
         raise SystemExit(f'stage93: missing case target {target}')
+    if p['kind'] == 'image':
+        asset = root / p['image'].lstrip('/')
+        if not asset.is_file():
+            raise SystemExit(f'stage93: missing preview asset {asset}')
 
 home = root / 'index.html'
 home_text = inject_assets(home.read_text(encoding='utf-8'))
@@ -142,6 +153,10 @@ if cases_text.count('data-case-library') != 1 or cases_text.count('data-case-car
     raise SystemExit('stage93: case library guard failed')
 if duplicate_ids(cases_text):
     raise SystemExit(f'stage93: cases duplicate ids: {duplicate_ids(cases_text)}')
+if len(re.findall(r'<img\b[^>]*\bwidth=["\']\d+["\'][^>]*\bheight=["\']\d+["\']', home_text, re.I)) < 4:
+    raise SystemExit('stage93: homepage intrinsic image dimensions missing')
+if len(re.findall(r'<img\b[^>]*\bwidth=["\']\d+["\'][^>]*\bheight=["\']\d+["\']', cases_text, re.I)) < 4:
+    raise SystemExit('stage93: case-library intrinsic image dimensions missing')
 cases.write_text(cases_text, encoding='utf-8')
 
-print(f'stage93 project showcase: home={len(HOME_SLUGS)} cards / page=4; cases={len(PROJECTS)} cards; filters={len(FILTERS)}')
+print(f'stage93 project showcase: home={len(HOME_SLUGS)} cards / desktop-page=4 / mobile-page=1; cases={len(PROJECTS)} cards; filters={len(FILTERS)}')
