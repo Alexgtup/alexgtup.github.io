@@ -100,6 +100,8 @@ jobs:
           python scripts/stage80_article_schema_image.py _site
           # Audit the actual final HTML after conversion, crawl-bridge and schema changes.
           python scripts/stage77_sitewide_search_quality_v2.py _site
+          # Remove repeated generic CTA endings and keep one page-specific conversion surface.
+          python scripts/stage85_conversion_cleanup.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
