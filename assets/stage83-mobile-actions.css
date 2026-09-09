@@ -14,6 +14,16 @@
     display:none !important;
   }
 
+  /* Browse/proof/product/tool surfaces already expose contact in the sticky
+     header and their own contextual actions. A third fixed bar wastes mobile
+     viewport height and can cover cards while scrolling. */
+  body:has(> main.ux-hub-main) .mobile-project-cta,
+  body:has(> main.ux-case-main) .mobile-project-cta,
+  body:has(> main.ux-product-main) .mobile-project-cta,
+  body:has(> main.ux-utility-main) .mobile-project-cta{
+    display:none !important;
+  }
+
   /* On pages where the floating CTA remains useful, keep it inside the safe
      viewport regardless of older width/transform rules. */
   .mobile-project-cta{
@@ -89,6 +99,15 @@
     max-width:100% !important;
     min-width:0 !important;
     transform:none;
+  }
+}
+
+/* Small phones have little vertical room. Keep contextual quick navigation in
+   normal document flow instead of stacking a second sticky bar below header. */
+@media (max-width:680px){
+  .ux-content-nav{
+    position:static !important;
+    top:auto !important;
   }
 }
 
