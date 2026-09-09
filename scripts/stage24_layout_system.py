@@ -5,7 +5,10 @@ import re
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
-link = '<link href="/assets/layout-system.css" rel="stylesheet" data-stage24-layout="true"/>'
+links = (
+    '<link href="/assets/layout-system.css" rel="stylesheet" data-stage24-layout="true"/>',
+    '<link href="/assets/mobile-polish.css" rel="stylesheet" data-stage81-mobile-polish="true"/>',
+)
 
 all_html = sorted(root.rglob("*.html"))
 if not all_html:
@@ -60,18 +63,22 @@ for path in html_files:
         for cls in tokens:
             class_counter[cls] += 1
 
-    if 'data-stage24-layout="true"' not in html:
-        html = html.replace("</head>", link + "\n</head>", 1)
+    original = html
+    for link in links:
+        marker = re.search(r'data-(?:stage24-layout|stage81-mobile-polish)="true"', link).group(0)
+        if marker not in html:
+            html = html.replace("</head>", link + "\n</head>", 1)
+    if html != original:
         path.write_text(html, encoding="utf-8")
         changed += 1
 
 missing = []
 for path in html_files:
     html = path.read_text(encoding="utf-8")
-    if 'data-stage24-layout="true"' not in html:
+    if 'data-stage24-layout="true"' not in html or 'data-stage81-mobile-polish="true"' not in html:
         missing.append(str(path.relative_to(root)))
 if missing:
-    raise SystemExit("stage24: layout stylesheet missing from: " + ", ".join(missing[:10]))
+    raise SystemExit("stage24: shared styles missing from: " + ", ".join(missing[:10]))
 
 allowed_no_shell = {"404.html"}
 regressions = []
@@ -93,4 +100,4 @@ print(
 )
 print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
 print(f"stage24 non-shell common classes: {common_classes}")
-print("stage24 shared shell invariant OK")
+print("stage24 shared shell + stage81 mobile polish invariant OK")
