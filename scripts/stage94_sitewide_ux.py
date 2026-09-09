@@ -2,6 +2,7 @@
 from __future__ import annotations
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
@@ -231,4 +232,5 @@ for route in list(CASE_GAPS) + ['/tools/', '/demos/', '/en/services/', '/en/case
     if path.is_file() and 'stage94-hero-actions' not in path.read_text(encoding='utf-8'):
         raise SystemExit('stage94 hero action missing: ' + route)
 
+subprocess.run(['node', '--check', str(root / 'assets/stage94-site-ux.js')], check=True)
 print(f'stage94 sitewide UX: patched {changed}/{len(full_pages)} full pages; skip/main/family baseline complete')
