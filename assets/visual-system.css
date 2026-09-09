@@ -133,7 +133,9 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
 
   /* Large desktop hero typography was the main reason many legacy pages looked
      technically responsive but visually broken at 390–440px. */
-  body:not([data-page="home"]) .hero h1{
+  body:not([data-page="home"]) .hero h1,
+  body:not([data-page="home"]) .hub h1,
+  body:not([data-page="home"]) .service-hero-copy h1{
     font-size:clamp(2.35rem,10.5vw,3.65rem) !important;
     line-height:.96 !important;
     letter-spacing:-.045em !important;
