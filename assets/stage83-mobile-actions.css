@@ -1,0 +1,96 @@
+/* Stage 83 - mobile action-area collision fixes.
+   Keeps conversion controls inside the viewport and prevents duplicate/floating
+   actions from competing with real page CTAs. */
+
+@media (max-width:900px){
+  /* The home page already has strong inline conversion actions. A second fixed
+     Telegram bar only duplicates them and can overlap the final sections. */
+  body[data-page="home"] .mobile-project-cta{
+    display:none !important;
+  }
+
+  /* Long-form guides are reading surfaces; their inline CTA remains enough. */
+  body[data-page^="guides--"] .mobile-project-cta{
+    display:none !important;
+  }
+
+  /* On pages where the floating CTA remains useful, keep it inside the safe
+     viewport regardless of older width/transform rules. */
+  .mobile-project-cta{
+    box-sizing:border-box !important;
+    left:max(1rem,env(safe-area-inset-left)) !important;
+    right:max(1rem,env(safe-area-inset-right)) !important;
+    width:auto !important;
+    max-width:none !important;
+    min-width:0 !important;
+    margin:0 !important;
+    transform:none !important;
+    overflow:hidden;
+    white-space:normal !important;
+    text-align:center;
+  }
+
+  /* Consent preferences live at the end of the document instead of floating
+     over a form, card or sales CTA. :not([hidden]) preserves consent state. */
+  .growth-cookie-settings:not([hidden]),
+  .cookie-settings:not([hidden]){
+    position:static !important;
+    inset:auto !important;
+    float:none !important;
+    transform:none !important;
+    z-index:auto !important;
+    display:block !important;
+    clear:both;
+    width:max-content !important;
+    max-width:calc(100% - 2rem) !important;
+    min-width:0 !important;
+    margin:1.25rem auto 2rem !important;
+  }
+
+  /* Inline conversion buttons must never inherit a translated/fixed geometry
+     from older page generations. */
+  main .actions,
+  main .growth-actions,
+  main .brief-buttons,
+  main .cta-actions,
+  main .contact-actions{
+    min-width:0 !important;
+    max-width:100% !important;
+  }
+
+  main .actions > a,
+  main .actions > button,
+  main .growth-actions > a,
+  main .growth-actions > button,
+  main .brief-buttons > a,
+  main .brief-buttons > button,
+  main .cta-actions > a,
+  main .cta-actions > button,
+  main .contact-actions > a,
+  main .contact-actions > button{
+    box-sizing:border-box !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    transform:none;
+  }
+}
+
+@media (max-width:460px){
+  .mobile-project-cta{
+    left:max(.85rem,env(safe-area-inset-left)) !important;
+    right:max(.85rem,env(safe-area-inset-right)) !important;
+  }
+
+  main .actions > a,
+  main .actions > button,
+  main .growth-actions > a,
+  main .growth-actions > button,
+  main .brief-buttons > a,
+  main .brief-buttons > button,
+  main .cta-actions > a,
+  main .cta-actions > button,
+  main .contact-actions > a,
+  main .contact-actions > button{
+    width:100%;
+  }
+}
