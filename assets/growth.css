@@ -22,4 +22,42 @@
 .growth-cookie p{font-size:.875rem;color:#b7c0cb;margin:.6rem 0}.growth-cookie a{color:#d9e5f3}.growth-cookie .growth-actions{margin-top:.6rem}
 .growth-cookie button,.growth-cookie-settings{cursor:pointer;font-family:inherit}
 .growth-cookie-settings{position:fixed;left:1rem;bottom:1rem;z-index:9998;background:#18202a;color:#c5cfdb;border:1px solid #46505c;border-radius:.6rem;padding:.5rem .8rem;min-height:44px;font-size:.875rem}
-@media(max-width:700px){.growth-grid{grid-template-columns:1fr}.growth-section h2,.growth-hero h1{max-width:100%}.growth-cookie{bottom:5rem;max-height:calc(100dvh - 6rem)}.growth-cookie-settings{bottom:5rem}.growth-nav{gap:.8rem}.growth-actions .growth-link{flex-grow:1}}
+
+/* Stage 86 - a case-page section that contains only navigation links is a
+   related-links rail, not another full content chapter. Keep the useful paths
+   to demos/profile while making the ending quieter before the real contact CTA. */
+body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child){
+  padding:1.15rem 0 !important;
+  border-top-color:rgba(255,255,255,.065);
+  background:rgba(255,255,255,.008);
+}
+body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-shell{
+  width:min(100% - 2rem,80rem);
+}
+body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-actions{
+  margin:0;
+  gap:.5rem;
+}
+body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-link{
+  min-height:2.45rem;
+  padding:.55rem .72rem;
+  border-color:rgba(255,255,255,.1);
+  background:rgba(255,255,255,.018);
+  color:#aab2bc;
+  font-size:.78rem;
+}
+body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-link:hover{
+  color:#f3f5f7;
+  border-color:rgba(201,255,74,.45);
+  background:rgba(201,255,74,.035);
+}
+
+@media(max-width:700px){
+  .growth-grid{grid-template-columns:1fr}.growth-section h2,.growth-hero h1{max-width:100%}.growth-cookie{bottom:5rem;max-height:calc(100dvh - 6rem)}.growth-cookie-settings{bottom:5rem}.growth-nav{gap:.8rem}.growth-actions .growth-link{flex-grow:1}
+  body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child){padding:.9rem 0 !important}
+  body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem}
+  body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-link{width:100%;min-width:0;padding:.55rem .6rem;font-size:.72rem;text-align:center}
+}
+@media(max-width:390px){
+  body[data-page^="cases--"] .growth-section:has(> .growth-shell > .growth-actions:only-child) .growth-actions{grid-template-columns:1fr}
+}
