@@ -1,0 +1,44 @@
+/* Stage 94 - sitewide UX baseline. Consistent orientation, touch targets and mobile chrome. */
+.stage94-skip-link{position:fixed;z-index:10000;left:1rem;top:.75rem;transform:translateY(-160%);padding:.65rem .85rem;border:1px solid rgba(201,255,74,.4);border-radius:.7rem;background:#0b0e12;color:#f5f7f2;font:800 .8rem/1.2 Inter,system-ui,sans-serif;text-decoration:none;transition:transform .16s ease}
+.stage94-skip-link:focus{transform:none}
+
+:where(a,button,input,textarea,select,summary):focus-visible{outline:2px solid #c9ff4a;outline-offset:3px}
+:where(a,button,summary){touch-action:manipulation}
+main [id]{scroll-margin-top:7rem}
+
+/* Active primary navigation gives visitors a persistent sense of place. */
+nav a.is-current,[aria-current="page"]{color:#f4f6f2!important}
+.nav a.is-current:not(.cta),.intl-nav a.is-current,.dt-navlinks a.is-current{background:rgba(201,255,74,.075);border-color:rgba(201,255,74,.2)!important}
+
+.stage94-hero-actions{display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;margin-top:1.15rem}
+.stage94-hero-actions a{min-height:2.75rem;display:inline-flex;align-items:center;justify-content:center;padding:.7rem .9rem;border:1px solid rgba(255,255,255,.11);border-radius:.78rem;text-decoration:none;font-size:.8rem;font-weight:820;letter-spacing:-.01em}
+.stage94-action-primary{background:#c9ff4a;color:#090b0d!important;border-color:#c9ff4a!important}
+.stage94-action-secondary{background:rgba(255,255,255,.025);color:#c8ced4!important}
+.stage94-action-secondary:hover{border-color:rgba(201,255,74,.24);color:#ecffbd!important}
+
+/* Horizontal controls scroll inside their own rail instead of widening the page. */
+.ux-quicknav__inner,.ux-content-nav__inner,.ux-filterbar,.project-radar__filters,.case-filter__list,.fos-nav nav{max-width:100%;min-width:0;contain:inline-size}
+
+@media(max-width:900px){
+  /* Floating sales bars repeatedly competed with real page controls. Every page now uses header + inline actions instead. */
+  .mobile-project-cta{display:none!important}
+}
+
+@media(max-width:680px){
+  /* One sticky header is enough on a phone. Local route navigation remains useful but stays in document flow. */
+  .ux-quicknav,.ux-content-nav{position:static!important;top:auto!important;backdrop-filter:none!important}
+  main [id]{scroll-margin-top:5.25rem}
+
+  .ux-quicknav a,.ux-content-nav a,.ux-filterbar button,.project-radar__filters button,.case-filter__list button,.portfolio-carousel__controls button,.dt-btn,.stage94-hero-actions a{min-height:44px!important}
+
+  /* Prevent iOS focus zoom and improve touch editing across forms and browser tools. */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),textarea,select{font-size:16px!important}
+
+  .stage94-hero-actions{display:grid;grid-template-columns:1fr;margin-top:1rem}
+  .stage94-hero-actions a{width:100%}
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
