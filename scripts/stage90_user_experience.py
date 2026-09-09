@@ -219,9 +219,9 @@ hub_configs = {
     },
     '/demos/': {
         'hero': ('growth-hero',),
-        'setup': lambda t: add_id_aria(add_id_aria(t, 'products', 'products'), 'your-product', 'hub-contact'),
-        'links': [('#products', 'Продукты')],
-        'primary': ('#hub-contact', 'Написать'),
+        'setup': lambda t: add_id_aria(add_id_aria(t, 'products', 'demo-products'), 'your-product', 'demo-contact'),
+        'links': [('#demo-products', 'Продукты')],
+        'primary': ('#demo-contact', 'Написать'),
     },
     '/about/': {
         'hero': ('s50-hero',),
