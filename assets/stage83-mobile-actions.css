@@ -30,6 +30,23 @@
     text-align:center;
   }
 
+  /* The current consent pass uses .growth-cookie. Older CTA JS watches only the
+     former .cookie-consent class, so explicitly prevent the two fixed layers
+     from occupying the same bottom safe-area. */
+  .growth-cookie:not([hidden]){
+    box-sizing:border-box !important;
+    left:max(.85rem,env(safe-area-inset-left)) !important;
+    right:max(.85rem,env(safe-area-inset-right)) !important;
+    bottom:max(.85rem,env(safe-area-inset-bottom)) !important;
+    width:auto !important;
+    max-width:calc(100vw - 1.7rem) !important;
+    margin:0 !important;
+  }
+  .growth-cookie:not([hidden]) ~ .mobile-project-cta,
+  body:has(.growth-cookie:not([hidden])) .mobile-project-cta{
+    display:none !important;
+  }
+
   /* Consent preferences live at the end of the document instead of floating
      over a form, card or sales CTA. :not([hidden]) preserves consent state. */
   .growth-cookie-settings:not([hidden]),
