@@ -8,7 +8,7 @@ root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 links = (
     ('data-stage24-layout="true"', '<link href="/assets/layout-system.css" rel="stylesheet" data-stage24-layout="true"/>'),
     ('data-stage81-mobile-polish="true"', '<link href="/assets/mobile-polish.css" rel="stylesheet" data-stage81-mobile-polish="true"/>'),
-    ('data-stage82-visual-system="true"', '<link href="/assets/visual-system.css?v=20260909-3" rel="stylesheet" data-stage82-visual-system="true"/>'),
+    ('data-stage82-visual-system="true"', '<link href="/assets/visual-system.css?v=20260909-4" rel="stylesheet" data-stage82-visual-system="true"/>'),
     ('data-stage83-mobile-actions="true"', '<link href="/assets/stage83-mobile-actions.css?v=20260909-3" rel="stylesheet" data-stage83-mobile-actions="true"/>'),
     ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-2" data-stage84-mobile-runtime="true"></script>'),
 )
