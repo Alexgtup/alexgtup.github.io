@@ -122,6 +122,9 @@ def simplify_home(text: str) -> str:
     text = remove_sections(text, lambda s: 'growth-section' in s['classes'] and 'Демо и разборы продуктов' in s['heading'])
     text = remove_sections(text, lambda s: s['id'] == 'process')
     text = wrap_adjacent_ids(text, 'about', 'budget', 'stage95-home-model')
+    # Preserve the public #process navigation target without restoring the deleted
+    # full-screen process section. It now lands on the compact work-model + budget band.
+    text = text.replace('<div class="stage95-home-model">', '<div class="stage95-home-model" id="process">', 1)
     replacements = {
         '02 / ПРОЕКТЫ': 'ПРОЕКТЫ',
         'Выберите проект. <em>Оцените результат.</em>': 'Выбранные проекты. <em>Реальная работа.</em>',
