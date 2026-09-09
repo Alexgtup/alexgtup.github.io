@@ -165,6 +165,15 @@
     }
   };
 
+  const moveCookieSettings = () => {
+    const button = document.querySelector('.growth-cookie-settings');
+    const footer = document.querySelector('footer');
+    if (!button || !footer || footer.contains(button)) return;
+    button.classList.add('stage95-footer-cookie');
+    const target = footer.querySelector('.container,.intl-container') || footer;
+    target.append(button);
+  };
+
   const improveLiveFeedback = () => {
     document.querySelectorAll('.dt-status').forEach(status => {
       status.setAttribute('role', 'status');
@@ -219,6 +228,7 @@
   markCurrentNavigation();
   addEntryActions();
   normalizeEndingOrder();
+  moveCookieSettings();
   improveLiveFeedback();
   improveSearchEscape();
   keyboardFilterRows();
