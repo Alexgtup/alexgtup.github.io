@@ -1,0 +1,105 @@
+/* Stage 98 shell - shared chrome, forms, section rhythm and conversion surfaces. */
+
+body[data-ux-family] :is(.header,.site-header,.intl-header){
+  background:rgba(9,11,14,.88)!important;
+  border-bottom:1px solid var(--ds-line)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(16px) saturate(125%);
+  -webkit-backdrop-filter:blur(16px) saturate(125%);
+}
+body[data-ux-family] :is(.header .header-inner,.header .head,.site-header .header-inner,.site-header .head,.intl-header .intl-head){
+  min-height:4.55rem!important;
+}
+body[data-ux-family] :is(.header .nav,.site-header .nav,.intl-nav){gap:clamp(.3rem,.8vw,.8rem)!important}
+body[data-ux-family] :is(.header .nav a,.site-header .nav a,.intl-nav a){
+  color:#8f979f!important;
+  text-decoration:none!important;
+  border-radius:.65rem;
+  padding:.55rem .65rem;
+}
+body[data-ux-family] :is(.header .nav a,.site-header .nav a,.intl-nav a):hover{color:var(--ds-text)!important;background:rgba(255,255,255,.035)}
+body[data-ux-family] :is(.header .nav a,.site-header .nav a,.intl-nav a)[aria-current="page"]{color:var(--ds-text)!important;background:rgba(255,255,255,.045)}
+body[data-ux-family] :is(.header .nav .cta,.site-header .nav .cta,.head-action,.intl-action){
+  min-height:2.55rem!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  padding:.58rem .82rem!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:.72rem!important;
+  background:transparent!important;
+  color:#e7eae6!important;
+}
+body[data-ux-family] :is(.header .nav .cta,.site-header .nav .cta,.head-action,.intl-action):hover{border-color:rgba(201,255,74,.28)!important;color:#eaffb7!important;background:rgba(201,255,74,.035)!important}
+
+/* Keep section intros aligned across page families. */
+body[data-ux-family] :is(.s44-section-head,.s48-head,.s50-head,.s51-head,.section-head,.case-library__head,.portfolio-showcase__head){
+  max-width:76rem;
+}
+body[data-ux-family] :is(.s44-section-head,.s48-head,.s50-head,.s51-head,.section-head) h2{max-width:19ch}
+body[data-ux-family] :is(.s44-section-head,.s48-head,.s50-head,.s51-head,.section-head)>p,
+body[data-ux-family] :is(.s44-section-head,.s48-head,.s50-head,.s51-head,.section-head)>div:last-child p{max-width:58ch;color:var(--ds-muted)!important}
+body[data-ux-family] :is(.eyebrow,.kicker,.s48-index,.s50-index,.s51-index,.portfolio-showcase__kicker,.case-library__kicker){color:var(--ds-muted-2)!important}
+
+/* One form language. */
+body[data-ux-family] :is(input,textarea,select){
+  border:1px solid var(--ds-line)!important;
+  border-radius:.82rem!important;
+  background:#0b0e12!important;
+  color:var(--ds-text)!important;
+  box-shadow:none!important;
+}
+body[data-ux-family] :is(input,textarea,select)::placeholder{color:#69727c!important}
+body[data-ux-family] :is(input,textarea,select):focus{outline:none!important;border-color:rgba(201,255,74,.42)!important;box-shadow:0 0 0 3px rgba(201,255,74,.06)!important}
+body[data-ux-family] label{color:#a9afb6}
+
+/* Conversion surfaces should look intentional and consistent. */
+body[data-ux-family] :is(.cta-box,.contact-card,.s48-contact>div,.s50-cta,.s51-contact>div,.answer){
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius-lg)!important;
+  background:var(--ds-surface)!important;
+  box-shadow:none!important;
+}
+body[data-ux-family] :is(.cta-box,.contact-card,.s50-cta,.answer){padding:clamp(1.35rem,3vw,2.2rem)!important}
+body[data-ux-family] :is(.cta-box,.contact-card,.s50-cta,.s51-contact,.s48-contact) p{max-width:58ch;color:var(--ds-muted)!important}
+
+/* Chips and tags are metadata, not decoration. */
+body[data-ux-family] :is(.tag,.tags span,.chip,.chips span,.meta span,.hero-tags span,.case-library-card__tags span){
+  border:1px solid var(--ds-line)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:#8f979f!important;
+  box-shadow:none!important;
+}
+
+/* Footer is quiet and clearly separated from the work. */
+body[data-ux-family] :is(.footer,.foot,.site-footer){
+  margin-top:clamp(3rem,7vw,6rem);
+  padding-top:clamp(2rem,4vw,3rem)!important;
+  padding-bottom:clamp(1.5rem,3vw,2.3rem)!important;
+  border-top:1px solid var(--ds-line)!important;
+  background:#080a0d!important;
+  color:#737c85!important;
+}
+body[data-ux-family] :is(.footer,.foot,.site-footer) a{color:#8f979f!important;text-decoration:none}
+body[data-ux-family] :is(.footer,.foot,.site-footer) a:hover{color:var(--ds-text)!important}
+body[data-ux-family] .growth-cookie-settings.stage95-footer-cookie{color:#747d86!important}
+
+/* Images/screens read as one portfolio system. */
+body[data-ux-family] :is(.visual,.case-study,.media-frame,.screen,.screenshot,.gallery img,.case-study__media img){
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius)!important;
+  background:#0b0e12!important;
+  box-shadow:none!important;
+}
+
+/* Remove ornamental glow where it competes with actual work. */
+body[data-ux-family] :is(.portfolio-card,.case-library-card,.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article)::before,
+body[data-ux-family] :is(.portfolio-card,.case-library-card,.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article)::after{box-shadow:none}
+
+@media(max-width:760px){
+  body[data-ux-family] :is(.header .header-inner,.header .head,.site-header .header-inner,.site-header .head,.intl-header .intl-head){min-height:4rem!important}
+  body[data-ux-family] :is(.header,.site-header,.intl-header){backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  body[data-ux-family] :is(.cta-box,.contact-card,.s50-cta,.answer){padding:1.15rem!important}
+  body[data-ux-family] :is(.footer,.foot,.site-footer){margin-top:3rem;padding-top:2rem!important}
+}
