@@ -109,6 +109,6 @@ body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:repe
   body[data-ux-family] :is(.cta-box,.contact-card,.s50-cta,.answer){padding:1.15rem!important}
   body[data-ux-family] :is(.footer,.foot,.site-footer){margin-top:3rem;padding-top:2rem!important}
 }
-@media(max-width:680px){
+@media(max-width:640px){
   body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:1fr!important}
 }
