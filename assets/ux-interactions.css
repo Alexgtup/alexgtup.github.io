@@ -32,7 +32,14 @@
 .ux-guide-main [data-stage20-telegram-cluster="true"] p:last-child{grid-column:3;grid-row:1/3;margin:0!important;white-space:nowrap}
 .ux-guide-main [data-stage20-telegram-cluster="true"] a{display:inline-flex;align-items:center;min-height:2.55rem;padding:.58rem .8rem;border:1px solid rgba(201,255,74,.35);border-radius:.72rem;background:rgba(201,255,74,.08);color:#d9ff80;text-decoration:none}
 
-.ux-guide-more{width:min(calc(100% - 2rem),86rem);margin:1rem auto;border:1px solid var(--ux-line);border-radius:1rem;background:rgba(255,255,255,.018);overflow:hidden}
+.ux-guide-jumps{border-block:1px solid var(--ux-line);background:rgba(9,10,12,.82);backdrop-filter:blur(14px)}
+.ux-guide-jumps__inner{display:flex;align-items:center;gap:.45rem;overflow-x:auto;scrollbar-width:none;padding-block:.58rem}
+.ux-guide-jumps__inner::-webkit-scrollbar{display:none}
+.ux-guide-jumps a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:2.35rem;padding:.52rem .72rem;border:1px solid var(--ux-line);border-radius:.72rem;background:rgba(255,255,255,.02);color:#aeb5bd;text-decoration:none;font-size:.75rem;font-weight:760}
+.ux-guide-jumps a:hover{border-color:rgba(255,255,255,.2);color:#fff}
+.ux-guide-jumps a:focus-visible{outline:2px solid var(--ux-lime);outline-offset:2px}
+
+.ux-guide-more{width:min(calc(100% - 2rem),86rem);margin:1rem auto;border:1px solid var(--ux-line);border-radius:1rem;background:rgba(255,255,255,.018);overflow:hidden;scroll-margin-top:8rem}
 .ux-guide-more summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:1rem;min-height:3.7rem;padding:.9rem 1rem;color:#f0f2ef;font-size:clamp(.95rem,1.5vw,1.08rem);font-weight:800;letter-spacing:-.015em}
 .ux-guide-more summary::-webkit-details-marker{display:none}
 .ux-guide-more summary::after{content:'+';flex:0 0 auto;color:var(--ux-lime);font-size:1.25rem;line-height:1}
@@ -41,7 +48,7 @@
 .ux-guide-more__content>.container{padding-block:1.25rem!important}
 .ux-guide-more__content p,.ux-guide-more__content li{max-width:70ch;color:var(--ux-muted)}
 .ux-sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
-.ux-guide-main>.section{padding-block:clamp(2.7rem,4.8vw,4rem)!important}
+.ux-guide-main>.section{padding-block:clamp(2.7rem,4.8vw,4rem)!important;scroll-margin-top:8rem}
 .ux-guide-main>.section .grid,.ux-guide-main>.section .cards{gap:.7rem!important}
 .ux-guide-main>.section article.card{padding:1rem!important;border-radius:1rem!important}
 .ux-guide-main>.section.faq details{margin-top:.5rem!important;border-radius:.85rem!important}
@@ -60,6 +67,7 @@
   .ux-guide-main [data-stage20-telegram-cluster="true"] h2 + p{display:none}
   .ux-guide-main [data-stage20-telegram-cluster="true"] p:last-child{grid-column:2;grid-row:1;margin:0!important}
   .ux-guide-main [data-stage20-telegram-cluster="true"] a{min-height:2.35rem;padding:.5rem .65rem;font-size:.76rem}
+  .ux-guide-jumps__inner{padding-inline:1rem}
   .ux-guide-more{width:calc(100% - 2rem);margin:.7rem auto}
   .ux-guide-more summary{min-height:3.35rem;padding:.78rem .9rem;font-size:.9rem}
 }
