@@ -117,9 +117,16 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
   color:#707984;
 }
 .footer a,.foot a,.site-footer a{transition:color var(--ui-transition);}
-.footer a:hover,.foot a:hover,.site-footer a:hover{color:var(--text,var(--ui-text));}
+.footer a:hover,.foot a,.site-footer a:hover{color:var(--text,var(--ui-text));}
 
 @media (max-width:760px){
+  :root{
+    --ui-mobile-section:3.35rem;
+    --ui-mobile-section-tight:2.75rem;
+    --ui-mobile-contact-top:3.8rem;
+    --ui-mobile-contact-bottom:2.6rem;
+  }
+
   .header .head,.site-header .head,
   .header .header-inner,.site-header .header-inner{
     min-height:4.25rem !important;
@@ -152,6 +159,37 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
   }
   .case-study-hero{
     padding-top:2rem !important;
+  }
+
+  /* Stage 88 - one mobile vertical rhythm across service, case and hub families.
+     Older generators use 4.5–7rem desktop spacing even after the layout becomes
+     one column. Keep every section and its copy, but remove empty-scroll feeling. */
+  body:not([data-page="home"]) main > .s48-section,
+  body:not([data-page="home"]) main > .s51-section,
+  body:not([data-page="home"]) main > .s50-section,
+  body:not([data-page="home"]) main > .s44-section{
+    padding-top:var(--ui-mobile-section) !important;
+    padding-bottom:var(--ui-mobile-section) !important;
+  }
+  body[data-page^="cases--"] main > section.section:not(.growth-section),
+  body[data-page^="cases--"] main > section.case-section{
+    padding-top:var(--ui-mobile-section) !important;
+    padding-bottom:var(--ui-mobile-section) !important;
+  }
+  body:not([data-page="home"]) main > .growth-section:not(.growth-faq){
+    padding-top:var(--ui-mobile-section-tight) !important;
+    padding-bottom:var(--ui-mobile-section-tight) !important;
+  }
+  body:not([data-page="home"]) main > .s48-contact,
+  body:not([data-page="home"]) main > .contact.s51-contact,
+  body[data-page^="cases--"] main > section.contact{
+    padding-top:var(--ui-mobile-contact-top) !important;
+    padding-bottom:var(--ui-mobile-contact-bottom) !important;
+  }
+  body:not([data-page="home"]) main > .s66-tool-link,
+  body:not([data-page="home"]) main > .s68-entry{
+    padding-top:1.4rem !important;
+    padding-bottom:1.4rem !important;
   }
 
   .hero h1,.hub h1,.section h2,.article h2,.cta-box h2,.contact-card h2,
@@ -282,6 +320,12 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
 }
 
 @media (max-width:420px){
+  :root{
+    --ui-mobile-section:3rem;
+    --ui-mobile-section-tight:2.45rem;
+    --ui-mobile-contact-top:3.4rem;
+  }
+
   body[data-page^="guides--"] .hero h1{
     font-size:clamp(2.05rem,9.6vw,2.75rem) !important;
   }
