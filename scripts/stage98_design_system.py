@@ -23,6 +23,21 @@ for token in required_css:
     if token not in css_text:
         raise SystemExit('stage98: required design token/rule missing: ' + token)
 
+project_copy = {
+    'CRM · LOCAL-FIRST': 'CRM · WORKFLOW',
+    'SEO · NODE.JS · CRAWLER': 'SEO · АУДИТ',
+    'SEO · FULLSTACK · AUTOMATION': 'SEO · МОНИТОРИНГ',
+    'AI · EXCEL · FULLSTACK': 'AI · EXCEL',
+    'TELEGRAM · FINANCE': 'TELEGRAM · ФИНАНСЫ',
+    'iOS · SWIFT · PRODUCT UI': 'iOS · SWIFT',
+    'CRM · INTERNAL PRODUCT': 'CRM · АВТОСАЛОН',
+    'MOBILE · EXISTING PRODUCT': 'MOBILE · PRODUCT',
+    'WEB · B2B': 'B2B · WEB',
+    'Мобильный пользовательский сценарий и работа с существующим продуктом сервиса поездок.': 'Ключевой сценарий заказа поездки и доработка существующего мобильного продукта.',
+    '<span>Automation</span>': '<span>Автоматизация</span>',
+    '<span>Mobile</span>': '<span>Мобильные</span>',
+}
+
 checked = changed = 0
 errors = []
 home_seen = False
@@ -33,6 +48,10 @@ for path in sorted(root.rglob('*.html')):
     checked += 1
     original = html
     rel = str(path.relative_to(root)).replace('\\', '/')
+
+    if rel in {'index.html', 'cases/index.html'}:
+        for old, new in project_copy.items():
+            html = html.replace(old, new)
 
     if rel == 'index.html':
         home_seen = True
@@ -66,6 +85,8 @@ else:
         errors.append('homepage showcase is not 3-up')
     if 'project-radar' not in home or 'portfolio-carousel' not in home:
         errors.append('homepage showcase structure missing')
+    if 'LOCAL-FIRST' in home or 'INTERNAL PRODUCT' in home or 'FULLSTACK · AUTOMATION' in home:
+        errors.append('developer-facing project jargon remains on homepage')
 
 if errors:
     raise SystemExit('stage98 design audit failed:\n' + '\n'.join(errors[:30]))
