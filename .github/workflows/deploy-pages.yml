@@ -163,6 +163,7 @@ jobs:
           print(f'IndexNow URLs from final sitemap: {len(urls)}')
           PY2
 
+          FAILED=0
           for ENDPOINT in https://api.indexnow.org/indexnow https://yandex.com/indexnow; do
             CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
               -H 'Content-Type: application/json; charset=utf-8' \
@@ -171,4 +172,18 @@ jobs:
             echo "$ENDPOINT HTTP: $CODE"
             cat /tmp/indexnow-response.txt || true
             echo
+            case "$CODE" in
+              200|202)
+                echo "Accepted by $ENDPOINT"
+                ;;
+              *)
+                echo "::warning::IndexNow delivery failed for $ENDPOINT (HTTP $CODE)"
+                FAILED=1
+                ;;
+            esac
           done
+
+          if [ "$FAILED" -ne 0 ]; then
+            echo "::warning::One or more IndexNow endpoints rejected the sitemap payload"
+            exit 1
+          fi
