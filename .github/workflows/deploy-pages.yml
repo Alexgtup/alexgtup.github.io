@@ -110,6 +110,8 @@ jobs:
           python scripts/stage90_user_experience.py _site
           # Let visitors filter cases, guides and tools instead of scanning every card.
           python scripts/stage91_catalog_filters.py _site
+          # Put actions first on tools and use progressive disclosure for long guide details.
+          python scripts/stage92_action_first_reading.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
