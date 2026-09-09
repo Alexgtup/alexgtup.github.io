@@ -215,6 +215,13 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
     line-height:1.1;
     white-space:nowrap;
   }
+
+  /* Reading text needs a second, smaller gutter inside the shared page shell.
+     This keeps paragraphs and cards away from the physical screen edge without
+     making the compact TOC or hero artificially narrow. */
+  body[data-page^="guides--"] .article{
+    padding-inline:clamp(.45rem,2vw,.75rem) !important;
+  }
   body[data-page^="guides--"] .article section{
     padding:.5rem 0 1.9rem !important;
   }
@@ -227,6 +234,10 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
   body[data-page^="guides--"] .article h3{
     margin-top:1.3rem !important;
   }
+  body[data-page^="guides--"] .article p,
+  body[data-page^="guides--"] .article li{
+    line-height:1.66 !important;
+  }
   body[data-page^="guides--"] .answer,
   body[data-page^="guides--"] .mini,
   body[data-page^="guides--"] .link-card{
@@ -238,11 +249,16 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
     display:none !important;
   }
 
-  /* Cookie preferences must remain reachable without sitting over article text. */
-  .cookie-settings{
+  /* Cookie preferences must remain reachable without sitting over article text.
+     The current consent pass creates .growth-cookie-settings; .cookie-settings
+     is kept here only for older generated pages. */
+  .cookie-settings,
+  .growth-cookie-settings{
     position:static !important;
     inset:auto !important;
-    display:inline-flex !important;
+    float:none !important;
+    transform:none !important;
+    z-index:auto !important;
     width:max-content;
     max-width:calc(100% - 2rem);
     min-height:2.35rem !important;
@@ -255,6 +271,10 @@ a[class*="btn"]:hover,button[class*="btn"]:hover{
 @media (max-width:420px){
   body[data-page^="guides--"] .hero h1{
     font-size:clamp(2.05rem,9.6vw,2.75rem) !important;
+  }
+
+  body[data-page^="guides--"] .article{
+    padding-inline:.55rem !important;
   }
 }
 
