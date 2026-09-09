@@ -9,6 +9,7 @@ links = (
     ('data-stage24-layout="true"', '<link href="/assets/layout-system.css" rel="stylesheet" data-stage24-layout="true"/>'),
     ('data-stage81-mobile-polish="true"', '<link href="/assets/mobile-polish.css" rel="stylesheet" data-stage81-mobile-polish="true"/>'),
     ('data-stage82-visual-system="true"', '<link href="/assets/visual-system.css?v=20260909-3" rel="stylesheet" data-stage82-visual-system="true"/>'),
+    ('data-stage83-mobile-actions="true"', '<link href="/assets/stage83-mobile-actions.css?v=20260909-1" rel="stylesheet" data-stage83-mobile-actions="true"/>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
@@ -100,4 +101,4 @@ print(
 )
 print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
 print(f"stage24 non-shell common classes: {common_classes}")
-print("stage24 shared shell + stage81 mobile polish + stage82 visual system invariant OK")
+print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage83 mobile actions invariant OK")
