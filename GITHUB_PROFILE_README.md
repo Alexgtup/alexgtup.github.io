@@ -1,39 +1,53 @@
-# Александр / Alexuys — разработка Telegram-ботов и цифровых продуктов
+# Александр / Alexuys - full-stack разработка, автоматизация и интеграции
 
-Telegram-боты · Python · API · CRM · n8n/Make · Web · iOS
+Разрабатываю и дорабатываю веб-сервисы, CRM и внутренние системы, Telegram-проекты, API-интеграции, автоматизации и мобильные приложения. Часто подключаюсь к уже существующему проекту: исправляю ошибки, восстанавливаю интеграции, добавляю функционал и довожу до рабочего запуска без лишнего переписывания с нуля.
 
-Основное направление — разработка Telegram-ботов на заказ: заявки, анкеты, оплаты, подписки, уведомления, базы данных, CRM/API-интеграции и Telegram Mini Apps.
+**Портфолио:** https://alexgtup.github.io/?utm_source=github&utm_medium=profile&utm_campaign=github_profile
 
-**Разработка Telegram-ботов:**  
-https://alexgtup.github.io/telegram-bots/?utm_source=github&utm_medium=profile&utm_campaign=telegram_authority
+## Основные направления
 
-### Реальный Telegram-кейс
+- Web / full-stack: https://alexgtup.github.io/web-development/?utm_source=github&utm_medium=profile&utm_campaign=web
+- Доработка существующих проектов: https://alexgtup.github.io/project-repair/?utm_source=github&utm_medium=profile&utm_campaign=repair
+- CRM и внутренние системы: https://alexgtup.github.io/crm-development/?utm_source=github&utm_medium=profile&utm_campaign=crm
+- API и интеграции: https://alexgtup.github.io/api-integrations/?utm_source=github&utm_medium=profile&utm_campaign=api
+- n8n / automation: https://alexgtup.github.io/n8n-automation/?utm_source=github&utm_medium=profile&utm_campaign=n8n
+- Telegram-боты и Mini Apps: https://alexgtup.github.io/telegram-bots/?utm_source=github&utm_medium=profile&utm_campaign=telegram
 
-- **Фин Планер** — Telegram-бот для личного бюджета, расходов, регулярных платежей, отчётов и финансового анализа  
-  https://alexgtup.github.io/cases/fin-planner/?utm_source=github&utm_medium=profile&utm_campaign=telegram_authority
+## Выбранные проекты
 
-### Материалы по Telegram-разработке
+### Auto CRM
+CRM для автосалона: лиды, статусы, рабочий процесс менеджеров и backend-логика.
 
-- Стоимость разработки Telegram-бота  
-  https://alexgtup.github.io/guides/telegram-bot-cost/?utm_source=github&utm_medium=profile&utm_campaign=telegram_authority
-- Как подготовить задачу на Telegram-бота  
-  https://alexgtup.github.io/guides/telegram-bot-brief/?utm_source=github&utm_medium=profile&utm_campaign=telegram_authority
-- Telegram-бот, Mini App или веб-сервис  
-  https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/?utm_source=github&utm_medium=profile&utm_campaign=telegram_authority
+https://alexgtup.github.io/cases/auto-crm/?utm_source=github&utm_medium=profile&utm_campaign=auto_crm
 
-### Другие направления
+### SEO Control Center
+Система контроля поисковой видимости: Search Console, Яндекс.Вебмастер, sitemap, позиции, CTR и проблемы URL.
 
-CRM: https://alexgtup.github.io/crm-development/  
-n8n / Make: https://alexgtup.github.io/n8n-automation/  
-API: https://alexgtup.github.io/api-integrations/  
-Web: https://alexgtup.github.io/web-development/
+https://alexgtup.github.io/cases/seo-control-center/?utm_source=github&utm_medium=profile&utm_campaign=seo_control_center
 
-### Публичные подтверждения
+### SiteAudit Studio
+Технический аудит сайта: crawl, robots.txt, sitemap, canonical, indexability, метаданные и внутренние ссылки.
 
-Профиль Freelance.ru с отзывами и выполненными проектами:  
+https://alexgtup.github.io/cases/siteaudit-studio/?utm_source=github&utm_medium=profile&utm_campaign=siteaudit
+
+### FreelanceOS
+Local-first CRM/канбан для лидов, задач, follow-up, источников, UTM, бюджета и выручки.
+
+https://alexgtup.github.io/cases/freelance-os/?utm_source=github&utm_medium=profile&utm_campaign=freelanceos
+
+### SheetPilot AI
+Ассистент для работы с Excel-файлами и табличными данными.
+
+https://alexgtup.github.io/cases/sheetpilot-ai/?utm_source=github&utm_medium=profile&utm_campaign=sheetpilot
+
+## Стек
+
+Python, JavaScript / TypeScript, Node.js, React, Next.js, Swift, WordPress, REST API, webhooks, PostgreSQL, Docker, VPS / Nginx, n8n, Make, Google Sheets, Telegram Bot API.
+
+## Публичные подтверждения
+
+Профиль Freelance.ru с отзывами и выполненными проектами:
 https://freelance.ru/gglalex
 
-**Портфолио:** https://alexgtup.github.io/  
-**Telegram:** https://t.me/Alexuys
-
-English portfolio: https://alexgtup.github.io/en/
+**Telegram:** https://t.me/Alexuys  
+**English portfolio:** https://alexgtup.github.io/en/
