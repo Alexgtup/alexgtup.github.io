@@ -59,20 +59,14 @@ def remove_matching(text: str, headings=(), contains=()):
         text = text[:hit['start']] + text[hit['end']:]
 
 
-# The three legacy cases should read like portfolio cases, not SEO landing pages.
-# Keep context + implemented workflow, remove generic advice/navigation sections.
 LEGACY = ('auto-crm', 'factory-catalog', 'taxi-app')
-legacy_remove = (
-    'Что учесть в похожем проекте.',
-    'Какой тип разработки стоит за этим проектом.',
-)
+legacy_remove = ('Не превращаю кейс в рекламную легенду.', 'Какой тип разработки стоит за этим проектом.')
 
 rules = {
     'auto-crm': dict(headings=legacy_remove, contains=('Своя CRM или готовое решение →',)),
     'factory-catalog': dict(headings=legacy_remove, contains=()),
     'taxi-app': dict(headings=legacy_remove, contains=()),
     'fin-planner': dict(headings=('Telegram может быть полноценным продуктом.',), contains=()),
-    # SheetPilot has distinct task/interface/execution/MVP/stack sections; keep the technical depth.
     'sheetpilot-ai': dict(headings=(), contains=()),
     'swift-calendar': dict(headings=('Мобильная разработка с продуктовой логикой.',), contains=()),
 }
@@ -85,16 +79,27 @@ for slug, rule in rules.items():
     if not path.exists():
         errors.append(f'missing case {slug}')
         continue
-    text = path.read_text(encoding='utf-8', errors='ignore')
+    original = path.read_text(encoding='utf-8', errors='ignore')
+    text = original
     before = len(top_sections(text))
 
     if slug in LEGACY:
-        text = text.replace('Что в этом кейсе действительно подтверждается.', 'Что реализовано.')
-        text = text.replace('Ниже — реализованные функции и их роль в пользовательском сценарии.', 'Ключевые части рабочего сценария и их роль в системе.')
+        # Stage51 wraps the second half of the heading in <em>, so normalize markup-aware.
+        text = re.sub(
+            r'Что\s+в\s+этом\s+кейсе\s*<em>\s*действительно\s+подтверждается\.\s*</em>',
+            'Что реализовано.',
+            text,
+            count=1,
+            flags=re.I,
+        )
+        text = text.replace(
+            'Без универсальных обещаний и результатов, которых нельзя проверить по материалам проекта.',
+            'Ключевые части рабочего сценария и их роль в системе.',
+        )
 
     new = remove_matching(text, rule['headings'], rule['contains'])
     after = len(top_sections(new))
-    if new != path.read_text(encoding='utf-8', errors='ignore'):
+    if new != original:
         path.write_text(new, encoding='utf-8')
         changed += 1
     report.append((slug, before, after))
@@ -116,10 +121,12 @@ for slug in LEGACY:
     if not path.exists():
         continue
     text = path.read_text(encoding='utf-8', errors='ignore')
-    for phrase in ('Что учесть в похожем проекте.', 'Какой тип разработки стоит за этим проектом.', 'Что в этом кейсе действительно подтверждается.'):
-        if phrase in text:
+    plain = re.sub(r'<[^>]+>', ' ', text)
+    plain = re.sub(r'\s+', ' ', htmlmod.unescape(plain))
+    for phrase in ('Не превращаю кейс в рекламную легенду.', 'Какой тип разработки стоит за этим проектом.', 'Что в этом кейсе действительно подтверждается.'):
+        if phrase in plain:
             errors.append(f'{slug}: generic legacy section remains: {phrase}')
-    if 'Что реализовано.' not in text:
+    if 'Что реализовано.' not in plain:
         errors.append(f'{slug}: implemented section was lost')
 
 if errors:
