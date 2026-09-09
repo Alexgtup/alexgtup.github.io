@@ -60,7 +60,11 @@ def remove_matching(text: str, headings=(), contains=()):
 
 
 LEGACY = ('auto-crm', 'factory-catalog', 'taxi-app')
-legacy_remove = ('Не превращаю кейс в рекламную легенду.', 'Какой тип разработки стоит за этим проектом.')
+legacy_remove = (
+    'Что учесть в похожем проекте.',
+    'Не превращаю кейс в рекламную легенду.',
+    'Какой тип разработки стоит за этим проектом.',
+)
 
 rules = {
     'auto-crm': dict(headings=legacy_remove, contains=('Своя CRM или готовое решение →',)),
@@ -84,7 +88,6 @@ for slug, rule in rules.items():
     before = len(top_sections(text))
 
     if slug in LEGACY:
-        # Stage51 wraps the second half of the heading in <em>, so normalize markup-aware.
         text = re.sub(
             r'Что\s+в\s+этом\s+кейсе\s*<em>\s*действительно\s+подтверждается\.\s*</em>',
             'Что реализовано.',
@@ -123,7 +126,12 @@ for slug in LEGACY:
     text = path.read_text(encoding='utf-8', errors='ignore')
     plain = re.sub(r'<[^>]+>', ' ', text)
     plain = re.sub(r'\s+', ' ', htmlmod.unescape(plain))
-    for phrase in ('Не превращаю кейс в рекламную легенду.', 'Какой тип разработки стоит за этим проектом.', 'Что в этом кейсе действительно подтверждается.'):
+    for phrase in (
+        'Что учесть в похожем проекте.',
+        'Не превращаю кейс в рекламную легенду.',
+        'Какой тип разработки стоит за этим проектом.',
+        'Что в этом кейсе действительно подтверждается.',
+    ):
         if phrase in plain:
             errors.append(f'{slug}: generic legacy section remains: {phrase}')
     if 'Что реализовано.' not in plain:
