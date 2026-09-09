@@ -73,12 +73,24 @@
 }
 
 @media (max-width:900px){
+  .project-radar{
+    contain:layout paint !important;
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+  }
+
   .project-radar__filters,
   .case-filter__list{
     display:flex !important;
     min-width:0 !important;
     max-width:100% !important;
     overflow-x:auto !important;
+  }
+
+  .project-radar__filters{
+    width:100% !important;
   }
 
   .project-radar__filters button:first-child{
