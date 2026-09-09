@@ -106,6 +106,8 @@ jobs:
           python scripts/stage86_service_ending_cleanup.py _site
           # Auxiliary product cards should not repeat Telegram when a stronger contact action follows.
           python scripts/stage87_auxiliary_action_cleanup.py _site
+          # Make hubs, cases and utilities visual-first without deleting useful search content.
+          python scripts/stage90_user_experience.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
