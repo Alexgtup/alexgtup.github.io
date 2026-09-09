@@ -12,10 +12,7 @@ S64_RE = re.compile(
     r"\s*<section\b[^>]*class=[\"'][^\"']*\bs64-conversion\b[^\"']*[\"'][^>]*>.*?</section>\s*",
     re.I | re.S,
 )
-NATIVE_RE = re.compile(
-    r"\s*<section\b[^>]*class=[\"'][^\"']*\b(?:contact|cta-box)\b[^\"']*[\"'][^>]*>.*?</section>\s*",
-    re.I | re.S,
-)
+SECTION_RE = re.compile(r"\s*<section\b[^>]*>.*?</section>\s*", re.I | re.S)
 DIRECT_CONTACT_RE = re.compile(r"https://t\.me/Alexuys|mailto:alexgtup@gmail\.com", re.I)
 SECTION_START_RE = re.compile(r"<section\b[^>]*>", re.I | re.S)
 
@@ -25,6 +22,32 @@ def final_section_has_contact(main: str) -> bool:
     if not sections:
         return False
     return bool(DIRECT_CONTACT_RE.search(main[sections[-1].start():]))
+
+
+def is_page_specific_conversion(block: str) -> bool:
+    """Return true for a real page-specific conversion section.
+
+    Hero buttons are useful but are not page endings. growth-section is a
+    discovery/navigation rail. s64-conversion is the generic fallback we want
+    to remove when a stronger page-specific CTA already exists.
+    """
+    if not DIRECT_CONTACT_RE.search(block):
+        return False
+    opening = block[: block.find(">") + 1].lower()
+    excluded = (
+        "s64-conversion",
+        "growth-section",
+        "s51-hero",
+        "s48-hero",
+        "case-study-hero",
+        'class="hero',
+        "class='hero",
+    )
+    return not any(marker in opening for marker in excluded)
+
+
+def native_blocks(main: str) -> list[re.Match[str]]:
+    return [m for m in SECTION_RE.finditer(main) if is_page_specific_conversion(m.group(0))]
 
 
 def target_files() -> list[Path]:
@@ -69,24 +92,26 @@ for path in target_files():
     original = main
 
     s64_blocks = list(S64_RE.finditer(main))
-    native_blocks = [m for m in NATIVE_RE.finditer(main) if DIRECT_CONTACT_RE.search(m.group(0))]
+    natives = native_blocks(main)
 
-    if native_blocks and s64_blocks:
-        # Prefer the page-specific conversion surface. It usually contains context
-        # tailored to the case/guide and is less repetitive than the generic Stage64 CTA.
-        native_html = native_blocks[-1].group(0).strip()
+    if natives and s64_blocks:
+        # Prefer the last page-specific conversion surface. Product cases often
+        # combine the live demo and Telegram in one useful block, which is much
+        # stronger than a second generic "similar task" CTA below it.
+        native_match = natives[-1]
+        native_html = native_match.group(0).strip()
         main = S64_RE.sub("\n", main)
         removed_s64 += len(s64_blocks)
 
-        # Move the native CTA to the real page ending so recommendation/demo blocks
-        # can stay above it without forcing another generic CTA after them.
-        main = main.replace(native_blocks[-1].group(0), "\n", 1)
+        # Move that useful native CTA to the true page ending. Discovery/demo
+        # rails stay above it, while the visitor sees only one final decision.
+        main = main.replace(native_match.group(0), "\n", 1)
         main = main[:-7].rstrip() + "\n\n" + native_html + "\n</main>"
         moved_native += 1
 
     elif len(s64_blocks) > 1:
-        # Hubs such as /about/ and /services/ can receive Stage64 twice because a
-        # later growth block is appended between the two Stage64 passes. Keep one.
+        # Hubs can receive Stage64 twice because a later growth block is appended
+        # between the two Stage64 passes. Keep only one fallback CTA.
         keep_html = s64_blocks[-1].group(0).strip()
         main = S64_RE.sub("\n", main)
         main = main[:-7].rstrip() + "\n\n" + keep_html + "\n</main>"
@@ -98,8 +123,9 @@ for path in target_files():
         path.write_text(text, encoding="utf-8")
         changed.append(path.relative_to(root).as_posix())
 
-# Final invariant: no target page may end with multiple generic conversion blocks,
-# and every touched target must still finish with a direct contact action.
+# Final invariant: no target page may retain a generic conversion ending when a
+# stronger page-specific contact section exists, and every touched page must
+# still finish with a direct contact action.
 problems: list[str] = []
 for path in target_files():
     text = path.read_text(encoding="utf-8")
@@ -108,7 +134,7 @@ for path in target_files():
         continue
     main = mm.group(0)
     s64_count = len(S64_RE.findall(main))
-    native_count = sum(1 for m in NATIVE_RE.finditer(main) if DIRECT_CONTACT_RE.search(m.group(0)))
+    native_count = len(native_blocks(main))
     if s64_count > 1:
         problems.append(f"{path.relative_to(root)}: s64={s64_count}")
     if s64_count and native_count:
