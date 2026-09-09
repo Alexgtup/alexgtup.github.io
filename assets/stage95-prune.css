@@ -1,0 +1,59 @@
+/* Stage 95 - prune and unify. Fewer visual bands, calmer hierarchy, real work first. */
+:root{--stage95-line:rgba(255,255,255,.085);--stage95-surface:rgba(255,255,255,.022);--stage95-surface-2:rgba(255,255,255,.038);--stage95-muted:#969da6;--stage95-lime:#c9ff4a}
+
+.stage95-home-model,.stage95-service-core,.stage95-service-meta{width:min(calc(100% - 2rem),1180px);margin-inline:auto}
+.stage95-home-model{display:grid;grid-template-columns:1.12fr .88fr;gap:1rem;padding-block:clamp(3.4rem,6vw,6rem)}
+.stage95-home-model>.s44-section{padding:0!important;border:1px solid var(--stage95-line)!important;border-radius:1.35rem!important;background:var(--stage95-surface)!important;overflow:hidden}
+.stage95-home-model>.s44-section>.container{width:100%!important;max-width:none!important;padding:clamp(1.4rem,3vw,2.2rem)!important}
+.stage95-home-model .s44-section-head{margin-bottom:1.2rem!important}
+.stage95-home-model .s44-section-head h2{font-size:clamp(1.5rem,2.8vw,2.2rem)!important;max-width:15ch!important}
+.stage95-home-model .s44-section-head p{font-size:.92rem!important;line-height:1.6!important}
+
+.portfolio-showcase__head{align-items:end!important}
+.portfolio-showcase__intro{max-width:34rem!important}
+.portfolio-showcase__foot>span:empty{display:none}
+.project-radar__label small,.case-filter__top>span{text-transform:none!important;letter-spacing:0!important}
+.project-radar__filters button b,.case-filter__list button b{opacity:.55}
+.case-library__layout{margin-top:0!important}
+.case-library__toolbar{min-height:auto!important;padding:.25rem 0 1rem!important;border:0!important;background:none!important}
+.case-library__toolbar span:empty{display:none}
+
+.stage95-service-core,.stage95-service-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;padding-block:clamp(3.2rem,5.5vw,5.2rem)}
+.stage95-service-core>.s48-section,.stage95-service-meta>.s48-section{padding:0!important;border:1px solid var(--stage95-line)!important;border-radius:1.25rem!important;background:var(--stage95-surface)!important;overflow:hidden}
+.stage95-service-core>.s48-section>.container,.stage95-service-meta>.s48-section>.container{width:100%!important;max-width:none!important;padding:clamp(1.35rem,2.7vw,2rem)!important}
+.stage95-service-core .s48-head,.stage95-service-meta .s48-head{margin-bottom:1.15rem!important}
+.stage95-service-core .s48-head h2,.stage95-service-meta .s48-head h2{font-size:clamp(1.35rem,2.2vw,1.9rem)!important}
+.stage95-service-core .s48-index,.stage95-service-meta .s48-index{opacity:.55}
+.stage95-proof-strip{padding-block:clamp(2.8rem,4vw,3.8rem)!important}
+.stage95-proof-strip .growth-shell{padding:1.15rem 1.25rem!important}
+.stage95-review-strip{padding-block:clamp(2.4rem,4vw,3.4rem)!important}
+.stage95-review-strip .s48-head{margin-bottom:1rem!important}
+.stage95-review-strip .s48-head h2{font-size:clamp(1.35rem,2.4vw,1.9rem)!important}
+body[data-ux-family="service"] .s48-contact{padding-top:clamp(3rem,5vw,4.5rem)!important}
+
+body[data-ux-family="case"] main>.section,
+body[data-ux-family="case"] main>.s51-section{padding-block:clamp(3rem,5vw,4.8rem)!important}
+body[data-ux-family="case"] .growth-section{display:none!important}
+
+body[data-ux-family="hub"] main>.s50-section,
+body[data-ux-family="hub"] main>.s44-section,
+body[data-ux-family="hub"] main>.dt-section{padding-block:clamp(3rem,5vw,4.5rem)!important}
+body[data-ux-family="hub"] .s50-hero,
+body[data-ux-family="hub"] .s44-services-hero,
+body[data-ux-family="hub"] .dt-hero{padding-bottom:clamp(2.8rem,5vw,4.5rem)!important}
+
+.growth-cookie-settings.stage95-footer-cookie{position:static!important;inset:auto!important;transform:none!important;float:none!important;margin:0!important;padding:.25rem 0!important;border:0!important;background:none!important;color:#858c95!important;font-size:.75rem!important;text-decoration:underline;text-underline-offset:3px}
+
+:is(.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article,.s50-case-list a,.s50-guide-grid a,.dt-tool-card,.case-library-card,.portfolio-card){box-shadow:none!important}
+:is(.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article,.s50-case-list a,.s50-guide-grid a,.dt-tool-card){border-color:var(--stage95-line)!important}
+
+@media(max-width:900px){
+  .stage95-home-model,.stage95-service-core,.stage95-service-meta{grid-template-columns:1fr}
+  .stage95-home-model{padding-block:3.2rem}
+}
+@media(max-width:680px){
+  .stage95-home-model,.stage95-service-core,.stage95-service-meta{width:calc(100% - 2rem);gap:.75rem;padding-block:2.5rem}
+  .stage95-home-model>.s44-section>.container,.stage95-service-core>.s48-section>.container,.stage95-service-meta>.s48-section>.container{padding:1.1rem!important}
+  .stage95-service-core .s48-head h2,.stage95-service-meta .s48-head h2{font-size:1.25rem!important}
+  .portfolio-showcase__intro{font-size:.9rem!important}
+}
