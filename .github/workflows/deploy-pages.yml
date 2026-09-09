@@ -112,6 +112,9 @@ jobs:
           python scripts/stage91_catalog_filters.py _site
           # Put actions first on tools and use progressive disclosure for long guide details.
           python scripts/stage92_action_first_reading.py _site
+          # Keep the homepage compact and move the full project library to /cases/.
+          python scripts/stage93_project_showcase.py _site
+          node --check _site/assets/portfolio-showcase.js
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
