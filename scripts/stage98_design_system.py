@@ -7,7 +7,7 @@ root = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 design_marker = 'data-stage98-design="true"'
 shell_marker = 'data-stage98-shell="true"'
 design_link = '<link href="/assets/stage98-design-system.css?v=20260909-1" rel="stylesheet" data-stage98-design="true"/>'
-shell_link = '<link href="/assets/stage98-shell.css?v=20260909-3" rel="stylesheet" data-stage98-shell="true"/>'
+shell_link = '<link href="/assets/stage98-shell.css?v=20260910-1" rel="stylesheet" data-stage98-shell="true"/>'
 design_css = root / 'assets/stage98-design-system.css'
 shell_css = root / 'assets/stage98-shell.css'
 if not design_css.exists():
@@ -28,7 +28,7 @@ for token in required_css:
     if token not in design_text:
         raise SystemExit('stage98: required design token/rule missing: ' + token)
 shell_text = shell_css.read_text(encoding='utf-8')
-for token in ('.header,.site-header,.intl-header', '.cta-box,.contact-card', '.footer,.foot,.site-footer', 'repeat(4,minmax(0,1fr))'):
+for token in ('.stage98-header', '.stage98-mobile-menu', '.s44-service-map', 'repeat(4,minmax(0,1fr))'):
     if token not in shell_text:
         raise SystemExit('stage98: required shell rule missing: ' + token)
 
@@ -61,12 +61,15 @@ ru_body_copy = {
     '<small>iOS · real UI</small>': '<small>iOS · интерфейс</small>',
     '<span>EXISTING PROJECT</span>': '<span>ДОРАБОТКА</span>',
     '<span>AUTOMATION</span>': '<span>АВТОМАТИЗАЦИЯ</span>',
+    '04 · AUTOMATION': '04 · АВТОМАТИЗАЦИЯ',
+    '05 · INTEGRATIONS': '05 · API / CRM',
+    '06 · EXISTING PROJECT': '06 · ДОРАБОТКА',
     'Разрабатываю цифровые продукты с нуля и подключаюсь к уже существующим проектам. Веб-сервисы, мобильные приложения, боты, CRM, API-интеграции и автоматизация — напрямую с разработчиком, без передачи задачи между менеджерами.': 'Разрабатываю и дорабатываю сайты, веб-сервисы, приложения, Telegram-ботов, CRM и автоматизацию. Работаю напрямую: от сценария и интерфейса до запуска.',
     'Смотреть реальные проекты ↓': 'Смотреть проекты ↓',
     'Меньше обещаний. <em>Больше проверяемых вещей.</em>': 'Как строится работа. <em>Прямо и по этапам.</em>',
     'На странице должно быть понятно не только «что умею», но и как будет выглядеть работа после первого сообщения.': 'Сначала фиксируем рабочий результат, затем реализацию и способ проверки.',
     'Отзывы находятся не на этом сайте.': 'Отзывы и история работы — в публичном профиле.',
-    'Публичный профиль Freelance.ru можно открыть до обращения: 20 отзывов, оценки 9/10 по профессионализму и коммуникации, 6 лет опыта в профиле. Сайт использует внешнюю репутацию как проверяемый источник, а не рисует собственный рейтинг.': 'На Freelance.ru — 20 публичных отзывов, оценки и история выполненных работ. Профиль можно проверить до обращения.',
+    'Публичный профиль Freelance.ru можно открыть до обращения: 20 отзывов, оценки 9/10 по профессионализму и коммуникации, 6 лет опыта в профиле. Сайт использует внешнюю репутацию как проверяемый источник, а не рисует собственный рейтинг.': 'На Freelance.ru есть публичные отзывы и история выполненных работ. Профиль можно проверить до обращения.',
     'Реальные проекты. <em>Без декоративных концептов.</em>': 'Проекты, которые <em>можно посмотреть.</em>',
     'Кейсы нужны не для длинного рассказа о технологиях. Здесь можно отдельно посмотреть интерфейс, рабочую задачу и тип логики, с которой уже приходилось работать.': 'В каждом кейсе — задача, интерфейс и ключевая логика. Этого достаточно, чтобы быстро понять тип и уровень работы.',
     'Меньше SEO-воды. <em>Больше решений.</em>': 'Разборы, которые помогают <em>выбрать следующий шаг.</em>',
@@ -82,6 +85,20 @@ featured_order = [
     'seo-control-center','sheetpilot-ai','fin-planner','swift-calendar',
     'freelance-os','siteaudit-studio','auto-crm','taxi-app','factory-catalog'
 ]
+
+HOME_PROOF_OLD = '''<div aria-label="Проверяемые факты" class="s44-proofline">
+<a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>Отзывы</strong><span>публично на Freelance.ru</span></a>
+<a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>Задания</strong><span>история выполненных работ</span></a>
+<div><strong>2023</strong><span>профиль на площадке</span></div>
+<a href="/cases/"><strong>Кейсы</strong><span>проекты и рабочие продукты</span></a>
+</div>'''
+HOME_PROOF_NEW = '''<div aria-label="Проверяемые факты" class="s44-proofline">
+<a href="https://freelance.ru/gglalex" rel="me noopener noreferrer" target="_blank"><strong>Freelance.ru</strong><span>отзывы и история работ</span></a>
+<a href="/cases/"><strong>Кейсы</strong><span>интерфейсы и рабочая логика</span></a>
+<a href="/demos/"><strong>Демо</strong><span>проекты можно открыть</span></a>
+<a href="/project-repair/"><strong>Доработка</strong><span>можно с существующим кодом</span></a>
+</div>'''
+
 
 def replace_body_copy(html: str, replacements: dict[str, str]) -> str:
     m = re.search(r'<body\b[^>]*>', html, re.I)
@@ -123,6 +140,7 @@ def reorder_anchor_cards(html: str, start_token: str, end_token: str, class_pref
     cards.sort(key=lambda item: rank.get(item[0], 999))
     return html[:content_start] + ''.join(card for _, card in cards) + html[end:]
 
+
 checked = changed = 0
 errors = []
 home_seen = False
@@ -146,10 +164,15 @@ for path in sorted(root.rglob('*.html')):
         html = html.replace('Выбранные проекты. <em>Реальная работа.</em>', 'Выбранные проекты. <em>Реальные интерфейсы и логика.</em>')
         html = html.replace('CRM, автоматизация, web, mobile и Telegram. Коротко о задаче, интерфейсе и результате.', 'Несколько сильных работ вместо длинной витрины: задача, интерфейс, логика и то, что получилось в итоге.')
         html = html.replace('<strong>5</strong><span>подробных кейсов на сайте</span>', '<strong>9</strong><span>подробных кейсов на сайте</span>')
+        html = html.replace(HOME_PROOF_OLD, HOME_PROOF_NEW)
+        html = html.replace('Не концепты ради картинки — интерфейсы из реальных проектов.', 'Интерфейсы из опубликованных кейсов.')
         html = reorder_anchor_cards(html, '<div class="portfolio-carousel__grid">', '</div></div></div><aside class="project-radar"', 'portfolio-card')
 
     if rel == 'cases/index.html':
         html = reorder_anchor_cards(html, '<div class="case-library__grid">', '</div><div class="case-library-empty"', 'case-library-card')
+
+    if rel == 'services/index.html':
+        html = re.sub(r'<section\b[^>]*id="service-demos"[^>]*>.*?</section>', '', html, count=1, flags=re.I | re.S)
 
     if rel.startswith('en/'):
         html = re.sub(r'(<header\b.*?</header>)', lambda m: m.group(1).replace('Describe your project in Telegram ↗','Discuss a project ↗').replace('Contact in Telegram ↗','Discuss a project ↗'), html, count=1, flags=re.I|re.S)
@@ -188,9 +211,15 @@ else:
         errors.append(f'real-interface projects are not leading the homepage showcase: {slugs[:4]}')
     if 'ALEXUYS · DIGITAL DEVELOPMENT' in home or 'product case' in home or 'real UI' in home:
         errors.append('prototype-facing homepage copy remains')
+    if '<strong>2023</strong><span>профиль на площадке</span>' in home:
+        errors.append('stale homepage proof label remains')
+
+services = (root / 'services' / 'index.html').read_text(encoding='utf-8', errors='ignore')
+if 'id="service-demos"' in services:
+    errors.append('services duplicate demo promo remains')
 
 if errors:
     raise SystemExit('stage98 design audit failed:\n' + '\n'.join(errors[:30]))
 
 print(f'stage98 design system: {changed} pages patched; {checked} user-facing pages audited')
-print('stage98: unified shell and copy; 4-up desktop projects; real-interface work first; prototype jargon removed')
+print('stage98: unified shell and copy; 4-up projects; cleaner proof strip; compact services flow')
