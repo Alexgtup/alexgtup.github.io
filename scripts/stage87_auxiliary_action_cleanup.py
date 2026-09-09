@@ -99,16 +99,31 @@ HOME_NAV = '''\n<nav class="ux-quicknav" aria-label="Быстрый перехо
   </div>
 </nav>\n'''
 
-SERVICE_NAV = '''\n<nav class="ux-quicknav" aria-label="Быстрый переход по странице" data-stage87-ux-nav="service">
-  <div class="container ux-quicknav__inner">
-    <a href="#fit">Подходит</a>
-    <a href="#result">Результат</a>
-    <a href="#case">Кейс</a>
-    <a href="#budget">Цена</a>
-    <a href="#process">Процесс</a>
-    <a href="#contact" class="ux-quicknav__primary">Написать</a>
-  </div>
-</nav>\n'''
+
+def build_service_nav(text: str) -> str:
+    candidates = (
+        ('fit', 'Подходит'),
+        ('result', 'Результат'),
+        ('case', 'Кейс'),
+        ('budget', 'Цена'),
+        ('process', 'Процесс'),
+    )
+    links: list[str] = []
+    for section_id, label in candidates:
+        if re.search(rf'\bid=["\']{re.escape(section_id)}["\']', text, re.I):
+            links.append(f'    <a href="#{section_id}">{label}</a>')
+
+    if re.search(r'\bid=["\']contact["\']', text, re.I):
+        links.append('    <a href="#contact" class="ux-quicknav__primary">Написать</a>')
+    else:
+        links.append('    <a href="https://t.me/Alexuys" target="_blank" rel="noopener noreferrer" class="ux-quicknav__primary">Написать</a>')
+
+    return (
+        '\n<nav class="ux-quicknav" aria-label="Быстрый переход по странице" data-stage87-ux-nav="service">\n'
+        '  <div class="container ux-quicknav__inner">\n'
+        + '\n'.join(links)
+        + '\n  </div>\n</nav>\n'
+    )
 
 
 def insert_after_first_section_with_class(text: str, class_name: str, html: str, marker: str) -> str:
@@ -185,7 +200,8 @@ for path in sorted(root.rglob("*.html")):
         text = add_section_id(text, 's48-budget-title', 'budget')
         text = add_section_id(text, 's48-process-title', 'process')
         text = add_section_id(text, 's48-contact-title', 'contact')
-        text = insert_after_first_section_with_class(text, 's48-hero', SERVICE_NAV, 'data-stage87-ux-nav="service"')
+        service_nav = build_service_nav(text)
+        text = insert_after_first_section_with_class(text, 's48-hero', service_nav, 'data-stage87-ux-nav="service"')
 
     if text != original:
         path.write_text(text, encoding="utf-8")
@@ -211,8 +227,8 @@ if problems:
     raise SystemExit("stage87 auxiliary action invariant failed: " + ", ".join(problems))
 
 # UX invariants: every homepage/service page that opts into the pass gets the
-# stylesheet and an orientation rail. The homepage brief keeps only the core
-# task visible by default; optional fields remain available through disclosure.
+# stylesheet and an orientation rail. Homepage brief keeps only the core task
+# visible by default; optional fields remain available through disclosure.
 ux_problems: list[str] = []
 for path in sorted(root.rglob("*.html")):
     text = path.read_text(encoding="utf-8")
