@@ -91,8 +91,12 @@ jobs:
           python scripts/stage77_freelanceos_depth.py _site
           # First pass strengthens weak search entries and audits all 74 sitemap pages.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Make the final Stage77 blocks actionable for organic visitors, then audit the actual final HTML again.
+          # Make the final Stage77 blocks actionable for organic visitors.
           python scripts/stage78_search_to_contact.py _site
+          # Add contextual crawl bridges from the five pages already indexed by Google
+          # to the next commercial URLs that Yandex already keeps SEARCHABLE.
+          python scripts/stage79_seed_crawl_bridges.py _site
+          # Audit the actual final HTML after conversion and crawl-bridge changes.
           python scripts/stage77_sitewide_search_quality_v2.py _site
           python scripts/validate_growth.py _site
           python scripts/stage25_navigation_audit.py _site
