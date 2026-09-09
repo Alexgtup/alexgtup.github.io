@@ -89,6 +89,42 @@ body[data-ux-family] main :is(.card,.service,.guide-card,.case-library-card,.por
   line-height:1.58!important;
 }
 
+/* Dense legacy grids are card UI, not article prose. Keep them readable without
+   forcing the full 16px article scale into every small supporting sentence. */
+body[data-ux-family] main :is(
+  .s44-route,
+  .s44-value-grid article,
+  .s44-price-grid article,
+  .s44-special-grid a,
+  .s44-orientation__grid article,
+  .s48-fit-grid article,
+  .s48-process article,
+  .s48-budget article,
+  .growth-card,
+  .market-package,
+  .handoff-grid article
+) p{
+  font-size:.94rem!important;
+  line-height:1.58!important;
+}
+body[data-ux-family] main :is(.s44-value-grid article,.s44-price-grid article)>span{
+  font-size:.75rem!important;
+  line-height:1.35!important;
+}
+body[data-ux-family] main .s44-price-grid strong{
+  font-size:clamp(2rem,2.5vw,2.55rem)!important;
+  line-height:1.02!important;
+  letter-spacing:-.045em!important;
+  white-space:nowrap;
+}
+body[data-ux-family] main .s44-price-grid a,
+body[data-ux-family] main .s44-route b,
+body[data-ux-family] main .s44-case__body b,
+body[data-ux-family] main .s44-case-stack b{
+  font-size:.82rem!important;
+  line-height:1.35!important;
+}
+
 @media (max-width:760px){
   :root{
     --type-body:1rem;
@@ -132,4 +168,5 @@ body[data-ux-family] main :is(.card,.service,.guide-card,.case-library-card,.por
   body[data-ux-family] main :is(.card,.service,.guide-card,.case-library-card,.portfolio-card,.dt-tool-card,.s50-card,.s51-card,.s72-offer,.s77-card) h2{font-size:1.3rem!important}
   body[data-ux-family] main :is(.card,.service,.guide-card,.case-library-card,.portfolio-card,.dt-tool-card,.s50-card,.s51-card,.s72-offer,.s77-card) h3{font-size:1.08rem!important}
   body[data-ux-family] main :is(.card,.service,.guide-card,.case-library-card,.portfolio-card,.dt-tool-card,.s50-card,.s51-card,.s72-offer,.s77-card) p{font-size:.94rem!important}
+  body[data-ux-family] main .s44-price-grid strong{font-size:2rem!important}
 }
