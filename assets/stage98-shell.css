@@ -97,9 +97,18 @@ body[data-ux-family] :is(.visual,.case-study,.media-frame,.screen,.screenshot,.g
 body[data-ux-family] :is(.portfolio-card,.case-library-card,.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article)::before,
 body[data-ux-family] :is(.portfolio-card,.case-library-card,.s44-route,.s48-fit-grid article,.s48-budget article,.s48-process article)::after{box-shadow:none}
 
+/* Explicit product requirement: four project cards at once on wide screens. */
+body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+
+@media(max-width:1120px){
+  body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
 @media(max-width:760px){
   body[data-ux-family] :is(.header .header-inner,.header .head,.site-header .header-inner,.site-header .head,.intl-header .intl-head){min-height:4rem!important}
   body[data-ux-family] :is(.header,.site-header,.intl-header){backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
   body[data-ux-family] :is(.cta-box,.contact-card,.s50-cta,.answer){padding:1.15rem!important}
   body[data-ux-family] :is(.footer,.foot,.site-footer){margin-top:3rem;padding-top:2rem!important}
+}
+@media(max-width:680px){
+  body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:1fr!important}
 }
