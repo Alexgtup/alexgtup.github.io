@@ -24,12 +24,17 @@ def final_section_has_contact(main: str) -> bool:
     return bool(DIRECT_CONTACT_RE.search(main[sections[-1].start():]))
 
 
-def is_page_specific_conversion(block: str) -> bool:
-    """Return true for a real page-specific conversion section.
+def is_case_detail(rel: str) -> bool:
+    parts = Path(rel).parts
+    return len(parts) >= 3 and parts[0] == "cases" and parts[-1] == "index.html"
 
-    Hero buttons are useful but are not page endings. growth-section is a
-    discovery/navigation rail. s64-conversion is the generic fallback we want
-    to remove when a stronger page-specific CTA already exists.
+
+def is_page_specific_conversion(block: str, rel: str) -> bool:
+    """Identify a genuine page-ending conversion surface, not any section with a link.
+
+    Case detail pages are allowed to use their bespoke demo/contact sections. Hubs
+    stay conservative: only explicit contact/cta classes can replace Stage64.
+    This prevents a hero or product recommendation from being moved to the end.
     """
     if not DIRECT_CONTACT_RE.search(block):
         return False
@@ -39,15 +44,29 @@ def is_page_specific_conversion(block: str) -> bool:
         "growth-section",
         "s51-hero",
         "s48-hero",
+        "s50-hero",
+        "s44-services-hero",
+        "s68-entry",
+        "s66-tool-link",
         "case-study-hero",
         'class="hero',
         "class='hero",
     )
-    return not any(marker in opening for marker in excluded)
+    if any(marker in opening for marker in excluded):
+        return False
+
+    # Product/case pages may intentionally use a plain `.section` that combines
+    # live demo + Telegram. That is strong, specific and should beat generic copy.
+    if is_case_detail(rel):
+        return True
+
+    # Hubs/guides are stricter: only semantically explicit CTA containers qualify.
+    explicit = ("contact", "cta-box", "s50-cta")
+    return any(marker in opening for marker in explicit)
 
 
-def native_blocks(main: str) -> list[re.Match[str]]:
-    return [m for m in SECTION_RE.finditer(main) if is_page_specific_conversion(m.group(0))]
+def native_blocks(main: str, rel: str) -> list[re.Match[str]]:
+    return [m for m in SECTION_RE.finditer(main) if is_page_specific_conversion(m.group(0), rel)]
 
 
 def target_files() -> list[Path]:
@@ -67,7 +86,6 @@ def target_files() -> list[Path]:
     ):
         if p.is_file():
             out.append(p)
-    # preserve order while removing duplicates
     seen: set[Path] = set()
     unique: list[Path] = []
     for p in out:
@@ -84,34 +102,28 @@ moved_native = 0
 deduped_s64 = 0
 
 for path in target_files():
+    rel = path.relative_to(root).as_posix()
     text = path.read_text(encoding="utf-8")
     mm = MAIN_RE.search(text)
     if not mm:
-        raise SystemExit(f"stage85: missing <main>: {path.relative_to(root)}")
+        raise SystemExit(f"stage85: missing <main>: {rel}")
     main = mm.group(0)
     original = main
 
     s64_blocks = list(S64_RE.finditer(main))
-    natives = native_blocks(main)
+    natives = native_blocks(main, rel)
 
     if natives and s64_blocks:
-        # Prefer the last page-specific conversion surface. Product cases often
-        # combine the live demo and Telegram in one useful block, which is much
-        # stronger than a second generic "similar task" CTA below it.
         native_match = natives[-1]
         native_html = native_match.group(0).strip()
         main = S64_RE.sub("\n", main)
         removed_s64 += len(s64_blocks)
 
-        # Move that useful native CTA to the true page ending. Discovery/demo
-        # rails stay above it, while the visitor sees only one final decision.
         main = main.replace(native_match.group(0), "\n", 1)
         main = main[:-7].rstrip() + "\n\n" + native_html + "\n</main>"
         moved_native += 1
 
     elif len(s64_blocks) > 1:
-        # Hubs can receive Stage64 twice because a later growth block is appended
-        # between the two Stage64 passes. Keep only one fallback CTA.
         keep_html = s64_blocks[-1].group(0).strip()
         main = S64_RE.sub("\n", main)
         main = main[:-7].rstrip() + "\n\n" + keep_html + "\n</main>"
@@ -121,26 +133,37 @@ for path in target_files():
     if main != original:
         text = text[: mm.start()] + main + text[mm.end():]
         path.write_text(text, encoding="utf-8")
-        changed.append(path.relative_to(root).as_posix())
+        changed.append(rel)
 
-# Final invariant: no target page may retain a generic conversion ending when a
-# stronger page-specific contact section exists, and every touched page must
-# still finish with a direct contact action.
 problems: list[str] = []
 for path in target_files():
+    rel = path.relative_to(root).as_posix()
     text = path.read_text(encoding="utf-8")
     mm = MAIN_RE.search(text)
     if not mm:
         continue
     main = mm.group(0)
     s64_count = len(S64_RE.findall(main))
-    native_count = len(native_blocks(main))
+    native_count = len(native_blocks(main, rel))
     if s64_count > 1:
-        problems.append(f"{path.relative_to(root)}: s64={s64_count}")
+        problems.append(f"{rel}: s64={s64_count}")
     if s64_count and native_count:
-        problems.append(f"{path.relative_to(root)}: generic+native conversion duplicate")
-    if path.relative_to(root).as_posix() in changed and not final_section_has_contact(main):
-        problems.append(f"{path.relative_to(root)}: final section lost direct contact")
+        problems.append(f"{rel}: generic+native conversion duplicate")
+    if rel in changed and not final_section_has_contact(main):
+        problems.append(f"{rel}: final section lost direct contact")
+
+# Structural regression guards for the two primary hubs that were previously
+# vulnerable to accidental hero/product relocation.
+for rel, expected_first in (("about/index.html", "s50-hero"), ("services/index.html", "s44-services-hero")):
+    path = root / rel
+    if not path.is_file():
+        continue
+    main = MAIN_RE.search(path.read_text(encoding="utf-8"))
+    if not main:
+        continue
+    first = SECTION_START_RE.search(main.group(0))
+    if not first or expected_first not in first.group(0):
+        problems.append(f"{rel}: first section must remain {expected_first}")
 
 if problems:
     raise SystemExit("stage85 conversion cleanup invariant failed: " + "; ".join(problems))
