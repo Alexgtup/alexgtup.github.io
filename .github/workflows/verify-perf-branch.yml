@@ -3,6 +3,14 @@ name: Verify production candidate
 on:
   pull_request:
     branches: ["main"]
+    paths-ignore:
+      - "external-publications/**"
+      - "case-studies/**"
+      - "README.md"
+      - "GITHUB_PROFILE_README.md"
+      - "EXTERNAL_INDEXING_CASE_STUDY.md"
+      - "FREELANCE_PROFILE_UPDATE.md"
+      - "PUBLICATION_PACK.md"
   workflow_dispatch:
 
 permissions:
