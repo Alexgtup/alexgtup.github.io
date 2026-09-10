@@ -224,6 +224,200 @@
     });
   };
 
+  const enhanceMobileMenu = () => {
+    const menu = document.querySelector('.stage98-mobile-menu');
+    if (!menu) return;
+    const summary = menu.querySelector(':scope > summary');
+    const nav = menu.querySelector(':scope > nav');
+    if (!summary || !nav) return;
+
+    const sync = () => {
+      const open = menu.open;
+      summary.setAttribute('aria-expanded', String(open));
+      summary.setAttribute('aria-haspopup', 'menu');
+      summary.setAttribute('aria-label', open
+        ? (isEn ? 'Close menu' : 'Закрыть меню')
+        : (isEn ? 'Open menu' : 'Открыть меню'));
+      document.body.classList.toggle('stage98-menu-open', open);
+    };
+
+    menu.addEventListener('toggle', sync);
+    nav.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', () => {
+      menu.open = false;
+    }));
+    document.addEventListener('pointerdown', event => {
+      if (menu.open && !menu.contains(event.target)) menu.open = false;
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || !menu.open) return;
+      menu.open = false;
+      summary.focus();
+    });
+    sync();
+  };
+
+  const enhanceProjectCarousel = () => {
+    document.querySelectorAll('[data-project-showcase]').forEach(root => {
+      const viewport = root.querySelector('[data-project-viewport]');
+      const prev = root.querySelector('[data-project-prev]');
+      const next = root.querySelector('[data-project-next]');
+      const status = root.querySelector('[data-project-status]');
+      const filters = [...root.querySelectorAll('[data-project-filter]')];
+      if (!viewport) return;
+
+      viewport.tabIndex = 0;
+      if (!viewport.id) viewport.id = 'project-showcase-viewport';
+      viewport.setAttribute('role', 'region');
+      viewport.setAttribute('aria-roledescription', isEn ? 'project carousel' : 'карусель проектов');
+      viewport.setAttribute('aria-label', isEn ? 'Selected projects' : 'Выбранные проекты');
+      if (status) {
+        status.setAttribute('role', 'status');
+        status.setAttribute('aria-live', 'polite');
+        status.setAttribute('aria-atomic', 'true');
+      }
+      filters.forEach(button => button.setAttribute('aria-controls', viewport.id));
+
+      viewport.addEventListener('keydown', event => {
+        if (event.target.closest('a,button,input,textarea,select')) return;
+        if (event.key === 'ArrowLeft' && prev && !prev.disabled) {
+          event.preventDefault();
+          prev.click();
+        }
+        if (event.key === 'ArrowRight' && next && !next.disabled) {
+          event.preventDefault();
+          next.click();
+        }
+        if (event.key === 'Home' && prev && !prev.disabled) {
+          event.preventDefault();
+          while (!prev.disabled) prev.click();
+        }
+        if (event.key === 'End' && next && !next.disabled) {
+          event.preventDefault();
+          while (!next.disabled) next.click();
+        }
+      });
+    });
+  };
+
+  const enhanceCaseLibraryState = () => {
+    const root = document.querySelector('[data-case-library]');
+    if (!root) return;
+    const filters = [...root.querySelectorAll('[data-case-filter]')];
+    const search = root.querySelector('[data-case-search]');
+    const valid = new Set(filters.map(button => button.dataset.caseFilter || 'all'));
+    let syncing = false;
+    let timer = 0;
+
+    const currentFilter = () => filters.find(button => button.getAttribute('aria-pressed') === 'true')?.dataset.caseFilter || 'all';
+    const writeUrl = (mode = 'replace') => {
+      if (syncing) return;
+      const url = new URL(location.href);
+      const filter = currentFilter();
+      const query = (search?.value || '').trim();
+      if (filter && filter !== 'all') url.searchParams.set('type', filter);
+      else url.searchParams.delete('type');
+      if (query) url.searchParams.set('q', query);
+      else url.searchParams.delete('q');
+      history[mode === 'push' ? 'pushState' : 'replaceState'](null, '', url.pathname + (url.search ? url.search : '') + url.hash);
+    };
+
+    const applyUrl = () => {
+      const params = new URLSearchParams(location.search);
+      const filter = valid.has(params.get('type')) ? params.get('type') : 'all';
+      const query = params.get('q') || '';
+      syncing = true;
+      const button = filters.find(item => (item.dataset.caseFilter || 'all') === filter);
+      if (button && button.getAttribute('aria-pressed') !== 'true') button.click();
+      if (search && search.value !== query) {
+        search.value = query;
+        search.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+      syncing = false;
+    };
+
+    filters.forEach(button => button.addEventListener('click', () => queueMicrotask(() => writeUrl('push'))));
+    search?.addEventListener('input', () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(writeUrl, 180);
+    });
+    window.addEventListener('popstate', applyUrl);
+    window.addEventListener('keydown', event => {
+      if (!(event.metaKey || event.ctrlKey) || event.key.toLowerCase() !== 'k' || !search) return;
+      const active = document.activeElement;
+      if (active && /^(INPUT|TEXTAREA|SELECT)$/.test(active.tagName)) return;
+      event.preventDefault();
+      search.focus();
+      search.select();
+    });
+    requestAnimationFrame(applyUrl);
+  };
+
+  const enhanceBriefDraft = () => {
+    const form = document.getElementById('s44-brief-form');
+    if (!form) return;
+    const task = form.querySelector('textarea[name="task"]');
+    const status = form.querySelector('[data-brief-status]');
+    const fields = [...form.querySelectorAll('[name]')].filter(field => !field.disabled);
+    const key = 'alexuys:brief:v2';
+    let saveTimer = 0;
+
+    const grow = () => {
+      if (!task) return;
+      task.style.height = 'auto';
+      task.style.height = `${Math.min(Math.max(task.scrollHeight, 132), 360)}px`;
+    };
+    const save = () => {
+      try {
+        const data = Object.fromEntries(fields.map(field => [field.name, field.value]));
+        sessionStorage.setItem(key, JSON.stringify(data));
+      } catch (_) {}
+    };
+    const restore = () => {
+      try {
+        const data = JSON.parse(sessionStorage.getItem(key) || 'null');
+        if (!data || typeof data !== 'object') return;
+        let restoredTask = false;
+        fields.forEach(field => {
+          if (typeof data[field.name] !== 'string') return;
+          if (field.name === 'task' && !field.value && data[field.name].trim()) restoredTask = true;
+          if (!field.value || field.tagName === 'SELECT') field.value = data[field.name];
+        });
+        grow();
+        if (restoredTask && status && !status.textContent) status.textContent = 'Черновик восстановлен в этой вкладке.';
+      } catch (_) {}
+    };
+
+    form.addEventListener('input', () => {
+      grow();
+      clearTimeout(saveTimer);
+      saveTimer = window.setTimeout(save, 180);
+    });
+    form.addEventListener('change', save);
+    window.addEventListener('pagehide', save);
+    restore();
+  };
+
+  const enhanceInteractiveCards = () => {
+    const cards = document.querySelectorAll('.s44-route,.s44-service-map__item,.portfolio-card,.case-library-card,.s50-card,.s48-related a');
+    cards.forEach(card => {
+      if (card.tagName === 'A') return;
+      const link = card.querySelector('a[href]');
+      if (!link || card.querySelectorAll('a[href]').length !== 1) return;
+      card.tabIndex = 0;
+      card.setAttribute('role', 'link');
+      const activate = () => link.click();
+      card.addEventListener('click', event => {
+        if (event.target.closest('a,button,input,textarea,select,summary')) return;
+        activate();
+      });
+      card.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        activate();
+      });
+    });
+  };
+
   ensureLandmarks();
   markCurrentNavigation();
   addEntryActions();
@@ -232,5 +426,10 @@
   improveLiveFeedback();
   improveSearchEscape();
   keyboardFilterRows();
+  enhanceMobileMenu();
+  enhanceProjectCarousel();
+  enhanceCaseLibraryState();
+  enhanceBriefDraft();
+  enhanceInteractiveCards();
   document.documentElement.dataset.stage94Ux = 'ready';
 })();
