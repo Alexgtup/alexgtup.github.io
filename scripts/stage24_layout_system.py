@@ -15,6 +15,7 @@ links = (
     ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-2" data-stage84-mobile-runtime="true"></script>'),
     ('data-stage94-site-ux-css="true"', '<link href="/assets/stage94-site-ux.css?v=20260910-2" rel="stylesheet" data-stage94-site-ux-css="true"/>'),
     ('data-stage94-site-ux-js="true"', '<script defer src="/assets/stage94-site-ux.js?v=20260910-5" data-stage94-site-ux-js="true"></script>'),
+    ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-1" data-navigation-continuity="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
@@ -97,6 +98,7 @@ if regressions:
     raise SystemExit("stage24: substantive page without shared shell (.container or .intl-container): " + ", ".join(regressions))
 
 subprocess.run(['node', '--check', str(root / 'assets/stage94-site-ux.js')], check=True)
+subprocess.run(['node', '--check', str(root / 'assets/navigation-continuity.js')], check=True)
 
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
@@ -108,4 +110,4 @@ print(
 )
 print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
 print(f"stage24 non-shell common classes: {common_classes}")
-print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX invariant OK")
+print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX + navigation continuity invariant OK")
