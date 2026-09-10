@@ -1,6 +1,5 @@
 https://alexgtup.github.io/
 https://alexgtup.github.io/telegram-bots/
-https://alexgtup.github.io/tilda-development/
 https://alexgtup.github.io/ai-automation/
 https://alexgtup.github.io/n8n-automation/
 https://alexgtup.github.io/crm-development/
