@@ -94,8 +94,6 @@ def replace_adjacent_bundle(html: str, members: list[str], href: str, marker: st
         if paths[i:i + size] != members:
             continue
         chunk = links[i:i + size]
-        # Keep cascade order exactly: only bundle stylesheet tags already adjacent
-        # in the source, with whitespace between them and no scripts/other tags.
         adjacent = all(
             not html[chunk[j][0].end():chunk[j + 1][0].start()].strip()
             for j in range(size - 1)
@@ -112,10 +110,15 @@ def replace_adjacent_bundle(html: str, members: list[str], href: str, marker: st
 if not ASSETS.is_dir():
     raise SystemExit('stage105: assets directory missing')
 
-# Stage106 changes only existing proof/discovery surfaces and must run after
-# Stage103->Stage104 but before Stage105 snapshots page bodies.
+# Proof/discovery updates happen first. Stage107 then normalizes the actual
+# bottom of the final DOM and injects its styles into the existing design-system
+# asset. Stage105 snapshots and bundles only after both mutations are complete.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage106_proof_graph.py')), str(ROOT)],
+    check=True,
+)
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage107_bottom_up_polish.py')), str(ROOT)],
     check=True,
 )
 
@@ -144,8 +147,6 @@ for path in sorted(ROOT.rglob('*.html')):
             bundled[name] += 1
     path.write_text(html, encoding='utf-8')
 
-# Final guards: no duplicate local stylesheet paths on any full page and bundles
-# are actually used broadly enough to justify keeping them in the build.
 dup_pages: list[str] = []
 for path in sorted(ROOT.rglob('*.html')):
     html = path.read_text(encoding='utf-8', errors='ignore')
