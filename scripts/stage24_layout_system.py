@@ -17,6 +17,7 @@ links = (
     ('data-stage94-site-ux-js="true"', '<script defer src="/assets/stage94-site-ux.js?v=20260910-5" data-stage94-site-ux-js="true"></script>'),
     ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-2" data-navigation-continuity="true"></script>'),
     ('data-stage99-theme-css="true"', '<link href="/assets/theme-system.css?v=20260910-1" rel="stylesheet" data-stage99-theme-css="true"/>'),
+    ('data-stage100-light-theme-fixes="true"', '<link href="/assets/theme-light-legacy-fixes.css?v=20260910-1" rel="stylesheet" data-stage100-light-theme-fixes="true"/>'),
     ('data-stage99-theme-js="true"', '<script src="/assets/theme-system.js?v=20260910-1" data-stage99-theme-js="true"></script>'),
 )
 
@@ -113,4 +114,4 @@ print(
 )
 print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
 print(f"stage24 non-shell common classes: {common_classes}")
-print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX + navigation continuity + stage99 theme system invariant OK")
+print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX + navigation continuity + stage99 theme system + stage100 light theme completeness invariant OK")
