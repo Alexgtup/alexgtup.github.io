@@ -4,7 +4,9 @@ Full-stack разработка, автоматизация и интеграц�
 
 Работаю с веб-сервисами, CRM и внутренними системами, Telegram-проектами, API-интеграциями, автоматизациями и мобильными приложениями. Часто подключаюсь к уже существующему проекту: исправляю ошибки, восстанавливаю интеграции, добавляю функционал и довожу до рабочего запуска без переписывания всего проекта с нуля.
 
-Портфолио: https://alexgtup.github.io/
+**Портфолио:** https://alexgtup.github.io/  
+**Рабочие демо:** https://alexgtup.github.io/demos/  
+**Кейсы:** https://alexgtup.github.io/cases/
 
 ## Основные направления
 
@@ -18,27 +20,27 @@ Full-stack разработка, автоматизация и интеграц�
 ## Выбранные проекты
 
 ### Auto CRM
-CRM для автосалона: лиды, статусы, рабочий процесс менеджеров и backend-логика.
+CRM для автосалона: заявки, статусы, рабочий процесс менеджеров и точки автоматизации.
 
 https://alexgtup.github.io/cases/auto-crm/
 
 ### SEO Control Center
-Система контроля поисковой видимости: Search Console, Яндекс.Вебмастер, sitemap, позиции, CTR и проблемы URL.
+Система контроля поисковой видимости: Search Console, Яндекс.Вебмастер, sitemap, позиции, CTR и состояние URL.
 
 https://alexgtup.github.io/cases/seo-control-center/
 
 ### SiteAudit Studio
-Технический аудит сайта: crawl, robots.txt, sitemap, canonical, indexability, метаданные и внутренние ссылки.
+Рабочий web-сервис для технического аудита: HTTP, crawl, robots.txt, sitemap, canonical, indexability, метаданные, ссылки и security baseline.
 
 https://alexgtup.github.io/cases/siteaudit-studio/
 
 ### FreelanceOS
-Local-first CRM/канбан для лидов, задач, follow-up, источников, UTM, бюджета и выручки.
+Local-first CRM для лидов, pipeline, follow-up, задач, источников, бюджета и выручки.
 
 https://alexgtup.github.io/cases/freelance-os/
 
 ### SheetPilot AI
-Ассистент для работы с Excel-файлами и табличными данными.
+Web-сервис для работы с Excel-файлами и табличными данными через инструкции обычным языком.
 
 https://alexgtup.github.io/cases/sheetpilot-ai/
 
@@ -48,9 +50,10 @@ Python, JavaScript / TypeScript, Node.js, React, Next.js, Swift, WordPress, REST
 
 ## Публичные подтверждения
 
-Freelance.ru - профиль с отзывами и выполненными проектами:
+Профиль Freelance.ru с отзывами и выполненными проектами:  
 https://freelance.ru/gglalex
 
-Telegram: https://t.me/Alexuys
+GitHub-репозитории показывают отдельные части работы с Telegram / Python, web-интерфейсами и инфраструктурой. Для продуктовых проектов, где исходный код не публикуется, в портфолио доступны кейсы и рабочие демо.
 
-English portfolio: https://alexgtup.github.io/en/
+**Telegram:** https://t.me/Alexuys  
+**English portfolio:** https://alexgtup.github.io/en/
