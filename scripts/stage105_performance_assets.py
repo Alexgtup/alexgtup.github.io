@@ -110,15 +110,15 @@ def replace_adjacent_bundle(html: str, members: list[str], href: str, marker: st
 if not ASSETS.is_dir():
     raise SystemExit('stage105: assets directory missing')
 
-# Proof/discovery updates happen first. Stage107 then normalizes the actual
-# bottom of the final DOM and injects its styles into the existing design-system
-# asset. Stage105 snapshots and bundles only after both mutations are complete.
+# Proof/discovery changes happen first. Stage108 then normalizes the final DOM
+# endings and the shared visual rhythm. Only after that does Stage105 snapshot
+# page bodies and bundle CSS, so the cleanup is part of the actual published UI.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage106_proof_graph.py')), str(ROOT)],
     check=True,
 )
 subprocess.run(
-    [sys.executable, str(Path(__file__).with_name('stage107_bottom_up_polish.py')), str(ROOT)],
+    [sys.executable, str(Path(__file__).with_name('stage108_sitewide_visual_cleanup.py')), str(ROOT)],
     check=True,
 )
 
