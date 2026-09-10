@@ -3,6 +3,7 @@
   const HOME_KEY = 'alexuys:home-project-filter:v1';
   const MAX_AGE = 30 * 60 * 1000;
   const path = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
+  const isEnglish = (document.documentElement.lang || '').toLowerCase().startsWith('en') || path.startsWith('/en/');
 
   const read = (key) => {
     try {
@@ -99,7 +100,47 @@
     });
   };
 
+  const contactPlacement = (link) => {
+    if (link.closest('header,.header,.site-header,.intl-header,nav')) return 'navigation';
+    if (link.closest('.hero,.s44-hero,.s48-hero,.growth-hero,.intl-hero')) return 'hero';
+    if (link.closest('#brief,.s44-brief,.contact,.cta-box,.intl-contact,.intl-cta')) return 'contact';
+    if (link.closest('footer')) return 'footer';
+    return 'content';
+  };
+
+  const pageMessage = () => {
+    const heading = (document.querySelector('main h1')?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 120);
+    const isCase = path.startsWith('/cases/') || path.startsWith('/en/cases/');
+    const isGuide = path.startsWith('/guides/') || path.startsWith('/en/guides/');
+    const isHome = path === '/' || path === '/en/';
+    if (isEnglish) {
+      if (isCase && heading) return `Hello. I viewed the case “${heading}”.\n\nProject: `;
+      if (isGuide && heading) return `Hello. I read the guide “${heading}”.\n\nProject: `;
+      if (!isHome && heading) return `Hello. I viewed the page “${heading}”.\n\nProject: `;
+      return 'Hello. I viewed your portfolio.\n\nProject: ';
+    }
+    if (isCase && heading) return `Здравствуйте. Посмотрел кейс «${heading}».\n\nЗадача: `;
+    if (isGuide && heading) return `Здравствуйте. Прочитал разбор «${heading}».\n\nЗадача: `;
+    if (!isHome && heading) return `Здравствуйте. Посмотрел страницу «${heading}».\n\nЗадача: `;
+    return 'Здравствуйте. Посмотрел портфолио.\n\nЗадача: ';
+  };
+
+  const enhanceContactContinuity = () => {
+    const draft = pageMessage();
+    document.querySelectorAll('a[href]').forEach(link => {
+      let url;
+      try { url = new URL(link.href, location.href); } catch (_) { return; }
+      if (url.hostname !== 't.me' || url.pathname.replace(/\/+$/, '').toLowerCase() !== '/alexuys') return;
+      link.dataset.cta ||= contactPlacement(link);
+      if (!url.searchParams.has('text')) {
+        url.searchParams.set('text', draft);
+        link.href = url.toString();
+      }
+    });
+  };
+
   setupHomeContinuity();
   setupCaseHubContinuity();
   setupCaseDetailContinuity();
+  enhanceContactContinuity();
 })();
