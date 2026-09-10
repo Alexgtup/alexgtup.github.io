@@ -17,6 +17,104 @@ DETAIL_RE = re.compile(
 SECTION_RE = re.compile(r'<section\b[^>]*>.*?</section>', re.I | re.S)
 TELEGRAM_RE = re.compile(r'https://t\.me/Alexuys', re.I)
 
+STYLE_MARK = '/* stage107-bottom-up */'
+ENDCAP_CSS = r'''
+/* stage107-bottom-up */
+body[data-ux-family] .stage107-endcap :is(.s48-contact__box,.s51-contact-card,.cta-box,.dt-contact__card,.s64-conversion__inner,.intl-cta-box,.ux-product-contact){
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius-lg)!important;
+  background:linear-gradient(145deg,var(--ds-surface-2),var(--ds-surface))!important;
+  box-shadow:none!important;
+}
+body[data-ux-family] .stage107-endcap :is(.s48-contact__box,.s51-contact-card,.dt-contact__card,.s64-conversion__inner,.intl-cta-box){
+  padding:clamp(1.35rem,3vw,2.35rem)!important;
+}
+body[data-ux-family] .stage107-endcap h2{max-width:18ch}
+body[data-ux-family] .stage107-endcap p{max-width:62ch}
+body[data-ux-family] .stage107-endcap :is(.related,.s48-contact__actions,.s51-contact-actions,.actions,.growth-actions,.s64-conversion__actions,.ux-product-contact__actions){gap:.65rem!important}
+
+body[data-ux-family] .stage107-footer{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-top:1px solid var(--ds-line)!important;
+  background:var(--ds-bg)!important;
+  color:var(--ds-muted)!important;
+}
+body[data-ux-family] .stage107-footer__inner{
+  min-height:12rem;
+  padding-block:2.15rem 2.5rem!important;
+  display:grid!important;
+  grid-template-columns:minmax(13rem,.72fr) minmax(0,1.28fr)!important;
+  grid-template-areas:"brand nav" "meta meta";
+  gap:2rem 2.5rem!important;
+  align-items:start!important;
+}
+body[data-ux-family] .stage107-footer__brand{grid-area:brand;display:grid;gap:.42rem;align-content:start}
+body[data-ux-family] .stage107-footer__brand>a{
+  width:max-content;
+  color:var(--ds-text)!important;
+  text-decoration:none!important;
+  font-size:1.1rem!important;
+  font-weight:850!important;
+  letter-spacing:-.04em;
+}
+body[data-ux-family] .stage107-footer__brand>span{
+  color:var(--ds-muted-2)!important;
+  font:700 .61rem/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+  letter-spacing:.12em!important;
+}
+body[data-ux-family] .stage107-footer__nav{
+  grid-area:nav;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-end!important;
+  align-items:center!important;
+  gap:.55rem 1.15rem!important;
+}
+body[data-ux-family] .stage107-footer__nav a,
+body[data-ux-family] .stage107-footer__meta a{
+  color:var(--ds-muted)!important;
+  text-decoration:none!important;
+  font-size:.82rem!important;
+  line-height:1.35!important;
+}
+body[data-ux-family] .stage107-footer__nav a:hover,
+body[data-ux-family] .stage107-footer__meta a:hover{color:var(--ds-text)!important}
+body[data-ux-family] .stage107-footer__meta{
+  grid-area:meta;
+  padding-top:1.1rem!important;
+  border-top:1px solid var(--ds-line)!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:.55rem 1.15rem!important;
+  color:var(--ds-muted-2)!important;
+  font-size:.75rem!important;
+}
+body[data-ux-family] .stage107-footer__meta>span{margin-right:auto}
+body[data-ux-family] .stage107-footer .stage95-footer-cookie{
+  min-height:auto!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:var(--ds-muted)!important;
+  font-size:.75rem!important;
+}
+@media(max-width:760px){
+  body[data-ux-family] .stage107-footer__inner{
+    min-height:0;
+    grid-template-columns:1fr!important;
+    grid-template-areas:"brand" "nav" "meta";
+    gap:1.35rem!important;
+    padding-block:1.8rem 2rem!important;
+  }
+  body[data-ux-family] .stage107-footer__nav{justify-content:flex-start!important;gap:.6rem 1rem!important}
+  body[data-ux-family] .stage107-footer__meta{align-items:flex-start!important;flex-direction:column!important;gap:.65rem!important}
+  body[data-ux-family] .stage107-footer__meta>span{margin-right:0}
+}
+'''
+
 RU_FOOTER = '''<footer class="footer stage107-footer" data-nosnippet="">
   <div class="container stage107-footer__inner">
     <div class="stage107-footer__brand">
@@ -91,8 +189,6 @@ def mark_last_contact(main: str, rel: str) -> tuple[str, bool]:
     if rel in {'index.html', '404.html'}:
         return main, False
 
-    # First prefer semantic contact surfaces. This covers services, cases, hubs,
-    # tools, demos and the product contact without flattening their useful copy.
     candidates: list[tuple[int, int, str]] = []
     tag_re = re.compile(r'<(?:section|div)\b[^>]*>', re.I | re.S)
     for m in tag_re.finditer(main):
@@ -109,8 +205,6 @@ def mark_last_contact(main: str, rel: str) -> tuple[str, bool]:
         start, end, tag = candidates[-1]
         return main[:start] + add_endcap_marker(tag) + main[end:], True
 
-    # Editorial/EN pages sometimes use a neutral section as their final CTA.
-    # Mark the last section that actually contains the Telegram action.
     sections = list(SECTION_RE.finditer(main))
     for sec in reversed(sections):
         block = sec.group(0)
@@ -126,9 +220,6 @@ def mark_last_contact(main: str, rel: str) -> tuple[str, bool]:
 
 
 def move_seo_before_contact(main: str, rel: str) -> tuple[str, int]:
-    # Tool pages and the demos hub had progressive SEO details after the primary
-    # contact section. That makes a completed page feel as if it continues after
-    # the CTA. Keep the detail, but place it before the conversion ending.
     target = rel == 'demos/index.html' or rel == 'tools/index.html' or (
         rel.startswith('tools/') and rel.endswith('/index.html')
     )
@@ -155,11 +246,20 @@ def move_seo_before_contact(main: str, rel: str) -> tuple[str, int]:
     for m in reversed(after):
         main = main[:m.start()] + '\n' + main[m.end():]
 
-    # Removing content after contact does not move the contact start.
     insert = '\n'.join(blocks) + '\n'
     main = main[:contact_start] + insert + main[contact_start:]
     return main, len(blocks)
 
+
+# Stage105 bundles stage98-design-system.css afterwards, so keep this visual
+# normalization inside the existing bundled request instead of adding another
+# render-blocking stylesheet to every page.
+style_path = ROOT / 'assets' / 'stage98-design-system.css'
+if not style_path.is_file():
+    raise SystemExit('stage107: stage98-design-system.css missing')
+style_text = style_path.read_text(encoding='utf-8')
+if STYLE_MARK not in style_text:
+    style_path.write_text(style_text.rstrip() + '\n\n' + ENDCAP_CSS.strip() + '\n', encoding='utf-8')
 
 changed: list[str] = []
 footer_changed = 0
@@ -192,8 +292,6 @@ for path in sorted(ROOT.rglob('*.html')):
         path.write_text(html, encoding='utf-8')
         changed.append(rel)
 
-# Final invariants: every user-facing page gets one shared footer, and utility
-# SEO disclosure never follows the primary contact surface again.
 problems: list[str] = []
 footer_signatures = Counter()
 for path in sorted(ROOT.rglob('*.html')):
@@ -224,6 +322,8 @@ for path in sorted(ROOT.rglob('*.html')):
 
 if len(footer_signatures) > 2:
     problems.append(f'footer signatures={len(footer_signatures)} (expected RU + EN only)')
+if STYLE_MARK not in style_path.read_text(encoding='utf-8'):
+    problems.append('stage107 styles missing from bundled design source')
 
 if problems:
     raise SystemExit('stage107 bottom-up polish failed:\n' + '\n'.join(problems[:40]))
