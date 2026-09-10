@@ -1,0 +1,137 @@
+name: Verify performance branch
+
+on:
+  push:
+    branches: ["perf-yandex-next"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Build exact production candidate without deploy
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf _site
+          mkdir -p _site
+
+          cp -R overrides/. _site/
+          mkdir -p _site/assets
+          cp -R assets/. _site/assets/
+
+          for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest .nojekyll \
+                   google4d4487812e36d65c.html yandex_d89618159a40495b.html yandex_e868ce83ed0c1276.html \
+                   *.txt; do
+            test -f "$f"
+            cp "$f" "_site/$f"
+          done
+
+          python scripts/stage67_devtools_hub.py _site
+          python scripts/stage20_patch.py _site
+          python scripts/stage21_entity_patch.py _site
+          python scripts/stage22_broad_intent_patch.py _site
+          python scripts/stage23_telegram_handoff_patch.py _site
+          python scripts/stage24_layout_system.py _site
+          python scripts/stage25_navigation_patch.py _site
+          python scripts/stage37_accessibility_patch.py _site
+          python scripts/stage39_growth_patch.py _site
+          python scripts/stage40_trust_patch.py _site
+          python scripts/stage58_sheetpilot_case.py _site
+          python scripts/stage59_sheetpilot_grid_fix.py _site
+          python scripts/stage60_project_carousel.py _site
+          python scripts/stage61_seo_control_center_case.py _site
+          python scripts/stage66_siteaudit_case.py _site
+          python scripts/stage67_devtools_hub.py _site
+          python scripts/stage68_freelanceos.py _site
+          python scripts/stage69_freelanceos_hardening.py _site
+          python scripts/stage70_freelanceos_responsive.py _site
+          python scripts/stage71_feed_discovery.py _site
+          python scripts/stage72_freelance_offer_hub.py _site
+          node --check _site/assets/freelance-os.js
+
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('_site/cases/sheetpilot-ai/index.html')
+          text = p.read_text(encoding='utf-8')
+          text = text.replace('Публичное демо — <em>следующий шаг.</em>', 'Публичное демо — <em>уже работает.</em>')
+          text = text.replace('Кейс уже опубликован как рабочий MVP. После размещения backend добавлю сюда кнопку «Открыть демо», чтобы можно было загрузить тестовый Excel и проверить обработку прямо из портфолио.', 'SheetPilot AI уже развёрнут как публичный сервис. Можно открыть демо, загрузить Excel-файл, описать изменение обычным языком, проверить предпросмотр и скачать новый файл.')
+          text = text.replace('<span class="btn status">Демо готовится к публикации</span>', '<a class="btn primary" href="https://sheetpilot-ai-6omr.onrender.com" target="_blank" rel="noopener noreferrer">Открыть демо ↗</a>')
+          text = text.replace('Публичную демо-версию добавлю после отдельного развёртывания сервиса.', 'Публичная демо-версия уже развёрнута и доступна для тестирования.')
+          p.write_text(text, encoding='utf-8')
+          PY
+
+          python scripts/stage64_conversion_paths.py _site
+          python scripts/stage65_analytics_centralization.py _site
+          python scripts/stage62_search_and_conversion.py _site
+          python scripts/stage64_conversion_paths.py _site
+          python scripts/stage63_scc_production_demo.py _site
+          python scripts/stage65_analytics_centralization.py _site --check
+          node --test tests/analytics.test.cjs
+          python scripts/stage73_trust_freshness.py _site
+          python scripts/stage75_visible_authorship.py _site
+          python scripts/stage76_yandex_serp_tuning.py _site
+          python scripts/stage77_freelanceos_depth.py _site
+          python scripts/stage77_sitewide_search_quality_v2.py _site
+          python scripts/stage78_search_to_contact.py _site
+          python scripts/stage79_seed_crawl_bridges.py _site
+          python scripts/stage80_article_schema_image.py _site
+          python scripts/stage77_sitewide_search_quality_v2.py _site
+          python scripts/stage85_conversion_cleanup.py _site
+          python scripts/stage86_service_ending_cleanup.py _site
+          python scripts/stage87_auxiliary_action_cleanup.py _site
+          python scripts/stage90_user_experience.py _site
+          python scripts/stage91_catalog_filters.py _site
+          python scripts/stage92_action_first_reading.py _site
+          python scripts/stage93_project_showcase.py _site
+          node --check _site/assets/portfolio-showcase.js
+
+          python scripts/validate_growth.py _site
+          python scripts/stage101_search_entry_flow.py _site
+          node --check _site/assets/stage101-intent-handoff.js
+          python scripts/stage102_volume_growth.py _site
+          python scripts/stage103_yandex_crawl_priority.py _site
+
+          # Stage103 invokes Stage104. Stage105 is intentionally last mutation.
+          python scripts/stage105_performance_assets.py _site
+
+          python scripts/stage25_navigation_audit.py _site
+          python scripts/stage27_endings_audit.py _site
+          python scripts/stage28_overflow_audit.py _site
+          python scripts/stage30_nested_container_audit.py _site
+          python scripts/stage32_rhythm_audit.py _site
+          python scripts/stage35_responsive_risk_audit.py _site
+          python scripts/stage36_language_a11y_audit.py _site
+          python scripts/validate_site.py _site
+
+      - name: Verify Stage104 and Stage105 output
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -q 'https://alexgtup.github.io/#person' _site/index.html
+          grep -q 'stage105-layout-core.css' _site/index.html
+          grep -q 'stage105-theme-search.css' _site/index.html
+          grep -q 'stage105-final-ui.css' _site/index.html
+          test "$(grep -o '/assets/stage94-site-ux.css' _site/index.html | wc -l | tr -d ' ')" -le 1
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          for rel in [
+              'index.html', 'services/index.html', 'telegram-bots/index.html',
+              'web-development/index.html', 'crm-development/index.html',
+              'n8n-automation/index.html', 'freelance-developer/index.html'
+          ]:
+              text = (Path('_site') / rel).read_text(encoding='utf-8')
+              count = len(re.findall(r'<link\b[^>]*rel=["\'][^"\']*stylesheet[^"\']*["\'][^>]*>', text, re.I))
+              if count > 10:
+                  raise SystemExit(f'{rel}: {count} stylesheet links')
+              print(rel, count)
+          PY
