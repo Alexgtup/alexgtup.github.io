@@ -85,6 +85,14 @@ TITLE_FIXES = {
     "/cases/": "Кейсы разработки: Telegram, CRM, iOS и веб | Alexuys",
     "/guides/": "Гайды по Telegram, n8n, CRM и разработке | Alexuys",
     "/cases/seo-control-center/": "SEO Control Center - SEO и индексация | кейс Alexuys",
+    "/api-integrations/": "API-интеграции на заказ - CRM, Telegram, webhooks | Alexuys",
+    "/crm-development/": "Разработка CRM на заказ - заявки и интеграции | Alexuys",
+    "/mvp-development/": "MVP на заказ - веб-сервис, приложение, Telegram | Alexuys",
+}
+
+META_FIXES = {
+    "/api-integrations/": "API-интеграции на заказ: CRM, Telegram, платежи и внешние сервисы. REST API, webhooks, авторизация, преобразование данных и обработка ошибок.",
+    "/app-development/": "Разработка мобильных приложений на заказ: пользовательские сценарии, API, данные, публикация и развитие после запуска.",
 }
 
 HREFLANG_FIXES = {
@@ -97,6 +105,11 @@ HREFLANG_FIXES = {
         "ru": f"{BASE}/guides/",
         "en": f"{BASE}/en/guides/",
         "x-default": f"{BASE}/guides/",
+    },
+    "/project-repair/": {
+        "ru": f"{BASE}/project-repair/",
+        "en": f"{BASE}/en/project-repair/",
+        "x-default": f"{BASE}/project-repair/",
     },
 }
 
@@ -164,8 +177,19 @@ def set_title(text: str, title: str, route: str) -> str:
     return text
 
 
+def set_description(text: str, description: str, route: str) -> str:
+    escaped = html_lib.escape(description, quote=True)
+    pat = re.compile(r'(<meta\b(?=[^>]*\bname="description")[^>]*\bcontent=")[^"]*(")', re.I)
+    text, count = pat.subn(lambda m: m.group(1) + escaped + m.group(2), text, count=1)
+    if count != 1:
+        raise SystemExit(f"stage101: description missing on {route}")
+    for attr, key in (("property", "og:description"), ("name", "twitter:description")):
+        mp = re.compile(rf'(<meta\b(?=[^>]*\b{attr}="{re.escape(key)}")[^>]*\bcontent=")[^"]*(")', re.I)
+        text = mp.sub(lambda m: m.group(1) + escaped + m.group(2), text, count=1)
+    return text
+
+
 def fix_hreflang(text: str, mapping: dict[str, str]) -> str:
-    # Remove only alternate language tags, then write a complete reciprocal set.
     text = re.sub(
         r'<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang="[^"]+")[^>]*>\s*',
         "",
@@ -187,7 +211,6 @@ def add_tools_to_footer(text: str) -> tuple[str, bool]:
         return text, False
     chunk = footer.group(0)
     insertion = '<a href="/tools/">Инструменты</a>'
-    # Put it next to the other navigation destinations, before legal/demo links.
     for marker in ('<a href="/privacy/"', '<a href="/demos/"'):
         pos = chunk.find(marker)
         if pos >= 0:
@@ -220,6 +243,16 @@ for route, title in TITLE_FIXES.items():
         path.write_text(new_text, encoding="utf-8")
         changed_routes.add(route)
 
+for route, description in META_FIXES.items():
+    path = route_file(route)
+    if not path.is_file():
+        raise SystemExit(f"stage101: missing description page {path}")
+    text = path.read_text(encoding="utf-8")
+    new_text = set_description(text, description, route)
+    if new_text != text:
+        path.write_text(new_text, encoding="utf-8")
+        changed_routes.add(route)
+
 for route, mapping in HREFLANG_FIXES.items():
     path = route_file(route)
     text = path.read_text(encoding="utf-8")
@@ -238,7 +271,6 @@ for path in sorted(ROOT.rglob("*.html")):
         path.write_text(new_text, encoding="utf-8")
         footer_changes += 1
 
-# Update lastmod only for pages whose primary content/search presentation changed.
 sitemap = ROOT / "sitemap.xml"
 if not sitemap.is_file():
     raise SystemExit("stage101: sitemap.xml missing")
@@ -257,7 +289,6 @@ for route in sorted(changed_routes):
     xml = xml[:match.start(1)] + patched + xml[match.end(1):]
 sitemap.write_text(xml, encoding="utf-8")
 
-# Final guards: links that previously became orphans must exist in the final graph.
 all_html = "\n".join(p.read_text(encoding="utf-8") for p in ROOT.rglob("*.html") if p.name == "index.html")
 for target in ("/telegram-bot-repair/", "/tools/", "/cases/fin-planner/", "/guides/telegram-bot-cost/"):
     if f'href="{target}"' not in all_html:
@@ -275,10 +306,15 @@ for route, expected in TITLE_FIXES.items():
     if f"<title>{html_lib.escape(expected, quote=True)}</title>" not in text:
         raise SystemExit(f"stage101: title guard failed on {route}")
 
+for route, description in META_FIXES.items():
+    text = route_file(route).read_text(encoding="utf-8")
+    if html_lib.escape(description, quote=True) not in text:
+        raise SystemExit(f"stage101: description guard failed on {route}")
+
 for route, mapping in HREFLANG_FIXES.items():
     text = route_file(route).read_text(encoding="utf-8")
     for lang, url in mapping.items():
         if f'hreflang="{lang}"' not in text or html_lib.escape(url, quote=True) not in text:
             raise SystemExit(f"stage101: hreflang guard failed on {route}: {lang}")
 
-print(f"stage101: search entry flow ready; related={len(RELATED)} title_fixes={len(TITLE_FIXES)} footer_tools={footer_changes} changed_lastmod={len(changed_routes)}")
+print(f"stage101: search entry flow ready; related={len(RELATED)} title_fixes={len(TITLE_FIXES)} meta_fixes={len(META_FIXES)} hreflang_fixes={len(HREFLANG_FIXES)} footer_tools={footer_changes} changed_lastmod={len(changed_routes)}")
