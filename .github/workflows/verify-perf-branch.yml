@@ -1,8 +1,8 @@
-name: Verify performance branch
+name: Verify production candidate
 
 on:
-  push:
-    branches: ["perf-yandex-next"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -100,7 +100,8 @@ jobs:
           python scripts/stage102_volume_growth.py _site
           python scripts/stage103_yandex_crawl_priority.py _site
 
-          # Stage103 invokes Stage104. Stage105 is intentionally last mutation.
+          # Stage103 invokes Stage104. Stage105 invokes Stage106 before taking
+          # body snapshots, then keeps CSS optimization as the final pass.
           python scripts/stage105_performance_assets.py _site
 
           python scripts/stage25_navigation_audit.py _site
@@ -112,7 +113,7 @@ jobs:
           python scripts/stage36_language_a11y_audit.py _site
           python scripts/validate_site.py _site
 
-      - name: Verify Stage104 and Stage105 output
+      - name: Verify final proof graph and performance output
         shell: bash
         run: |
           set -euo pipefail
@@ -120,6 +121,10 @@ jobs:
           grep -q 'stage105-layout-core.css' _site/index.html
           grep -q 'stage105-theme-search.css' _site/index.html
           grep -q 'stage105-final-ui.css' _site/index.html
+          grep -q 'data-stage106-demo="siteaudit-studio"' _site/demos/index.html
+          grep -q 'data-stage106-demo="freelance-os"' _site/demos/index.html
+          grep -q 'data-stage106-freelanceos="true"' _site/crm-development/index.html
+          grep -q 'data-stage106-seo-tools="true"' _site/cases/siteaudit-studio/index.html
           test "$(grep -o '/assets/stage94-site-ux.css' _site/index.html | wc -l | tr -d ' ')" -le 1
           python - <<'PY'
           from pathlib import Path
