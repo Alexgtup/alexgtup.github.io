@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import hashlib
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
@@ -110,6 +111,13 @@ def replace_adjacent_bundle(html: str, members: list[str], href: str, marker: st
 
 if not ASSETS.is_dir():
     raise SystemExit('stage105: assets directory missing')
+
+# Stage106 changes only existing proof/discovery surfaces and must run after
+# Stage103->Stage104 but before Stage105 snapshots page bodies.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage106_proof_graph.py')), str(ROOT)],
+    check=True,
+)
 
 bundle_urls: dict[str, tuple[str, list[str], int]] = {}
 for name, members in BUNDLES.items():
