@@ -18,7 +18,9 @@ links = (
     ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-2" data-navigation-continuity="true"></script>'),
     ('data-stage99-theme-css="true"', '<link href="/assets/theme-system.css?v=20260910-1" rel="stylesheet" data-stage99-theme-css="true"/>'),
     ('data-stage100-light-theme-fixes="true"', '<link href="/assets/theme-light-legacy-fixes.css?v=20260910-1" rel="stylesheet" data-stage100-light-theme-fixes="true"/>'),
+    ('data-stage101-search-flow-css="true"', '<link href="/assets/stage101-search-flow.css?v=20260910-1" rel="stylesheet" data-stage101-search-flow-css="true"/>'),
     ('data-stage99-theme-js="true"', '<script src="/assets/theme-system.js?v=20260910-1" data-stage99-theme-js="true"></script>'),
+    ('data-stage101-intent-handoff="true"', '<script defer src="/assets/stage101-intent-handoff.js?v=20260910-1" data-stage101-intent-handoff="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
@@ -103,6 +105,7 @@ if regressions:
 subprocess.run(['node', '--check', str(root / 'assets/stage94-site-ux.js')], check=True)
 subprocess.run(['node', '--check', str(root / 'assets/navigation-continuity.js')], check=True)
 subprocess.run(['node', '--check', str(root / 'assets/theme-system.js')], check=True)
+subprocess.run(['node', '--check', str(root / 'assets/stage101-intent-handoff.js')], check=True)
 
 values = ", ".join(f"{k}×{v}" for k, v in sorted(max_values.items())) or "none"
 skipped = ", ".join(skipped_stubs) if skipped_stubs else "none"
@@ -114,4 +117,4 @@ print(
 )
 print(f"stage24 allowed utility pages without shared shell ({len(without_shared_shell)}): {legacy}")
 print(f"stage24 non-shell common classes: {common_classes}")
-print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX + navigation continuity + stage99 theme system + stage100 light theme completeness invariant OK")
+print("stage24 shared shell + stage81 mobile polish + stage82 visual system + stage89 guide rhythm + stage83 mobile actions + stage84 mobile runtime + stage94 site UX + navigation continuity + stage99 theme system + stage100 light theme completeness + stage101 search flow invariant OK")
