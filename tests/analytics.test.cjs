@@ -34,11 +34,13 @@ test('no tracking or remote script before consent', () => {
   const p = page(null); p.click('https://t.me/Alexuys');
   assert.equal(p.box.hidden, false); assert.equal(p.scripts.length, 0); assert.equal(p.calls.length, 0);
 });
-test('both historic opt-in formats initialize exactly once, including repeated execution', () => {
+test('both historic opt-in formats initialize exactly once with consent-only interaction analytics', () => {
   for (const value of ['yes', 'accepted']) {
     const p = page(value); p.choose('accepted'); vm.runInNewContext(source, p.context);
     assert.equal(p.scripts.length, 1); assert.equal(p.calls.filter(c => c[1] === 'init').length, 1);
-    assert.equal(p.calls[0][2].webvisor, false);
+    assert.equal(p.calls[0][2].webvisor, true);
+    assert.equal(p.calls[0][2].trackLinks, true);
+    assert.equal(p.calls[0][2].clickmap, true);
   }
 });
 test('both historic opt-out formats stay opted out', () => {
