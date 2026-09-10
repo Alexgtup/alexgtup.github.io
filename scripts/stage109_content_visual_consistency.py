@@ -20,7 +20,6 @@ PROOF_VISUALS = {
 
 CSS = r'''
 /* stage109-content-visual-consistency */
-/* Repeated REAL CASE rings are replaced by small route-specific system maps. */
 body[data-ux-family="service"] .stage109-case-diagram{
   position:relative!important;
   min-height:20rem!important;
@@ -77,7 +76,6 @@ body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(2){right:
 body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(3){left:9%;bottom:18%}
 body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(4){right:9%;bottom:18%}
 
-/* The three decision guides had a plain full-width final section while older guides use a CTA card. */
 body[data-ux-family="guide"] main>.stage109-guide-endcap{
   padding-block:clamp(3rem,4.5vw,4rem)!important;
   background:transparent!important;
@@ -112,7 +110,6 @@ body[data-ux-family="guide"] .stage109-guide-endcap .related a[href*="t.me/Alexu
   color:#0a0d08!important;
 }
 
-/* Product pages get the same deliberate closing surface as service/case pages. */
 body[data-ux-family="product"] main>.ux-product-contact.stage109-endcap{
   width:var(--ds-shell,min(calc(100% - 2.4rem),1280px))!important;
   margin:clamp(2.2rem,4vw,3.5rem) auto clamp(3rem,5vw,4.5rem)!important;
@@ -136,9 +133,9 @@ body[data-ux-family="product"] main>.ux-product-contact.stage109-endcap{
 '''
 
 GENERIC_DIAGRAM_RE = re.compile(
-    r'<div\s+aria-hidden=["\']true["\']\s+class=["\']s48-case__diagram["\']>'
-    r'<i></i><i></i><i></i><b>REAL<br\s*/?>CASE</b></div>',
-    re.I,
+    r'<div\b(?=[^>]*\bclass=["\'][^"\']*\bs48-case__diagram\b[^"\']*["\'])[^>]*>'
+    r'\s*<i></i>\s*<i></i>\s*<i></i>\s*<b>REAL\s*<br\s*/?>\s*CASE</b>\s*</div>',
+    re.I | re.S,
 )
 
 
@@ -172,7 +169,6 @@ def fix_english_project_repair() -> bool:
         raise SystemExit('stage109: en/project-repair missing')
     text = path.read_text(encoding='utf-8')
     old = text
-    # Stage108's fallback can mistake the hero Telegram action for the page ending.
     text = re.sub(
         r'(<section\b[^>]*class=["\'][^"\']*\bintl-hero\b[^"\']*)\s+stage108-endcap([^"\']*["\'])',
         r'\1\2', text, count=1, flags=re.I,
@@ -207,10 +203,7 @@ def fix_freelance_os() -> bool:
         text, re.I | re.S,
     ))
     if len(blocks) >= 2:
-        replacements = [
-            'Когда local-first CRM подходит',
-            'Как устроен FreelanceOS',
-        ]
+        replacements = ['Когда local-first CRM подходит', 'Как устроен FreelanceOS']
         for match, label in reversed(list(zip(blocks[:2], replacements))):
             block = match.group(0)
             block, count = re.subn(r'<summary>.*?</summary>', f'<summary>{label}</summary>', block, count=1, flags=re.I | re.S)
@@ -261,11 +254,10 @@ repair_changed = fix_english_project_repair()
 product_changed = fix_freelance_os()
 guide_changed = mark_new_guide_endings()
 
-# Invariants for the lappies this pass exists to remove.
 problems: list[str] = []
 for rel in PROOF_VISUALS:
     text = (ROOT / rel).read_text(encoding='utf-8')
-    if 'REAL<br/>CASE' in text or 'REAL<br>CASE' in text:
+    if re.search(r'REAL\s*<br\s*/?>\s*CASE', text, re.I):
         problems.append(f'{rel}: generic REAL CASE visual remains')
     if text.count('stage109-case-diagram') != 1:
         problems.append(f'{rel}: route-specific proof visual missing/duplicated')
@@ -280,12 +272,12 @@ else:
         problems.append('en/project-repair: CTA is not final section')
 
 fos = (ROOT / 'freelance-os/index.html').read_text(encoding='utf-8')
-if fos.count('<summary>Подробнее о реализации и архитектуре</summary>'):
+if '<summary>Подробнее о реализации и архитектуре</summary>' in fos:
     problems.append('freelance-os: duplicated generic detail summary remains')
 if 'ux-product-contact stage109-endcap' not in fos and 'stage109-endcap ux-product-contact' not in fos:
     problems.append('freelance-os: product contact not marked as endcap')
 
-for rel in guide_changed or (
+for rel in (
     'guides/n8n-vs-backend/index.html',
     'guides/repair-vs-rewrite/index.html',
     'guides/site-vs-web-app/index.html',
