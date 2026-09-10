@@ -16,10 +16,32 @@ DETAIL_RE = re.compile(
 )
 SECTION_RE = re.compile(r'<section\b[^>]*>.*?</section>', re.I | re.S)
 TELEGRAM_RE = re.compile(r'https://t\.me/Alexuys', re.I)
+FOOTER_CLASS_RE = re.compile(r'<footer\b[^>]*class=["\'][^"\']*\bstage107-footer\b[^"\']*["\'][^>]*>', re.I | re.S)
 
 STYLE_MARK = '/* stage107-bottom-up */'
 ENDCAP_CSS = r'''
 /* stage107-bottom-up */
+/* Final rhythm pass: remove the large empty bands that survived earlier layout stages. */
+body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta){
+  padding-block:clamp(.8rem,1.8vw,1.45rem)!important;
+}
+body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta)>.s48-section>.container{
+  padding:clamp(1.55rem,2.7vw,2.35rem) 0!important;
+}
+body[data-ux-family="service"] .stage95-service-core+.stage95-service-meta{padding-top:0!important}
+body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta) .s48-head{
+  margin-bottom:clamp(1rem,1.8vw,1.45rem)!important;
+}
+body[data-ux-family] main>.stage107-endcap,
+body[data-ux-family] main>.stage95-service-meta:last-child .stage107-endcap,
+body[data-ux-family] main>.stage95-service-core:last-child .stage107-endcap{
+  margin-top:0!important;
+  margin-bottom:0!important;
+}
+body[data-ux-family] .stage107-endcap{
+  padding-top:clamp(1.8rem,3.2vw,2.8rem)!important;
+  padding-bottom:clamp(2rem,3.4vw,3rem)!important;
+}
 body[data-ux-family] .stage107-endcap :is(.s48-contact__box,.s51-contact-card,.cta-box,.dt-contact__card,.s64-conversion__inner,.intl-cta-box,.ux-product-contact){
   border:1px solid var(--ds-line)!important;
   border-radius:var(--ds-radius-lg)!important;
@@ -32,6 +54,7 @@ body[data-ux-family] .stage107-endcap :is(.s48-contact__box,.s51-contact-card,.d
 body[data-ux-family] .stage107-endcap h2{max-width:18ch}
 body[data-ux-family] .stage107-endcap p{max-width:62ch}
 body[data-ux-family] .stage107-endcap :is(.related,.s48-contact__actions,.s51-contact-actions,.actions,.growth-actions,.s64-conversion__actions,.ux-product-contact__actions){gap:.65rem!important}
+body[data-ux-family] .stage107-endcap :is(h2,p,.actions,.related):last-child{margin-bottom:0!important}
 
 body[data-ux-family] .stage107-footer{
   margin:0!important;
@@ -42,12 +65,12 @@ body[data-ux-family] .stage107-footer{
   color:var(--ds-muted)!important;
 }
 body[data-ux-family] .stage107-footer__inner{
-  min-height:12rem;
-  padding-block:2.15rem 2.5rem!important;
+  min-height:0!important;
+  padding-block:1.65rem 1.9rem!important;
   display:grid!important;
   grid-template-columns:minmax(13rem,.72fr) minmax(0,1.28fr)!important;
   grid-template-areas:"brand nav" "meta meta";
-  gap:2rem 2.5rem!important;
+  gap:1.35rem 2.5rem!important;
   align-items:start!important;
 }
 body[data-ux-family] .stage107-footer__brand{grid-area:brand;display:grid;gap:.42rem;align-content:start}
@@ -83,7 +106,7 @@ body[data-ux-family] .stage107-footer__nav a:hover,
 body[data-ux-family] .stage107-footer__meta a:hover{color:var(--ds-text)!important}
 body[data-ux-family] .stage107-footer__meta{
   grid-area:meta;
-  padding-top:1.1rem!important;
+  padding-top:.9rem!important;
   border-top:1px solid var(--ds-line)!important;
   display:flex!important;
   flex-wrap:wrap!important;
@@ -102,12 +125,14 @@ body[data-ux-family] .stage107-footer .stage95-footer-cookie{
   font-size:.75rem!important;
 }
 @media(max-width:760px){
+  body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta)>.s48-section>.container{padding:1.55rem 0!important}
+  body[data-ux-family] .stage107-endcap{padding-block:1.55rem 2rem!important}
   body[data-ux-family] .stage107-footer__inner{
     min-height:0;
     grid-template-columns:1fr!important;
     grid-template-areas:"brand" "nav" "meta";
-    gap:1.35rem!important;
-    padding-block:1.8rem 2rem!important;
+    gap:1.15rem!important;
+    padding-block:1.5rem 1.7rem!important;
   }
   body[data-ux-family] .stage107-footer__nav{justify-content:flex-start!important;gap:.6rem 1rem!important}
   body[data-ux-family] .stage107-footer__meta{align-items:flex-start!important;flex-direction:column!important;gap:.65rem!important}
@@ -251,9 +276,6 @@ def move_seo_before_contact(main: str, rel: str) -> tuple[str, int]:
     return main, len(blocks)
 
 
-# Stage105 bundles stage98-design-system.css afterwards, so keep this visual
-# normalization inside the existing bundled request instead of adding another
-# render-blocking stylesheet to every page.
 style_path = ROOT / 'assets' / 'stage98-design-system.css'
 if not style_path.is_file():
     raise SystemExit('stage107: stage98-design-system.css missing')
@@ -299,8 +321,9 @@ for path in sorted(ROOT.rglob('*.html')):
     rel = relpath(path)
     if '<main' not in html or rel == '404.html' or path.name.startswith(('google', 'yandex_')):
         continue
-    if html.count('stage107-footer') != 1:
-        problems.append(f'{rel}: shared footer count={html.count("stage107-footer")}')
+    footer_count = len(FOOTER_CLASS_RE.findall(html))
+    if footer_count != 1:
+        problems.append(f'{rel}: shared footer count={footer_count}')
     footer = FOOTER_RE.search(html)
     if not footer:
         problems.append(f'{rel}: footer missing')
