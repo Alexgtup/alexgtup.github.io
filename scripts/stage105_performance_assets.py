@@ -37,6 +37,11 @@ HREF_RE = re.compile(r'\bhref=["\']([^"\']+)["\']', re.I)
 REL_RE = re.compile(r'\brel=["\']([^"\']+)["\']', re.I)
 
 
+def body_hash(html: str) -> str:
+    body = html.split('</head>', 1)[1] if '</head>' in html else html
+    return hashlib.sha256(body.encode('utf-8')).hexdigest()
+
+
 def css_path(tag: str) -> str | None:
     href = HREF_RE.search(tag)
     rel = REL_RE.search(tag)
@@ -88,6 +93,8 @@ def replace_adjacent_bundle(html: str, members: list[str], href: str, marker: st
         if paths[i:i + size] != members:
             continue
         chunk = links[i:i + size]
+        # Keep cascade order exactly: only bundle stylesheet tags already adjacent
+        # in the source, with whitespace between them and no scripts/other tags.
         adjacent = all(
             not html[chunk[j][0].end():chunk[j + 1][0].start()].strip()
             for j in range(size - 1)
@@ -112,10 +119,13 @@ for name, members in BUNDLES.items():
 pages = 0
 deduped = 0
 bundled = {name: 0 for name in BUNDLES}
+body_before: dict[str, str] = {}
 for path in sorted(ROOT.rglob('*.html')):
     html = path.read_text(encoding='utf-8', errors='ignore')
     if '</head>' not in html:
         continue
+    rel = path.relative_to(ROOT).as_posix()
+    body_before[rel] = body_hash(html)
     pages += 1
     html, removed = dedupe_stylesheets(html)
     deduped += removed
@@ -126,6 +136,8 @@ for path in sorted(ROOT.rglob('*.html')):
             bundled[name] += 1
     path.write_text(html, encoding='utf-8')
 
+# Final guards: no duplicate local stylesheet paths on any full page and bundles
+# are actually used broadly enough to justify keeping them in the build.
 dup_pages: list[str] = []
 for path in sorted(ROOT.rglob('*.html')):
     html = path.read_text(encoding='utf-8', errors='ignore')
@@ -142,6 +154,29 @@ for path in sorted(ROOT.rglob('*.html')):
         seen.add(value)
 if dup_pages:
     raise SystemExit('stage105: duplicate stylesheets remain: ' + ', '.join(dup_pages[:10]))
+
+body_changed: list[str] = []
+for rel, expected in body_before.items():
+    path = ROOT / rel
+    html = path.read_text(encoding='utf-8', errors='strict')
+    if body_hash(html) != expected:
+        body_changed.append(rel)
+if body_changed:
+    raise SystemExit('stage105: page body changed unexpectedly: ' + ', '.join(body_changed[:10]))
+
+key_pages = [
+    'index.html', 'services/index.html', 'telegram-bots/index.html',
+    'web-development/index.html', 'crm-development/index.html',
+    'n8n-automation/index.html', 'freelance-developer/index.html',
+]
+for rel in key_pages:
+    path = ROOT / rel
+    if not path.is_file():
+        raise SystemExit(f'stage105: key page missing: {rel}')
+    html = path.read_text(encoding='utf-8')
+    css_count = sum(1 for match in LINK_RE.finditer(html) if css_path(match.group(0)))
+    if css_count > 10:
+        raise SystemExit(f'stage105: too many CSS requests remain on {rel}: {css_count}')
 
 if bundled['stage105-layout-core.css'] < 60:
     raise SystemExit(f"stage105: layout bundle unexpectedly rare: {bundled['stage105-layout-core.css']}")
