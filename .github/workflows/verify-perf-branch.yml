@@ -1,24 +1,15 @@
-name: Deploy GitHub Pages
+name: Verify performance branch
 
 on:
   push:
-    branches: ["main"]
+    branches: ["perf-yandex-next"]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  verify:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +17,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Build and validate clean static site
+      - name: Build exact production candidate without deploy
         shell: bash
         run: |
           set -euo pipefail
@@ -67,7 +58,7 @@ jobs:
           python scripts/stage72_freelance_offer_hub.py _site
           node --check _site/assets/freelance-os.js
 
-          python - <<'PY3'
+          python - <<'PY'
           from pathlib import Path
           p = Path('_site/cases/sheetpilot-ai/index.html')
           text = p.read_text(encoding='utf-8')
@@ -76,7 +67,7 @@ jobs:
           text = text.replace('<span class="btn status">Демо готовится к публикации</span>', '<a class="btn primary" href="https://sheetpilot-ai-6omr.onrender.com" target="_blank" rel="noopener noreferrer">Открыть демо ↗</a>')
           text = text.replace('Публичную демо-версию добавлю после отдельного развёртывания сервиса.', 'Публичная демо-версия уже развёрнута и доступна для тестирования.')
           p.write_text(text, encoding='utf-8')
-          PY3
+          PY
 
           python scripts/stage64_conversion_paths.py _site
           python scripts/stage65_analytics_centralization.py _site
@@ -89,43 +80,29 @@ jobs:
           python scripts/stage75_visible_authorship.py _site
           python scripts/stage76_yandex_serp_tuning.py _site
           python scripts/stage77_freelanceos_depth.py _site
-          # First pass strengthens weak search entries and audits all 74 sitemap pages.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Make the final Stage77 blocks actionable for organic visitors.
           python scripts/stage78_search_to_contact.py _site
-          # Add contextual crawl bridges from the five pages already indexed by Google
-          # to the next commercial URLs that Yandex already keeps SEARCHABLE.
           python scripts/stage79_seed_crawl_bridges.py _site
-          # Keep Article structured data eligible for article/search features.
           python scripts/stage80_article_schema_image.py _site
-          # Audit the actual final HTML after conversion, crawl-bridge and schema changes.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Remove repeated generic CTA endings and keep one page-specific conversion surface.
           python scripts/stage85_conversion_cleanup.py _site
-          # Product/tool recommendations stay useful, but the shared contact must be the final service section.
           python scripts/stage86_service_ending_cleanup.py _site
-          # Auxiliary product cards should not repeat Telegram when a stronger contact action follows.
           python scripts/stage87_auxiliary_action_cleanup.py _site
-          # Make hubs, cases and utilities visual-first without deleting useful search content.
           python scripts/stage90_user_experience.py _site
-          # Let visitors filter cases, guides and tools instead of scanning every card.
           python scripts/stage91_catalog_filters.py _site
-          # Put actions first on tools and use progressive disclosure for long guide details.
           python scripts/stage92_action_first_reading.py _site
-          # Keep the homepage compact and move the full project library to /cases/.
           python scripts/stage93_project_showcase.py _site
           node --check _site/assets/portfolio-showcase.js
-          # Run the existing finalizers first: they prune and normalize the actual published HTML.
+
           python scripts/validate_growth.py _site
-          # Search-entry flow must be the final SEO content mutation so crawl bridges survive pruning.
           python scripts/stage101_search_entry_flow.py _site
           node --check _site/assets/stage101-intent-handoff.js
-          # Grow lead volume and repeat orders without changing the existing price ladder.
           python scripts/stage102_volume_growth.py _site
-          # Final Yandex discovery layer: crawl priorities, weak commercial links and transparent consent copy.
           python scripts/stage103_yandex_crawl_priority.py _site
-          # Final performance pass: keep body/SEO/CTA unchanged, dedupe CSS and reduce render-blocking requests.
+
+          # Stage103 invokes Stage104. Stage105 is intentionally last mutation.
           python scripts/stage105_performance_assets.py _site
+
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
@@ -135,76 +112,26 @@ jobs:
           python scripts/stage36_language_a11y_audit.py _site
           python scripts/validate_site.py _site
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload site
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
-        with:
-          timeout: 900000
-
-      - name: Notify IndexNow and Yandex from final sitemap
-        continue-on-error: true
+      - name: Verify Stage104 and Stage105 output
         shell: bash
         run: |
-          set -u
-          python - <<'PY2'
-          import json
+          set -euo pipefail
+          grep -q 'https://alexgtup.github.io/#person' _site/index.html
+          grep -q 'stage105-layout-core.css' _site/index.html
+          grep -q 'stage105-theme-search.css' _site/index.html
+          grep -q 'stage105-final-ui.css' _site/index.html
+          test "$(grep -o '/assets/stage94-site-ux.css' _site/index.html | wc -l | tr -d ' ')" -le 1
+          python - <<'PY'
           from pathlib import Path
-          import xml.etree.ElementTree as ET
-
-          base = 'https://alexgtup.github.io'
-          host = 'alexgtup.github.io'
-          key = None
-          for path in Path('_site').glob('*.txt'):
-              value = path.read_text(encoding='utf-8').strip()
-              if len(path.stem) == 32 and value == path.stem:
-                  key = value
-                  break
-          if not key:
-              raise SystemExit('IndexNow key file not found in published site')
-
-          tree = ET.parse('_site/sitemap.xml')
-          ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
-          urls = sorted({(n.text or '').strip() for n in tree.findall('.//s:loc', ns) if (n.text or '').strip()})
-          payload = {
-              'host': host,
-              'key': key,
-              'keyLocation': f'{base}/{key}.txt',
-              'urlList': urls,
-          }
-          with open('/tmp/indexnow.json','w',encoding='utf-8') as f:
-              json.dump(payload, f, ensure_ascii=False)
-          print(f'IndexNow URLs from final sitemap: {len(urls)}')
-          PY2
-
-          FAILED=0
-          for ENDPOINT in https://api.indexnow.org/indexnow https://yandex.com/indexnow; do
-            CODE=$(curl -sS -o /tmp/indexnow-response.txt -w '%{http_code}' \
-              -H 'Content-Type: application/json; charset=utf-8' \
-              --data-binary @/tmp/indexnow.json \
-              "$ENDPOINT" || true)
-            echo "$ENDPOINT HTTP: $CODE"
-            cat /tmp/indexnow-response.txt || true
-            echo
-            case "$CODE" in
-              200|202)
-                echo "Accepted by $ENDPOINT"
-                ;;
-              *)
-                echo "::warning::IndexNow delivery failed for $ENDPOINT (HTTP $CODE)"
-                FAILED=1
-                ;;
-            esac
-          done
-
-          if [ "$FAILED" -ne 0 ]; then
-            echo "::warning::One or more IndexNow endpoints rejected the sitemap payload"
-            exit 1
-          fi
+          import re
+          for rel in [
+              'index.html', 'services/index.html', 'telegram-bots/index.html',
+              'web-development/index.html', 'crm-development/index.html',
+              'n8n-automation/index.html', 'freelance-developer/index.html'
+          ]:
+              text = (Path('_site') / rel).read_text(encoding='utf-8')
+              count = len(re.findall(r'<link\b[^>]*rel=["\'][^"\']*stylesheet[^"\']*["\'][^>]*>', text, re.I))
+              if count > 10:
+                  raise SystemExit(f'{rel}: {count} stylesheet links')
+              print(rel, count)
+          PY
