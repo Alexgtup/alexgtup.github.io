@@ -75,3 +75,25 @@ test('blocked storage does not break consent controls', () => {
   const p = page(null, true); p.choose('accepted'); assert.equal(p.scripts.length, 1);
   p.choose('declined'); assert.equal(p.calls.at(-1)[1], 'destruct');
 });
+
+test('UX analytics records funnel metadata without sending visitor-entered task or search text', () => {
+  const handoff = fs.readFileSync('assets/stage101-intent-handoff.js', 'utf8');
+  for (const goal of ['catalog_filter', 'catalog_search', 'brief_start', 'brief_ready', 'brief_preview', 'brief_copy', 'brief_submit']) {
+    assert.equal(handoff.includes(`'${goal}'`), true, `missing UX goal ${goal}`);
+  }
+  assert.equal(handoff.includes("goal('catalog_search', { family, length:"), true);
+  assert.equal(/goal\([^\n]*task\.value/.test(handoff), false);
+  assert.equal(/goal\([^\n]*search\.value/.test(handoff), false);
+});
+
+test('navigation continuity owns browsing state but not Telegram draft mutation', () => {
+  const continuity = fs.readFileSync('assets/navigation-continuity.js', 'utf8');
+  for (const hub of ['/cases/', '/en/cases/', '/guides/', '/en/guides/', '/tools/', '/services/', '/en/services/', '/demos/']) {
+    assert.equal(continuity.includes(`path: '${hub}'`), true, `missing continuity hub ${hub}`);
+  }
+  assert.equal(continuity.includes('location.pathname + location.search + location.hash'), true);
+  assert.equal(continuity.includes('scrollY'), true);
+  assert.equal(continuity.includes("goal('catalog_return'"), true);
+  assert.equal(continuity.includes('t.me/Alexuys'), false);
+  assert.equal(continuity.includes('searchParams.set(\'text\''), false);
+});
