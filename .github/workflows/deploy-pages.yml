@@ -144,6 +144,8 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 900000
 
       - name: Notify IndexNow and Yandex from final sitemap
         continue-on-error: true
