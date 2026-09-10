@@ -117,9 +117,11 @@ jobs:
           node --check _site/assets/portfolio-showcase.js
           # Run the existing finalizers first: they prune and normalize the actual published HTML.
           python scripts/validate_growth.py _site
-          # Search-entry flow must be the final content mutation so crawl bridges survive pruning.
+          # Search-entry flow must be the final SEO content mutation so crawl bridges survive pruning.
           python scripts/stage101_search_entry_flow.py _site
           node --check _site/assets/stage101-intent-handoff.js
+          # Grow lead volume and repeat orders without changing the existing price ladder.
+          python scripts/stage102_volume_growth.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
