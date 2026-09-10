@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from urllib.parse import urlparse
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -191,4 +192,10 @@ print(
     f"stage103 Yandex: sitemap priorities={sitemap_urls}; bridge pages={bridge_changes}; "
     f"consent copy pages={consent_pages}; telegram-bot-repair inbound={inbound_sources('/telegram-bot-repair/')}; "
     f"telegram-mini-apps inbound={inbound_sources('/telegram-mini-apps/')}"
+)
+
+# Keep author/entity identity and sitemap freshness consistent after all earlier generators.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage104_entity_consistency.py")), str(ROOT)],
+    check=True,
 )
