@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from urllib.parse import urlparse
+import json
 import re
 import sys
 
@@ -13,6 +14,65 @@ DATE = '2026-09-10'
 DEMO_CARDS = '''<article class="growth-card" data-stage106-demo="siteaudit-studio"><span class="growth-label">SEO · CRAWLER · WEB</span><h3>SiteAudit Studio</h3><p>Технический аудит публичного сайта: HTTP, robots.txt, sitemap, canonical, метаданные, ссылки, accessibility и security-сигналы.</p><p><strong>Что проверить:</strong> запустите аудит тестового URL, откройте конкретные найденные сигналы и сравните их с исходной страницей.</p><div class="growth-actions"><a class="growth-link primary" data-demo="siteaudit-studio" href="https://siteaudit-studio.onrender.com/" target="_blank" rel="noopener noreferrer">Открыть сервис</a><a class="growth-link" href="/cases/siteaudit-studio/">Разбор проекта</a></div><p>Сервис использует объяснимые технические проверки и показывает, почему найден конкретный риск.</p></article><article class="growth-card" data-stage106-demo="freelance-os"><span class="growth-label">CRM · LOCAL-FIRST · JAVASCRIPT</span><h3>FreelanceOS</h3><p>Local-first CRM для личной фриланс-практики: лиды, pipeline, follow-up, задачи, источники, бюджет и выручка без регистрации.</p><p><strong>Что проверить:</strong> загрузите demo-данные, проведите лид по воронке, добавьте follow-up и посмотрите, как меняется аналитика.</p><div class="growth-actions"><a class="growth-link primary" data-demo="freelance-os" href="/freelance-os/">Открыть CRM</a><a class="growth-link" href="/cases/freelance-os/">Разбор проекта</a></div><p>В текущем MVP данные остаются в браузере пользователя; резервная копия переносится через JSON export/import.</p></article>'''
 
 VALIDATOR_ACTIONS = '''<div class="actions" data-stage106-seo-tools="true" style="margin-top:1rem"><a class="btn" href="/tools/robots-validator/">Проверить robots.txt →</a><a class="btn" href="/tools/sitemap-validator/">Проверить sitemap.xml →</a></div>'''
+
+SITEAUDIT_DESCRIPTION = (
+    'SiteAudit Studio - кейс web-сервиса для технического SEO-аудита: HTTP, robots.txt, '
+    'sitemap, canonical, метаданные, ссылки и безопасный crawler.'
+)
+
+DEMOS_SCHEMA = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': BASE + '/demos/#page',
+    'url': BASE + '/demos/',
+    'name': 'Демо веб-сервисов и примеры разработки',
+    'inLanguage': 'ru-RU',
+    'mainEntity': {
+        '@type': 'ItemList',
+        'itemListElement': [
+            {
+                '@type': 'ListItem',
+                'position': 1,
+                'item': {
+                    '@type': 'SoftwareApplication',
+                    'name': 'SheetPilot AI',
+                    'applicationCategory': 'BusinessApplication',
+                    'url': BASE + '/cases/sheetpilot-ai/',
+                },
+            },
+            {
+                '@type': 'ListItem',
+                'position': 2,
+                'item': {
+                    '@type': 'SoftwareApplication',
+                    'name': 'SEO Control Center',
+                    'applicationCategory': 'DeveloperApplication',
+                    'url': BASE + '/cases/seo-control-center/',
+                },
+            },
+            {
+                '@type': 'ListItem',
+                'position': 3,
+                'item': {
+                    '@type': 'SoftwareApplication',
+                    'name': 'SiteAudit Studio',
+                    'applicationCategory': 'DeveloperApplication',
+                    'url': BASE + '/cases/siteaudit-studio/',
+                },
+            },
+            {
+                '@type': 'ListItem',
+                'position': 4,
+                'item': {
+                    '@type': 'SoftwareApplication',
+                    'name': 'FreelanceOS',
+                    'applicationCategory': 'BusinessApplication',
+                    'url': BASE + '/freelance-os/',
+                },
+            },
+        ],
+    },
+}
 
 
 def read(rel: str) -> str:
@@ -35,14 +95,27 @@ def patch_demos() -> bool:
     if not section_match:
         raise SystemExit('stage106: #demo-products section missing')
     section = section_match.group(0)
-    # The section has .growth-shell > .growth-grid. Insert before the grid close,
-    # preserving the existing two-card markup and making the catalog a balanced 4 cards.
     shell_close = section.rfind('</div>')
     grid_close = section.rfind('</div>', 0, shell_close)
     if grid_close < 0:
         raise SystemExit('stage106: demo grid close not found')
     new_section = section[:grid_close] + DEMO_CARDS + section[grid_close:]
     text = text[:section_match.start()] + new_section + text[section_match.end():]
+    write(rel, text)
+    return True
+
+
+def patch_demos_schema() -> bool:
+    rel = 'demos/index.html'
+    text = read(rel)
+    marker = 'data-stage106-demos-schema="true"'
+    if marker in text:
+        return False
+    if '</head>' not in text:
+        raise SystemExit('stage106: demos head missing')
+    payload = json.dumps(DEMOS_SCHEMA, ensure_ascii=False, separators=(',', ':'))
+    script = f'<script type="application/ld+json" {marker}>{payload}</script>'
+    text = text.replace('</head>', script + '</head>', 1)
     write(rel, text)
     return True
 
@@ -81,14 +154,27 @@ def patch_siteaudit_tools() -> bool:
     grid_start = re.search(r'<div\b[^>]*class=["\'][^"\']*\bgrid\b[^"\']*["\'][^>]*>', section, re.I)
     if not grid_start:
         raise SystemExit('stage106: SiteAudit overview grid missing')
-    # Find the final grid closing div by walking from the end of the section: container
-    # closes last, grid immediately before it.
     container_close = section.rfind('</div>')
     grid_close = section.rfind('</div>', 0, container_close)
     if grid_close < grid_start.end():
         raise SystemExit('stage106: SiteAudit grid close not found')
     new_section = section[:grid_close + 6] + VALIDATOR_ACTIONS + section[grid_close + 6:]
     text = text[:section_match.start()] + new_section + text[section_match.end():]
+    write(rel, text)
+    return True
+
+
+def patch_siteaudit_description() -> bool:
+    rel = 'cases/siteaudit-studio/index.html'
+    text = read(rel)
+    pattern = re.compile(r'<meta\b(?=[^>]*\bname=["\']description["\'])[^>]*>', re.I)
+    match = pattern.search(text)
+    if not match:
+        raise SystemExit('stage106: SiteAudit meta description missing')
+    replacement = f'<meta name="description" content="{SITEAUDIT_DESCRIPTION}"/>'
+    if match.group(0) == replacement:
+        return False
+    text = text[:match.start()] + replacement + text[match.end():]
     write(rel, text)
     return True
 
@@ -146,32 +232,38 @@ def inbound_nonself(target: str) -> set[str]:
     return sources
 
 
-changed_routes: list[str] = []
+changed_routes: set[str] = set()
 if patch_demos():
-    changed_routes.append('/demos/')
+    changed_routes.add('/demos/')
+if patch_demos_schema():
+    changed_routes.add('/demos/')
 if patch_crm_related_nav():
-    changed_routes.append('/crm-development/')
+    changed_routes.add('/crm-development/')
 if patch_siteaudit_tools():
-    changed_routes.append('/cases/siteaudit-studio/')
+    changed_routes.add('/cases/siteaudit-studio/')
+if patch_siteaudit_description():
+    changed_routes.add('/cases/siteaudit-studio/')
 
-# Only source pages received meaningful visible content, so only their lastmod changes.
-lastmod = update_lastmod([BASE + route for route in changed_routes]) if changed_routes else 0
+lastmod = update_lastmod([BASE + route for route in sorted(changed_routes)]) if changed_routes else 0
 
-# User-facing guards.
+# User-facing and search-quality guards.
 demos = read('demos/index.html')
 if len(re.findall(r'<article\b[^>]*class=["\'][^"\']*\bgrowth-card\b', demos, re.I)) != 4:
     raise SystemExit('stage106: demos catalog must contain exactly four product cards')
 for required in (
     'data-demo="sheetpilot-ai"', 'data-demo="seo-control-center"',
     'data-demo="siteaudit-studio"', 'data-demo="freelance-os"',
+    'data-stage106-demos-schema="true"', '"@type":"CollectionPage"', '"@type":"ItemList"',
 ):
     if required not in demos:
-        raise SystemExit(f'stage106: demo analytics marker missing: {required}')
+        raise SystemExit(f'stage106: demos marker/schema missing: {required}')
 
 siteaudit = read('cases/siteaudit-studio/index.html')
 for target in ('/tools/robots-validator/', '/tools/sitemap-validator/'):
     if f'href="{target}"' not in siteaudit:
         raise SystemExit(f'stage106: SiteAudit direct tool link missing: {target}')
+if SITEAUDIT_DESCRIPTION not in siteaudit or len(SITEAUDIT_DESCRIPTION) > 155:
+    raise SystemExit('stage106: SiteAudit description guard failed')
 
 minimums = {
     '/freelance-os/': 3,
@@ -190,6 +282,7 @@ for target, minimum in minimums.items():
 
 summary = ', '.join(f'{target}={count}' for target, count in counts.items())
 print(
-    f'stage106 proof graph: changed={",".join(changed_routes) or "none"}; lastmod={lastmod}; '
-    f'demo_cards=4; nonself_inbound: {summary}'
+    f'stage106 proof graph: changed={",".join(sorted(changed_routes)) or "none"}; lastmod={lastmod}; '
+    f'demo_cards=4; demos_schema=CollectionPage+ItemList; siteaudit_desc={len(SITEAUDIT_DESCRIPTION)}; '
+    f'nonself_inbound: {summary}'
 )
