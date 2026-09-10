@@ -18,6 +18,51 @@ SAME_AS = [
 ]
 OLD_VISIBLE_NAMES = ("Александр Александров", "Alexandr Alexandrov")
 
+RU_SERVICES = {
+    "/development/", "/app-development/", "/telegram-bots/", "/telegram-mini-apps/",
+    "/telegram-bot-repair/", "/n8n-automation/", "/ai-automation/", "/crm-development/",
+    "/web-development/", "/api-integrations/", "/project-repair/", "/python-development/",
+    "/backend-development/", "/mvp-development/", "/ios-development/",
+}
+
+# Stage103 already creates this compact discovery nav. Stage104 expands only the
+# routes still missing from the visual service cards so /services/ becomes a true crawl hub.
+SERVICE_HUB_LINKS = [
+    ("Telegram Mini App", "/telegram-mini-apps/"),
+    ("Доработка Telegram-бота", "/telegram-bot-repair/"),
+    ("AI-автоматизация", "/ai-automation/"),
+    ("CRM на заказ", "/crm-development/"),
+    ("Backend-разработка", "/backend-development/"),
+    ("Python-разработка", "/python-development/"),
+    ("Разработка MVP", "/mvp-development/"),
+    ("iOS-разработка", "/ios-development/"),
+    ("Все направления разработки", "/development/"),
+]
+
+
+def strengthen_service_hub() -> bool:
+    path = ROOT / "services/index.html"
+    if not path.is_file():
+        raise SystemExit("stage104: services hub missing")
+    text = path.read_text(encoding="utf-8")
+    anchors = "".join(f'<a href="{href}">{label}</a>' for label, href in SERVICE_HUB_LINKS)
+    replacement = (
+        '<nav class="s101-more s103-discovery" data-stage103-yandex-links="services" '
+        'aria-label="Другие направления разработки">'
+        f'{anchors}</nav>'
+    )
+    pattern = re.compile(
+        r'<nav\b[^>]*data-stage103-yandex-links=["\']services["\'][^>]*>.*?</nav>',
+        re.I | re.S,
+    )
+    new, count = pattern.subn(replacement, text, count=1)
+    if count != 1:
+        raise SystemExit(f"stage104: Stage103 services discovery nav expected once, found {count}")
+    if new != text:
+        path.write_text(new, encoding="utf-8")
+        return True
+    return False
+
 
 def walk(value, english: bool) -> None:
     if isinstance(value, list):
@@ -80,6 +125,11 @@ def canonical_url(text: str) -> str | None:
 changed_pages: set[str] = set()
 fresh_pages: set[str] = set()
 CONTENT_ROUTES = {"/", "/about/", "/services/", "/freelance-developer/", "/project-repair/", "/mvp-development/"}
+service_hub_changed = strengthen_service_hub()
+if service_hub_changed:
+    changed_pages.add(BASE + "/services/")
+    fresh_pages.add(BASE + "/services/")
+
 modified_html = 0
 checked = 0
 for path in ROOT.rglob("*.html"):
@@ -107,6 +157,12 @@ for path in ROOT.rglob("*.html"):
             if visible_identity_change or route in CONTENT_ROUTES:
                 fresh_pages.add(canonical)
     checked += 1
+
+# Every Russian commercial service must now be linked directly from /services/.
+services_html = (ROOT / "services/index.html").read_text(encoding="utf-8")
+missing_services = sorted(route for route in RU_SERVICES if f'href="{route}"' not in services_html)
+if missing_services:
+    raise SystemExit("stage104: services hub still misses direct routes: " + ", ".join(missing_services))
 
 sitemap_path = ROOT / "sitemap.xml"
 if not sitemap_path.is_file():
@@ -168,5 +224,6 @@ for path in ROOT.rglob("*.html"):
 print(
     f"stage104 entity consistency: checked={checked}; modified_html={modified_html}; "
     f"entity_changed_pages={len(changed_pages)}; fresh_sitemap_pages={len(fresh_pages)}; lastmod_updated={lastmod_updates}; "
+    f"services_direct={len(RU_SERVICES)}; service_hub_changed={int(service_hub_changed)}; "
     f"canonical_person={PERSON_ID}"
 )
