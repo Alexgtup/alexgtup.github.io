@@ -15,13 +15,13 @@ links = (
     ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-2" data-stage84-mobile-runtime="true"></script>'),
     ('data-stage94-site-ux-css="true"', '<link href="/assets/stage94-site-ux.css?v=20260910-2" rel="stylesheet" data-stage94-site-ux-css="true"/>'),
     ('data-stage94-site-ux-js="true"', '<script defer src="/assets/stage94-site-ux.js?v=20260910-5" data-stage94-site-ux-js="true"></script>'),
-    ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-2" data-navigation-continuity="true"></script>'),
+    ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-3" data-navigation-continuity="true"></script>'),
     ('data-stage99-theme-css="true"', '<link href="/assets/theme-system.css?v=20260910-1" rel="stylesheet" data-stage99-theme-css="true"/>'),
     ('data-stage100-light-theme-fixes="true"', '<link href="/assets/theme-light-legacy-fixes.css?v=20260910-1" rel="stylesheet" data-stage100-light-theme-fixes="true"/>'),
     ('data-stage101-search-flow-css="true"', '<link href="/assets/stage101-search-flow.css?v=20260910-1" rel="stylesheet" data-stage101-search-flow-css="true"/>'),
     ('data-stage102-volume-growth-css="true"', '<link href="/assets/stage102-volume-growth.css?v=20260910-1" rel="stylesheet" data-stage102-volume-growth-css="true"/>'),
     ('data-stage99-theme-js="true"', '<script src="/assets/theme-system.js?v=20260910-1" data-stage99-theme-js="true"></script>'),
-    ('data-stage101-intent-handoff="true"', '<script defer src="/assets/stage101-intent-handoff.js?v=20260910-1" data-stage101-intent-handoff="true"></script>'),
+    ('data-stage101-intent-handoff="true"', '<script defer src="/assets/stage101-intent-handoff.js?v=20260910-2" data-stage101-intent-handoff="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
