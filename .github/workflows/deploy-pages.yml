@@ -122,6 +122,8 @@ jobs:
           node --check _site/assets/stage101-intent-handoff.js
           # Grow lead volume and repeat orders without changing the existing price ladder.
           python scripts/stage102_volume_growth.py _site
+          # Final Yandex discovery layer: crawl priorities, weak commercial links and transparent consent copy.
+          python scripts/stage103_yandex_crawl_priority.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
