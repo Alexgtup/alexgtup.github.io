@@ -15,7 +15,7 @@ links = (
     ('data-stage84-mobile-runtime="true"', '<script defer src="/assets/stage84-mobile-runtime.js?v=20260909-2" data-stage84-mobile-runtime="true"></script>'),
     ('data-stage94-site-ux-css="true"', '<link href="/assets/stage94-site-ux.css?v=20260910-2" rel="stylesheet" data-stage94-site-ux-css="true"/>'),
     ('data-stage94-site-ux-js="true"', '<script defer src="/assets/stage94-site-ux.js?v=20260910-5" data-stage94-site-ux-js="true"></script>'),
-    ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-1" data-navigation-continuity="true"></script>'),
+    ('data-navigation-continuity="true"', '<script defer src="/assets/navigation-continuity.js?v=20260910-2" data-navigation-continuity="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
