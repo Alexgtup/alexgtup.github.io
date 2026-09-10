@@ -2,12 +2,18 @@
 from __future__ import annotations
 from html.parser import HTMLParser
 from pathlib import Path
-from collections import defaultdict
+from collections import Counter, defaultdict
+from urllib.parse import urlsplit
 import re, sys
 
 root = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 CYR = re.compile(r"[А-Яа-яЁё]")
 SPACE = re.compile(r"\s+")
+SUSPICIOUS = re.compile(
+    r"\b(?:todo|tbd|placeholder|lorem ipsum|coming soon)\b|"
+    r"(?:демо готовится|готовится к публикации|добавлю сюда|добавим сюда|скоро добавим|в разработке)",
+    re.I,
+)
 
 
 def route(path: Path) -> str:
@@ -39,10 +45,21 @@ class AuditParser(HTMLParser):
         self.en_cyrillic_attrs: list[str] = []
         self.buttons: list[dict] = []
         self.links: list[dict] = []
+        self.images: list[dict] = []
+        self.stylesheets: list[str] = []
+        self.scripts: list[str] = []
         self.iframes_without_title = 0
         self.inputs_without_name = 0
         self.main_count = 0
+        self.header_count = 0
+        self.footer_count = 0
+        self.h1_count = 0
+        self.title_count = 0
+        self.canonical: list[str] = []
+        self.meta_names: list[str] = []
+        self.meta_props: list[str] = []
         self.skip_links: list[str] = []
+        self.visible_chunks: list[str] = []
         self._ignore_depth = 0
 
     def handle_starttag(self, tag, attrs):
@@ -50,6 +67,20 @@ class AuditParser(HTMLParser):
         if tag == "html": self.html_lang = a.get("lang", "")
         if a.get("id"): self.ids.append(a["id"])
         if tag == "main": self.main_count += 1
+        if tag == "header": self.header_count += 1
+        if tag == "footer": self.footer_count += 1
+        if tag == "h1": self.h1_count += 1
+        if tag == "title": self.title_count += 1
+        if tag == "link":
+            rel = set((a.get("rel") or "").lower().split())
+            href = a.get("href", "")
+            if "canonical" in rel and href: self.canonical.append(href)
+            if "stylesheet" in rel and href: self.stylesheets.append(href)
+        if tag == "script" and a.get("src"): self.scripts.append(a["src"])
+        if tag == "meta":
+            if a.get("name"): self.meta_names.append(a["name"].lower())
+            if a.get("property"): self.meta_props.append(a["property"].lower())
+        if tag == "img": self.images.append(a)
         if tag == "iframe" and not clean(a.get("title", "")):
             self.iframes_without_title += 1
         if tag in ("input", "select", "textarea"):
@@ -81,6 +112,7 @@ class AuditParser(HTMLParser):
         if not self.stack or self._ignore_depth: return
         text = clean(data)
         if not text: return
+        self.visible_chunks.append(text)
         for node in self.stack:
             node["text"].append(text)
         if self.html_lang.lower().startswith("en"):
@@ -103,49 +135,133 @@ class AuditParser(HTMLParser):
         if tag == "button":
             self.buttons.append({"text":text,"aria":clean(a.get("aria-label","")),"title":clean(a.get("title","")),"type":a.get("type","")})
         elif tag == "a":
-            self.links.append({"text":text,"aria":clean(a.get("aria-label","")),"title":clean(a.get("title","")),"href":a.get("href","")})
+            self.links.append({"text":text,"aria":clean(a.get("aria-label","")),"title":clean(a.get("title","")),"href":a.get("href","") ,"target":a.get("target","") ,"rel":a.get("rel","")})
         del self.stack[idx:]
 
 
-issues = defaultdict(list)
+pages: dict[str, tuple[Path, AuditParser, str]] = {}
 for page in sorted(root.rglob("*.html")):
     html = page.read_text(encoding="utf-8", errors="ignore")
     if "</head>" not in html or page.name.startswith(("google","yandex_")): continue
     rt = route(page)
     p = AuditParser(); p.feed(html)
+    pages[rt] = (page, p, html)
 
-    dup_ids = sorted({x for x in p.ids if p.ids.count(x) > 1})
-    for x in dup_ids[:10]: issues["duplicate-id"].append((rt,x))
+routes = set(pages)
+routes.add("/404.html")
+
+hard = defaultdict(list)
+quality = defaultdict(list)
+
+
+def add(bucket, kind, rt, detail):
+    bucket[kind].append((rt, str(detail)[:180]))
+
+
+def canonical_expected(rt: str) -> str:
+    if rt == "/": return "https://alexgtup.github.io/"
+    return "https://alexgtup.github.io" + rt
+
+
+def local_target_exists(href: str) -> bool:
+    if not href or href.startswith(("#","mailto:","tel:","javascript:","data:")): return True
+    u = urlsplit(href)
+    if u.scheme or u.netloc: return True
+    path = u.path or "/"
+    if path.startswith("/assets/") or path.startswith("/favicon") or path in ("/site.webmanifest","/feed.xml","/sitemap.xml","/robots.txt"): return True
+    if path.endswith(('.png','.jpg','.jpeg','.webp','.svg','.ico','.pdf','.xml','.txt','.json','.js','.css')): return True
+    if not path.startswith("/"): return True
+    norm = path if path.endswith("/") or path.endswith(".html") else path + "/"
+    return norm in routes or path in routes
+
+
+for rt, (page, p, html) in pages.items():
+    if rt != "/404.html":
+        if p.main_count != 1: add(hard,"main-count",rt,p.main_count)
+        if p.h1_count != 1: add(quality,"h1-count",rt,p.h1_count)
+        if p.title_count != 1: add(quality,"title-count",rt,p.title_count)
+        if p.header_count != 1: add(quality,"header-count",rt,p.header_count)
+        if p.footer_count != 1: add(quality,"footer-count",rt,p.footer_count)
+
+    dup_ids = sorted({x for x,c in Counter(p.ids).items() if c > 1})
+    for x in dup_ids[:20]: add(hard,"duplicate-id",rt,x)
     missing_fragments = sorted({f for f in p.href_fragments if f not in set(p.ids)})
-    for f in missing_fragments[:10]: issues["broken-fragment"].append((rt,"#"+f))
-
-    if rt not in ("/404",) and p.main_count != 1:
-        issues["main-count"].append((rt,str(p.main_count)))
+    for f in missing_fragments[:20]: add(hard,"broken-fragment",rt,"#"+f)
     for target in p.skip_links:
-        if target not in set(p.ids): issues["broken-skip-link"].append((rt,"#"+target))
+        if target not in set(p.ids): add(hard,"broken-skip-link",rt,"#"+target)
     for b in p.buttons:
-        if not (b["text"] or b["aria"] or b["title"]): issues["unnamed-button"].append((rt,b["type"] or "button"))
+        if not (b["text"] or b["aria"] or b["title"]): add(hard,"unnamed-button",rt,b["type"] or "button")
     for a in p.links:
-        if a["href"] and not (a["text"] or a["aria"] or a["title"]): issues["unnamed-link"].append((rt,a["href"][:100]))
-    if p.iframes_without_title: issues["iframe-without-title"].append((rt,str(p.iframes_without_title)))
-    if p.inputs_without_name: issues["form-control-without-name"].append((rt,str(p.inputs_without_name)))
+        href = a["href"]
+        if href and not (a["text"] or a["aria"] or a["title"]): add(hard,"unnamed-link",rt,href)
+        if href in ("", "#"): add(quality,"empty-link",rt,href or "<empty>")
+        if not local_target_exists(href): add(quality,"broken-internal-link",rt,href)
+        if a["target"].lower() == "_blank" and "noopener" not in a["rel"].lower(): add(quality,"blank-without-noopener",rt,href)
+    if p.iframes_without_title: add(hard,"iframe-without-title",rt,p.iframes_without_title)
+    if p.inputs_without_name: add(hard,"form-control-without-name",rt,p.inputs_without_name)
 
     if p.html_lang.lower().startswith("en"):
-        for text in dict.fromkeys(p.en_cyrillic): issues["en-visible-cyrillic"].append((rt,text))
-        for text in dict.fromkeys(p.en_cyrillic_attrs): issues["en-attribute-cyrillic"].append((rt,text))
+        for text in dict.fromkeys(p.en_cyrillic): add(hard,"en-visible-cyrillic",rt,text)
+        for text in dict.fromkeys(p.en_cyrillic_attrs): add(hard,"en-attribute-cyrillic",rt,text)
 
-print("stage36 language + accessibility audit")
-order = (
+    if len(p.canonical) != 1:
+        add(quality,"canonical-count",rt,len(p.canonical))
+    elif rt != "/404.html" and p.canonical[0].rstrip('/') != canonical_expected(rt).rstrip('/'):
+        add(quality,"canonical-mismatch",rt,p.canonical[0])
+
+    for key, values in (("meta-description", [x for x in p.meta_names if x == "description"]),
+                        ("meta-author", [x for x in p.meta_names if x == "author"]),
+                        ("og-image", [x for x in p.meta_props if x == "og:image"]),
+                        ("og-title", [x for x in p.meta_props if x == "og:title"])):
+        if len(values) > 1: add(quality,"duplicate-"+key,rt,len(values))
+
+    for href,c in Counter(p.stylesheets).items():
+        if c > 1: add(quality,"duplicate-stylesheet",rt,f"{c}x {href}")
+    for src,c in Counter(p.scripts).items():
+        if c > 1: add(quality,"duplicate-script",rt,f"{c}x {src}")
+
+    for img in p.images:
+        if "alt" not in img: add(quality,"image-without-alt",rt,img.get("src","")[:120])
+
+    text = clean(" ".join(p.visible_chunks))
+    for m in SUSPICIOUS.finditer(text): add(quality,"placeholder-copy",rt,m.group(0))
+
+    hrefs = [a["href"] for a in p.links]
+    if rt not in ("/privacy/","/en/privacy/","/404.html") and not any(h in ("/privacy/","/en/privacy/") for h in hrefs):
+        add(quality,"missing-privacy-link",rt,"no privacy link")
+    tg = [h for h in hrefs if "t.me/Alexuys" in h]
+    if len(tg) >= 5: add(quality,"telegram-overload",rt,len(tg))
+
+print(f"stage36 full final-site audit: {len(pages)} HTML pages")
+
+hard_order = (
     "en-visible-cyrillic","en-attribute-cyrillic","main-count","broken-skip-link",
     "duplicate-id","broken-fragment","unnamed-button","unnamed-link",
     "iframe-without-title","form-control-without-name"
 )
-for kind in order:
-    rows = issues.get(kind, [])
-    print(f"  {kind}: {len(rows)}")
-    for rt, detail in rows[:40]: print(f"    {rt} :: {detail}")
+quality_order = (
+    "h1-count","title-count","header-count","footer-count","canonical-count","canonical-mismatch",
+    "duplicate-meta-description","duplicate-meta-author","duplicate-og-image","duplicate-og-title",
+    "duplicate-stylesheet","duplicate-script","empty-link","broken-internal-link","blank-without-noopener",
+    "image-without-alt","placeholder-copy","missing-privacy-link","telegram-overload"
+)
 
-total = sum(len(issues.get(kind, [])) for kind in order)
-if total:
-    raise SystemExit(f"stage36: {total} language/accessibility regression(s)")
-print("stage36 language/accessibility invariant OK")
+print("HARD INVARIANTS")
+for kind in hard_order:
+    rows = hard.get(kind, [])
+    print(f"  {kind}: {len(rows)}")
+    for rt, detail in rows[:60]: print(f"    {rt} :: {detail}")
+
+print("QUALITY LAPSES (report-only for this audit pass)")
+quality_total = 0
+for kind in quality_order:
+    rows = quality.get(kind, [])
+    quality_total += len(rows)
+    print(f"  {kind}: {len(rows)}")
+    for rt, detail in rows[:80]: print(f"    {rt} :: {detail}")
+print(f"stage36 quality-lapse total: {quality_total}")
+
+hard_total = sum(len(hard.get(kind, [])) for kind in hard_order)
+if hard_total:
+    raise SystemExit(f"stage36: {hard_total} language/accessibility regression(s)")
+print("stage36 hard invariants OK")
