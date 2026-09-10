@@ -23,7 +23,12 @@
       script.src = 'https://mc.yandex.ru/metrika/tag.js?id=' + ID;
       document.head.appendChild(script);
     }
-    window.ym(ID, 'init', { webvisor: false, clickmap: true, trackLinks: false, accurateTrackBounce: true });
+    window.ym(ID, 'init', {
+      webvisor: true,
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true
+    });
   }
   function show(open) {
     if (box) box.hidden = !open;
