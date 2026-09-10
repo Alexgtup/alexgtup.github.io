@@ -71,3 +71,84 @@ body[data-page="python-development"] [data-stage60-repair-entry] .s48-related a{
   html{scroll-behavior:auto!important}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+/* Stage 98 interaction polish - shared behavior cues without adding visual clutter. */
+html{scroll-padding-top:6rem}
+:where(a,button,summary,[role="link"]){-webkit-tap-highlight-color:rgba(201,255,74,.12)}
+:where(a,button,summary,[role="link"]):focus-visible{outline:2px solid #c9ff4a!important;outline-offset:3px!important}
+:where(button,[role="button"]):disabled{cursor:not-allowed!important;opacity:.38!important}
+
+.stage98-mobile-menu>summary,
+.project-radar__filters button,
+.case-filter__list button,
+.portfolio-carousel__controls button,
+.s44-service-map__item,
+.s44-route,
+.portfolio-card,
+.case-library-card{
+  transition:border-color .16s ease,background-color .16s ease,color .16s ease,transform .16s ease,opacity .16s ease!important;
+}
+
+.s44-service-map__item:focus-visible,
+.s44-route:focus-visible,
+.portfolio-card:focus-visible,
+.case-library-card:focus-visible{
+  border-color:rgba(201,255,74,.34)!important;
+  box-shadow:0 0 0 3px rgba(201,255,74,.06)!important;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .s44-service-map__item:hover,
+  .s44-route:hover,
+  .portfolio-card:hover,
+  .case-library-card:hover{transform:translateY(-3px)!important;border-color:rgba(255,255,255,.18)!important}
+  .portfolio-card:hover .portfolio-card__footer span:last-child,
+  .case-library-card:hover .case-library-card__action i,
+  .s44-service-map__item:hover>div i{transform:translateX(3px)}
+}
+
+.portfolio-card__footer span:last-child,
+.case-library-card__action i,
+.s44-service-map__item>div i{transition:transform .16s ease}
+
+.portfolio-carousel__viewport{touch-action:pan-y;outline:none;border-radius:1rem}
+.portfolio-carousel__viewport:focus-visible{box-shadow:0 0 0 3px rgba(201,255,74,.08),0 0 0 1px rgba(201,255,74,.45)}
+.portfolio-carousel__controls button:not(:disabled):active,
+.project-radar__filters button:active,
+.case-filter__list button:active{transform:translateY(1px)}
+
+/* The selected filter should be obvious before the visitor scans card contents. */
+.project-radar__filters button[aria-pressed="true"],
+.case-filter__list button[aria-pressed="true"],
+.ux-filterbar button[aria-pressed="true"]{
+  border-color:rgba(201,255,74,.32)!important;
+  background:rgba(201,255,74,.075)!important;
+  color:#efffc8!important;
+}
+
+/* The home brief behaves like a lightweight composer and can grow with the message. */
+#s44-brief-form textarea[name="task"]{min-height:8.25rem;max-height:22.5rem;overflow:auto;resize:vertical}
+#s44-brief-form [data-brief-status]:not(:empty){margin-top:.2rem;padding:.65rem .8rem;border-left:2px solid rgba(201,255,74,.55);background:rgba(201,255,74,.035);color:#aeb8a8!important}
+
+@media(max-width:900px){
+  body.stage98-menu-open{overflow:hidden}
+  body.stage98-menu-open::before{
+    content:'';
+    position:fixed;
+    inset:4rem 0 0;
+    z-index:115;
+    background:rgba(4,6,8,.58);
+    backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);
+  }
+  body[data-ux-family] .stage98-header{z-index:120!important}
+  body[data-ux-family] .stage98-mobile-menu>nav{z-index:125;max-height:min(34rem,calc(100dvh - 5.5rem));overflow:auto}
+  body[data-ux-family] .stage98-mobile-menu[open]>summary{border-color:rgba(201,255,74,.3);background:#151b20}
+}
+
+@media(max-width:640px){
+  html{scroll-padding-top:4.75rem}
+  .portfolio-carousel__viewport{border-radius:.9rem}
+  .project-radar__filters,.case-filter__list{scroll-padding-inline:1rem}
+  .project-radar__filters button,.case-filter__list button{scroll-snap-align:start}
+}
