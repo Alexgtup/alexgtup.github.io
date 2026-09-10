@@ -335,7 +335,10 @@
       syncing = false;
     };
 
-    filters.forEach(button => button.addEventListener('click', () => queueMicrotask(() => writeUrl('push'))));
+    filters.forEach(button => button.addEventListener('click', () => {
+      if (syncing) return;
+      queueMicrotask(() => writeUrl('push'));
+    }));
     search?.addEventListener('input', () => {
       clearTimeout(timer);
       timer = window.setTimeout(writeUrl, 180);
