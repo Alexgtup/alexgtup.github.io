@@ -229,6 +229,12 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage115_live_proof.py')), str(ROOT)],
     check=True,
 )
+# Rotate the intent-handoff cache key from its actual content so proof analytics
+# cannot remain stale in returning visitors' browsers.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage116_proof_analytics_cache.py')), str(ROOT)],
+    check=True,
+)
 
 # Every published first-party JS asset must at least parse before Pages can deploy.
 # Earlier workflow checks covered only two files, which could let an unrelated
