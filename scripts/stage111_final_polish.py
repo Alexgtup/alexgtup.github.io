@@ -51,6 +51,25 @@ body[data-ux-family="hub"] #tool-list>.ux-filterbar{
     scroll-snap-align:none!important;
   }
 
+  /* Service related cards were the last content cards still using a 13.5rem
+     side-scroll rail. They are decision links, so expose every option at once. */
+  body[data-ux-family="service"] .ux-service-main .s48-related{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    overflow:visible!important;
+    scroll-snap-type:none!important;
+    gap:.5rem!important;
+    padding-bottom:0!important;
+  }
+  body[data-ux-family="service"] .ux-service-main .s48-related a{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    min-height:3rem!important;
+    flex:none!important;
+    white-space:normal!important;
+  }
+
   /* Filter controls are navigation, not a hidden carousel. Keep every option
      discoverable without requiring a sideways gesture. */
   body[data-ux-family="hub"] .ux-filterbar{
@@ -138,6 +157,7 @@ for required in (
     '#tool-list>.ux-filterbar',
     '.dt-tool-card:hover :is(h2,h3)',
     'body[data-page="cases"] .case-filter__list',
+    'body[data-ux-family="service"] .ux-service-main .s48-related',
     'main>.s103-discovery',
 ):
     if required not in styles:
@@ -152,10 +172,21 @@ else:
     if cards != 6:
         problems.append(f'tools hub card count={cards}, expected 6')
 
+related_pages = []
+for path in sorted(ROOT.rglob('*.html')):
+    html = path.read_text(encoding='utf-8', errors='ignore')
+    if 'data-ux-family="service"' in html and re.search(r'class=["\'][^"\']*\bs48-related\b', html, re.I):
+        related_pages.append(path.relative_to(ROOT).as_posix())
+if len(related_pages) < 10:
+    problems.append(f'only {len(related_pages)} service related-card pages detected')
+
 if refs < 70:
     problems.append(f'only {refs} final UI references rotated')
 
 if problems:
     raise SystemExit('stage111 final polish failed:\n' + '\n'.join(problems))
 
-print(f'stage111 final polish: pages={pages}; cache_refs={refs}; bundle={digest}; mobile rails removed; tool/filter/discovery polish OK')
+print(
+    f'stage111 final polish: pages={pages}; cache_refs={refs}; bundle={digest}; '
+    f'service_related={len(related_pages)}; mobile content rails removed; tool/filter/discovery polish OK'
+)
