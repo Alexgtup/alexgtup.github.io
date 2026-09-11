@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 from pathlib import Path
+import hashlib
 import re
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
 STYLE_PATH = ROOT / 'assets' / 'stage98-design-system.css'
+BUNDLE_PATH = ROOT / 'assets' / 'stage105-final-ui.css'
 STYLE_MARK = '/* stage110-responsive-quality */'
 
 CSS = r'''
@@ -175,20 +177,46 @@ def full_pages() -> list[Path]:
         text = path.read_text(encoding='utf-8', errors='ignore')
         if '<main' not in text or '<body' not in text:
             continue
-        rel = path.relative_to(ROOT).as_posix()
         if path.name.startswith(('google', 'yandex_')):
             continue
         pages.append(path)
     return pages
 
 
+def append_once(path: Path) -> bool:
+    if not path.is_file():
+        return False
+    text = path.read_text(encoding='utf-8')
+    if STYLE_MARK in text:
+        return False
+    path.write_text(text.rstrip() + '\n\n' + CSS.strip() + '\n', encoding='utf-8')
+    return True
+
+
 if not STYLE_PATH.is_file():
     raise SystemExit('stage110: stage98 design source missing')
-styles = STYLE_PATH.read_text(encoding='utf-8')
-if STYLE_MARK not in styles:
-    STYLE_PATH.write_text(styles.rstrip() + '\n\n' + CSS.strip() + '\n', encoding='utf-8')
+source_patched = append_once(STYLE_PATH)
+
+# Stage110 intentionally runs after Stage105. Patch the already-built final UI
+# bundle too, then rotate its content hash in every page so browsers cannot keep
+# the pre-QA bundle in cache.
+if not BUNDLE_PATH.is_file():
+    raise SystemExit('stage110: final UI bundle missing; run after stage105')
+bundle_patched = append_once(BUNDLE_PATH)
+bundle_text = BUNDLE_PATH.read_text(encoding='utf-8')
+bundle_hash = hashlib.sha256(bundle_text.encode('utf-8')).hexdigest()[:12]
 
 pages = full_pages()
+href_updates = 0
+bundle_href_re = re.compile(r'(/assets/stage105-final-ui\.css)\?v=[^"\']+', re.I)
+for path in pages:
+    text = path.read_text(encoding='utf-8', errors='ignore')
+    new, count = bundle_href_re.subn(rf'\1?v={bundle_hash}', text)
+    if count:
+        href_updates += count
+        if new != text:
+            path.write_text(new, encoding='utf-8')
+
 problems: list[str] = []
 family_counts: dict[str, int] = {}
 
@@ -202,34 +230,33 @@ for path in pages:
         family = match.group(1) if match else ''
     family_counts[family or 'unclassified'] = family_counts.get(family or 'unclassified', 0) + 1
 
-    # Every real page needs a viewport declaration and exactly one visible content H1.
     if not re.search(r'<meta\b[^>]*name=["\']viewport["\']', text, re.I):
         problems.append(f'{rel}: viewport meta missing')
     h1_count = len(re.findall(r'<h1\b', text, re.I))
     if rel != '404.html' and h1_count != 1:
         problems.append(f'{rel}: h1 count={h1_count}')
 
-    # The unified shell should be present once on all non-404 content pages.
     if rel != '404.html':
         if len(re.findall(r'<header\b[^>]*class=["\'][^"\']*\bstage98-header\b', text, re.I | re.S)) != 1:
             problems.append(f'{rel}: shared header missing/duplicated')
         if len(re.findall(r'<footer\b[^>]*class=["\'][^"\']*\bstage108-footer\b', text, re.I | re.S)) != 1:
             problems.append(f'{rel}: shared footer missing/duplicated')
 
-    # Images that reserve no intrinsic space are a common mobile layout-shift source.
     for tag in re.findall(r'<img\b[^>]*>', text, re.I | re.S):
         if not re.search(r'\bwidth=["\']\d+', tag, re.I) or not re.search(r'\bheight=["\']\d+', tag, re.I):
             problems.append(f'{rel}: image without width/height')
             break
 
-    # No empty anchors or javascript pseudo-links in the final static output.
     if re.search(r'<a\b[^>]*href=["\']\s*(?:#|javascript:[^"\']*)?["\']', text, re.I):
         problems.append(f'{rel}: empty/pseudo anchor remains')
 
-# Responsive-family regression guards. These are intentionally marker-based so
-# later refactors can change exact values without silently dropping the fixes.
-final_styles = STYLE_PATH.read_text(encoding='utf-8')
+    # Final HTML must reference the freshly patched responsive bundle.
+    if f'/assets/stage105-final-ui.css?v={bundle_hash}' not in text:
+        problems.append(f'{rel}: stale final UI bundle reference')
+
+final_styles = BUNDLE_PATH.read_text(encoding='utf-8')
 for marker in (
+    STYLE_MARK,
     'body[data-page^="guides--"] .toc',
     'body[data-ux-family] .stage108-footer__nav',
     'body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta)',
@@ -240,9 +267,15 @@ for marker in (
 
 if len(pages) < 70:
     problems.append(f'only {len(pages)} user-facing pages audited')
+if href_updates < 70:
+    problems.append(f'only {href_updates} final bundle references found')
 
 if problems:
     raise SystemExit('stage110 responsive quality failed:\n' + '\n'.join(problems[:60]))
 
 families = ', '.join(f'{key}={value}' for key, value in sorted(family_counts.items()))
-print(f'stage110 responsive quality: audited={len(pages)} pages; {families}; viewport/header/footer/media/tap guards OK')
+print(
+    f'stage110 responsive quality: audited={len(pages)} pages; {families}; '
+    f'source_patched={int(source_patched)}; bundle_patched={int(bundle_patched)}; '
+    f'cache_refs={href_updates}; bundle={bundle_hash}; viewport/header/footer/media/tap guards OK'
+)
