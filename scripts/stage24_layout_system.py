@@ -21,7 +21,7 @@ links = (
     ('data-stage101-search-flow-css="true"', '<link href="/assets/stage101-search-flow.css?v=20260910-1" rel="stylesheet" data-stage101-search-flow-css="true"/>'),
     ('data-stage102-volume-growth-css="true"', '<link href="/assets/stage102-volume-growth.css?v=20260910-1" rel="stylesheet" data-stage102-volume-growth-css="true"/>'),
     ('data-stage99-theme-js="true"', '<script src="/assets/theme-system.js?v=20260910-1" data-stage99-theme-js="true"></script>'),
-    ('data-stage101-intent-handoff="true"', '<script defer src="/assets/stage101-intent-handoff.js?v=20260910-2" data-stage101-intent-handoff="true"></script>'),
+    ('data-stage101-intent-handoff="true"', '<script defer src="/assets/stage101-intent-handoff.js?v=20260911-1" data-stage101-intent-handoff="true"></script>'),
 )
 
 all_html = sorted(root.rglob("*.html"))
