@@ -203,10 +203,14 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage110_responsive_quality.py')), str(ROOT)],
     check=True,
 )
-# Final polish removes remaining mobile rails and default-link visual leakage,
-# then rotates the same bundle hash once more before the final audits/deploy.
+# Final polish removes remaining mobile content rails and default-link visual leakage.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage111_final_polish.py')), str(ROOT)],
+    check=True,
+)
+# Normalize the actual published image tags after all DOM-building stages have run.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage112_media_loading.py')), str(ROOT)],
     check=True,
 )
 
