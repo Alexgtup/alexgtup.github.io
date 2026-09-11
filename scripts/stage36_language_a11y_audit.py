@@ -14,6 +14,7 @@ SUSPICIOUS = re.compile(
     r"(?:демо готовится|готовится к публикации|добавлю сюда|добавим сюда|скоро добавим|в разработке)",
     re.I,
 )
+HIDDEN_STYLE = re.compile(r"(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)\b", re.I)
 
 
 def route(path: Path) -> str:
@@ -95,7 +96,22 @@ class AuditParser(HTMLParser):
 
         ignored = tag in ("script","style","template","noscript") or self._ignore_depth > 0
         if tag in ("script","style","template","noscript"): self._ignore_depth += 1
-        node = {"tag":tag,"attrs":a,"text":[],"ignored":ignored,"ru_switch":is_ru_switch(a)}
+        parent_hidden = any(n.get("hidden", False) for n in self.stack)
+        own_hidden = (
+            "hidden" in a or
+            a.get("aria-hidden", "").lower() == "true" or
+            bool(HIDDEN_STYLE.search(a.get("style", "")))
+        )
+        node = {
+            "tag":tag,
+            "attrs":a,
+            "text":[],
+            "ignored":ignored,
+            "ru_switch":is_ru_switch(a),
+            "hidden":parent_hidden or own_hidden or ignored,
+            "in_header":tag == "header" or any(n.get("in_header", False) for n in self.stack),
+            "in_footer":tag == "footer" or any(n.get("in_footer", False) for n in self.stack),
+        }
         self.stack.append(node)
 
         if self.html_lang.lower().startswith("en") and not ignored and not node["ru_switch"]:
@@ -135,7 +151,17 @@ class AuditParser(HTMLParser):
         if tag == "button":
             self.buttons.append({"text":text,"aria":clean(a.get("aria-label","")),"title":clean(a.get("title","")),"type":a.get("type","")})
         elif tag == "a":
-            self.links.append({"text":text,"aria":clean(a.get("aria-label","")),"title":clean(a.get("title","")),"href":a.get("href","") ,"target":a.get("target","") ,"rel":a.get("rel","")})
+            self.links.append({
+                "text":text,
+                "aria":clean(a.get("aria-label","")),
+                "title":clean(a.get("title","")),
+                "href":a.get("href",""),
+                "target":a.get("target",""),
+                "rel":a.get("rel",""),
+                "hidden":bool(node.get("hidden")),
+                "in_header":bool(node.get("in_header")),
+                "in_footer":bool(node.get("in_footer")),
+            })
         del self.stack[idx:]
 
 
@@ -204,10 +230,13 @@ for rt, (page, p, html) in pages.items():
         for text in dict.fromkeys(p.en_cyrillic): add(hard,"en-visible-cyrillic",rt,text)
         for text in dict.fromkeys(p.en_cyrillic_attrs): add(hard,"en-attribute-cyrillic",rt,text)
 
-    if len(p.canonical) != 1:
-        add(quality,"canonical-count",rt,len(p.canonical))
-    elif rt != "/404.html" and p.canonical[0].rstrip('/') != canonical_expected(rt).rstrip('/'):
-        add(quality,"canonical-mismatch",rt,p.canonical[0])
+    # A standalone 404 page intentionally has no canonical. Auditing it as a
+    # canonical failure hid real metadata regressions in the report.
+    if rt != "/404.html":
+        if len(p.canonical) != 1:
+            add(quality,"canonical-count",rt,len(p.canonical))
+        elif p.canonical[0].rstrip('/') != canonical_expected(rt).rstrip('/'):
+            add(quality,"canonical-mismatch",rt,p.canonical[0])
 
     for key, values in (("meta-description", [x for x in p.meta_names if x == "description"]),
                         ("meta-author", [x for x in p.meta_names if x == "author"]),
@@ -229,7 +258,16 @@ for rt, (page, p, html) in pages.items():
     hrefs = [a["href"] for a in p.links]
     if rt not in ("/privacy/","/en/privacy/","/404.html") and not any(h in ("/privacy/","/en/privacy/") for h in hrefs):
         add(quality,"missing-privacy-link",rt,"no privacy link")
-    tg = [h for h in hrefs if "t.me/Alexuys" in h]
+
+    # Count only visible content CTAs. Responsive desktop/mobile header variants,
+    # noscript fallbacks and hidden retry links are not simultaneous conversion noise.
+    tg = [
+        a for a in p.links
+        if "t.me/Alexuys" in a["href"]
+        and not a.get("hidden")
+        and not a.get("in_header")
+        and not a.get("in_footer")
+    ]
     if len(tg) >= 5: add(quality,"telegram-overload",rt,len(tg))
 
 print(f"stage36 full final-site audit: {len(pages)} HTML pages")
