@@ -76,14 +76,20 @@ test('blocked storage does not break consent controls', () => {
   p.choose('declined'); assert.equal(p.calls.at(-1)[1], 'destruct');
 });
 
-test('UX analytics records funnel metadata without sending visitor-entered task or search text', () => {
+test('UX analytics records funnel and proof metadata without sending visitor-entered text', () => {
   const handoff = fs.readFileSync('assets/stage101-intent-handoff.js', 'utf8');
-  for (const goal of ['catalog_filter', 'catalog_search', 'brief_start', 'brief_ready', 'brief_preview', 'brief_copy', 'brief_submit']) {
+  for (const goal of [
+    'catalog_filter', 'catalog_search', 'brief_start', 'brief_ready', 'brief_preview', 'brief_copy', 'brief_submit',
+    'live_proof_open', 'review_open', 'proof_cases_open', 'reviews_anchor_open'
+  ]) {
     assert.equal(handoff.includes(`'${goal}'`), true, `missing UX goal ${goal}`);
   }
   assert.equal(handoff.includes("goal('catalog_search', { family, length:"), true);
+  assert.equal(handoff.includes("url.hostname === 'freelance.ru'"), true);
+  assert.equal(handoff.includes("link.closest('.s115-live-proof')"), true);
   assert.equal(/goal\([^\n]*task\.value/.test(handoff), false);
   assert.equal(/goal\([^\n]*search\.value/.test(handoff), false);
+  assert.equal(/goal\([^\n]*url\.search/.test(handoff), false);
 });
 
 test('navigation continuity owns browsing state but not Telegram draft mutation', () => {
