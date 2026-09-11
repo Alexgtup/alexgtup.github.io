@@ -214,6 +214,18 @@ subprocess.run(
     check=True,
 )
 
+# Every published first-party JS asset must at least parse before Pages can deploy.
+# Earlier workflow checks covered only two files, which could let an unrelated
+# interaction/theme/filter script break silently on production.
+js_files = sorted(ASSETS.glob('*.js'))
+if len(js_files) < 10:
+    raise SystemExit(f'stage105: only {len(js_files)} JavaScript assets found')
+for js_path in js_files:
+    subprocess.run(['node', '--check', str(js_path)], check=True)
+
 sizes = ', '.join(f'{name}={size}' for name, (_, _, size) in bundle_urls.items())
 uses = ', '.join(f'{name}={count}' for name, count in bundled.items())
-print(f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; {uses}; bytes before stage110/111: {sizes}')
+print(
+    f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; '
+    f'{uses}; js_checked={len(js_files)}; bytes before stage110/111: {sizes}'
+)
