@@ -64,6 +64,8 @@
     if (link.closest('#contact,.s48-contact,.contact,.contact-card,.dt-contact,.s51-contact')) return 'contact';
     if (link.closest('footer,.footer,.foot,.site-footer')) return 'footer';
     if (link.closest('[class*="hero"]')) return 'hero';
+    if (link.closest('.s113-reviews')) return 'reviews';
+    if (link.closest('.s114-proofbar')) return 'proofbar';
     if (link.closest('.s101-related')) return 'related';
     return 'content';
   };
@@ -111,11 +113,41 @@
     return null;
   };
 
+  const proofAction = (link, url) => {
+    if (link.closest('.s115-live-proof')) return ['live_proof_open', {
+      source: path,
+      family: pageFamily()
+    }];
+    if (url.hostname === 'freelance.ru' && link.closest('.s113-reviews,.s114-proofbar,.s44-proofline,.s44-trust-card,.stage95-review-strip')) {
+      return ['review_open', {
+        source: path,
+        placement: placementFor(link)
+      }];
+    }
+    if (url.origin === location.origin && normalizePath(url.pathname) === '/cases/' && link.closest('.s114-proofbar,.s44-proofline')) {
+      return ['proof_cases_open', {
+        source: path,
+        placement: placementFor(link)
+      }];
+    }
+    if (url.origin === location.origin && normalizePath(url.pathname) === '/' && url.hash === '#reviews') {
+      return ['reviews_anchor_open', {
+        source: path,
+        placement: placementFor(link)
+      }];
+    }
+    return null;
+  };
+
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href]');
     if (!link) return;
     let url;
     try { url = new URL(link.href, location.href); } catch (_) { return; }
+
+    const proof = proofAction(link, url);
+    if (proof) goal(proof[0], proof[1]);
+
     const eventName = classifyInternal(url);
     if (eventName) goal(eventName, {
       target: normalizePath(url.pathname),
