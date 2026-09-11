@@ -250,8 +250,8 @@ for path in pages:
     if re.search(r'<a\b[^>]*href=["\']\s*(?:#|javascript:[^"\']*)?["\']', text, re.I):
         problems.append(f'{rel}: empty/pseudo anchor remains')
 
-    # Final HTML must reference the freshly patched responsive bundle.
-    if f'/assets/stage105-final-ui.css?v={bundle_hash}' not in text:
+    # 404 is deliberately standalone and does not load the shared application bundle.
+    if rel != '404.html' and f'/assets/stage105-final-ui.css?v={bundle_hash}' not in text:
         problems.append(f'{rel}: stale final UI bundle reference')
 
 final_styles = BUNDLE_PATH.read_text(encoding='utf-8')
