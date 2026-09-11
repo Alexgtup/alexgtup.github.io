@@ -198,13 +198,18 @@ if bundled['stage105-theme-search.css'] < 60:
 if bundled['stage105-final-ui.css'] < 60:
     raise SystemExit(f"stage105: final UI bundle unexpectedly rare: {bundled['stage105-final-ui.css']}")
 
-# The responsive QA pass intentionally runs after bundling: it patches the final
-# UI bundle, rotates the cache key in every HTML page, and audits all page families.
+# Responsive QA patches the built bundle and rotates its cache key.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage110_responsive_quality.py')), str(ROOT)],
+    check=True,
+)
+# Final polish removes remaining mobile rails and default-link visual leakage,
+# then rotates the same bundle hash once more before the final audits/deploy.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage111_final_polish.py')), str(ROOT)],
     check=True,
 )
 
 sizes = ', '.join(f'{name}={size}' for name, (_, _, size) in bundle_urls.items())
 uses = ', '.join(f'{name}={count}' for name, count in bundled.items())
-print(f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; {uses}; bytes before stage110: {sizes}')
+print(f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; {uses}; bytes before stage110/111: {sizes}')
