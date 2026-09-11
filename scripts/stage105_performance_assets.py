@@ -213,6 +213,12 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage112_media_loading.py')), str(ROOT)],
     check=True,
 )
+# Make verified social proof and client-facing outcome positioning visible in the
+# final DOM, then rotate the shared UI cache key once more.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage113_client_magnet.py')), str(ROOT)],
+    check=True,
+)
 
 # Every published first-party JS asset must at least parse before Pages can deploy.
 # Earlier workflow checks covered only two files, which could let an unrelated
