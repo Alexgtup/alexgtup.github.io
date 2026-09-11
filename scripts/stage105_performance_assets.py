@@ -112,7 +112,7 @@ if not ASSETS.is_dir():
 
 # Proof/discovery changes happen first. Stage108 normalizes the final DOM rhythm,
 # then Stage109 fixes the remaining cross-family visual/content inconsistencies.
-# Only after all three passes does Stage105 snapshot bodies and build CSS bundles.
+# Only after these passes does Stage105 snapshot bodies and build CSS bundles.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage106_proof_graph.py')), str(ROOT)],
     check=True,
@@ -198,6 +198,13 @@ if bundled['stage105-theme-search.css'] < 60:
 if bundled['stage105-final-ui.css'] < 60:
     raise SystemExit(f"stage105: final UI bundle unexpectedly rare: {bundled['stage105-final-ui.css']}")
 
+# The responsive QA pass intentionally runs after bundling: it patches the final
+# UI bundle, rotates the cache key in every HTML page, and audits all page families.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage110_responsive_quality.py')), str(ROOT)],
+    check=True,
+)
+
 sizes = ', '.join(f'{name}={size}' for name, (_, _, size) in bundle_urls.items())
 uses = ', '.join(f'{name}={count}' for name, count in bundled.items())
-print(f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; {uses}; bytes: {sizes}')
+print(f'stage105 performance assets: pages={pages}; duplicate links removed={deduped}; {uses}; bytes before stage110: {sizes}')
