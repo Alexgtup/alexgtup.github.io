@@ -219,6 +219,11 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage113_client_magnet.py')), str(ROOT)],
     check=True,
 )
+# Put the same independent proof in the hero of Russian service/search entries.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage114_service_proof.py')), str(ROOT)],
+    check=True,
+)
 
 # Every published first-party JS asset must at least parse before Pages can deploy.
 # Earlier workflow checks covered only two files, which could let an unrelated
