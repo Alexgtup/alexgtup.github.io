@@ -28,19 +28,32 @@ for source, marker in ART_LAYERS:
         text = text.rstrip() + "\n\n" + css + "\n"
 BUNDLE.write_text(text, encoding="utf-8")
 
-# The old hero still contains decorative CRM/phone/chat markup for graceful fallback,
-# but the final art layer hides it and displays real project imagery instead. Keep
-# the accessible label truthful to what visitors now see.
+# The final hero visually uses real portfolio screenshots. Normalize the accessible
+# label regardless of how earlier build stages reorder or extend the div attributes.
 home_path = ROOT / "index.html"
 if not home_path.is_file():
     raise SystemExit("stage117: home page missing")
 home = home_path.read_text(encoding="utf-8")
-old_label = 'aria-label="Визуализация цифровых продуктов: CRM, мобильное приложение и Telegram-бот" class="product-stage"'
-new_label = 'aria-label="Реальные интерфейсы проектов Fin Planner и Swift Calendar" class="product-stage"'
-if old_label in home:
-    home = home.replace(old_label, new_label, 1)
-elif new_label not in home:
-    raise SystemExit("stage117: homepage product-stage label not found")
+stage_re = re.compile(
+    r'<div\b(?=[^>]*\bclass=["\'][^"\']*\bproduct-stage\b[^"\']*["\'])[^>]*>',
+    re.I,
+)
+stage_match = stage_re.search(home)
+if not stage_match:
+    raise SystemExit("stage117: homepage product-stage element not found")
+stage_tag = stage_match.group(0)
+new_label_text = "Реальные интерфейсы проектов Fin Planner и Swift Calendar"
+if re.search(r'\baria-label=["\'][^"\']*["\']', stage_tag, re.I):
+    stage_tag = re.sub(
+        r'\baria-label=(["\'])[^"\']*\1',
+        f'aria-label="{new_label_text}"',
+        stage_tag,
+        count=1,
+        flags=re.I,
+    )
+else:
+    stage_tag = stage_tag[:-1] + f' aria-label="{new_label_text}">'
+home = home[:stage_match.start()] + stage_tag + home[stage_match.end():]
 home_path.write_text(home, encoding="utf-8")
 
 bundle_text = BUNDLE.read_text(encoding="utf-8")
@@ -75,7 +88,8 @@ for required in (
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
 final_home = home_path.read_text(encoding="utf-8")
-if new_label not in final_home:
+final_stage = stage_re.search(final_home)
+if not final_stage or new_label_text not in final_stage.group(0):
     problems.append("real-project hero label missing")
 if not home_seen:
     problems.append("home marker not found")
