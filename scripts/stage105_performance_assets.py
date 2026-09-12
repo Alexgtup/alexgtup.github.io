@@ -235,6 +235,12 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage116_proof_analytics_cache.py')), str(ROOT)],
     check=True,
 )
+# Final art direction: make the site feel intentionally designed rather than
+# progressively decorated. This only touches the shared final CSS bundle.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage117_visual_maturity.py')), str(ROOT)],
+    check=True,
+)
 
 # Every published first-party JS asset must at least parse before Pages can deploy.
 # Earlier workflow checks covered only two files, which could let an unrelated
