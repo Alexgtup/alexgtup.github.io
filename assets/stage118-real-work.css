@@ -1,0 +1,69 @@
+/* stage118-real-work
+   Replace decorative hero mockups with actual project imagery already used in the portfolio. */
+
+body[data-page="home"] .product-stage{
+  position:relative!important;
+  min-height:31rem!important;
+  perspective:none!important;
+  isolation:isolate!important;
+}
+body[data-page="home"] .product-stage>*{display:none!important}
+body[data-page="home"] .product-stage::before,
+body[data-page="home"] .product-stage::after{
+  content:"";
+  position:absolute;
+  z-index:1;
+  display:block;
+  border:1px solid rgba(255,255,255,.13);
+  background-color:#0d1014;
+  background-repeat:no-repeat;
+  background-position:center;
+  background-size:contain;
+  box-shadow:0 26px 70px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.025);
+}
+body[data-page="home"] .product-stage::before{
+  left:0;
+  top:1.8rem;
+  width:68%;
+  height:84%;
+  border-radius:1.08rem;
+  background-image:url('/assets/cases/fin-planner/fin-planner-original.webp');
+}
+body[data-page="home"] .product-stage::after{
+  right:0;
+  bottom:1.25rem;
+  width:43%;
+  height:68%;
+  border-radius:.95rem;
+  background-image:url('/assets/cases/swift-calendar/calendar-original.webp');
+  transform:translateZ(0);
+}
+
+html[data-theme="light"] body[data-page="home"] .product-stage::before,
+html[data-theme="light"] body[data-page="home"] .product-stage::after{
+  border-color:rgba(16,18,20,.12);
+  background-color:#fff;
+  box-shadow:0 24px 60px rgba(30,34,38,.10);
+}
+
+@media(max-width:980px){
+  body[data-page="home"] .product-stage{min-height:29rem!important;max-width:42rem!important;width:100%!important}
+  body[data-page="home"] .product-stage::before{left:0;top:1.3rem;width:70%;height:84%}
+  body[data-page="home"] .product-stage::after{right:1%;bottom:1rem;width:42%;height:66%}
+}
+
+@media(max-width:680px){
+  body[data-page="home"] .product-stage{min-height:22.5rem!important;margin-top:.25rem!important}
+  body[data-page="home"] .product-stage::before{
+    left:0;top:.7rem;width:72%;height:86%;border-radius:.85rem;
+  }
+  body[data-page="home"] .product-stage::after{
+    right:0;bottom:.6rem;width:43%;height:62%;border-radius:.78rem;
+  }
+}
+
+@media(max-width:390px){
+  body[data-page="home"] .product-stage{min-height:20.5rem!important}
+  body[data-page="home"] .product-stage::before{width:74%;height:84%}
+  body[data-page="home"] .product-stage::after{width:45%;height:60%}
+}
