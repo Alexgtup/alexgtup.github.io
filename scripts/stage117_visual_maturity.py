@@ -9,7 +9,7 @@ import sys
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 BUNDLE = ROOT / "assets" / "stage105-final-ui.css"
 SOURCE_CSS = Path(__file__).resolve().parents[1] / "assets" / "stage117-visual-maturity.css"
-MARK = "/* stage117-visual-maturity */"
+MARK = "/* stage117-visual-maturity"
 
 if not BUNDLE.is_file():
     raise SystemExit("stage117: final UI bundle missing")
