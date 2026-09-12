@@ -28,34 +28,6 @@ for source, marker in ART_LAYERS:
         text = text.rstrip() + "\n\n" + css + "\n"
 BUNDLE.write_text(text, encoding="utf-8")
 
-# The final hero visually uses real portfolio screenshots. Normalize the accessible
-# label regardless of how earlier build stages reorder or extend the div attributes.
-home_path = ROOT / "index.html"
-if not home_path.is_file():
-    raise SystemExit("stage117: home page missing")
-home = home_path.read_text(encoding="utf-8")
-stage_re = re.compile(
-    r'<div\b(?=[^>]*\bclass=["\'][^"\']*\bproduct-stage\b[^"\']*["\'])[^>]*>',
-    re.I,
-)
-stage_match = stage_re.search(home)
-if not stage_match:
-    raise SystemExit("stage117: homepage product-stage element not found")
-stage_tag = stage_match.group(0)
-new_label_text = "Реальные интерфейсы проектов Fin Planner и Swift Calendar"
-if re.search(r'\baria-label=["\'][^"\']*["\']', stage_tag, re.I):
-    stage_tag = re.sub(
-        r'\baria-label=(["\'])[^"\']*\1',
-        f'aria-label="{new_label_text}"',
-        stage_tag,
-        count=1,
-        flags=re.I,
-    )
-else:
-    stage_tag = stage_tag[:-1] + f' aria-label="{new_label_text}">'
-home = home[:stage_match.start()] + stage_tag + home[stage_match.end():]
-home_path.write_text(home, encoding="utf-8")
-
 bundle_text = BUNDLE.read_text(encoding="utf-8")
 digest = hashlib.sha256(bundle_text.encode("utf-8")).hexdigest()[:12]
 href_re = re.compile(r"(/assets/stage105-final-ui\.css)\?v=[^\"']+", re.I)
@@ -81,16 +53,14 @@ for required in (
     ".portfolio-carousel__grid",
     ".project-radar__filters",
     ".stage109-case-diagram",
-    ".product-stage::before",
-    "fin-planner-original.webp",
-    "calendar-original.webp",
+    ".s44-hero__visual",
+    ".s44-proofline",
+    ".s113-review-card",
+    ".s48-system__top",
+    ".s114-proofbar",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
-final_home = home_path.read_text(encoding="utf-8")
-final_stage = stage_re.search(final_home)
-if not final_stage or new_label_text not in final_stage.group(0):
-    problems.append("real-project hero label missing")
 if not home_seen:
     problems.append("home marker not found")
 if not cases_seen:
@@ -102,4 +72,4 @@ if refs < 70:
 if problems:
     raise SystemExit("stage117 visual maturity failed:\n" + "\n".join(problems))
 
-print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; editorial art direction + real project hero applied")
+print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; final Stage44/48/113 art direction applied")
