@@ -13,6 +13,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage117-visual-maturity.css", "/* stage117-visual-maturity"),
     (ASSET_ROOT / "stage118-real-work.css", "/* stage118-real-work"),
     (ASSET_ROOT / "stage119-case-editorial.css", "/* stage119-case-editorial"),
+    (ASSET_ROOT / "stage120-hub-editorial.css", "/* stage120-hub-editorial"),
 )
 
 if not BUNDLE.is_file():
@@ -34,7 +35,7 @@ digest = hashlib.sha256(bundle_text.encode("utf-8")).hexdigest()[:12]
 href_re = re.compile(r"(/assets/stage105-final-ui\.css)\?v=[^\"']+", re.I)
 
 pages = refs = 0
-home_seen = cases_seen = service_seen = case_family_seen = False
+home_seen = cases_seen = service_seen = case_family_seen = hub_family_seen = False
 for path in sorted(ROOT.rglob("*.html")):
     html = path.read_text(encoding="utf-8", errors="ignore")
     if "<body" not in html:
@@ -44,6 +45,7 @@ for path in sorted(ROOT.rglob("*.html")):
     cases_seen = cases_seen or 'data-page="cases"' in html
     service_seen = service_seen or 'data-ux-family="service"' in html
     case_family_seen = case_family_seen or 'data-ux-family="case"' in html
+    hub_family_seen = hub_family_seen or 'data-ux-family="hub"' in html
     new, count = href_re.subn(rf"\1?v={digest}", html)
     refs += count
     if new != html:
@@ -63,6 +65,9 @@ for required in (
     ".s51-implemented",
     ".s51-related",
     ".s51-contact-card",
+    ".s50-collage",
+    ".s50-guide-grid",
+    ".s50-principles",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -74,9 +79,11 @@ if not service_seen:
     problems.append("service family marker not found")
 if not case_family_seen:
     problems.append("case family marker not found")
+if not hub_family_seen:
+    problems.append("hub family marker not found")
 if refs < 70:
     problems.append(f"only {refs} final UI references rotated")
 if problems:
     raise SystemExit("stage117 visual maturity failed:\n" + "\n".join(problems))
 
-print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case editorial art direction applied")
+print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case/hub editorial art direction applied")
