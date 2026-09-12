@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import hashlib
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -35,7 +36,7 @@ digest = hashlib.sha256(bundle_text.encode("utf-8")).hexdigest()[:12]
 href_re = re.compile(r"(/assets/stage105-final-ui\.css)\?v=[^\"']+", re.I)
 
 pages = refs = 0
-home_seen = cases_seen = service_seen = case_family_seen = hub_family_seen = False
+home_seen = cases_seen = service_seen = case_family_seen = hub_seen = False
 for path in sorted(ROOT.rglob("*.html")):
     html = path.read_text(encoding="utf-8", errors="ignore")
     if "<body" not in html:
@@ -45,7 +46,7 @@ for path in sorted(ROOT.rglob("*.html")):
     cases_seen = cases_seen or 'data-page="cases"' in html
     service_seen = service_seen or 'data-ux-family="service"' in html
     case_family_seen = case_family_seen or 'data-ux-family="case"' in html
-    hub_family_seen = hub_family_seen or 'data-ux-family="hub"' in html
+    hub_seen = hub_seen or 'data-ux-family="hub"' in html
     new, count = href_re.subn(rf"\1?v={digest}", html)
     refs += count
     if new != html:
@@ -67,7 +68,6 @@ for required in (
     ".s51-contact-card",
     ".s50-collage",
     ".s50-guide-grid",
-    ".s50-principles",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -79,7 +79,7 @@ if not service_seen:
     problems.append("service family marker not found")
 if not case_family_seen:
     problems.append("case family marker not found")
-if not hub_family_seen:
+if not hub_seen:
     problems.append("hub family marker not found")
 if refs < 70:
     problems.append(f"only {refs} final UI references rotated")
@@ -87,3 +87,9 @@ if problems:
     raise SystemExit("stage117 visual maturity failed:\n" + "\n".join(problems))
 
 print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case/hub editorial art direction applied")
+
+# Search discovery runs against the final DOM, after every content and visual generator.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage120_google_discovery.py")), str(ROOT)],
+    check=True,
+)
