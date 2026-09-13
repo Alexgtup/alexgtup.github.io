@@ -93,3 +93,8 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage120_google_discovery.py")), str(ROOT)],
     check=True,
 )
+# Align the first observed organic-demand cluster without creating another thin page.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage121_search_demand_cluster.txt")), str(ROOT)],
+    check=True,
+)
