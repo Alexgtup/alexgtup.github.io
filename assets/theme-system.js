@@ -14,6 +14,8 @@
     }
   };
 
+  const isCinematic = () => document.body?.dataset.wow === 'true';
+
   const updateBrowserChrome = (theme) => {
     root.style.colorScheme = theme;
     const scheme = document.querySelector('meta[name="color-scheme"]');
@@ -61,7 +63,8 @@
     window.dispatchEvent(new CustomEvent('alexuys:themechange', { detail: { theme: safeTheme } }));
   };
 
-  // Run before body rendering finishes so a saved light theme does not flash dark first.
+  // Apply the saved preference early. Art-directed pages are locked to their
+  // curated palette as soon as the body is available in mount().
   applyTheme(readTheme(), false);
 
   const makeButton = (mobile = false) => {
@@ -78,6 +81,17 @@
   };
 
   const mount = () => {
+    // Cinematic pages already contain deliberate light, dark and colored scenes.
+    // A global light-theme override destroys their contrast, so the shell is
+    // locked to dark while the page keeps its own art-directed palette.
+    if (isCinematic()) {
+      root.dataset.themeLocked = 'cinematic';
+      applyTheme('dark', false);
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => button.remove());
+      return;
+    }
+
+    root.removeAttribute('data-theme-locked');
     if (document.querySelector('[data-theme-toggle]')) {
       syncButtons(root.dataset.theme || 'dark');
       return;
@@ -107,6 +121,10 @@
 
   window.addEventListener('storage', (event) => {
     if (event.key !== KEY) return;
+    if (isCinematic()) {
+      applyTheme('dark', false);
+      return;
+    }
     const theme = event.newValue === 'light' ? 'light' : 'dark';
     applyTheme(theme, false);
   });
