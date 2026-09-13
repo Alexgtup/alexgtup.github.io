@@ -16,9 +16,12 @@
     pointer-events:none!important;
   }
 
+  /* Do not turn body into a new vertical scroll container when the menu opens.
+     Doing that makes position:sticky resolve against body and the header jumps
+     back to its document position. Keep the page's original viewport scroller. */
   body.stage98-menu-open {
     overflow-x:clip!important;
-    overflow-y:auto!important;
+    overflow-y:visible!important;
   }
 
   body.stage98-menu-open::before {
