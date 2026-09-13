@@ -32,7 +32,14 @@ body[data-x135-family="tool"] .stage98-header svg,body[data-x135-family="product
  body[data-x135="true"] .stage98-nav{display:none!important}
  body[data-x135="true"] .stage98-mobile-menu{display:block!important}
  body[data-x135="true"] .stage98-mobile-menu:not([open])>nav{display:none!important}
- body[data-x135="true"] .stage98-mobile-menu[open]>nav{display:flex!important;flex-direction:column!important;gap:3px!important;position:absolute!important;right:0!important;top:51px!important;width:min(320px,calc(100vw - 24px))!important;max-height:calc(100vh - 82px)!important;overflow:auto!important;padding:10px!important;margin:0!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:16px!important;background:#090c0e!important;box-shadow:0 32px 90px rgba(0,0,0,.55)!important;z-index:214748100!important;filter:none!important;backdrop-filter:none!important}
+
+ /* Chrome treats filtered sticky ancestors as containing blocks for fixed descendants.
+    Remove those effects only while the mobile menu is open so the panel is truly viewport-fixed. */
+ body.stage98-menu-open[data-x135="true"] .stage98-header{transform:none!important;filter:none!important;perspective:none!important;contain:none!important;will-change:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ body.stage98-menu-open[data-x135="true"] .stage98-head,
+ body.stage98-menu-open[data-x135="true"] .stage98-mobile-menu{transform:none!important;filter:none!important;perspective:none!important;contain:none!important;will-change:auto!important}
+
+ body[data-x135="true"] .stage98-mobile-menu[open]>nav{display:flex!important;flex-direction:column!important;gap:3px!important;position:fixed!important;left:12px!important;right:12px!important;top:auto!important;bottom:max(12px,env(safe-area-inset-bottom))!important;width:auto!important;min-width:0!important;max-width:none!important;max-height:calc(100dvh - 24px - env(safe-area-inset-bottom))!important;overflow-y:auto!important;overflow-x:hidden!important;padding:10px!important;margin:0!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:16px!important;background:#090c0e!important;box-shadow:0 32px 90px rgba(0,0,0,.55)!important;z-index:214748100!important;filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>a{display:flex!important;align-items:center!important;min-height:46px!important;padding:0 13px!important;border-radius:10px!important;color:#d8dcda!important;text-decoration:none!important;font-size:14px!important;line-height:1.2!important;background:transparent!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>a:hover{background:rgba(255,255,255,.05)!important;color:#fff!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>.stage98-mobile-cta{margin-top:5px!important;background:#c9ff4a!important;color:#080a0b!important;font-weight:850!important;justify-content:center!important}
