@@ -96,6 +96,55 @@
   body[data-ux-family] :is(.s44-hero__copy,.s48-hero__copy,.s50-hero__copy,.s51-hero-copy),
   body[data-ux-family] main :is(section,article,aside,div) { min-width:0; }
 
+  /* The reviews header was still using the desktop 1.12fr / 18rem split on a
+     440px viewport. That left the headline track only a few characters wide. */
+  body[data-page="home"] .s113-review-head {
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:1.15rem!important;
+    align-items:start!important;
+  }
+  body[data-page="home"] .s113-review-head > * {
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  body[data-page="home"] .s113-review-head h2 {
+    max-width:13ch!important;
+    overflow-wrap:normal!important;
+    word-break:normal!important;
+    text-wrap:balance;
+  }
+  body[data-page="home"] .s113-review-head > p {
+    max-width:34rem!important;
+    margin:0!important;
+  }
+
+  /* Stage120 crawl links are useful, but a raw wrapped text rail looked broken
+     immediately above the footer on phones. Keep the links visible and usable. */
+  body[data-page="home"] .s120-priority {
+    width:min(calc(100% - 2rem),80rem)!important;
+    margin:0 auto 2.3rem!important;
+    padding:.75rem!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:.2rem .7rem!important;
+    border:1px solid rgba(255,255,255,.075)!important;
+    border-radius:.9rem!important;
+    background:rgba(255,255,255,.012)!important;
+  }
+  body[data-page="home"] .s120-priority a {
+    min-width:0!important;
+    min-height:2.4rem!important;
+    display:flex!important;
+    align-items:center!important;
+    padding:.45rem .25rem!important;
+    color:var(--ds-muted)!important;
+    font-size:.72rem!important;
+    line-height:1.3!important;
+    text-decoration:none!important;
+    overflow-wrap:anywhere!important;
+  }
+
   /* Media can never dictate a wider track than the phone. */
   body[data-ux-family] main :is(img,picture,video,svg,canvas) { max-width:100%!important; }
 }
@@ -171,4 +220,5 @@
   body[data-ux-family] .stage98-brand-copy strong { font-size:.86rem!important; }
   body[data-ux-family] .stage108-footer__nav,
   body[data-ux-family] .stage108-footer__meta { grid-template-columns:1fr!important; }
+  body[data-page="home"] .s120-priority { grid-template-columns:minmax(0,1fr)!important; }
 }
