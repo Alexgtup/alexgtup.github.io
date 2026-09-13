@@ -1,16 +1,12 @@
 /* stage137-motion-failsafe */
-/* Motion must never be allowed to hide production content. Stage135 previously
-   used opacity:0 as the base state for IntersectionObserver reveals. If the
-   observer/script is delayed or fails, the page becomes a blank canvas. Keep
-   content visible by default and use motion only as progressive enhancement. */
+/* Motion must never be allowed to hide production content. */
 body[data-x135="true"] .x135-enter{
   opacity:1!important;
   transform:none!important;
   filter:none!important;
 }
 
-/* The first viewport is especially critical: hero copy and CTA are never
-   animation-gated, regardless of family, route or runtime state. */
+/* First viewport must always remain visible. */
 body[data-x135="true"] :is(
   .p128-hero,
   .p129-svc-hero,
@@ -28,9 +24,26 @@ body[data-x135="true"] :is(
   visibility:visible!important;
 }
 
-/* Homepage layout is structural, never animated. Only decorative descendants
-   may move. This prevents any old scroll/pointer/reveal layer from translating
-   the whole first screen out of the viewport. */
+/* Emergency stability mode for the homepage.
+   The homepage keeps the Stage128/133 visual design, but no element inside
+   the page may be driven by CSS animation/view timelines while this guard is
+   active. Motion will be reintroduced later in isolated decorative layers. */
+body[data-page="home"] .p128-home,
+body[data-page="home"] .p128-home *,
+body[data-page="home"] .p128-home *::before,
+body[data-page="home"] .p128-home *::after{
+  animation:none!important;
+  animation-timeline:auto!important;
+  animation-range:normal!important;
+}
+
+/* Remove runtime-only experimental surfaces from the homepage. */
+body[data-page="home"] :is(.x134-webgl,.x134-scan,.x134-cursor,.x135-scene,.x135-progress){
+  display:none!important;
+}
+
+/* Structural hero nodes are immutable. */
+body[data-page="home"] .p128-hero,
 body[data-page="home"] .p128-hero > .p128-shell,
 body[data-page="home"] .p128-hero__copy,
 body[data-page="home"] .p128-hero__visual,
@@ -41,13 +54,10 @@ body[data-page="home"] .p128-proofbar{
   translate:none!important;
   scale:none!important;
   rotate:none!important;
-  top:auto!important;
-  bottom:auto!important;
-  left:auto!important;
-  right:auto!important;
   opacity:1!important;
   visibility:visible!important;
 }
+body[data-page="home"] .p128-hero,
 body[data-page="home"] .p128-hero > .p128-shell,
 body[data-page="home"] .p128-hero__copy,
 body[data-page="home"] .p128-proofbar{
@@ -59,11 +69,15 @@ body[data-page="home"] .p128-hero > .p128-shell{
   inset:auto!important;
 }
 
-/* Preserve a modern reveal without a hidden fallback. Native view timelines
-   animate from a subtly softer state only while the section is entering. */
+/* Keep project cards in their intended static composition. */
+body[data-page="home"] .p128-shot--one{transform:rotate(-8deg)!important}
+body[data-page="home"] .p128-shot--two{transform:rotate(7deg)!important}
+body[data-page="home"] .p128-shot--three{transform:rotate(-2deg)!important}
+
+/* Progressive reveal remains available everywhere except the homepage. */
 @supports (animation-timeline:view()){
-  body[data-x135="true"] main > section:not(:first-of-type),
-  body[data-x135="true"] main article > section{
+  body[data-x135="true"]:not([data-page="home"]) main > section:not(:first-of-type),
+  body[data-x135="true"]:not([data-page="home"]) main article > section{
     animation:x137-view-reveal linear both;
     animation-timeline:view();
     animation-range:entry 0% entry 38%;
