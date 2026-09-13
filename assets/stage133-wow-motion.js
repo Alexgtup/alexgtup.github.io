@@ -2,7 +2,10 @@
 (() => {
   const body = document.body;
   if (!body || body.dataset.wow !== 'true') return;
-  if (body.dataset.page === 'home') return;
+  if (body.dataset.page === 'home') {
+    document.querySelectorAll('.wow-reveal').forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = window.matchMedia('(pointer: coarse)').matches;
