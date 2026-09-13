@@ -96,3 +96,42 @@ html[data-theme="light"] body[data-ux-family] .stage98-mobile-menu[open] > nav >
 html[data-theme="light"] body[data-ux-family] .stage98-mobile-menu[open] > nav .theme-toggle--mobile {
   color:#31373d!important;
 }
+
+/* The full desktop footer duplicates the mobile menu and adds unnecessary
+   vertical weight on phones. Keep only a quiet legal end line on mobile. */
+@media (max-width: 820px) {
+  body[data-ux-family] .stage108-footer__brand,
+  body[data-ux-family] .stage108-footer__nav {
+    display:none!important;
+  }
+
+  body[data-ux-family] .stage108-footer__inner {
+    display:block!important;
+    padding-block:1rem 1.15rem!important;
+  }
+
+  body[data-ux-family] .stage108-footer__meta {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:.65rem!important;
+    padding-top:0!important;
+    border-top:0!important;
+  }
+
+  body[data-ux-family] .stage108-footer__meta > span {
+    min-height:0!important;
+    margin:0!important;
+    font-size:.68rem!important;
+  }
+
+  body[data-ux-family] .stage108-footer__meta > a:not([href="/privacy/"]) {
+    display:none!important;
+  }
+
+  body[data-ux-family] .stage108-footer__meta > a[href="/privacy/"] {
+    min-height:0!important;
+    display:inline!important;
+    font-size:.68rem!important;
+  }
+}
