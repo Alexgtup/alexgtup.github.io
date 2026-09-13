@@ -109,3 +109,8 @@ if changed < 30:
     raise SystemExit(f'stage133: expected >=30 art-directed pages, got {changed}')
 
 print(f'stage133 cinematic system: pages={changed}; css={css_digest}; js={js_digest}; route accents + exhibition layouts + motion enabled')
+
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage134_experimental_web.py')), str(ROOT)],
+    check=True,
+)
