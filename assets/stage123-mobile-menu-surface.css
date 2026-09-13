@@ -3,6 +3,14 @@
    can composite above the dropdown despite the intended z-index ordering. */
 
 @media (max-width: 900px) {
+  /* Do not lock body scroll by changing overflow when the menu opens.
+     On mobile browsers that can reset the document scroll position, so a menu
+     opened near the bottom appears to jump back to the top. */
+  body.stage98-menu-open {
+    overflow-x:clip!important;
+    overflow-y:auto!important;
+  }
+
   body.stage98-menu-open::before {
     display:none!important;
     content:none!important;
