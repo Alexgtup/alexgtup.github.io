@@ -17,9 +17,31 @@
     -webkit-backdrop-filter:none!important;
   }
 
-  /* The mobile menu must belong to the current viewport, not to the sticky
-     header at the top of the page. Present it as a bottom sheet so opening it
-     after scrolling never looks like the navigation jumped back to the top. */
+  /* A filtered/backdrop-filtered ancestor becomes the containing block for a
+     fixed descendant in Chromium/WebKit. The shared sticky header normally has
+     backdrop-filter, which made the viewport-fixed menu resolve against the
+     4rem header instead of the phone viewport. Remove every containing-block
+     trigger while the menu is open. */
+  body.stage98-menu-open[data-ux-family] .stage98-header {
+    transform:none!important;
+    filter:none!important;
+    perspective:none!important;
+    contain:none!important;
+    will-change:auto!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+  body.stage98-menu-open[data-ux-family] .stage98-head,
+  body.stage98-menu-open[data-ux-family] .stage98-mobile-menu {
+    transform:none!important;
+    filter:none!important;
+    perspective:none!important;
+    contain:none!important;
+    will-change:auto!important;
+  }
+
+  /* The mobile menu belongs to the current viewport, not to the sticky header.
+     Present it as a bottom sheet so it is visible wherever the page is scrolled. */
   body[data-ux-family] .stage98-mobile-menu[open] > nav {
     display:grid!important;
     position:fixed!important;
