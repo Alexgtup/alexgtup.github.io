@@ -139,3 +139,8 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage125_human_first_depth.py")), str(ROOT)],
     check=True,
 )
+# Remove the last machine-like labels from buyer-facing offer and related blocks.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage126_microcopy_cleanup.py")), str(ROOT)],
+    check=True,
+)
