@@ -18,6 +18,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage120-hub-editorial.css", "/* stage120-hub-editorial"),
     (ASSET_ROOT / "stage122-mobile-recovery.css", "/* stage122-mobile-recovery"),
     (ASSET_ROOT / "stage123-mobile-menu-surface.css", "/* stage123-mobile-menu-surface"),
+    (ASSET_ROOT / "stage124-human-first.css", "/* stage124-human-first"),
 )
 
 if not BUNDLE.is_file():
@@ -119,5 +120,11 @@ subprocess.run(
 # Align the first observed organic-demand cluster without creating another thin page.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage121_search_demand_cluster.txt")), str(ROOT)],
+    check=True,
+)
+
+# Keep the homepage understandable for non-technical clients after SEO/discovery passes.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage124_human_first.py")), str(ROOT)],
     check=True,
 )
