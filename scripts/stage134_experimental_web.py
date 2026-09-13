@@ -35,3 +35,4 @@ for path in sorted(ROOT.rglob('*.html')):
 
 if changed<30: raise SystemExit(f'stage134: expected >=30 wow pages, got {changed}')
 print(f'stage134 experimental web: pages={changed}; css={css_digest}; js={js_digest}; WebGL + view transitions + scroll timelines enabled')
+subprocess.run([sys.executable,str(Path(__file__).with_name('stage135_world_system.py')),str(ROOT)],check=True)
