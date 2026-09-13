@@ -7,8 +7,10 @@ BUNDLE=ROOT/'assets'/'stage105-final-ui.css'
 CSS=ROOT/'assets'/'stage135-world-system.css'
 QA=ROOT/'assets'/'stage136-visual-qa.css'
 SAFE=ROOT/'assets'/'stage137-motion-failsafe.css'
+SPECTACLE_CSS=ROOT/'assets'/'stage138-safe-spectacle.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
-for p in (BUNDLE,CSS,QA,SAFE,JS):
+SPECTACLE_JS=ROOT/'assets'/'stage138-safe-spectacle.js'
+for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,JS,SPECTACLE_JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
@@ -16,6 +18,7 @@ for source,marker in (
     (CSS,'/* stage135-world-system */'),
     (QA,'/* stage136-visual-qa */'),
     (SAFE,'/* stage137-motion-failsafe */'),
+    (SPECTACLE_CSS,'/* stage138-safe-spectacle */'),
 ):
     css=source.read_text(encoding='utf-8').strip()
     if marker not in css: raise SystemExit(f'stage135: marker missing in {source.name}')
@@ -23,10 +26,12 @@ for source,marker in (
         bundle=bundle.rstrip()+'\n\n'+css+'\n'
 BUNDLE.write_text(bundle,encoding='utf-8')
 subprocess.run(['node','--check',str(JS)],check=True)
+subprocess.run(['node','--check',str(SPECTACLE_JS)],check=True)
 css_digest=hashlib.sha256(BUNDLE.read_bytes()).hexdigest()[:12]
 js_digest=hashlib.sha256(JS.read_bytes()).hexdigest()[:12]
+spectacle_js_digest=hashlib.sha256(SPECTACLE_JS.read_bytes()).hexdigest()[:12]
 
-changed=0; families={}
+changed=0; families={}; spectacle_pages=0
 for path in sorted(ROOT.rglob('*.html')):
     html=path.read_text(encoding='utf-8',errors='ignore')
     if '<body' not in html or '<main' not in html: continue
@@ -51,16 +56,23 @@ for path in sorted(ROOT.rglob('*.html')):
     html=html[:bodym.start()]+newbody+html[bodym.end():]
     html=re.sub(r'(/assets/stage105-final-ui\.css)\?v=[^\"\']+',rf'\1?v={css_digest}',html,flags=re.I)
     html=re.sub(r'<script\b[^>]*stage135-world-system\.js[^>]*></script>','',html,flags=re.I)
+    html=re.sub(r'<script\b[^>]*stage138-safe-spectacle\.js[^>]*></script>','',html,flags=re.I)
     tag=f'<script defer src="/assets/stage135-world-system.js?v={js_digest}"></script>'
+    # The safe spectacle is deliberately homepage-only. Its script never mutates
+    # normal-flow layout and is loaded after all legacy motion runtimes.
+    if rel=='index.html':
+        tag+=f'<script defer src="/assets/stage138-safe-spectacle.js?v={spectacle_js_digest}"></script>'
+        spectacle_pages+=1
     if '</body>' not in html: raise SystemExit(f'stage135: closing body missing {rel}')
     html=html.replace('</body>',tag+'</body>',1)
     path.write_text(html,encoding='utf-8')
     changed+=1; families[family]=families.get(family,0)+1
 
 if changed<70: raise SystemExit(f'stage135: expected >=70 pages, got {changed}')
+if spectacle_pages!=1: raise SystemExit(f'stage138: expected exactly one homepage, got {spectacle_pages}')
 for needed in ('guide','tool','international','cinematic'):
     if families.get(needed,0)==0: raise SystemExit(f'stage135: family missing: {needed}')
 final_bundle=BUNDLE.read_text(encoding='utf-8')
-for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */'):
+for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */'):
     if marker not in final_bundle: raise SystemExit(f'stage135: final layer missing: {marker}')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; stage136 QA + stage137 motion fail-safe')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle')
