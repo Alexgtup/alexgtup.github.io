@@ -108,6 +108,18 @@
     margin-top:.08em!important;
   }
 
+  /* The legal hero inherited a higher-specificity desktop headline rule. The
+     long Russian word otherwise produces intrinsic width beyond a phone. */
+  body[data-page="privacy"][data-ux-family="legal"] .hero h1 {
+    max-width:100%!important;
+    font-size:clamp(1.7rem,8.2vw,2rem)!important;
+    line-height:1.04!important;
+    letter-spacing:-.035em!important;
+    overflow-wrap:anywhere!important;
+    word-break:normal!important;
+    hyphens:auto!important;
+  }
+
   /* Two-column proof bars become cramped below 600px. */
   body[data-ux-family="service"] .s114-proofbar,
   body[data-ux-family="service"] .s48-facts,
