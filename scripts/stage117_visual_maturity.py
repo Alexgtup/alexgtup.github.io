@@ -17,6 +17,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage119-case-editorial.css", "/* stage119-case-editorial"),
     (ASSET_ROOT / "stage120-hub-editorial.css", "/* stage120-hub-editorial"),
     (ASSET_ROOT / "stage122-mobile-recovery.css", "/* stage122-mobile-recovery"),
+    (ASSET_ROOT / "stage123-mobile-menu-surface.css", "/* stage123-mobile-menu-surface"),
 )
 
 if not BUNDLE.is_file():
@@ -85,6 +86,7 @@ for required in (
     ".s50-collage",
     ".s50-guide-grid",
     ".stage98-mobile-menu:not([open]) > nav",
+    ".stage98-menu-open::before",
     ".mobile-site-toggle",
     ".case-filter__list",
 ):
