@@ -157,6 +157,13 @@
     margin-top:.08em!important;
   }
 
+  /* The app-development title contains a long Russian word. The desktop
+     max-width was narrower than the available phone column, so the glyphs
+     overflowed even though the page itself stayed clipped. */
+  body[data-page="app-development"][data-ux-family="service"] .s48-hero h1 {
+    max-width:100%!important;
+  }
+
   /* The legal hero inherited a higher-specificity desktop headline rule. The
      long Russian word otherwise produces intrinsic width beyond a phone. */
   body[data-page="privacy"][data-ux-family="legal"] .hero h1 {
