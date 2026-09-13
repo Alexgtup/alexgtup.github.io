@@ -23,6 +23,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage127-wow-direction.css", "/* stage127-wow-direction"),
     (ASSET_ROOT / "stage128-home-rebuild.css", "/* stage128-home-rebuild"),
     (ASSET_ROOT / "stage129-site-rebuild.css", "/* stage129-site-rebuild"),
+    (ASSET_ROOT / "stage131-quality-bridge.css", "/* stage131-quality-bridge"),
 )
 
 if not BUNDLE.is_file():
@@ -94,6 +95,7 @@ for required in (
     ".p128-hero__visual",
     ".p129-svc-grid",
     ".p130-mosaic",
+    ".p131-bridge",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -148,13 +150,15 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage128_home_rebuild.py")), str(ROOT)],
     check=True,
 )
-# Replace the remaining legacy service and hub DOM families so the site does not
-# fall back to the old card system after leaving the homepage.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage129_service_rebuild.py")), str(ROOT)],
     check=True,
 )
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage130_hub_rebuild.py")), str(ROOT)],
+    check=True,
+)
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage131_quality_bridge.py")), str(ROOT)],
     check=True,
 )
