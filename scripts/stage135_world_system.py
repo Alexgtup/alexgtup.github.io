@@ -8,10 +8,11 @@ CSS=ROOT/'assets'/'stage135-world-system.css'
 QA=ROOT/'assets'/'stage136-visual-qa.css'
 SAFE=ROOT/'assets'/'stage137-motion-failsafe.css'
 SPECTACLE_CSS=ROOT/'assets'/'stage138-safe-spectacle.css'
+HUB_CSS=ROOT/'assets'/'stage139-hub-art-direction.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
 SPECTACLE_JS=ROOT/'assets'/'stage138-safe-spectacle.js'
 THEME_JS=ROOT/'assets'/'theme-system.js'
-for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,JS,SPECTACLE_JS,THEME_JS):
+for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,HUB_CSS,JS,SPECTACLE_JS,THEME_JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
@@ -20,6 +21,7 @@ for source,marker in (
     (QA,'/* stage136-visual-qa */'),
     (SAFE,'/* stage137-motion-failsafe */'),
     (SPECTACLE_CSS,'/* stage138-safe-spectacle */'),
+    (HUB_CSS,'/* stage139-hub-art-direction */'),
 ):
     css=source.read_text(encoding='utf-8').strip()
     if marker not in css: raise SystemExit(f'stage135: marker missing in {source.name}')
@@ -77,6 +79,6 @@ if spectacle_pages!=1: raise SystemExit(f'stage138: expected exactly one homepag
 for needed in ('guide','tool','international','cinematic'):
     if families.get(needed,0)==0: raise SystemExit(f'stage135: family missing: {needed}')
 final_bundle=BUNDLE.read_text(encoding='utf-8')
-for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */'):
+for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */','/* stage139-hub-art-direction */'):
     if marker not in final_bundle: raise SystemExit(f'stage135: final layer missing: {marker}')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; theme={theme_js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; theme={theme_js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle + stage139 hub art direction')
