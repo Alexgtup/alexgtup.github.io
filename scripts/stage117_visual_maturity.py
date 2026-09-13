@@ -21,6 +21,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage124-human-first.css", "/* stage124-human-first"),
     (ASSET_ROOT / "stage125-human-first-depth.css", "/* stage125-human-first-depth"),
     (ASSET_ROOT / "stage127-wow-direction.css", "/* stage127-wow-direction"),
+    (ASSET_ROOT / "stage128-home-rebuild.css", "/* stage128-home-rebuild"),
 )
 
 if not BUNDLE.is_file():
@@ -37,9 +38,6 @@ for source, marker in ART_LAYERS:
         text = text.rstrip() + "\n\n" + css + "\n"
 BUNDLE.write_text(text, encoding="utf-8")
 
-# Stage 98 owns the current navigation. The older Stage 10 script used to add a
-# second hamburger/drawer on every non-home page after load. Patch the copied
-# production JS so that legacy navigation exits as soon as Stage 98 is present.
 if not ENHANCEMENTS.is_file():
     raise SystemExit("stage117: site enhancements script missing")
 legacy_guard = "if (document.body?.dataset.page === 'home' || document.querySelector('.mobile-site-toggle')) return;"
@@ -92,6 +90,7 @@ for required in (
     ".stage98-menu-open::before",
     ".mobile-site-toggle",
     ".case-filter__list",
+    ".p128-hero__visual",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -114,39 +113,37 @@ if problems:
 
 print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; editorial art direction + mobile recovery applied")
 
-# Search discovery runs against the final DOM, after every content and visual generator.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage120_google_discovery.py")), str(ROOT)],
     check=True,
 )
-# Align the first observed organic-demand cluster without creating another thin page.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage121_search_demand_cluster.txt")), str(ROOT)],
     check=True,
 )
-
-# Keep the homepage understandable for non-technical clients after SEO/discovery passes.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage124_human_first.py")), str(ROOT)],
     check=True,
 )
-# Apply the same progressive-disclosure principle to commercial entry pages.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage124_human_first_services.py")), str(ROOT)],
     check=True,
 )
-# Humanize the remaining service entries and supporting hubs without touching search metadata.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage125_human_first_depth.py")), str(ROOT)],
     check=True,
 )
-# Remove the last machine-like labels from buyer-facing offer and related blocks.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage126_microcopy_cleanup.py")), str(ROOT)],
     check=True,
 )
-# Final art direction: turn the homepage into a premium project-led portfolio, not a grid of repeated UI cards.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage127_wow_direction.py")), str(ROOT)],
+    check=True,
+)
+# Replace the legacy homepage DOM completely. This runs last so SEO metadata and
+# the shared shell remain intact while the old repeated section structure is discarded.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage128_home_rebuild.py")), str(ROOT)],
     check=True,
 )
