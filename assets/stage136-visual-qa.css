@@ -36,9 +36,9 @@ body[data-x135-family="tool"] .stage98-header svg,body[data-x135-family="product
 
  body.stage98-mobile-header-hidden:not(.stage98-menu-open)[data-x135="true"] .stage98-header{transform:translateY(calc(-100% - 2px))!important;pointer-events:none!important}
 
- /* Menu-open always wins over scroll hiding. The header remains visible while
-    the dropdown is open, and document scroll position is not reset. */
- body.stage98-menu-open{overflow-x:clip!important;overflow-y:auto!important}
+ /* Menu-open always wins over scroll hiding. Keep the original viewport as the
+    vertical scroll container; otherwise sticky header jumps to document top. */
+ body.stage98-menu-open{overflow-x:clip!important;overflow-y:visible!important}
  body.stage98-menu-open::before{display:none!important;content:none!important;background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
  body.stage98-menu-open[data-x135="true"] .stage98-header{position:sticky!important;top:0!important;display:block!important;visibility:visible!important;opacity:1!important;overflow:visible!important;transform:translateY(0)!important;pointer-events:auto!important;filter:none!important;perspective:none!important;contain:none!important;will-change:transform!important}
  body.stage98-menu-open[data-x135="true"] .stage98-head{display:flex!important;visibility:visible!important;opacity:1!important;overflow:visible!important}
