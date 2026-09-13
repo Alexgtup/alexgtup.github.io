@@ -5,15 +5,17 @@ import hashlib,re,subprocess,sys
 ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 BUNDLE=ROOT/'assets'/'stage105-final-ui.css'
 CSS=ROOT/'assets'/'stage135-world-system.css'
+QA=ROOT/'assets'/'stage136-visual-qa.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
-for p in (BUNDLE,CSS,JS):
+for p in (BUNDLE,CSS,QA,JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
-css=CSS.read_text(encoding='utf-8').strip()
-if '/* stage135-world-system */' not in css: raise SystemExit('stage135: css marker missing')
-if '/* stage135-world-system */' not in bundle:
-    bundle=bundle.rstrip()+'\n\n'+css+'\n'
+for source,marker in ((CSS,'/* stage135-world-system */'),(QA,'/* stage136-visual-qa */')):
+    css=source.read_text(encoding='utf-8').strip()
+    if marker not in css: raise SystemExit(f'stage135: marker missing in {source.name}')
+    if marker not in bundle:
+        bundle=bundle.rstrip()+'\n\n'+css+'\n'
 BUNDLE.write_text(bundle,encoding='utf-8')
 subprocess.run(['node','--check',str(JS)],check=True)
 css_digest=hashlib.sha256(BUNDLE.read_bytes()).hexdigest()[:12]
@@ -53,4 +55,6 @@ for path in sorted(ROOT.rglob('*.html')):
 if changed<70: raise SystemExit(f'stage135: expected >=70 pages, got {changed}')
 for needed in ('guide','tool','international','cinematic'):
     if families.get(needed,0)==0: raise SystemExit(f'stage135: family missing: {needed}')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; all major page families unified')
+final_bundle=BUNDLE.read_text(encoding='utf-8')
+if '/* stage136-visual-qa */' not in final_bundle: raise SystemExit('stage135: final visual QA layer missing')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; all major page families unified + stage136 visual QA')
