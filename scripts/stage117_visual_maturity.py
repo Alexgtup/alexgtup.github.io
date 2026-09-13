@@ -19,6 +19,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage122-mobile-recovery.css", "/* stage122-mobile-recovery"),
     (ASSET_ROOT / "stage123-mobile-menu-surface.css", "/* stage123-mobile-menu-surface"),
     (ASSET_ROOT / "stage124-human-first.css", "/* stage124-human-first"),
+    (ASSET_ROOT / "stage125-human-first-depth.css", "/* stage125-human-first-depth"),
 )
 
 if not BUNDLE.is_file():
@@ -131,5 +132,10 @@ subprocess.run(
 # Apply the same progressive-disclosure principle to commercial entry pages.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage124_human_first_services.py")), str(ROOT)],
+    check=True,
+)
+# Humanize the remaining service entries and supporting hubs without touching search metadata.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage125_human_first_depth.py")), str(ROOT)],
     check=True,
 )
