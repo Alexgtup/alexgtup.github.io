@@ -10,7 +10,9 @@ body[data-page="home"] .s113-kicker {
   letter-spacing:.035em!important;
 }
 
-/* The section numbers read like internal presentation chrome to non-technical visitors. */
+/* The homepage already carries the brand in the header. Start with the promise,
+   not another technical label or numbered presentation slide. */
+body[data-page="home"] .s44-hero .s44-kicker,
 body[data-page="home"] .s44-section-head > .s44-index,
 body[data-page="home"] .portfolio-showcase__kicker,
 body[data-page="home"] .s113-kicker { display:none!important; }
@@ -41,6 +43,28 @@ body[data-page="home"] .s44-proofline {
 }
 body[data-page="home"] .s44-proofline > :nth-child(3) { display:none!important; }
 body[data-page="home"] .s44-proofline > :nth-child(2) { border-right:1px solid rgba(255,255,255,.07)!important; }
+
+/* Reviews already prove reputation. Do not repeat the same Freelance.ru proof
+   again in the next section. Reduce the process to three useful steps. */
+body[data-page="home"] #about .s44-trust-card { display:none!important; }
+body[data-page="home"] #about .s44-value-grid {
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:.8rem!important;
+}
+body[data-page="home"] #about .s44-value-grid > article:nth-child(2) { display:none!important; }
+body[data-page="home"] #about .s44-value-grid article > span {
+  font-family:inherit!important;
+  letter-spacing:.02em!important;
+  color:var(--ds-muted-2)!important;
+}
+
+/* Budget is useful to normal clients; internal category labels are not. */
+body[data-page="home"] #budget .s44-price-grid article > span { display:none!important; }
+body[data-page="home"] #budget .s44-price-grid strong {
+  display:block!important;
+  margin-bottom:.55rem!important;
+}
+body[data-page="home"] #budget .s44-price-grid h3 { margin-top:0!important; }
 
 /* Remove the second mini funnel before the actual contact form. */
 body[data-page="home"] .s102-fastlane { display:none!important; }
@@ -107,6 +131,10 @@ html[data-theme="light"] body[data-page="home"] details.s120-priority {
 }
 html[data-theme="light"] body[data-page="home"] details.s120-priority > nav.s101-more {
   border-top-color:rgba(18,20,24,.07)!important;
+}
+
+@media(max-width:900px){
+  body[data-page="home"] #about .s44-value-grid { grid-template-columns:minmax(0,1fr)!important; }
 }
 
 @media(max-width:820px){
