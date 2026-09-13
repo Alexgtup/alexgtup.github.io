@@ -10,7 +10,8 @@ SAFE=ROOT/'assets'/'stage137-motion-failsafe.css'
 SPECTACLE_CSS=ROOT/'assets'/'stage138-safe-spectacle.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
 SPECTACLE_JS=ROOT/'assets'/'stage138-safe-spectacle.js'
-for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,JS,SPECTACLE_JS):
+THEME_JS=ROOT/'assets'/'theme-system.js'
+for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,JS,SPECTACLE_JS,THEME_JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
@@ -27,9 +28,11 @@ for source,marker in (
 BUNDLE.write_text(bundle,encoding='utf-8')
 subprocess.run(['node','--check',str(JS)],check=True)
 subprocess.run(['node','--check',str(SPECTACLE_JS)],check=True)
+subprocess.run(['node','--check',str(THEME_JS)],check=True)
 css_digest=hashlib.sha256(BUNDLE.read_bytes()).hexdigest()[:12]
 js_digest=hashlib.sha256(JS.read_bytes()).hexdigest()[:12]
 spectacle_js_digest=hashlib.sha256(SPECTACLE_JS.read_bytes()).hexdigest()[:12]
+theme_js_digest=hashlib.sha256(THEME_JS.read_bytes()).hexdigest()[:12]
 
 changed=0; families={}; spectacle_pages=0
 for path in sorted(ROOT.rglob('*.html')):
@@ -55,6 +58,7 @@ for path in sorted(ROOT.rglob('*.html')):
     newbody=f'<body{attrs} data-x135="true" data-x135-family="{family}">'
     html=html[:bodym.start()]+newbody+html[bodym.end():]
     html=re.sub(r'(/assets/stage105-final-ui\.css)\?v=[^\"\']+',rf'\1?v={css_digest}',html,flags=re.I)
+    html=re.sub(r'(/assets/theme-system\.js)\?v=[^\"\']+',rf'\1?v={theme_js_digest}',html,flags=re.I)
     html=re.sub(r'<script\b[^>]*stage135-world-system\.js[^>]*></script>','',html,flags=re.I)
     html=re.sub(r'<script\b[^>]*stage138-safe-spectacle\.js[^>]*></script>','',html,flags=re.I)
     tag=f'<script defer src="/assets/stage135-world-system.js?v={js_digest}"></script>'
@@ -75,4 +79,4 @@ for needed in ('guide','tool','international','cinematic'):
 final_bundle=BUNDLE.read_text(encoding='utf-8')
 for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */'):
     if marker not in final_bundle: raise SystemExit(f'stage135: final layer missing: {marker}')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; theme={theme_js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle')
