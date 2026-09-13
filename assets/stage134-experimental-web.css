@@ -42,6 +42,22 @@ body[data-x134="true"] .x134-reactive:hover>.x134-hoverlight{opacity:.55}
 body[data-x134="true"] .stage98-header{view-transition-name:x134-header}
 ::view-transition-group(x134-header){animation-duration:.42s}
 
+/* Shared-element transitions: project preview morphs into the case cover. */
+body[data-wow-route="home"] a.p128-feature__media[href="/cases/fin-planner/"],
+body[data-wow-route="cases"] a.p130-tile[href="/cases/fin-planner/"] .p130-tile__media,
+body[data-wow-route="fin-planner"] .p132-cover-visual{view-transition-name:x134-fin}
+body[data-wow-route="home"] a.p128-feature__media[href="/cases/swift-calendar/"],
+body[data-wow-route="cases"] a.p130-tile[href="/cases/swift-calendar/"] .p130-tile__media,
+body[data-wow-route="swift-calendar"] .p132-cover-visual{view-transition-name:x134-swift}
+body[data-wow-route="home"] a.p128-feature__media[href="/cases/sheetpilot-ai/"],
+body[data-wow-route="cases"] a.p130-tile[href="/cases/sheetpilot-ai/"] .p130-tile__media,
+body[data-wow-route="sheetpilot-ai"] .p132-cover-visual{view-transition-name:x134-sheet}
+body[data-wow-route="home"] a.p128-feature__media[href="/cases/seo-control-center/"],
+body[data-wow-route="cases"] a.p130-tile[href="/cases/seo-control-center/"] .p130-tile__media,
+body[data-wow-route="seo-control-center"] .p132-cover-visual{view-transition-name:x134-seo}
+::view-transition-group(x134-fin),::view-transition-group(x134-swift),::view-transition-group(x134-sheet),::view-transition-group(x134-seo){animation-duration:.78s;animation-timing-function:cubic-bezier(.16,1,.3,1)}
+::view-transition-old(x134-fin),::view-transition-new(x134-fin),::view-transition-old(x134-swift),::view-transition-new(x134-swift),::view-transition-old(x134-sheet),::view-transition-new(x134-sheet),::view-transition-old(x134-seo),::view-transition-new(x134-seo){height:100%;object-fit:cover;overflow:clip;border-radius:inherit}
+
 @media(max-width:900px),(prefers-reduced-motion:reduce){
   .x134-webgl,.x134-scan,.x134-cursor{display:none!important}
   body[data-x134="true"] :is(.p128-feature,.p129-case-card,.p130-featured-card,.p132-cover-visual),body[data-x134="true"] :is(.p128-feature__media img,.p129-case-media img,.p130-featured-media img,.p132-cover-visual img),body[data-x134="true"] .p128-cap__list a{animation:none!important;transform:none!important;clip-path:none!important;filter:none!important}
