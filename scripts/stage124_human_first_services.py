@@ -164,8 +164,8 @@ services_path.write_text(services, encoding='utf-8')
 cases_path = route_file('/cases/')
 cases = cases_path.read_text(encoding='utf-8')
 cases, c1 = re.subn(
-    r'<h1 id="s50-title">.*?</h1>',
-    '<h1 id="s50-title">Примеры реальных проектов. <em>Что было сделано и как это работает.</em></h1>',
+    r'<h1(?:\s[^>]*)?>.*?</h1>',
+    '<h1>Примеры реальных проектов. <em>Что было сделано и как это работает.</em></h1>',
     cases,
     count=1,
     flags=re.S,
