@@ -3,9 +3,7 @@
    can composite above the dropdown despite the intended z-index ordering. */
 
 @media (max-width: 900px) {
-  /* Do not lock body scroll by changing overflow when the menu opens.
-     On mobile browsers that can reset the document scroll position, so a menu
-     opened near the bottom appears to jump back to the top. */
+  /* Keep the current document position when the menu opens. */
   body.stage98-menu-open {
     overflow-x:clip!important;
     overflow-y:auto!important;
@@ -19,7 +17,25 @@
     -webkit-backdrop-filter:none!important;
   }
 
+  /* The mobile menu must belong to the current viewport, not to the sticky
+     header at the top of the page. Present it as a bottom sheet so opening it
+     after scrolling never looks like the navigation jumped back to the top. */
   body[data-ux-family] .stage98-mobile-menu[open] > nav {
+    display:grid!important;
+    position:fixed!important;
+    top:auto!important;
+    right:1rem!important;
+    bottom:max(1rem, env(safe-area-inset-bottom))!important;
+    left:1rem!important;
+    width:auto!important;
+    min-width:0!important;
+    max-width:none!important;
+    height:auto!important;
+    max-height:calc(100dvh - 2rem - env(safe-area-inset-bottom))!important;
+    padding:.6rem!important;
+    overflow-y:auto!important;
+    overflow-x:hidden!important;
+    box-sizing:border-box!important;
     isolation:isolate!important;
     z-index:1000!important;
     opacity:1!important;
@@ -29,6 +45,7 @@
     -webkit-backdrop-filter:none!important;
     background:#0d1116!important;
     border:1px solid rgba(255,255,255,.11)!important;
+    border-radius:1rem!important;
     box-shadow:0 22px 54px rgba(0,0,0,.5)!important;
   }
 
