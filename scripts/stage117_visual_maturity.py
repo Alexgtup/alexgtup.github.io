@@ -20,6 +20,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage123-mobile-menu-surface.css", "/* stage123-mobile-menu-surface"),
     (ASSET_ROOT / "stage124-human-first.css", "/* stage124-human-first"),
     (ASSET_ROOT / "stage125-human-first-depth.css", "/* stage125-human-first-depth"),
+    (ASSET_ROOT / "stage127-wow-direction.css", "/* stage127-wow-direction"),
 )
 
 if not BUNDLE.is_file():
@@ -142,5 +143,10 @@ subprocess.run(
 # Remove the last machine-like labels from buyer-facing offer and related blocks.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage126_microcopy_cleanup.py")), str(ROOT)],
+    check=True,
+)
+# Final art direction: turn the homepage into a premium project-led portfolio, not a grid of repeated UI cards.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage127_wow_direction.py")), str(ROOT)],
     check=True,
 )
