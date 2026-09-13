@@ -40,15 +40,15 @@ main = r'''<main id="main-content" class="p128-home" data-stage128-home="true">
   <div class="p128-shell">
     <div class="p128-section-intro"><p>SELECTED WORK</p><h2 id="p128-work-title">Сначала работа. <span>Потом слова.</span></h2><a href="/cases/">Все кейсы ↗</a></div>
     <article class="p128-feature">
-      <a class="p128-feature__media" href="/cases/fin-planner/"><img src="/assets/cases/fin-planner/fin-planner-original-800w.webp" width="800" height="605" loading="lazy" decoding="async" alt="Fin Planner - Telegram-сервис для учета финансов"></a>
+      <a class="p128-feature__media" href="/cases/fin-planner/" aria-label="Открыть кейс Fin Planner"><img src="/assets/cases/fin-planner/fin-planner-original-800w.webp" width="800" height="605" loading="lazy" decoding="async" alt="Fin Planner - Telegram-сервис для учета финансов"></a>
       <div class="p128-feature__copy"><span>01 / TELEGRAM PRODUCT</span><h3>Fin Planner</h3><p>Бот для ежедневного учета денег: расходы, доходы, регулярные операции и отчёты внутри привычного Telegram.</p><a href="/cases/fin-planner/">Разобрать кейс ↗</a></div>
     </article>
     <article class="p128-feature p128-feature--reverse">
-      <a class="p128-feature__media" href="/cases/swift-calendar/"><img src="/assets/cases/swift-calendar/calendar-original-800w.webp" width="800" height="551" loading="lazy" decoding="async" alt="Swift Calendar - интерфейс iOS приложения"></a>
+      <a class="p128-feature__media" href="/cases/swift-calendar/" aria-label="Открыть кейс Swift Calendar"><img src="/assets/cases/swift-calendar/calendar-original-800w.webp" width="800" height="551" loading="lazy" decoding="async" alt="Swift Calendar - интерфейс iOS приложения"></a>
       <div class="p128-feature__copy"><span>02 / iOS PRODUCT</span><h3>Swift Calendar</h3><p>Нативное приложение с календарными сценариями, событиями и продуктовой логикой - без ощущения веб-страницы внутри телефона.</p><a href="/cases/swift-calendar/">Разобрать кейс ↗</a></div>
     </article>
     <article class="p128-feature">
-      <a class="p128-feature__media" href="/cases/sheetpilot-ai/"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" loading="lazy" decoding="async" alt="SheetPilot AI - веб-интерфейс обработки Excel"></a>
+      <a class="p128-feature__media" href="/cases/sheetpilot-ai/" aria-label="Открыть кейс SheetPilot AI"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" loading="lazy" decoding="async" alt="SheetPilot AI - веб-интерфейс обработки Excel"></a>
       <div class="p128-feature__copy"><span>03 / WEB PRODUCT</span><h3>SheetPilot AI</h3><p>Сервис, где Excel-файл меняется обычной фразой: загрузить, описать действие, проверить результат и скачать новую версию.</p><a href="/cases/sheetpilot-ai/">Открыть кейс и демо ↗</a></div>
     </article>
   </div>
