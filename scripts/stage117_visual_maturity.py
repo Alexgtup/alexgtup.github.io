@@ -128,3 +128,8 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage124_human_first.py")), str(ROOT)],
     check=True,
 )
+# Apply the same progressive-disclosure principle to commercial entry pages.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage124_human_first_services.py")), str(ROOT)],
+    check=True,
+)
