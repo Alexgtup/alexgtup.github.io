@@ -37,6 +37,17 @@ body[data-page="home"] .p128-home *::after{
   animation-range:normal!important;
 }
 
+/* Stage133 reveal CSS used opacity:0 as its resting state. Its runtime is
+   intentionally disabled on the homepage, so reveal nodes must be visible by
+   construction instead of waiting for JavaScript. */
+body[data-page="home"] .wow-reveal,
+body[data-page="home"] .wow-reveal.is-visible{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+  visibility:visible!important;
+}
+
 /* Remove runtime-only experimental surfaces from the homepage. */
 body[data-page="home"] :is(.x134-webgl,.x134-scan,.x134-cursor,.x135-scene,.x135-progress){
   display:none!important;
