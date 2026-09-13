@@ -1,12 +1,19 @@
 /* stage123-mobile-menu-surface
-   Keep the Stage98 mobile menu readable while the mobile header scrolls
-   naturally with the document. */
+   Keep the Stage98 mobile menu attached to the visible mobile header while the
+   header hides on downward scroll and returns on upward scroll. */
 
 @media (max-width: 900px) {
-  /* On mobile the header is part of the page flow, not sticky/fixed. */
   body[data-ux-family] .stage98-header {
-    position:relative!important;
-    top:auto!important;
+    position:sticky!important;
+    top:0!important;
+    transform:translateY(0)!important;
+    transition:transform .2s ease!important;
+    overflow:visible!important;
+  }
+
+  body.stage98-mobile-header-hidden:not(.stage98-menu-open)[data-ux-family] .stage98-header {
+    transform:translateY(calc(-100% - 2px))!important;
+    pointer-events:none!important;
   }
 
   body.stage98-menu-open {
@@ -22,8 +29,13 @@
     -webkit-backdrop-filter:none!important;
   }
 
-  /* The menu is anchored to the menu button/header and therefore scrolls away
-     together with the header when the user moves down the page. */
+  body.stage98-menu-open[data-ux-family] .stage98-header {
+    transform:translateY(0)!important;
+    pointer-events:auto!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+
   body[data-ux-family] .stage98-mobile-menu[open] > nav {
     display:grid!important;
     position:absolute!important;
@@ -44,6 +56,7 @@
     z-index:1000!important;
     opacity:1!important;
     visibility:visible!important;
+    transform:none!important;
     filter:none!important;
     backdrop-filter:none!important;
     -webkit-backdrop-filter:none!important;
