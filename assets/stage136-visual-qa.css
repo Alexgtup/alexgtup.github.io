@@ -27,21 +27,15 @@ body[data-x135-family="international"] .intl-hero h1{overflow-wrap:normal!import
 body[data-x135-family="tool"] .stage98-header svg,body[data-x135-family="product"] .stage98-header svg{width:36px!important;height:36px!important;max-width:36px!important;max-height:36px!important}
 
 @media(max-width:900px){
- body[data-x135="true"] .stage98-header{height:65px!important;min-height:65px!important}
+ /* Mobile header scrolls with the page instead of staying pinned to the viewport. */
+ body[data-x135="true"] .stage98-header{position:relative!important;top:auto!important;height:65px!important;min-height:65px!important}
  body[data-x135="true"] .stage98-head{height:65px!important;min-height:65px!important;width:calc(100% - 24px)!important;gap:12px!important}
  body[data-x135="true"] .stage98-nav{display:none!important}
  body[data-x135="true"] .stage98-mobile-menu{display:block!important}
  body[data-x135="true"] .stage98-mobile-menu:not([open])>nav{display:none!important}
 
- /* Chrome/WebKit may turn filtered sticky ancestors into containing blocks for
-    fixed descendants. Remove those triggers only while the menu is open. */
- body.stage98-menu-open[data-x135="true"] .stage98-header{transform:none!important;filter:none!important;perspective:none!important;contain:none!important;will-change:auto!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
- body.stage98-menu-open[data-x135="true"] .stage98-head,
- body.stage98-menu-open[data-x135="true"] .stage98-mobile-menu{transform:none!important;filter:none!important;perspective:none!important;contain:none!important;will-change:auto!important}
-
- /* Keep the dropdown at the top of the current viewport, directly below the
-    sticky header, while preserving the user's scroll position. */
- body[data-x135="true"] .stage98-mobile-menu[open]>nav{display:flex!important;flex-direction:column!important;gap:3px!important;position:fixed!important;right:12px!important;left:auto!important;top:73px!important;bottom:auto!important;width:min(320px,calc(100vw - 24px))!important;min-width:0!important;max-width:none!important;max-height:calc(100dvh - 85px - env(safe-area-inset-bottom))!important;overflow-y:auto!important;overflow-x:hidden!important;padding:10px!important;margin:0!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:16px!important;background:#090c0e!important;box-shadow:0 32px 90px rgba(0,0,0,.55)!important;z-index:214748100!important;filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ /* Menu stays attached to the header/button and scrolls away together with it. */
+ body[data-x135="true"] .stage98-mobile-menu[open]>nav{display:flex!important;flex-direction:column!important;gap:3px!important;position:absolute!important;right:0!important;left:auto!important;top:51px!important;bottom:auto!important;width:min(320px,calc(100vw - 24px))!important;min-width:0!important;max-width:none!important;max-height:calc(100dvh - 5.5rem)!important;overflow-y:auto!important;overflow-x:hidden!important;padding:10px!important;margin:0!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:16px!important;background:#090c0e!important;box-shadow:0 32px 90px rgba(0,0,0,.55)!important;z-index:214748100!important;filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>a{display:flex!important;align-items:center!important;min-height:46px!important;padding:0 13px!important;border-radius:10px!important;color:#d8dcda!important;text-decoration:none!important;font-size:14px!important;line-height:1.2!important;background:transparent!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>a:hover{background:rgba(255,255,255,.05)!important;color:#fff!important}
  body[data-x135="true"] .stage98-mobile-menu[open]>nav>.stage98-mobile-cta{margin-top:5px!important;background:#c9ff4a!important;color:#080a0b!important;font-weight:850!important;justify-content:center!important}
@@ -51,5 +45,5 @@ body[data-x135-family="tool"] .stage98-header svg,body[data-x135-family="product
  body[data-x135-family="tool"] .ux-tool-main>.dt-hero h1{max-width:10ch!important;font-size:clamp(43px,12vw,62px)!important;overflow-wrap:normal!important;word-break:normal!important}
  body[data-x135-family="product"] .fos-hero h1{max-width:10ch!important;font-size:clamp(45px,12.5vw,66px)!important;overflow-wrap:normal!important;word-break:normal!important}
  body[data-x135-family="demo"] .growth-hero h1{max-width:8.5ch!important;font-size:clamp(48px,13vw,68px)!important;overflow-wrap:normal!important;word-break:normal!important}
- body[data-x135="true"] :is(a,button,summary,input,select,textarea){scroll-margin-top:82px}
+ body[data-x135="true"] :is(a,button,summary,input,select,textarea){scroll-margin-top:18px}
 }
