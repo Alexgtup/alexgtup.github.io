@@ -22,6 +22,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage125-human-first-depth.css", "/* stage125-human-first-depth"),
     (ASSET_ROOT / "stage127-wow-direction.css", "/* stage127-wow-direction"),
     (ASSET_ROOT / "stage128-home-rebuild.css", "/* stage128-home-rebuild"),
+    (ASSET_ROOT / "stage129-site-rebuild.css", "/* stage129-site-rebuild"),
 )
 
 if not BUNDLE.is_file():
@@ -91,6 +92,8 @@ for required in (
     ".mobile-site-toggle",
     ".case-filter__list",
     ".p128-hero__visual",
+    ".p129-svc-grid",
+    ".p130-mosaic",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -141,9 +144,17 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage127_wow_direction.py")), str(ROOT)],
     check=True,
 )
-# Replace the legacy homepage DOM completely. This runs last so SEO metadata and
-# the shared shell remain intact while the old repeated section structure is discarded.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage128_home_rebuild.py")), str(ROOT)],
+    check=True,
+)
+# Replace the remaining legacy service and hub DOM families so the site does not
+# fall back to the old card system after leaving the homepage.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage129_service_rebuild.py")), str(ROOT)],
+    check=True,
+)
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage130_hub_rebuild.py")), str(ROOT)],
     check=True,
 )
