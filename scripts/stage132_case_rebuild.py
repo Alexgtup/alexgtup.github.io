@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import re,sys,html
+import re,sys,html,subprocess
 ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 CASES={
 '/cases/fin-planner/':('TELEGRAM PRODUCT','/assets/cases/fin-planner/fin-planner-original-800w.webp','800','605','FIN PLANNER'),
@@ -65,3 +65,8 @@ for route,(kicker,img,w,h,label) in CASES.items():
  src=src[:mm.start()]+new_main+src[mm.end():]
  f.write_text(src,encoding='utf-8'); changed.append(route)
 print(f'stage132 case rebuild: {len(changed)} detailed cases moved to editorial cover + story system')
+
+subprocess.run(
+ [sys.executable,str(Path(__file__).with_name('stage133_cinematic_system.py')),str(ROOT)],
+ check=True,
+)
