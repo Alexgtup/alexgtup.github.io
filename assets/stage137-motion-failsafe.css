@@ -28,6 +28,37 @@ body[data-x135="true"] :is(
   visibility:visible!important;
 }
 
+/* Homepage layout is structural, never animated. Only decorative descendants
+   may move. This prevents any old scroll/pointer/reveal layer from translating
+   the whole first screen out of the viewport. */
+body[data-page="home"] .p128-hero > .p128-shell,
+body[data-page="home"] .p128-hero__copy,
+body[data-page="home"] .p128-hero__visual,
+body[data-page="home"] .p128-proofbar{
+  animation:none!important;
+  animation-timeline:auto!important;
+  animation-range:normal!important;
+  translate:none!important;
+  scale:none!important;
+  rotate:none!important;
+  top:auto!important;
+  bottom:auto!important;
+  left:auto!important;
+  right:auto!important;
+  opacity:1!important;
+  visibility:visible!important;
+}
+body[data-page="home"] .p128-hero > .p128-shell,
+body[data-page="home"] .p128-hero__copy,
+body[data-page="home"] .p128-proofbar{
+  transform:none!important;
+  filter:none!important;
+}
+body[data-page="home"] .p128-hero > .p128-shell{
+  position:relative!important;
+  inset:auto!important;
+}
+
 /* Preserve a modern reveal without a hidden fallback. Native view timelines
    animate from a subtly softer state only while the section is entering. */
 @supports (animation-timeline:view()){
