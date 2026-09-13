@@ -15,6 +15,7 @@ ART_LAYERS = (
     (ASSET_ROOT / "stage118-real-work.css", "/* stage118-real-work"),
     (ASSET_ROOT / "stage119-case-editorial.css", "/* stage119-case-editorial"),
     (ASSET_ROOT / "stage120-hub-editorial.css", "/* stage120-hub-editorial"),
+    (ASSET_ROOT / "stage122-mobile-recovery.css", "/* stage122-mobile-recovery"),
 )
 
 if not BUNDLE.is_file():
@@ -68,6 +69,9 @@ for required in (
     ".s51-contact-card",
     ".s50-collage",
     ".s50-guide-grid",
+    ".stage98-mobile-menu:not([open]) > nav",
+    ".mobile-site-toggle",
+    ".case-filter__list",
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
@@ -86,7 +90,7 @@ if refs < 70:
 if problems:
     raise SystemExit("stage117 visual maturity failed:\n" + "\n".join(problems))
 
-print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case/hub editorial art direction applied")
+print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case/hub editorial art direction + mobile recovery applied")
 
 # Search discovery runs against the final DOM, after every content and visual generator.
 subprocess.run(
