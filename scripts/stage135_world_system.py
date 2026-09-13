@@ -6,12 +6,17 @@ ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 BUNDLE=ROOT/'assets'/'stage105-final-ui.css'
 CSS=ROOT/'assets'/'stage135-world-system.css'
 QA=ROOT/'assets'/'stage136-visual-qa.css'
+SAFE=ROOT/'assets'/'stage137-motion-failsafe.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
-for p in (BUNDLE,CSS,QA,JS):
+for p in (BUNDLE,CSS,QA,SAFE,JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
-for source,marker in ((CSS,'/* stage135-world-system */'),(QA,'/* stage136-visual-qa */')):
+for source,marker in (
+    (CSS,'/* stage135-world-system */'),
+    (QA,'/* stage136-visual-qa */'),
+    (SAFE,'/* stage137-motion-failsafe */'),
+):
     css=source.read_text(encoding='utf-8').strip()
     if marker not in css: raise SystemExit(f'stage135: marker missing in {source.name}')
     if marker not in bundle:
@@ -56,5 +61,6 @@ if changed<70: raise SystemExit(f'stage135: expected >=70 pages, got {changed}')
 for needed in ('guide','tool','international','cinematic'):
     if families.get(needed,0)==0: raise SystemExit(f'stage135: family missing: {needed}')
 final_bundle=BUNDLE.read_text(encoding='utf-8')
-if '/* stage136-visual-qa */' not in final_bundle: raise SystemExit('stage135: final visual QA layer missing')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; all major page families unified + stage136 visual QA')
+for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */'):
+    if marker not in final_bundle: raise SystemExit(f'stage135: final layer missing: {marker}')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; stage136 QA + stage137 motion fail-safe')
