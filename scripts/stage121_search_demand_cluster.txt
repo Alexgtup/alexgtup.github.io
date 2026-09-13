@@ -1,4 +1,17 @@
 from pathlib import Path
 import sys
-ROOT = Path(sys.argv[1] if len(sys.argv)>1 else '_site')
-print('ok')
+
+ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
+p = ROOT / 'cases' / 'fin-planner' / 'index.html'
+if not p.is_file():
+    raise SystemExit('stage121: Fin Planner missing')
+t = p.read_text(encoding='utf-8')
+t = t.replace('<title>Фин Планер — кейс Telegram-бота для бюджета и финансового анализа</title>', '<title>Telegram-бот для учёта расходов и доходов | Fin Planner</title>')
+t = t.replace('Кейс Telegram-бота Фин Планер: личный бюджет, доходы и расходы, регулярные платежи, баланс, отчёты, цели, прогноз и финансовый анализ в Telegram.', 'Кейс Telegram-бота для учёта расходов и доходов: личный бюджет, категории трат, баланс, регулярные платежи, отчёты, цели и финансовый анализ в Telegram.')
+t = t.replace('Фин Планер — кейс Telegram-бота для бюджета и финансового анализа', 'Telegram-бот для учёта расходов и доходов — Fin Planner')
+t = t.replace('"headline":"Фин Планер — кейс Telegram-бота для бюджета и финансового анализа"', '"headline":"Telegram-бот для учёта расходов и доходов — Fin Planner"')
+t = t.replace('"dateModified":"2026-09-06"', '"dateModified":"2026-09-13"')
+if 'Telegram-бот для учёта расходов и доходов' not in t:
+    raise SystemExit('stage121: search phrase missing after patch')
+p.write_text(t, encoding='utf-8')
+print('stage121: Fin Planner aligned to observed expense/income bot search demand')
