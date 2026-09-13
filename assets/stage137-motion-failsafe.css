@@ -1,0 +1,54 @@
+/* stage137-motion-failsafe */
+/* Motion must never be allowed to hide production content. Stage135 previously
+   used opacity:0 as the base state for IntersectionObserver reveals. If the
+   observer/script is delayed or fails, the page becomes a blank canvas. Keep
+   content visible by default and use motion only as progressive enhancement. */
+body[data-x135="true"] .x135-enter{
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+}
+
+/* The first viewport is especially critical: hero copy and CTA are never
+   animation-gated, regardless of family, route or runtime state. */
+body[data-x135="true"] :is(
+  .p128-hero,
+  .p129-svc-hero,
+  .p130-hero,
+  .p132-cover,
+  .hero,
+  .dt-hero,
+  .intl-hero,
+  .growth-hero,
+  .fos-hero
+){
+  opacity:1!important;
+  transform:none!important;
+  filter:none!important;
+  visibility:visible!important;
+}
+
+/* Preserve a modern reveal without a hidden fallback. Native view timelines
+   animate from a subtly softer state only while the section is entering. */
+@supports (animation-timeline:view()){
+  body[data-x135="true"] main > section:not(:first-of-type),
+  body[data-x135="true"] main article > section{
+    animation:x137-view-reveal linear both;
+    animation-timeline:view();
+    animation-range:entry 0% entry 38%;
+  }
+  @keyframes x137-view-reveal{
+    from{opacity:.72;transform:translateY(22px) scale(.995);filter:blur(4px)}
+    to{opacity:1;transform:none;filter:none}
+  }
+}
+
+@media (prefers-reduced-motion:reduce),(max-width:760px){
+  body[data-x135="true"] main > section,
+  body[data-x135="true"] main article > section{
+    animation:none!important;
+    opacity:1!important;
+    transform:none!important;
+    filter:none!important;
+  }
+}
