@@ -1,0 +1,53 @@
+/* stage123-mobile-menu-surface
+   Keep the Stage98 mobile menu readable on browsers where the old page backdrop
+   can composite above the dropdown despite the intended z-index ordering. */
+
+@media (max-width: 900px) {
+  body.stage98-menu-open::before {
+    display:none!important;
+    content:none!important;
+    background:transparent!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+  }
+
+  body[data-ux-family] .stage98-mobile-menu[open] > nav {
+    isolation:isolate!important;
+    z-index:1000!important;
+    opacity:1!important;
+    visibility:visible!important;
+    filter:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    background:#0d1116!important;
+    border:1px solid rgba(255,255,255,.11)!important;
+    box-shadow:0 22px 54px rgba(0,0,0,.5)!important;
+  }
+
+  body[data-ux-family] .stage98-mobile-menu[open] > nav > a,
+  body[data-ux-family] .stage98-mobile-menu[open] > nav .theme-toggle--mobile {
+    opacity:1!important;
+    filter:none!important;
+    color:#d6dbe0!important;
+  }
+
+  body[data-ux-family] .stage98-mobile-menu[open] > nav > a[aria-current="page"] {
+    background:#151b22!important;
+    color:#f2f5f1!important;
+  }
+
+  body[data-ux-family] .stage98-mobile-menu[open] > nav .stage98-mobile-cta {
+    background:var(--ds-accent,#c9ff4a)!important;
+    color:#090b08!important;
+  }
+}
+
+html[data-theme="light"] body[data-ux-family] .stage98-mobile-menu[open] > nav {
+  background:#fff!important;
+  border-color:rgba(18,20,24,.12)!important;
+  box-shadow:0 22px 54px rgba(25,30,35,.16)!important;
+}
+html[data-theme="light"] body[data-ux-family] .stage98-mobile-menu[open] > nav > a,
+html[data-theme="light"] body[data-ux-family] .stage98-mobile-menu[open] > nav .theme-toggle--mobile {
+  color:#31373d!important;
+}
