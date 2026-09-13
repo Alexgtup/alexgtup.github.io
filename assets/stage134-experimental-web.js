@@ -2,6 +2,7 @@
 (() => {
   const body = document.body;
   if (!body || body.dataset.x134 !== 'true') return;
+  if (body.dataset.page === 'home') return;
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = matchMedia('(pointer: coarse)').matches;
@@ -16,7 +17,6 @@
     hero.prepend(scan);
   }
 
-  // Add a light field to important digital objects without changing their content.
   if (fineDesktop) {
     document.querySelectorAll('.p128-feature,.p129-case-card,.p130-featured-card,.p132-cover-visual').forEach((el) => {
       el.classList.add('x134-reactive');
@@ -32,7 +32,6 @@
       }, { passive: true });
     });
 
-    // Precision cursor: only for mouse/trackpad users, never touch users.
     const cursor = document.createElement('div');
     cursor.className = 'x134-cursor';
     cursor.setAttribute('aria-hidden', 'true');
@@ -57,7 +56,6 @@
 
   if (!hero || !fineDesktop || saveData) return;
 
-  // Native WebGL fragment field. No framework, no external dependency.
   const canvas = document.createElement('canvas');
   canvas.className = 'x134-webgl';
   canvas.setAttribute('aria-hidden', 'true');
