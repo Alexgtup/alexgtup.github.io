@@ -9,6 +9,7 @@ import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 BUNDLE = ROOT / "assets" / "stage105-final-ui.css"
+ENHANCEMENTS = ROOT / "assets" / "site-enhancements.js"
 ASSET_ROOT = Path(__file__).resolve().parents[1] / "assets"
 ART_LAYERS = (
     (ASSET_ROOT / "stage117-visual-maturity.css", "/* stage117-visual-maturity"),
@@ -31,6 +32,20 @@ for source, marker in ART_LAYERS:
     if marker not in text:
         text = text.rstrip() + "\n\n" + css + "\n"
 BUNDLE.write_text(text, encoding="utf-8")
+
+# Stage 98 owns the current navigation. The older Stage 10 script used to add a
+# second hamburger/drawer on every non-home page after load. Patch the copied
+# production JS so that legacy navigation exits as soon as Stage 98 is present.
+if not ENHANCEMENTS.is_file():
+    raise SystemExit("stage117: site enhancements script missing")
+legacy_guard = "if (document.body?.dataset.page === 'home' || document.querySelector('.mobile-site-toggle')) return;"
+stage98_guard = "if (document.body?.dataset.page === 'home' || document.querySelector('.stage98-mobile-menu') || document.querySelector('.mobile-site-toggle')) return;"
+js = ENHANCEMENTS.read_text(encoding="utf-8")
+if legacy_guard in js:
+    js = js.replace(legacy_guard, stage98_guard, 1)
+elif stage98_guard not in js:
+    raise SystemExit("stage117: legacy mobile navigation guard not found")
+ENHANCEMENTS.write_text(js, encoding="utf-8")
 
 bundle_text = BUNDLE.read_text(encoding="utf-8")
 digest = hashlib.sha256(bundle_text.encode("utf-8")).hexdigest()[:12]
@@ -75,6 +90,8 @@ for required in (
 ):
     if required not in bundle_text:
         problems.append(f"missing visual maturity rule: {required}")
+if stage98_guard not in ENHANCEMENTS.read_text(encoding="utf-8"):
+    problems.append("legacy mobile navigation still active")
 if not home_seen:
     problems.append("home marker not found")
 if not cases_seen:
@@ -90,7 +107,7 @@ if refs < 70:
 if problems:
     raise SystemExit("stage117 visual maturity failed:\n" + "\n".join(problems))
 
-print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; home/service/case/hub editorial art direction + mobile recovery applied")
+print(f"stage117 visual maturity: pages={pages}; cache_refs={refs}; bundle={digest}; editorial art direction + mobile recovery applied")
 
 # Search discovery runs against the final DOM, after every content and visual generator.
 subprocess.run(
