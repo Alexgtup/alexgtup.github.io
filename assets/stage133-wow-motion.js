@@ -2,6 +2,7 @@
 (() => {
   const body = document.body;
   if (!body || body.dataset.wow !== 'true') return;
+  if (body.dataset.page === 'home') return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = window.matchMedia('(pointer: coarse)').matches;
