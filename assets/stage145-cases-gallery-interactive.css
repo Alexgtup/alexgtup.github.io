@@ -1,0 +1,75 @@
+/* stage145-cases-gallery-interactive */
+/* Interactive exhibition surface for the cases index. WebGL sits behind the case cards;
+   this CSS provides the static fallback and final stacking order. */
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(ellipse 72% 42% at 18% 18%,rgba(255,117,91,.17) 0%,rgba(255,117,91,.07) 43%,transparent 72%),
+    radial-gradient(ellipse 64% 40% at 86% 34%,rgba(113,119,255,.17) 0%,rgba(113,119,255,.07) 44%,transparent 74%),
+    radial-gradient(ellipse 58% 34% at 54% 88%,rgba(199,255,74,.12) 0%,rgba(199,255,74,.04) 52%,transparent 76%),
+    linear-gradient(145deg,#ece8df 0%,#e9e7e2 44%,#e8e6df 100%)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section::before{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:0!important;
+  pointer-events:none!important;
+  background:
+    radial-gradient(circle at 79% 18%,transparent 0 11.5%,rgba(56,58,72,.095) 11.65% 11.8%,transparent 11.95% 20.5%,rgba(255,255,255,.42) 20.65% 20.8%,transparent 20.95%),
+    radial-gradient(circle at 14% 78%,transparent 0 13.5%,rgba(75,63,60,.07) 13.65% 13.8%,transparent 13.95%),
+    radial-gradient(rgba(39,39,44,.075) .5px,transparent .6px);
+  background-size:auto,auto,7px 7px;
+  opacity:.62!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section>.p130-shell{
+  position:relative!important;
+  z-index:2!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-cases-webgl{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  z-index:1!important;
+  pointer-events:none!important;
+  opacity:.82!important;
+  mix-blend-mode:multiply!important;
+  filter:saturate(1.08) contrast(1.025)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile{
+  position:relative!important;
+  isolation:isolate!important;
+  transition:transform .32s cubic-bezier(.2,.75,.2,1),box-shadow .32s ease,filter .32s ease!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  opacity:0;
+  background:radial-gradient(340px circle at var(--x145-card-x,50%) var(--x145-card-y,50%),rgba(255,255,255,.14),transparent 60%);
+  mix-blend-mode:screen;
+  transition:opacity .24s ease;
+}
+@media (hover:hover) and (pointer:fine){
+  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile:hover{
+    transform:translateY(-6px)!important;
+    box-shadow:0 34px 90px rgba(17,15,13,.16),0 0 0 1px rgba(255,255,255,.16) inset!important;
+    filter:saturate(1.035)!important;
+  }
+  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile:hover::after{opacity:1}
+}
+@media (max-width:900px),(prefers-reduced-motion:reduce){
+  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-cases-webgl{display:none!important}
+  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section{
+    background:
+      radial-gradient(ellipse 82% 25% at 18% 11%,rgba(255,117,91,.13),transparent 72%),
+      radial-gradient(ellipse 80% 28% at 100% 42%,rgba(113,119,255,.13),transparent 74%),
+      radial-gradient(ellipse 86% 24% at 40% 92%,rgba(199,255,74,.08),transparent 76%),
+      linear-gradient(145deg,#ece8df 0%,#e9e7e2 52%,#e8e6df 100%)!important;
+  }
+}
