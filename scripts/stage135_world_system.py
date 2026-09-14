@@ -13,11 +13,13 @@ EDITORIAL_CSS=ROOT/'assets'/'stage140-editorial-layout.css'
 SERVICE_STAGE_CSS=ROOT/'assets'/'stage141-service-stage.css'
 RECOVERY_CSS=ROOT/'assets'/'stage142-layout-recovery.css'
 HOME_GALLERY_CSS=ROOT/'assets'/'stage143-home-gallery-premium.css'
+CASES_GALLERY_CSS=ROOT/'assets'/'stage145-cases-gallery-interactive.css'
 JS=ROOT/'assets'/'stage135-world-system.js'
 SPECTACLE_JS=ROOT/'assets'/'stage138-safe-spectacle.js'
 HOME_WEBGL_JS=ROOT/'assets'/'stage144-home-gallery-webgl.js'
+CASES_GALLERY_JS=ROOT/'assets'/'stage145-cases-gallery-interactive.js'
 THEME_JS=ROOT/'assets'/'theme-system.js'
-for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,HUB_CSS,EDITORIAL_CSS,SERVICE_STAGE_CSS,RECOVERY_CSS,HOME_GALLERY_CSS,JS,SPECTACLE_JS,HOME_WEBGL_JS,THEME_JS):
+for p in (BUNDLE,CSS,QA,SAFE,SPECTACLE_CSS,HUB_CSS,EDITORIAL_CSS,SERVICE_STAGE_CSS,RECOVERY_CSS,HOME_GALLERY_CSS,CASES_GALLERY_CSS,JS,SPECTACLE_JS,HOME_WEBGL_JS,CASES_GALLERY_JS,THEME_JS):
     if not p.is_file(): raise SystemExit(f'stage135: missing {p}')
 
 bundle=BUNDLE.read_text(encoding='utf-8')
@@ -31,6 +33,7 @@ for source,marker in (
     (SERVICE_STAGE_CSS,'/* stage141-service-stage */'),
     (RECOVERY_CSS,'/* stage142-layout-recovery */'),
     (HOME_GALLERY_CSS,'/* stage143-home-gallery-premium */'),
+    (CASES_GALLERY_CSS,'/* stage145-cases-gallery-interactive */'),
 ):
     css=source.read_text(encoding='utf-8').strip()
     if marker not in css: raise SystemExit(f'stage135: marker missing in {source.name}')
@@ -40,14 +43,16 @@ BUNDLE.write_text(bundle,encoding='utf-8')
 subprocess.run(['node','--check',str(JS)],check=True)
 subprocess.run(['node','--check',str(SPECTACLE_JS)],check=True)
 subprocess.run(['node','--check',str(HOME_WEBGL_JS)],check=True)
+subprocess.run(['node','--check',str(CASES_GALLERY_JS)],check=True)
 subprocess.run(['node','--check',str(THEME_JS)],check=True)
 css_digest=hashlib.sha256(BUNDLE.read_bytes()).hexdigest()[:12]
 js_digest=hashlib.sha256(JS.read_bytes()).hexdigest()[:12]
 spectacle_js_digest=hashlib.sha256(SPECTACLE_JS.read_bytes()).hexdigest()[:12]
 home_webgl_js_digest=hashlib.sha256(HOME_WEBGL_JS.read_bytes()).hexdigest()[:12]
+cases_gallery_js_digest=hashlib.sha256(CASES_GALLERY_JS.read_bytes()).hexdigest()[:12]
 theme_js_digest=hashlib.sha256(THEME_JS.read_bytes()).hexdigest()[:12]
 
-changed=0; families={}; spectacle_pages=0
+changed=0; families={}; spectacle_pages=0; cases_gallery_pages=0
 for path in sorted(ROOT.rglob('*.html')):
     html=path.read_text(encoding='utf-8',errors='ignore')
     if '<body' not in html or '<main' not in html: continue
@@ -75,11 +80,15 @@ for path in sorted(ROOT.rglob('*.html')):
     html=re.sub(r'<script\b[^>]*stage135-world-system\.js[^>]*></script>','',html,flags=re.I)
     html=re.sub(r'<script\b[^>]*stage138-safe-spectacle\.js[^>]*></script>','',html,flags=re.I)
     html=re.sub(r'<script\b[^>]*stage144-home-gallery-webgl\.js[^>]*></script>','',html,flags=re.I)
+    html=re.sub(r'<script\b[^>]*stage145-cases-gallery-interactive\.js[^>]*></script>','',html,flags=re.I)
     tag=f'<script defer src="/assets/stage135-world-system.js?v={js_digest}"></script>'
     if rel=='index.html':
         tag+=f'<script defer src="/assets/stage138-safe-spectacle.js?v={spectacle_js_digest}"></script>'
         tag+=f'<script defer src="/assets/stage144-home-gallery-webgl.js?v={home_webgl_js_digest}"></script>'
         spectacle_pages+=1
+    if rel=='cases/index.html':
+        tag+=f'<script defer src="/assets/stage145-cases-gallery-interactive.js?v={cases_gallery_js_digest}"></script>'
+        cases_gallery_pages+=1
     if '</body>' not in html: raise SystemExit(f'stage135: closing body missing {rel}')
     html=html.replace('</body>',tag+'</body>',1)
     path.write_text(html,encoding='utf-8')
@@ -87,9 +96,10 @@ for path in sorted(ROOT.rglob('*.html')):
 
 if changed<70: raise SystemExit(f'stage135: expected >=70 pages, got {changed}')
 if spectacle_pages!=1: raise SystemExit(f'stage138: expected exactly one homepage, got {spectacle_pages}')
+if cases_gallery_pages!=1: raise SystemExit(f'stage145: expected exactly one cases gallery, got {cases_gallery_pages}')
 for needed in ('guide','tool','international','cinematic'):
     if families.get(needed,0)==0: raise SystemExit(f'stage135: family missing: {needed}')
 final_bundle=BUNDLE.read_text(encoding='utf-8')
-for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */','/* stage139-hub-art-direction */','/* stage140-editorial-layout */','/* stage141-service-stage */','/* stage142-layout-recovery */','/* stage143-home-gallery-premium */'):
+for marker in ('/* stage136-visual-qa */','/* stage137-motion-failsafe */','/* stage138-safe-spectacle */','/* stage139-hub-art-direction */','/* stage140-editorial-layout */','/* stage141-service-stage */','/* stage142-layout-recovery */','/* stage143-home-gallery-premium */','/* stage145-cases-gallery-interactive */'):
     if marker not in final_bundle: raise SystemExit(f'stage135: final layer missing: {marker}')
-print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; theme={theme_js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle + stage139 hub art direction + stage140 editorial layout + stage141 service stage + stage142 layout recovery + stage143 premium home gallery + stage144 home gallery WebGL')
+print(f'stage135 world system: pages={changed}; families={families}; css={css_digest}; js={js_digest}; theme={theme_js_digest}; stage136 QA + stage137 fail-safe + stage138 safe spectacle + stage139 hub art direction + stage140 editorial layout + stage141 service stage + stage142 layout recovery + stage143 premium home gallery + stage144 home gallery WebGL + stage145 interactive cases gallery')
