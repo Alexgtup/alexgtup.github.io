@@ -168,3 +168,9 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage132_case_rebuild.py")), str(ROOT)],
     check=True,
 )
+# Final search-depth pass: strengthen the six indexed/commercial entry points
+# after all rebuild and cinematic stages have finished mutating the DOM.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage147_search_depth_final.py")), str(ROOT)],
+    check=True,
+)
