@@ -174,3 +174,9 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage147_search_depth_final.py")), str(ROOT)],
     check=True,
 )
+# Then strengthen the hubs and the next high-intent Telegram repair entry so
+# indexed service pages have useful crawl paths into cases and decision guides.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage148_discovery_hubs.py")), str(ROOT)],
+    check=True,
+)
