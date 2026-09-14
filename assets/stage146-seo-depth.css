@@ -78,7 +78,7 @@ body[data-x135-family="cinematic"] .x146-depth__links a{
   color:rgba(241,243,245,.78);
   text-decoration:none;
   font-size:.74rem;
-  transition:border-color .2s ease,background .2s ease,color .2s ease;
+  transition:border-color .2s ease,background .2s ease,color .2s ease,transform .2s ease;
 }
 @media (hover:hover) and (pointer:fine){
   body[data-x135-family="cinematic"] .x146-depth__links a:hover{
@@ -87,8 +87,55 @@ body[data-x135-family="cinematic"] .x146-depth__links a{
     color:#f7f8f4;
   }
 }
+
+/* Stage148 reuses this content module on the light Stage130 hub pages.
+   Those pages must not inherit the dark cinematic palette above. */
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth{
+  color:#171914!important;
+  border-top:1px solid rgba(31,34,27,.10)!important;
+  border-bottom:1px solid rgba(31,34,27,.10)!important;
+  background:
+    radial-gradient(ellipse 52% 42% at 4% 0%,rgba(199,222,75,.10),transparent 72%),
+    radial-gradient(ellipse 46% 38% at 96% 100%,rgba(198,112,91,.07),transparent 74%),
+    linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.03))!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth h2,
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__card h3{
+  color:#171914!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__eyebrow{
+  color:rgba(34,38,30,.56)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__intro{
+  color:rgba(31,35,28,.76)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__card{
+  border-color:rgba(31,34,27,.10)!important;
+  background:rgba(255,255,255,.34)!important;
+  box-shadow:0 12px 34px rgba(53,49,41,.035)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__card p{
+  color:rgba(34,38,31,.72)!important;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__links a{
+  border-color:rgba(31,34,27,.14)!important;
+  background:rgba(255,255,255,.38)!important;
+  color:rgba(24,27,22,.82)!important;
+}
+@media (hover:hover) and (pointer:fine){
+  body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__links a:hover{
+    border-color:rgba(119,143,29,.42)!important;
+    background:rgba(201,255,74,.24)!important;
+    color:#11140d!important;
+    transform:translateY(-1px);
+  }
+}
+
 @media(max-width:900px){
   body[data-x135-family="cinematic"] .x146-depth__head{grid-template-columns:1fr;gap:.8rem}
   body[data-x135-family="cinematic"] .x146-depth__grid{grid-template-columns:1fr}
   body[data-x135-family="cinematic"] .x146-depth__card{border-radius:1rem}
+  body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth{
+    padding:clamp(3.2rem,11vw,5rem) 0;
+  }
 }
