@@ -131,11 +131,57 @@ body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth__links a{
   }
 }
 
+/* Hard guard for Stage130 hubs. Do not depend on body theme markers: the hub
+   itself is the source of truth. This also beats stale/late cinematic colors. */
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"]{
+  color:#171914!important;
+  border-color:rgba(31,34,27,.11)!important;
+  background:
+    radial-gradient(ellipse 52% 42% at 4% 0%,rgba(199,222,75,.10),transparent 72%),
+    radial-gradient(ellipse 46% 38% at 96% 100%,rgba(198,112,91,.07),transparent 74%),
+    linear-gradient(180deg,rgba(255,255,255,.30),rgba(255,255,255,.08))!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] :is(h2,h3){
+  color:#151712!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__eyebrow{
+  color:#62685b!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__intro{
+  color:#464b42!important;
+  opacity:1!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__card{
+  border-color:rgba(31,34,27,.12)!important;
+  background:rgba(255,255,255,.56)!important;
+  box-shadow:0 14px 38px rgba(53,49,41,.045)!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__card p{
+  color:#555b50!important;
+  opacity:1!important;
+}
+main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__links a{
+  border-color:rgba(31,34,27,.18)!important;
+  background:rgba(255,255,255,.62)!important;
+  color:#242820!important;
+  opacity:1!important;
+}
+@media (hover:hover) and (pointer:fine){
+  main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"] .x146-depth__links a:hover{
+    border-color:rgba(119,143,29,.46)!important;
+    background:rgba(201,255,74,.30)!important;
+    color:#11140d!important;
+  }
+}
+
 @media(max-width:900px){
   body[data-x135-family="cinematic"] .x146-depth__head{grid-template-columns:1fr;gap:.8rem}
   body[data-x135-family="cinematic"] .x146-depth__grid{grid-template-columns:1fr}
   body[data-x135-family="cinematic"] .x146-depth__card{border-radius:1rem}
   body[data-x135-family="cinematic"] [data-stage130-hub] .x146-depth{
+    padding:clamp(3.2rem,11vw,5rem) 0;
+  }
+  main.p130-hub[data-stage130-hub] > .x146-depth[data-stage148-discovery="true"]{
     padding:clamp(3.2rem,11vw,5rem) 0;
   }
 }
