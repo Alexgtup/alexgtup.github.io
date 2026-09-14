@@ -1,19 +1,19 @@
 /* stage145-cases-gallery-interactive */
-/* Cases should feel like an interactive exhibition field, not cards on a wallpaper.
-   The static layer remains readable without JS; WebGL + the network map progressively
-   add depth on capable desktop devices. */
+/* Liquid editorial canvas for the cases index: soft material motion, a responsive
+   glass lens and restrained card depth. The visual stays quiet enough for the work. */
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section{
+  --x145-px:50%;
+  --x145-py:36%;
   position:relative!important;
   isolation:isolate!important;
   overflow:hidden!important;
   background:
-    radial-gradient(ellipse 70% 44% at 10% 8%,rgba(255,111,82,.24) 0%,rgba(255,111,82,.08) 45%,transparent 72%),
-    radial-gradient(ellipse 62% 42% at 94% 28%,rgba(100,105,255,.22) 0%,rgba(100,105,255,.07) 45%,transparent 73%),
-    radial-gradient(ellipse 56% 36% at 42% 94%,rgba(190,235,62,.16) 0%,rgba(190,235,62,.045) 54%,transparent 76%),
-    linear-gradient(142deg,#eeeae1 0%,#e9e7e1 43%,#ebe8df 100%)!important;
+    radial-gradient(ellipse 74% 48% at 12% 7%,rgba(208,224,104,.24),transparent 68%),
+    radial-gradient(ellipse 60% 42% at 92% 26%,rgba(214,124,102,.20),transparent 70%),
+    linear-gradient(145deg,#f0ece3 0%,#e9e6de 46%,#ece8df 100%)!important;
 }
 
-/* Printed-grid / exhibition-map fallback. */
+/* Fine paper grain + barely-visible editorial rings. */
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section::before{
   content:""!important;
   position:absolute!important;
@@ -21,13 +21,12 @@ body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-sectio
   z-index:0!important;
   pointer-events:none!important;
   background:
-    linear-gradient(90deg,transparent calc(50% - .5px),rgba(52,50,58,.045) 50%,transparent calc(50% + .5px)),
-    radial-gradient(circle at 82% 17%,transparent 0 9.8%,rgba(45,45,58,.10) 10% 10.14%,transparent 10.3% 18.2%,rgba(255,255,255,.52) 18.35% 18.5%,transparent 18.7%),
-    radial-gradient(circle at 11% 76%,transparent 0 12%,rgba(72,61,58,.075) 12.18% 12.32%,transparent 12.5%),
-    repeating-linear-gradient(0deg,transparent 0 67px,rgba(54,55,61,.035) 68px,transparent 69px),
-    radial-gradient(rgba(36,37,42,.085) .48px,transparent .58px);
-  background-size:auto,auto,auto,auto,7px 7px;
-  opacity:.74!important;
+    radial-gradient(circle at 82% 16%,transparent 0 10%,rgba(41,43,38,.085) 10.12% 10.25%,transparent 10.4% 18.8%,rgba(255,255,255,.50) 18.95% 19.08%,transparent 19.24%),
+    radial-gradient(circle at 13% 80%,transparent 0 13.2%,rgba(52,55,49,.055) 13.35% 13.48%,transparent 13.65%),
+    radial-gradient(rgba(29,31,27,.075) .45px,transparent .58px),
+    linear-gradient(180deg,rgba(255,255,255,.24),transparent 20%,rgba(58,54,46,.025));
+  background-size:auto,auto,6px 6px,auto;
+  opacity:.68!important;
 }
 
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section>.p130-shell{
@@ -35,7 +34,7 @@ body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-sectio
   z-index:4!important;
 }
 
-/* The shader and the generated connection map stay behind every card. */
+/* WebGL paint layer. */
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-cases-webgl{
   position:absolute!important;
   inset:0!important;
@@ -43,62 +42,71 @@ body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-cases-webgl
   height:100%!important;
   z-index:1!important;
   pointer-events:none!important;
-  opacity:.96!important;
+  opacity:.92!important;
   mix-blend-mode:multiply!important;
-  filter:saturate(1.14) contrast(1.035)!important;
-}
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-network{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:2;
-  overflow:visible;
-  pointer-events:none;
-  opacity:.72;
-  mix-blend-mode:multiply;
-}
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-network path{
-  fill:none;
-  stroke:rgba(57,55,67,.20);
-  stroke-width:1;
-  stroke-dasharray:3 9;
-  vector-effect:non-scaling-stroke;
-  transition:stroke .24s ease,stroke-width .24s ease,opacity .24s ease;
-}
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-network path.is-hot{
-  stroke:rgba(113,84,255,.56);
-  stroke-width:1.65;
-  opacity:1;
-}
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-network circle{
-  fill:#ebe8df;
-  stroke:rgba(51,49,59,.28);
-  stroke-width:1;
-  vector-effect:non-scaling-stroke;
+  filter:saturate(1.04) contrast(1.015)!important;
 }
 
-/* Small edge labels make the gallery read like a curated index. */
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-field-label{
+/* A real material lens follows the pointer behind the cards. */
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-liquid-lens{
   position:absolute;
+  left:0;
+  top:0;
+  width:clamp(190px,18vw,300px);
+  aspect-ratio:1;
+  z-index:2;
+  pointer-events:none;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.54);
+  background:
+    radial-gradient(circle at 38% 30%,rgba(255,255,255,.40),rgba(255,255,255,.06) 34%,rgba(196,215,108,.08) 62%,rgba(194,111,94,.08) 100%);
+  box-shadow:
+    0 30px 80px rgba(73,64,50,.11),
+    inset 0 0 0 1px rgba(47,49,43,.045),
+    inset 18px 16px 42px rgba(255,255,255,.20);
+  backdrop-filter:blur(10px) saturate(1.12);
+  -webkit-backdrop-filter:blur(10px) saturate(1.12);
+  transform:translate3d(-50%,-50%,0);
+  opacity:.72;
+  transition:opacity .25s ease;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section:not(.is-x145-active) .x145-liquid-lens{opacity:.22}
+
+/* Oversized index mark instead of a constellation/network. */
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-index-mark{
+  position:absolute;
+  right:-.015em;
+  bottom:-.14em;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(39,42,36,.10);
+  font:900 clamp(150px,24vw,430px)/.76 Arial,sans-serif;
+  letter-spacing:-.105em;
+  white-space:nowrap;
+  opacity:.9;
+}
+body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-index-caption{
+  position:absolute;
+  left:18px;
+  bottom:20px;
   z-index:3;
   pointer-events:none;
-  color:rgba(40,39,44,.43);
+  color:rgba(35,37,33,.42);
   font:750 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
-  letter-spacing:.22em;
+  letter-spacing:.24em;
   text-transform:uppercase;
-  writing-mode:vertical-rl;
 }
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-field-label--left{left:14px;top:92px}
-body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-field-label--right{right:14px;bottom:92px;transform:rotate(180deg)}
 
+/* Cards get a soft photographic highlight, not a neon/game border. */
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile{
   --x145-rx:0deg;
   --x145-ry:0deg;
   position:relative!important;
   isolation:isolate!important;
   transform-style:preserve-3d!important;
-  transition:transform .34s cubic-bezier(.18,.8,.2,1),box-shadow .34s ease,filter .34s ease!important;
+  transition:transform .38s cubic-bezier(.18,.78,.2,1),box-shadow .38s ease,filter .38s ease!important;
 }
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile::before{
   content:"";
@@ -107,14 +115,14 @@ body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile::befor
   z-index:5;
   pointer-events:none;
   border-radius:inherit;
-  opacity:0;
-  background:conic-gradient(from var(--x145-angle,0deg) at var(--x145-card-x,50%) var(--x145-card-y,50%),transparent 0 18%,rgba(199,255,74,.16) 28%,rgba(104,108,255,.20) 42%,rgba(255,112,80,.17) 58%,transparent 74% 100%);
-  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  mask-composite:exclude;
-  -webkit-mask-composite:xor;
   padding:1px;
-  transition:opacity .22s ease;
+  opacity:0;
+  background:linear-gradient(132deg,rgba(255,255,255,.62),rgba(195,211,116,.20) 34%,rgba(210,126,103,.20) 68%,rgba(255,255,255,.40));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude;
+  transition:opacity .24s ease;
 }
 body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile::after{
   content:"";
@@ -124,35 +132,29 @@ body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile::after
   pointer-events:none;
   opacity:0;
   background:
-    radial-gradient(320px circle at var(--x145-card-x,50%) var(--x145-card-y,50%),rgba(255,255,255,.18),transparent 58%),
-    radial-gradient(180px circle at var(--x145-card-x,50%) var(--x145-card-y,50%),rgba(199,255,74,.065),transparent 72%);
+    radial-gradient(360px circle at var(--x145-card-x,50%) var(--x145-card-y,50%),rgba(255,255,255,.19),transparent 58%),
+    linear-gradient(125deg,transparent 38%,rgba(255,255,255,.045) 50%,transparent 62%);
   mix-blend-mode:screen;
-  transition:opacity .22s ease;
+  transition:opacity .24s ease;
 }
 
 @media (hover:hover) and (pointer:fine){
   body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile:hover{
-    transform:perspective(1100px) translateY(-9px) rotateX(var(--x145-rx)) rotateY(var(--x145-ry))!important;
-    box-shadow:0 40px 105px rgba(17,15,13,.20),0 0 0 1px rgba(255,255,255,.19) inset!important;
-    filter:saturate(1.06) contrast(1.01)!important;
+    transform:perspective(1200px) translateY(-7px) rotateX(var(--x145-rx)) rotateY(var(--x145-ry))!important;
+    box-shadow:0 36px 94px rgba(31,28,24,.18),0 0 0 1px rgba(255,255,255,.12) inset!important;
+    filter:saturate(1.035) contrast(1.008)!important;
   }
   body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile:hover::before,
   body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile:hover::after{opacity:1}
 }
 
-@media (prefers-reduced-motion:no-preference) and (min-width:901px){
-  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .x145-network path{animation:x145-drift 22s linear infinite}
-  @keyframes x145-drift{to{stroke-dashoffset:-240}}
-}
-
 @media (max-width:900px),(prefers-reduced-motion:reduce){
-  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] :is(.x145-cases-webgl,.x145-network,.x145-field-label){display:none!important}
+  body[data-x135-family="cinematic"] [data-stage130-hub="cases"] :is(.x145-cases-webgl,.x145-liquid-lens,.x145-index-mark,.x145-index-caption){display:none!important}
   body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-list-section{
     background:
-      radial-gradient(ellipse 84% 26% at 14% 9%,rgba(255,111,82,.16),transparent 72%),
-      radial-gradient(ellipse 82% 30% at 103% 42%,rgba(100,105,255,.15),transparent 74%),
-      radial-gradient(ellipse 86% 24% at 38% 93%,rgba(190,235,62,.09),transparent 76%),
-      linear-gradient(145deg,#eeeae1 0%,#e9e7e1 52%,#ebe8df 100%)!important;
+      radial-gradient(ellipse 86% 28% at 12% 7%,rgba(208,224,104,.18),transparent 72%),
+      radial-gradient(ellipse 84% 30% at 102% 40%,rgba(214,124,102,.15),transparent 74%),
+      linear-gradient(145deg,#f0ece3 0%,#e9e6de 52%,#ece8df 100%)!important;
   }
   body[data-x135-family="cinematic"] [data-stage130-hub="cases"] .p130-tile{transform:none!important}
 }
