@@ -96,15 +96,11 @@ for route, data in PAGES.items():
 
 print("stage106 search CTR: " + ", ".join(changed))
 
-# Publish the missing WordPress commercial entry after the shared build has
-# normalized the existing site. The new page is self-contained and the stage
-# also creates its sitemap entry plus contextual inbound links.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage107_wordpress_landing.py")), str(ROOT)],
     check=True,
 )
 
-# Match the site's core navigation/footer contract before the final audits.
 wp = page_path("/wordpress-development/")
 wp_html = wp.read_text(encoding="utf-8")
 nav_old = '<a href="/guides/">Разборы</a><a class="cta" href="https://t.me/Alexuys"'
@@ -121,7 +117,6 @@ if footer_old in wp_html:
 elif not all(x in wp_html for x in ('href="/services/"', 'href="/cases/"', 'href="/guides/"', 'href="/about/"', 'href="/privacy/"')):
     raise SystemExit("stage106: WordPress core footer patch failed")
 
-# validate_site requires explicit social-image dimensions on every indexable page.
 if 'property="og:image:width"' not in wp_html:
     head_marker = '</head>'
     if head_marker not in wp_html:
@@ -131,34 +126,34 @@ if 'property="og:image:width"' not in wp_html:
 
 wp.write_text(wp_html, encoding="utf-8")
 
-# Final commercial-demand layer. Reuse the existing canonical service URLs instead
-# of creating near-duplicate landing pages that would compete with each other.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage149_search_demand.py")), str(ROOT)],
     check=True,
 )
 
-# Expand the remaining service clusters and keep the service hub task-oriented.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage150_secondary_search_demand.py")), str(ROOT)],
     check=True,
 )
 
-# Run visual polish after all content layers.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage150_premium_glass_polish.py")), str(ROOT)],
     check=True,
 )
 
-# Rebalance top-level hubs after the general glass layer.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage151_hub_layout_polish.py")), str(ROOT)],
     check=True,
 )
 
-# Cases need one final composition guard after every cinematic/glass layer:
-# copy lives in the large left glass panel, project visual/support stays right.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage153_case_left_panel.py")), str(ROOT)],
+    check=True,
+)
+
+# Final hero geometry: keep the existing coloured band and place copy inside it.
+# Runs last so older cinematic/glass rules cannot move the text back to the right.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage154_text_into_existing_band.py")), str(ROOT)],
     check=True,
 )
