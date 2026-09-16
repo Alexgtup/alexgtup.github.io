@@ -130,3 +130,10 @@ if 'property="og:image:width"' not in wp_html:
     wp_html = wp_html.replace(head_marker, social_dims + head_marker, 1)
 
 wp.write_text(wp_html, encoding="utf-8")
+
+# Final commercial-demand layer. Reuse the existing canonical service URLs instead
+# of creating near-duplicate landing pages that would compete with each other.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage149_search_demand.py")), str(ROOT)],
+    check=True,
+)
