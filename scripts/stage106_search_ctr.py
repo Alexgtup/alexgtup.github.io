@@ -120,4 +120,13 @@ if footer_old in wp_html:
     wp_html = wp_html.replace(footer_old, footer_new, 1)
 elif not all(x in wp_html for x in ('href="/services/"', 'href="/cases/"', 'href="/guides/"', 'href="/about/"', 'href="/privacy/"')):
     raise SystemExit("stage106: WordPress core footer patch failed")
+
+# validate_site requires explicit social-image dimensions on every indexable page.
+if 'property="og:image:width"' not in wp_html:
+    head_marker = '</head>'
+    if head_marker not in wp_html:
+        raise SystemExit("stage106: WordPress head closing tag missing")
+    social_dims = '<meta content="1200" property="og:image:width"/><meta content="630" property="og:image:height"/>'
+    wp_html = wp_html.replace(head_marker, social_dims + head_marker, 1)
+
 wp.write_text(wp_html, encoding="utf-8")
