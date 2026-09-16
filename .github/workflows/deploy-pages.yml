@@ -134,6 +134,8 @@ jobs:
           python scripts/stage103_yandex_crawl_priority.py _site
           # Final performance pass: keep body/SEO/CTA unchanged, dedupe CSS and reduce render-blocking requests.
           python scripts/stage105_performance_assets.py _site
+          # Absolute final case composition: text sits inside the large left hero band.
+          python scripts/stage154_case_left_band.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
