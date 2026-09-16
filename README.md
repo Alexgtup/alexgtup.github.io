@@ -50,6 +50,4 @@
 
 История выполненных заказов и отзывы находятся в публичном профиле [Freelance.ru](https://freelance.ru/gglalex). Для связи - [Telegram @Alexuys](https://t.me/Alexuys).
 
-Сайт публикуется через GitHub Pages. Production-сборка проверяет sitemap, canonical, title, description, H1, robots, JSON-LD, hreflang, внутренние ссылки, доступность и responsive-риски. Аналитика Яндекс.Метрики запускается только после согласия пользователя.
-
-English portfolio: https://alexgtup.github.io/en/
+Сайт публикуется через GitHub Pages. Production-сборка проверяет sitemap, canonical, title, description, H1, robots, JSON-LD, внутренние ссылки, доступность и responsive-риски. Аналитика Яндекс.Метрики запускается только после согласия пользователя.
