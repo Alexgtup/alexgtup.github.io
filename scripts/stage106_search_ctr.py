@@ -143,3 +143,9 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage150_secondary_search_demand.py")), str(ROOT)],
     check=True,
 )
+
+# Run visual polish last so older cinematic/theme layers cannot squeeze case copy again.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage150_premium_glass_polish.py")), str(ROOT)],
+    check=True,
+)
