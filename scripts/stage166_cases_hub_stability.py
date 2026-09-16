@@ -94,3 +94,7 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage167_final_design_system.py")), str(ROOT)],
     check=True,
 )
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage168_final_specificity_guard.py")), str(ROOT)],
+    check=True,
+)
