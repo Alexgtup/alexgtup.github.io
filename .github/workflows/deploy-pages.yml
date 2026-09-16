@@ -97,49 +97,30 @@ jobs:
           python scripts/stage75_visible_authorship.py _site
           python scripts/stage76_yandex_serp_tuning.py _site
           python scripts/stage77_freelanceos_depth.py _site
-          # First pass strengthens weak search entries and audits all 74 sitemap pages.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Make the final Stage77 blocks actionable for organic visitors.
           python scripts/stage78_search_to_contact.py _site
-          # Add contextual crawl bridges from the five pages already indexed by Google
-          # to the next commercial URLs that Yandex already keeps SEARCHABLE.
           python scripts/stage79_seed_crawl_bridges.py _site
-          # Keep Article structured data eligible for article/search features.
           python scripts/stage80_article_schema_image.py _site
-          # Audit the actual final HTML after conversion, crawl-bridge and schema changes.
           python scripts/stage77_sitewide_search_quality_v2.py _site
-          # Remove repeated generic CTA endings and keep one page-specific conversion surface.
           python scripts/stage85_conversion_cleanup.py _site
-          # Product/tool recommendations stay useful, but the shared contact must be the final service section.
           python scripts/stage86_service_ending_cleanup.py _site
-          # Auxiliary product cards should not repeat Telegram when a stronger contact action follows.
           python scripts/stage87_auxiliary_action_cleanup.py _site
-          # Make hubs, cases and utilities visual-first without deleting useful search content.
           python scripts/stage90_user_experience.py _site
-          # Let visitors filter cases, guides and tools instead of scanning every card.
           python scripts/stage91_catalog_filters.py _site
-          # Put actions first on tools and use progressive disclosure for long guide details.
           python scripts/stage92_action_first_reading.py _site
-          # Keep the homepage compact and move the full project library to /cases/.
           python scripts/stage93_project_showcase.py _site
           node --check _site/assets/portfolio-showcase.js
-          # Run the existing finalizers first: they prune and normalize the actual published HTML.
           python scripts/validate_growth.py _site
-          # Search-entry flow must be the final SEO content mutation so crawl bridges survive pruning.
           python scripts/stage101_search_entry_flow.py _site
           node --check _site/assets/stage101-intent-handoff.js
-          # Grow lead volume and repeat orders without changing the existing price ladder.
           python scripts/stage102_volume_growth.py _site
-          # Final Yandex discovery layer: crawl priorities, weak commercial links and transparent consent copy.
           python scripts/stage103_yandex_crawl_priority.py _site
-          # Final performance pass: keep body/SEO/CTA unchanged, dedupe CSS and reduce render-blocking requests.
           python scripts/stage105_performance_assets.py _site
-          # Final legacy override kept for compatibility.
           python scripts/stage154_case_left_band.py _site
-          # Rebuild the hero DOM so text physically lives inside the left colour band.
           python scripts/stage155_case_dom_scene.py _site
-          # Absolute final geometry: normal document flow only, no viewport-anchored offsets.
           python scripts/stage156_stable_hero_layout.py _site
+          # Final visual override: clean editorial split, no nested panels.
+          python scripts/stage157_designer_case_hero.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
