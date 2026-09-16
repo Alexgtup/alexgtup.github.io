@@ -15,11 +15,11 @@ PAGES = {
         "title": "Разработка Telegram-ботов на заказ - CRM, API, Mini Apps | Alexuys",
         "description": "Разработка Telegram-ботов на заказ для бизнеса: заявки, CRM, API, платежи, уведомления и Mini Apps. Запуск нового бота и доработка существующего проекта.",
         "heading": "Разработка Telegram-бота: задачи, с которыми приходят чаще всего.",
-        "intro": "На практике запрос редко заканчивается словами «нужен бот». Обычно нужно автоматизировать конкретный путь: принять заявку, проверить данные, получить оплату, передать клиента в CRM или дать пользователю интерфейс внутри Telegram.",
+        "intro": "Обычно нужен не просто бот, а законченный путь: принять заявку, проверить данные, получить оплату, передать клиента в CRM или дать пользователю интерфейс внутри Telegram.",
         "items": [
             ("Telegram-бот для бизнеса", "Заявки, анкеты, уведомления, каталог, подписки и внутренние сценарии без ручной обработки каждого сообщения."),
-            ("Интеграция Telegram с CRM и API", "Передача лидов, статусов и данных между ботом, сайтом, CRM, платежами и другими сервисами."),
-            ("Telegram Mini App", "Когда кнопок и диалога уже мало: формы, каталог, кабинет и полноценный интерфейс внутри Telegram."),
+            ("Telegram + CRM и API", "Передача лидов, статусов и данных между ботом, сайтом, CRM, платежами и другими сервисами."),
+            ("Telegram Mini App", "Формы, каталог, кабинет и полноценный интерфейс внутри Telegram, когда обычных кнопок уже мало."),
         ],
         "links": [("/cases/fin-planner/", "Кейс Telegram-продукта"), ("/telegram-bot-repair/", "Доработка Telegram-бота"), ("/api-integrations/", "API-интеграции")],
     },
@@ -27,7 +27,7 @@ PAGES = {
         "title": "n8n автоматизация бизнеса на заказ - CRM, Telegram, API | Alexuys",
         "description": "n8n автоматизация бизнес-процессов: заявки, CRM, Telegram, Google Sheets, API, webhooks и уведомления. Проектирование, запуск и доработка workflow.",
         "heading": "n8n автоматизация бизнеса: что имеет смысл отдавать workflow.",
-        "intro": "Лучший кандидат на автоматизацию - повторяющийся процесс с понятным событием и результатом. n8n особенно полезен там, где сотрудники вручную переносят одинаковые данные между формами, CRM, таблицами, Telegram и внешними API.",
+        "intro": "Лучший кандидат на автоматизацию - повторяющийся процесс с понятным событием и результатом. n8n особенно полезен там, где одинаковые данные вручную переносят между формами, CRM, таблицами, Telegram и API.",
         "items": [
             ("Автоматизация заявок", "Форма или сообщение создаёт запись, проверяет данные, назначает ответственного и отправляет уведомление."),
             ("CRM и сервисы через n8n", "Синхронизация статусов, клиентов, документов и уведомлений между рабочими системами."),
@@ -38,23 +38,23 @@ PAGES = {
     "/crm-development/": {
         "title": "Разработка CRM под заказ - система под процессы бизнеса | Alexuys",
         "description": "Разработка CRM системы под заказ: заявки, сделки, роли, статусы, отчеты и интеграции с сайтом, Telegram и API. Своя CRM без лишних функций коробочного продукта.",
-        "heading": "CRM под заказ: когда нужна система под ваш процесс, а не ещё одна таблица.",
-        "intro": "Коммерческий запрос на собственную CRM обычно появляется, когда сотрудники уже подстраивают процесс под Excel, мессенджеры или ограничения готовой CRM. В этом случае важнее сначала описать сущности, роли и этапы работы, а уже потом интерфейс.",
+        "heading": "CRM под заказ: система под ваш процесс, а не ещё одна таблица.",
+        "intro": "Собственная CRM становится оправданной, когда сотрудники уже подстраивают работу под Excel, мессенджеры или ограничения готовой системы. Сначала фиксируются сущности, роли и этапы, затем интерфейс и автоматизация.",
         "items": [
             ("CRM система под заказ", "Клиенты, заявки, сделки, задачи и история действий в одном рабочем контуре."),
             ("CRM для отдела продаж", "Воронка, статусы, ответственные, напоминания и отчётность без лишних модулей."),
-            ("Интеграции CRM", "Сайт, Telegram, почта, телефония и внешние API подключаются к единому источнику данных."),
+            ("Интеграции CRM", "Сайт, Telegram, почта и внешние API подключаются к единому источнику данных."),
         ],
         "links": [("/cases/auto-crm/", "CRM для автосалона"), ("/guides/custom-crm-or-ready/", "Своя CRM или готовая"), ("/api-integrations/", "Интеграции CRM")],
     },
     "/backend-development/": {
         "title": "Backend и API для приложения - разработка серверной части | Alexuys",
         "description": "Backend и API для веб- и мобильных приложений: серверная логика, база данных, авторизация, webhooks, интеграции и REST API. Разработка и доработка backend.",
-        "heading": "Backend и API для приложения: серверная часть, которая держит основной сценарий.",
-        "intro": "В Search Console уже появился запрос про backend и API для приложения. Усиливаю страницу именно под этот интент: мобильному приложению, веб-интерфейсу или боту нужен предсказуемый серверный контракт, хранение данных и понятное поведение при ошибках.",
+        "heading": "Backend и API для приложения: серверная часть основного сценария.",
+        "intro": "Мобильному приложению, веб-интерфейсу или боту нужен предсказуемый серверный контракт: хранение данных, авторизация, бизнес-правила и понятное поведение при ошибках. Backend проектируется вокруг этих сценариев, а не вокруг набора случайных endpoints.",
         "items": [
-            ("Backend для мобильного приложения", "Авторизация, данные пользователя, бизнес-правила, файлы, уведомления и состояние приложения."),
-            ("REST API для frontend", "Понятные endpoints, валидация, коды ошибок, ограничения и документированный контракт между интерфейсом и сервером."),
+            ("Backend для приложения", "Авторизация, данные пользователя, бизнес-правила, файлы, уведомления и состояние продукта."),
+            ("REST API для frontend", "Понятные endpoints, валидация, коды ошибок, ограничения и стабильный контракт между интерфейсом и сервером."),
             ("База данных и интеграции", "PostgreSQL, внешние API, webhooks и фоновые задачи связываются вокруг одной модели данных."),
         ],
         "links": [("/api-integrations/", "Интеграции API"), ("/mvp-development/", "Backend для MVP"), ("/app-development/", "Мобильная разработка")],
@@ -63,7 +63,7 @@ PAGES = {
         "title": "Интеграция API на заказ - CRM, Telegram, платежи и сервисы | Alexuys",
         "description": "Интеграция REST API и webhooks: CRM, Telegram, сайты, платежи, базы данных и внешние сервисы. Синхронизация данных, обработка ошибок и повторных событий.",
         "heading": "Интеграция API: связать сервисы так, чтобы данные не терялись.",
-        "intro": "Интеграция нужна не ради самого API, а чтобы убрать ручной перенос данных и соединить уже используемые инструменты. Поэтому кроме успешного запроса проектируются повторы, таймауты, авторизация, журналирование и источник истины.",
+        "intro": "Интеграция нужна, чтобы убрать ручной перенос данных и соединить используемые инструменты. Кроме успешного запроса проектируются повторы, таймауты, авторизация, журналирование и источник истины.",
         "items": [
             ("REST API интеграция", "Подключение внешнего сервиса к сайту, backend, CRM или внутренней системе."),
             ("CRM, Telegram и платежи", "Заявка или оплата автоматически меняет данные и запускает следующий шаг процесса."),
@@ -74,11 +74,11 @@ PAGES = {
     "/mvp-development/": {
         "title": "Разработка MVP на заказ - веб-сервис или приложение | Alexuys",
         "description": "Разработка MVP продукта: веб-сервис, приложение, Telegram Mini App или внутренний инструмент. Главный пользовательский сценарий, backend, API и запуск первой версии.",
-        "heading": "Разработка MVP: первая версия должна проверять идею, а не имитировать большой продукт.",
-        "intro": "Для MVP важен один законченный пользовательский путь. Регистрация, основное действие, данные и результат должны работать вместе; второстепенные функции можно добавлять после проверки первой версии на реальных пользователях.",
+        "heading": "Разработка MVP: первая версия должна проверять идею.",
+        "intro": "Для MVP важен один законченный пользовательский путь. Регистрация, основное действие, данные и результат должны работать вместе; второстепенные функции добавляются после проверки первой версии.",
         "items": [
             ("MVP веб-сервиса", "Frontend, backend, база данных и основной сценарий без преждевременного усложнения архитектуры."),
-            ("MVP мобильного приложения", "Первый рабочий путь для iOS или кроссплатформенного продукта с API и серверной логикой."),
+            ("MVP мобильного приложения", "Первый рабочий путь для мобильного продукта с API и серверной логикой."),
             ("MVP Telegram Mini App", "Быстрый формат, если продукту подходит аудитория Telegram и нужен интерфейс сложнее обычного бота."),
         ],
         "links": [("/web-development/", "Веб-разработка"), ("/app-development/", "Мобильное приложение"), ("/guides/development-cost/", "Стоимость разработки")],
@@ -87,7 +87,7 @@ PAGES = {
         "title": "Разработка веб-приложений на заказ - сервисы, кабинеты, SaaS | Alexuys",
         "description": "Разработка веб-приложений и сервисов на заказ: личные кабинеты, SaaS, внутренние системы, каталоги, frontend, backend и API. От первого сценария до запуска.",
         "heading": "Веб-приложение на заказ: интерфейс, данные и backend как один продукт.",
-        "intro": "Запрос «разработка веб-приложения» обычно означает не ещё один сайт, а рабочий сценарий: пользователь входит, выполняет действие, данные сохраняются, а система выдаёт результат. Поэтому интерфейс, backend и интеграции проектируются вместе.",
+        "intro": "Веб-приложение - это рабочий сценарий: пользователь входит, выполняет действие, данные сохраняются, а система выдаёт результат. Поэтому интерфейс, backend и интеграции проектируются вместе.",
         "items": [
             ("Личный кабинет", "Авторизация, роли, данные пользователя, формы, документы, статусы и действия внутри системы."),
             ("SaaS и веб-сервис", "Продукт с собственной логикой, backend, API и возможностью развивать функции после запуска."),
@@ -98,8 +98,8 @@ PAGES = {
     "/wordpress-development/": {
         "title": "Доработка WordPress сайта - разработчик WordPress | Alexuys",
         "description": "Доработка WordPress сайта: исправление ошибок, формы, темы и плагины, мобильная версия, скорость, API, техническое SEO и микроразметка без лишней пересборки.",
-        "heading": "Доработка WordPress: исправить конкретную проблему и сохранить рабочую основу.",
-        "intro": "Для действующего WordPress-сайта чаще нужна не новая сборка, а аккуратная доработка: исправить форму, адаптив, тему, плагин, скорость, SEO или интеграцию. Сначала проверяется текущая реализация и только потом выбирается минимальный безопасный объём изменений.",
+        "heading": "Доработка WordPress: исправить проблему и сохранить рабочую основу.",
+        "intro": "Для действующего WordPress-сайта чаще нужна аккуратная доработка: исправить форму, адаптив, тему, плагин, скорость, SEO или интеграцию. Сначала проверяется текущая реализация, затем выбирается минимальный безопасный объём изменений.",
         "items": [
             ("Доработка WordPress сайта", "Новые блоки и страницы, изменение шаблона, логики, форм и пользовательских сценариев."),
             ("Исправление WordPress", "PHP, JavaScript, плагины, тема, мобильная версия и конфликты после обновлений."),
@@ -147,6 +147,36 @@ def set_meta(src: str, attr: str, key: str, value: str) -> str:
     raise SystemExit(f"stage149: missing {attr}={key}")
 
 
+def pop_section(src: str, class_token: str) -> tuple[str, str]:
+    start_re = re.compile(rf'<section\b[^>]*class="[^"]*{re.escape(class_token)}[^"]*"[^>]*>', re.I)
+    start = start_re.search(src)
+    if not start:
+        return src, ""
+    depth = 0
+    end_pos = None
+    for tag in re.finditer(r'</?section\b[^>]*>', src[start.start():], re.I):
+        token = tag.group(0)
+        if token.lower().startswith('</section'):
+            depth -= 1
+            if depth == 0:
+                end_pos = start.start() + tag.end()
+                break
+        else:
+            depth += 1
+    if end_pos is None:
+        raise SystemExit(f"stage149: unbalanced section {class_token}")
+    block = src[start.start():end_pos]
+    return src[:start.start()] + src[end_pos:], block
+
+
+def contact_pos(src: str) -> int:
+    for token in ("p129-contact", "p130-footer-cta", "contact"):
+        match = re.search(rf'<section\b[^>]*class="[^"]*{re.escape(token)}[^"]*"[^>]*>', src, re.I)
+        if match:
+            return match.start()
+    raise SystemExit("stage149: final contact section missing")
+
+
 def render(data: dict) -> str:
     cards = ''.join(
         f'<article class="search-demand__card"><h3>{html.escape(title)}</h3><p>{html.escape(text)}</p></article>'
@@ -170,7 +200,8 @@ for route, data in PAGES.items():
     if not path.is_file():
         raise SystemExit(f"stage149: page missing {route}")
     src = path.read_text(encoding="utf-8")
-    src = re.sub(r'<section class="search-demand".*?</section>', '', src, count=1, flags=re.I | re.S)
+    src, _ = pop_section(src, "search-demand")
+    src, depth_block = pop_section(src, "x146-depth")
     src = re.sub(r'<style id="stage149-search-demand">.*?</style>', '', src, count=1, flags=re.I | re.S)
     src = set_title(src, data["title"])
     src = set_meta(src, "name", "description", data["description"])
@@ -181,24 +212,20 @@ for route, data in PAGES.items():
     if "</head>" not in src:
         raise SystemExit(f"stage149: head marker missing {route}")
     src = src.replace("</head>", STYLE + "</head>", 1)
-    marker = next((m for m in ('<section class="contact"', '<section class="p129-contact"', '</main>') if m in src), None)
-    if marker is None:
-        raise SystemExit(f"stage149: insertion marker missing {route}")
-    src = src.replace(marker, render(data) + marker, 1)
+    pos = contact_pos(src)
+    before_contact = (depth_block + render(data))
+    src = src[:pos] + before_contact + src[pos:]
     path.write_text(src, encoding="utf-8")
     changed.append(route)
 
-# Give the service hub a direct crawl path to the priority commercial pages without creating duplicate URLs.
+# Service hub: move any late search-depth helper before the final CTA and add a direct commercial index.
 hub = page_path('/services/')
 hub_src = hub.read_text(encoding='utf-8')
-old_hub = re.search(r'<section class="search-demand-hub".*?</section>', hub_src, re.I | re.S)
-if old_hub:
-    hub_src = hub_src[:old_hub.start()] + hub_src[old_hub.end():]
+hub_src, _ = pop_section(hub_src, 'search-demand-hub')
+hub_src, hub_depth = pop_section(hub_src, 'x146-depth')
 hub_block = '''<section class="search-demand-hub" style="padding:2rem 0 4rem"><div class="container"><p style="color:#7f8892;font-size:.72rem;margin:0 0 .75rem">Популярные направления</p><div style="display:flex;gap:.55rem;flex-wrap:wrap"><a href="/telegram-bots/">Telegram-боты</a><a href="/n8n-automation/">Автоматизация n8n</a><a href="/crm-development/">CRM под заказ</a><a href="/backend-development/">Backend и API</a><a href="/api-integrations/">API-интеграции</a><a href="/mvp-development/">MVP</a><a href="/web-development/">Веб-приложения</a><a href="/wordpress-development/">WordPress</a></div></div></section>'''
-hub_marker = next((m for m in ('<section class="p130-footer-cta"', '<section class="contact"', '</main>') if m in hub_src), None)
-if hub_marker is None:
-    raise SystemExit('stage149: services hub insertion marker missing')
-hub_src = hub_src.replace(hub_marker, hub_block + hub_marker, 1)
+hub_pos = contact_pos(hub_src)
+hub_src = hub_src[:hub_pos] + hub_depth + hub_block + hub_src[hub_pos:]
 hub.write_text(hub_src, encoding='utf-8')
 
 sitemap = ROOT / 'sitemap.xml'
@@ -222,5 +249,9 @@ for route, data in PAGES.items():
     for token in (data['title'], data['description'], 'search-demand__grid'):
         if token not in out:
             raise SystemExit(f'stage149: guard failed {route}: {token[:40]}')
+    demand_pos = out.find('<section class="search-demand"')
+    cta_pos = contact_pos(out)
+    if demand_pos < 0 or demand_pos > cta_pos:
+        raise SystemExit(f'stage149: demand block must precede contact {route}')
 
 print('stage149 search demand: ' + ', '.join(changed))
