@@ -137,3 +137,9 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage149_search_demand.py")), str(ROOT)],
     check=True,
 )
+
+# Expand the remaining service clusters and keep the service hub task-oriented.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage150_secondary_search_demand.py")), str(ROOT)],
+    check=True,
+)
