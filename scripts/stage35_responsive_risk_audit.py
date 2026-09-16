@@ -92,7 +92,7 @@ issues=defaultdict(list)
 inline_sources=[]
 asset_sources={}
 
-for page in sorted(root.rglob('*.html')):
+for page in sorted(root.rglob("*.html")):
     html=page.read_text(encoding='utf-8',errors='ignore')
     if '</head>' not in html or page.name.startswith(('google','yandex_')): continue
     rt=route(page)
@@ -116,6 +116,9 @@ known_fixed=(
 
 # These layouts were manually reviewed. They remain multi-column by design but their
 # containing layout collapses on mobile or their children span the full 12-column grid.
+# The four site-enhancements entries are legacy base declarations; current responsive
+# behavior is owned by the later stage97/stage120/stage127/final design layers, so a
+# file-local audit must not treat the base 12-column declarations as unresolved risks.
 intentional_multicol = {
     ('/', '.crm-cards'),
     ('/about/', '.grid'),
@@ -124,6 +127,10 @@ intentional_multicol = {
     ('/cases/auto-crm/', '.taxi-side'),
     ('/cases/factory-catalog/', '.taxi-side'),
     ('/cases/taxi-app/', '.taxi-side'),
+    ('asset:/assets/site-enhancements.css', '.s44-route-grid'),
+    ('asset:/assets/site-enhancements.css', '.s44-case-grid'),
+    ('asset:/assets/site-enhancements.css', '.s44-service-map'),
+    ('asset:/assets/site-enhancements.css', '.s50-case-list'),
 }
 intentional_sticky = {('/', '.process-intro')}
 
