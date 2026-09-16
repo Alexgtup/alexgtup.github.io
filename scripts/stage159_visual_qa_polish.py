@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from pathlib import Path
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -127,3 +128,4 @@ for path, needles in checks.items():
             raise SystemExit(f"stage159: guard failed {needle}: {path}")
 
 print(f"stage159 visual QA polish: {changed} pages")
+subprocess.run([sys.executable, str(Path(__file__).with_name("stage160_hub_dark_polish.py")), str(ROOT)], check=True)
