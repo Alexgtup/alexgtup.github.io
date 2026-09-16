@@ -124,7 +124,6 @@ jobs:
           python scripts/stage158_sitewide_editorial_cleanup.py _site
           python scripts/stage159_visual_qa_polish.py _site
           python scripts/stage161_yandex_search_cleanup.py _site
-          python scripts/stage163_remove_english.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
@@ -133,6 +132,8 @@ jobs:
           python scripts/stage35_responsive_risk_audit.py _site
           python scripts/stage36_language_a11y_audit.py _site
           python scripts/validate_site.py _site
+          # English version is intentionally retired only after all legacy validators pass.
+          python scripts/stage163_remove_english.py _site
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
