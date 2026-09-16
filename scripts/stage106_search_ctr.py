@@ -103,3 +103,21 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage107_wordpress_landing.py")), str(ROOT)],
     check=True,
 )
+
+# Match the site's core navigation/footer contract before the final audits.
+wp = page_path("/wordpress-development/")
+wp_html = wp.read_text(encoding="utf-8")
+nav_old = '<a href="/guides/">Разборы</a><a class="cta" href="https://t.me/Alexuys"'
+nav_new = '<a href="/guides/">Разборы</a><a href="/about/">Обо мне</a><a class="cta" href="https://t.me/Alexuys"'
+if nav_old in wp_html:
+    wp_html = wp_html.replace(nav_old, nav_new, 1)
+elif 'href="/about/">Обо мне</a>' not in wp_html:
+    raise SystemExit("stage106: WordPress core nav patch failed")
+
+footer_old = '<footer class="footer"><div class="container"><span>Alexuys · разработка и доработка цифровых продуктов</span><a href="/privacy/">Конфиденциальность</a></div></footer>'
+footer_new = '<footer class="footer"><div class="container"><span>Alexuys · разработка и доработка цифровых продуктов</span><nav aria-label="Навигация в подвале"><a href="/services/">Услуги</a><a href="/cases/">Кейсы</a><a href="/guides/">Разборы</a><a href="/about/">Обо мне</a><a href="/privacy/">Конфиденциальность</a></nav></div></footer>'
+if footer_old in wp_html:
+    wp_html = wp_html.replace(footer_old, footer_new, 1)
+elif not all(x in wp_html for x in ('href="/services/"', 'href="/cases/"', 'href="/guides/"', 'href="/about/"', 'href="/privacy/"')):
+    raise SystemExit("stage106: WordPress core footer patch failed")
+wp.write_text(wp_html, encoding="utf-8")
