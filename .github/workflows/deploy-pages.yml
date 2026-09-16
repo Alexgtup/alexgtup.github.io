@@ -138,6 +138,8 @@ jobs:
           python scripts/stage154_case_left_band.py _site
           # Rebuild the hero DOM so text physically lives inside the left colour band.
           python scripts/stage155_case_dom_scene.py _site
+          # Absolute final geometry: normal document flow only, no viewport-anchored offsets.
+          python scripts/stage156_stable_hero_layout.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
