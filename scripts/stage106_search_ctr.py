@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -94,3 +95,11 @@ for route, data in PAGES.items():
         raise SystemExit(f"stage106: description guard failed for {route}")
 
 print("stage106 search CTR: " + ", ".join(changed))
+
+# Publish the missing WordPress commercial entry after the shared build has
+# normalized the existing site. The new page is self-contained and the stage
+# also creates its sitemap entry plus contextual inbound links.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage107_wordpress_landing.py")), str(ROOT)],
+    check=True,
+)
