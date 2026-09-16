@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -89,3 +90,7 @@ if 'data-stage130-hub="cases"' not in final or 'class="p130-mosaic"' not in fina
     raise SystemExit("stage166: cases DOM guard failed")
 
 print("stage166 cases hub stability: legacy WebGL removed, flow guarded")
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage167_final_design_system.py")), str(ROOT)],
+    check=True,
+)
