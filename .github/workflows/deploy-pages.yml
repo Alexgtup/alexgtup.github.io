@@ -125,6 +125,7 @@ jobs:
           python scripts/stage159_visual_qa_polish.py _site
           python scripts/stage161_yandex_search_cleanup.py _site
           python scripts/stage164_query_demand_tuning.py _site
+          python scripts/stage166_cases_hub_stability.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
