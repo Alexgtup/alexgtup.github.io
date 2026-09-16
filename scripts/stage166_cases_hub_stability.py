@@ -90,11 +90,12 @@ if 'data-stage130-hub="cases"' not in final or 'class="p130-mosaic"' not in fina
     raise SystemExit("stage166: cases DOM guard failed")
 
 print("stage166 cases hub stability: legacy WebGL removed, flow guarded")
-subprocess.run(
-    [sys.executable, str(Path(__file__).with_name("stage167_final_design_system.py")), str(ROOT)],
-    check=True,
-)
-subprocess.run(
-    [sys.executable, str(Path(__file__).with_name("stage168_final_specificity_guard.py")), str(ROOT)],
-    check=True,
-)
+for script in (
+    "stage167_final_design_system.py",
+    "stage168_final_specificity_guard.py",
+    "stage169_retire_legacy_depth_theme.py",
+):
+    subprocess.run(
+        [sys.executable, str(Path(__file__).with_name(script)), str(ROOT)],
+        check=True,
+    )
