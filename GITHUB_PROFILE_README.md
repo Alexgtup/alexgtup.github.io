@@ -55,5 +55,4 @@ https://freelance.ru/gglalex
 
 GitHub-репозитории показывают отдельные части работы с Telegram / Python, web-интерфейсами и инфраструктурой. Для продуктовых проектов, где исходный код не публикуется, в портфолио доступны кейсы и рабочие демо.
 
-**Telegram:** https://t.me/Alexuys  
-**English portfolio:** https://alexgtup.github.io/en/
+**Telegram:** https://t.me/Alexuys
