@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import subprocess
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
@@ -81,3 +82,7 @@ for rel, needle in guards.items():
         raise SystemExit(f"stage164: guard failed {rel}: {needle}")
 
 print(f"stage164 demand tuning: {len(changed)} page changes")
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage165_search_conversion_bridge.py")), str(ROOT)],
+    check=True,
+)
