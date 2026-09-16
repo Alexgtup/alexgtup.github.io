@@ -31,7 +31,9 @@ main.p130-hub[data-stage130-hub="cases"]{
 main.p130-hub[data-stage130-hub="cases"] .p130-hero{color:#f5f7f4!important;}
 main.p130-hub[data-stage130-hub="cases"] .p130-hero h1{color:#f5f7f4!important;}
 main.p130-hub[data-stage130-hub="cases"] .p130-lead{color:rgba(232,238,235,.72)!important;}
-main.p130-hub[data-stage130-hub="cases"] :is(.p130-list-section,.p130-footer-cta,.x146-depth){background:transparent!important;color:#f5f7f4!important;}
+main.p130-hub[data-stage130-hub="cases"] .p130-list-section,
+main.p130-hub[data-stage130-hub="cases"] .p130-footer-cta,
+main.p130-hub[data-stage130-hub="cases"] .x146-depth{background:transparent!important;color:#f5f7f4!important;}
 main.p130-hub[data-stage130-hub="cases"] .p130-list-section{padding:0 0 clamp(90px,9vw,138px)!important;}
 main.p130-hub[data-stage130-hub="cases"] .p130-mosaic{gap:clamp(14px,1.5vw,22px)!important;}
 main.p130-hub[data-stage130-hub="cases"] .p130-tile{
@@ -129,3 +131,4 @@ for path, needles in checks.items():
 
 print(f"stage159 visual QA polish: {changed} pages")
 subprocess.run([sys.executable, str(Path(__file__).with_name("stage160_hub_dark_polish.py")), str(ROOT)], check=True)
+subprocess.run([sys.executable, str(Path(__file__).with_name("stage162_copy_quality_cleanup.py")), str(ROOT)], check=True)
