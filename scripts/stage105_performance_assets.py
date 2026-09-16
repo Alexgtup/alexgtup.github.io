@@ -241,6 +241,12 @@ subprocess.run(
     [sys.executable, str(Path(__file__).with_name('stage117_visual_maturity.py')), str(ROOT)],
     check=True,
 )
+# Search Console shows the homepage, n8n and Telegram pages already receiving
+# impressions. Tune only their final SERP surfaces after all earlier SEO stages.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name('stage106_search_ctr.py')), str(ROOT)],
+    check=True,
+)
 
 # Every published first-party JS asset must at least parse before Pages can deploy.
 # Earlier workflow checks covered only two files, which could let an unrelated
