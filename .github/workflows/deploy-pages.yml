@@ -119,9 +119,10 @@ jobs:
           python scripts/stage154_case_left_band.py _site
           python scripts/stage155_case_dom_scene.py _site
           python scripts/stage156_stable_hero_layout.py _site
-          # Final visual overrides: stable case detail first, then normalize legacy hubs/services/guides.
+          # Final visual overrides: stable case detail, normalize legacy layouts, then visual QA polish.
           python scripts/stage157_designer_case_hero.py _site
           python scripts/stage158_sitewide_editorial_cleanup.py _site
+          python scripts/stage159_visual_qa_polish.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
