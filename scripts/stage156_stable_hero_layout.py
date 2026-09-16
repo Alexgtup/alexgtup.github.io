@@ -5,25 +5,44 @@ from pathlib import Path
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
-MARKER = "stage156-stable-hero-layout"
+MARKER = "stage156-stable-hero-layout-v2"
 
-STYLE = r'''<style id="stage156-stable-hero-layout">
-/* Final stable layout: no absolute positioning, no viewport-anchored offsets. */
+STYLE = r'''<style id="stage156-stable-hero-layout-v2">
+/* Final visual system for case/service heroes: one coherent premium surface. */
 @media (min-width:981px){
-  body[data-x135-family="cinematic"] .p155-cover,
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover,
   body[data-x135-family="cinematic"] .p155-service-hero{
     position:relative!important;
     display:grid!important;
-    grid-template-columns:minmax(0,1fr) minmax(260px,340px)!important;
+    grid-template-columns:minmax(0,1.25fr) minmax(320px,.75fr)!important;
     align-items:center!important;
-    gap:clamp(28px,3.2vw,52px)!important;
-    width:min(1380px,calc(100% - 72px))!important;
-    max-width:1380px!important;
-    min-height:auto!important;
-    margin:clamp(54px,6vw,88px) auto!important;
-    padding:0!important;
-    overflow:visible!important;
-    background:transparent!important;
+    gap:clamp(40px,4.6vw,72px)!important;
+    width:min(1320px,calc(100% - 72px))!important;
+    max-width:1320px!important;
+    min-height:clamp(560px,46vw,680px)!important;
+    margin:clamp(72px,7vw,110px) auto!important;
+    padding:clamp(46px,5vw,76px)!important;
+    overflow:hidden!important;
+    isolation:isolate!important;
+    border:1px solid rgba(255,255,255,.085)!important;
+    border-radius:38px!important;
+    background:
+      radial-gradient(42rem 30rem at 7% 18%,rgba(72,126,86,.15),transparent 72%),
+      radial-gradient(30rem 24rem at 92% 14%,rgba(103,128,255,.10),transparent 72%),
+      linear-gradient(145deg,rgba(14,20,19,.98),rgba(8,11,14,.985) 64%,rgba(7,9,12,.99))!important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.045),
+      0 36px 110px rgba(0,0,0,.38)!important;
+    backdrop-filter:blur(18px) saturate(125%)!important;
+    -webkit-backdrop-filter:blur(18px) saturate(125%)!important;
+  }
+
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover::before,
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover::after,
+  body[data-x135-family="cinematic"] .p155-service-hero::before,
+  body[data-x135-family="cinematic"] .p155-service-hero::after{
+    content:none!important;
+    display:none!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band,
@@ -34,42 +53,24 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     translate:none!important;
     width:100%!important;
     min-width:0!important;
-    min-height:clamp(480px,38vw,590px)!important;
+    min-height:0!important;
     height:auto!important;
     margin:0!important;
-    padding:clamp(42px,4.2vw,64px)!important;
-    display:flex!important;
-    align-items:center!important;
-    justify-content:flex-start!important;
-    border-radius:32px!important;
-    overflow:hidden!important;
-    box-shadow:0 26px 84px rgba(0,0,0,.26)!important;
+    padding:0!important;
+    display:block!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    overflow:visible!important;
   }
 
-  body[data-x135-family="cinematic"] .p155-band{
-    background:
-      radial-gradient(44rem 26rem at 12% 28%,rgba(72,126,86,.21),transparent 70%),
-      radial-gradient(32rem 20rem at 88% 86%,rgba(190,216,91,.07),transparent 72%),
-      linear-gradient(110deg,rgba(18,34,27,.97),rgba(15,23,22,.94) 58%,rgba(14,18,20,.88))!important;
-  }
-
-  body[data-x135-family="cinematic"] .p155-service-band{
-    background:
-      radial-gradient(42rem 25rem at 10% 28%,rgba(124,70,73,.16),transparent 70%),
-      linear-gradient(110deg,rgba(42,24,25,.96),rgba(30,22,23,.93) 58%,rgba(18,18,20,.88))!important;
-  }
-
+  body[data-x135-family="cinematic"] .p155-band::before,
   body[data-x135-family="cinematic"] .p155-band::after,
+  body[data-x135-family="cinematic"] .p155-service-band::before,
   body[data-x135-family="cinematic"] .p155-service-band::after{
-    content:""!important;
-    position:absolute!important;
-    inset:0!important;
-    background-image:
-      linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px)!important;
-    background-size:36px 36px!important;
-    pointer-events:none!important;
-    opacity:.8!important;
+    content:none!important;
+    display:none!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band .p132-cover-copy,
@@ -79,40 +80,55 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     transform:none!important;
     translate:none!important;
     width:100%!important;
-    max-width:760px!important;
+    max-width:720px!important;
     min-width:0!important;
     min-height:0!important;
     margin:0!important;
     padding:0!important;
     display:block!important;
     border:0!important;
+    border-radius:0!important;
     background:transparent!important;
     box-shadow:none!important;
     backdrop-filter:none!important;
     -webkit-backdrop-filter:none!important;
     overflow:visible!important;
-    z-index:2!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band .p132-cover-copy::before,
   body[data-x135-family="cinematic"] .p155-band .p132-cover-copy::after,
   body[data-x135-family="cinematic"] .p155-service-band .p129-svc-copy::before,
   body[data-x135-family="cinematic"] .p155-service-band .p129-svc-copy::after{
-    display:none!important;
     content:none!important;
+    display:none!important;
+  }
+
+  body[data-x135-family="cinematic"] .p155-band .p132-eyebrow,
+  body[data-x135-family="cinematic"] .p155-service-band .p129-kicker{
+    margin:0 0 18px!important;
+    color:rgba(222,232,225,.62)!important;
+    font-size:12px!important;
+    line-height:1.35!important;
+    letter-spacing:.18em!important;
+    text-transform:uppercase!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band h1,
   body[data-x135-family="cinematic"] .p155-service-band .p129-svc-copy h1{
     width:100%!important;
-    max-width:13ch!important;
-    margin:.85rem 0 1.05rem!important;
-    font-size:clamp(50px,4.25vw,80px)!important;
-    line-height:.92!important;
-    letter-spacing:-.052em!important;
+    max-width:12.5ch!important;
+    margin:0 0 24px!important;
+    font-size:clamp(58px,4.8vw,90px)!important;
+    line-height:.91!important;
+    letter-spacing:-.06em!important;
+    color:#f6f8f5!important;
     text-wrap:balance!important;
     overflow-wrap:normal!important;
     word-break:normal!important;
+  }
+
+  body[data-x135-family="cinematic"] .p155-band h1 :is(em,span){
+    color:#a9e5a7!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band .p132-cover-copy>p:not(.p132-eyebrow),
@@ -120,9 +136,19 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     width:100%!important;
     max-width:52ch!important;
     margin:0!important;
-    font-size:clamp(16px,1.03vw,18px)!important;
+    color:rgba(235,240,237,.78)!important;
+    font-size:clamp(17px,1.12vw,20px)!important;
     line-height:1.68!important;
     text-wrap:pretty!important;
+  }
+
+  body[data-x135-family="cinematic"] .p155-band .p132-cover-actions,
+  body[data-x135-family="cinematic"] .p155-service-band .p129-svc-actions{
+    margin-top:30px!important;
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    gap:12px 18px!important;
   }
 
   body[data-x135-family="cinematic"] .p155-preview,
@@ -132,7 +158,7 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     transform:none!important;
     translate:none!important;
     width:100%!important;
-    max-width:340px!important;
+    max-width:430px!important;
     min-width:0!important;
     margin:0!important;
     align-self:center!important;
@@ -150,13 +176,17 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     min-width:0!important;
     min-height:0!important;
     margin:0!important;
+    border:1px solid rgba(255,255,255,.10)!important;
+    border-radius:30px!important;
+    overflow:hidden!important;
+    background:rgba(255,255,255,.035)!important;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.36),
+      inset 0 1px 0 rgba(255,255,255,.05)!important;
   }
 
   body[data-x135-family="cinematic"] .p155-preview .p132-cover-visual{
     aspect-ratio:4/3!important;
-    border-radius:26px!important;
-    overflow:hidden!important;
-    box-shadow:0 24px 72px rgba(0,0,0,.32)!important;
   }
 
   body[data-x135-family="cinematic"] .p155-preview .p132-cover-visual img{
@@ -168,18 +198,37 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
   }
 }
 
+@media (max-width:1100px) and (min-width:981px){
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover,
+  body[data-x135-family="cinematic"] .p155-service-hero{
+    grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr)!important;
+    gap:32px!important;
+    padding:44px!important;
+  }
+  body[data-x135-family="cinematic"] .p155-band h1,
+  body[data-x135-family="cinematic"] .p155-service-band .p129-svc-copy h1{
+    font-size:clamp(52px,5vw,72px)!important;
+  }
+}
+
 @media (max-width:980px){
-  body[data-x135-family="cinematic"] .p155-cover,
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover,
   body[data-x135-family="cinematic"] .p155-service-hero{
     position:relative!important;
     display:grid!important;
     grid-template-columns:1fr!important;
-    gap:22px!important;
-    width:min(100% - 24px,800px)!important;
-    margin:34px auto 56px!important;
-    padding:0!important;
+    gap:28px!important;
+    width:min(100% - 24px,820px)!important;
     min-height:0!important;
-    overflow:visible!important;
+    margin:32px auto 56px!important;
+    padding:28px!important;
+    border:1px solid rgba(255,255,255,.08)!important;
+    border-radius:28px!important;
+    overflow:hidden!important;
+    background:
+      radial-gradient(34rem 24rem at 8% 10%,rgba(72,126,86,.14),transparent 72%),
+      linear-gradient(145deg,rgba(14,20,19,.985),rgba(8,11,14,.99))!important;
+    box-shadow:0 24px 70px rgba(0,0,0,.30)!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band,
@@ -191,8 +240,10 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     width:100%!important;
     min-height:0!important;
     margin:0!important;
-    padding:30px 24px!important;
-    border-radius:26px!important;
+    padding:0!important;
+    background:transparent!important;
+    box-shadow:none!important;
+    border:0!important;
   }
 
   body[data-x135-family="cinematic"] .p155-band .p132-cover-copy,
@@ -206,7 +257,9 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
   body[data-x135-family="cinematic"] .p155-band h1,
   body[data-x135-family="cinematic"] .p155-service-band .p129-svc-copy h1{
     max-width:100%!important;
-    font-size:clamp(44px,10vw,72px)!important;
+    margin-bottom:20px!important;
+    font-size:clamp(44px,10.5vw,70px)!important;
+    line-height:.93!important;
   }
 
   body[data-x135-family="cinematic"] .p155-preview,
@@ -216,9 +269,19 @@ STYLE = r'''<style id="stage156-stable-hero-layout">
     transform:none!important;
     translate:none!important;
     width:100%!important;
-    max-width:520px!important;
+    max-width:560px!important;
     margin:0!important;
     justify-self:start!important;
+  }
+}
+
+@media (max-width:600px){
+  body[data-x135-family="cinematic"] .p132-cover.p155-cover,
+  body[data-x135-family="cinematic"] .p155-service-hero{
+    width:calc(100% - 20px)!important;
+    padding:22px!important;
+    border-radius:24px!important;
+    gap:24px!important;
   }
 }
 </style>'''
@@ -242,4 +305,4 @@ for path in sorted((ROOT / "cases").glob("*/index.html")):
     if "p155-cover" in html and MARKER not in html:
         raise SystemExit(f"stage156: case guard failed: {path}")
 
-print(f"stage156 stable hero layout: {changed} pages")
+print(f"stage156 designer hero v2: {changed} pages")
