@@ -25,32 +25,40 @@ def is_en_url(value: str) -> bool:
     return value == BASE + "/en/" or value.startswith(BASE + "/en/")
 
 
-def clean_sitemap(path: Path) -> int:
+def clean_sitemap(path: Path) -> tuple[int, int]:
     if not path.exists():
-        return 0
+        return 0, 0
     ns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+    xhtml = "http://www.w3.org/1999/xhtml"
     ET.register_namespace("", ns)
+    ET.register_namespace("xhtml", xhtml)
     tree = ET.parse(path)
     root = tree.getroot()
-    removed = 0
+    removed_urls = 0
+    removed_alts = 0
     for node in list(root):
         loc = node.find(f"{{{ns}}}loc")
         if loc is not None and is_en_url(loc.text or ""):
             root.remove(node)
-            removed += 1
+            removed_urls += 1
+            continue
+        for child in list(node):
+            if child.tag == f"{{{xhtml}}}link" and is_en_url(child.attrib.get("href", "")):
+                node.remove(child)
+                removed_alts += 1
     tree.write(path, encoding="utf-8", xml_declaration=True)
-    return removed
+    return removed_urls, removed_alts
 
 
-# Remove the published English tree entirely. Source files may remain in the repo,
-# but the final GitHub Pages artifact must not contain /en/* routes.
+# Remove the published English tree entirely. Source files remain only as build
+# inputs/history; the final GitHub Pages artifact contains no /en/* route.
 en_root = ROOT / "en"
 removed_en_files = 0
 if en_root.exists():
     removed_en_files = sum(1 for p in en_root.rglob("*") if p.is_file())
     shutil.rmtree(en_root)
 
-# Remove visible links and hreflang references to the deleted English routes.
+# Remove visible links and hreflang references to deleted English routes.
 html_changed = 0
 for path in sorted(ROOT.rglob("*.html")):
     text = path.read_text(encoding="utf-8")
@@ -74,9 +82,9 @@ if mobile_js.exists():
         raise SystemExit("stage163: mobile EN switch cleanup failed")
     mobile_js.write_text(text, encoding="utf-8")
 
-# Remove English URLs from every discovery surface that is sent to crawlers.
-removed_sitemap = clean_sitemap(ROOT / "sitemap.xml")
-removed_google = clean_sitemap(ROOT / "sitemap-google.xml")
+# Remove English URLs and xhtml hreflang alternates from crawler discovery files.
+removed_sitemap, removed_sitemap_alts = clean_sitemap(ROOT / "sitemap.xml")
+removed_google, removed_google_alts = clean_sitemap(ROOT / "sitemap-google.xml")
 
 for filename in ("sitemap.txt", "llms.txt"):
     path = ROOT / filename
@@ -94,7 +102,7 @@ if feed.exists():
     text = entry_re.sub(lambda m: "" if BASE + "/en/" in m.group(0) else m.group(0), text)
     feed.write_text(text, encoding="utf-8")
 
-# Hard guards: English routes, language switch links and sitemap URLs must be gone.
+# Hard guards.
 if (ROOT / "en").exists():
     raise SystemExit("stage163: /en directory still present")
 
@@ -117,5 +125,6 @@ if mobile_js.exists() and "English version — EN" in mobile_js.read_text(encodi
 
 print(
     f"stage163 remove English: files={removed_en_files}, html={html_changed}, "
-    f"sitemap={removed_sitemap}, sitemap-google={removed_google}"
+    f"sitemap_urls={removed_sitemap}, sitemap_alts={removed_sitemap_alts}, "
+    f"google_urls={removed_google}, google_alts={removed_google_alts}"
 )
