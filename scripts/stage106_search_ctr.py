@@ -150,8 +150,15 @@ subprocess.run(
     check=True,
 )
 
-# Rebalance top-level hubs last so old cinematic pseudo-art cannot consume half the viewport.
+# Rebalance top-level hubs after the general glass layer.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage151_hub_layout_polish.py")), str(ROOT)],
+    check=True,
+)
+
+# Cases need one final composition guard after every cinematic/glass layer:
+# copy lives in the large left glass panel, project visual/support stays right.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage153_case_left_panel.py")), str(ROOT)],
     check=True,
 )
