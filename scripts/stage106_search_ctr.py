@@ -144,8 +144,14 @@ subprocess.run(
     check=True,
 )
 
-# Run visual polish last so older cinematic/theme layers cannot squeeze case copy again.
+# Run visual polish after all content layers.
 subprocess.run(
     [sys.executable, str(Path(__file__).with_name("stage150_premium_glass_polish.py")), str(ROOT)],
+    check=True,
+)
+
+# Rebalance top-level hubs last so old cinematic pseudo-art cannot consume half the viewport.
+subprocess.run(
+    [sys.executable, str(Path(__file__).with_name("stage151_hub_layout_polish.py")), str(ROOT)],
     check=True,
 )
