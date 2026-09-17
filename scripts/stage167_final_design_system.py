@@ -121,6 +121,26 @@ body[data-ux-family="service"] main .secondary-demand__card{
 .secondary-demand__grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0 clamp(28px,4vw,56px)!important;}
 .secondary-demand__card{min-height:0!important;padding:clamp(24px,2.5vw,34px) 0!important;border-radius:0!important;box-shadow:none!important;}
 
+/* Stage 172: high-intent task map. Keeps SEO links useful for people instead of rendering a keyword wall. */
+body[data-ux-family="service"] main .stage172-task-map{
+  background:#080b0e!important;color:var(--ux-white)!important;border-top:1px solid var(--ux-line-dark)!important;
+}
+.stage172-task-map__shell{width:min(1320px,calc(100% - 64px));margin:0 auto;padding:clamp(72px,7vw,112px) 0;}
+.stage172-task-map__head{display:grid;grid-template-columns:minmax(120px,.3fr) minmax(0,1.2fr);gap:clamp(28px,5vw,78px);align-items:start;margin-bottom:clamp(34px,4vw,56px);}
+.stage172-task-map__eyebrow,.stage172-task-map__group>p{margin:0;color:#7f8b91;font:700 11px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;text-transform:uppercase;}
+.stage172-task-map__head h2{margin:0;max-width:15ch;color:var(--ux-white);font-size:clamp(40px,4.5vw,70px);line-height:.96;letter-spacing:-.052em;text-wrap:balance;}
+.stage172-task-map__head>div>p{max-width:62ch;margin:18px 0 0;color:var(--ux-muted-light);font-size:clamp(15px,1.05vw,18px);line-height:1.7;}
+.stage172-task-map__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+.stage172-task-map__group{position:relative;overflow:hidden;padding:clamp(24px,3vw,38px);border:1px solid var(--ux-line-dark);border-radius:20px;background:linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.012));}
+.stage172-task-map__group:before{content:"";position:absolute;inset:0 auto 0 0;width:2px;background:var(--ux-lime);opacity:.32;}
+.stage172-task-map__group h3{margin:12px 0 24px;color:var(--ux-white);font-size:clamp(24px,2.2vw,34px);line-height:1;letter-spacing:-.04em;}
+.stage172-task-map__group nav{display:grid;}
+.stage172-task-map__group nav a{display:grid;grid-template-columns:minmax(0,1fr) auto 20px;gap:14px;align-items:center;padding:15px 0;border-top:1px solid var(--ux-line-dark);color:var(--ux-white)!important;text-decoration:none!important;transition:padding-left .18s ease,color .18s ease;}
+.stage172-task-map__group nav a:hover{padding-left:8px;color:var(--ux-lime)!important;}
+.stage172-task-map__group nav strong{font-size:15px;font-weight:650;letter-spacing:-.015em;}
+.stage172-task-map__group nav span{color:#7f8b91;font-size:12px;}
+.stage172-task-map__group nav b{font-size:14px;font-weight:500;}
+
 /* Explicit DARK conversion components always carry LIGHT type. */
 body[data-ux-family="service"] .p129-contact-card,
 body[data-ux-family="case"] .status-card{
@@ -152,11 +172,18 @@ body[data-ux-family="case"] .s165-bridge__contact{color:var(--ux-white)!importan
   body[data-ux-family="hub"] main.p130-hub .x146-depth__grid,
   body[data-ux-family="service"] main .x146-depth__grid,
   .secondary-demand__grid{grid-template-columns:1fr!important;}
+  .stage172-task-map__shell{width:min(100% - 28px,860px);}
+  .stage172-task-map__head{grid-template-columns:1fr;gap:18px;}
+  .stage172-task-map__grid{grid-template-columns:1fr;}
 }
 @media(max-width:600px){
   body[data-ux-family="hub"] main.p130-hub .x146-depth__inner,
   body[data-ux-family="service"] main .x146-depth__inner,
   .secondary-demand__inner,.secondary-demand__shell{width:calc(100% - 24px)!important;}
+  .stage172-task-map__shell{width:calc(100% - 24px);}
+  .stage172-task-map__group{padding:22px 18px;}
+  .stage172-task-map__group nav a{grid-template-columns:minmax(0,1fr) 18px;}
+  .stage172-task-map__group nav a span{display:none;}
 }
 </style>'''
 

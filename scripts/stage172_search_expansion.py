@@ -124,8 +124,29 @@ for route, slugs in SOURCE_LINKS.items():
     if not fp.is_file(): continue
     x=fp.read_text(encoding='utf-8')
     if 'data-stage172-crosslinks="true"' in x: continue
-    anchors=''.join(f'<a href="/{s}/">{html.escape(by_slug[s]["title"].split("|")[0].strip())} ↗</a>' for s in slugs)
-    cross=f'<section class="secondary-demand stage172-crosslinks" data-stage172-crosslinks="true"><div class="secondary-demand__shell"><div class="secondary-demand__head"><p class="secondary-demand__eyebrow">RELATED TASKS</p><div><h2>Ещё конкретные задачи.</h2><p class="secondary-demand__intro">Отдельные страницы помогают сразу перейти к нужному сценарию без выбора технологии по названию.</p></div></div><nav class="secondary-demand__links" aria-label="Связанные задачи">{anchors}</nav></div></section>'
+    SHORT_LABELS = {
+      'personal-cabinet-development':'Личный кабинет','admin-panel-development':'Админ-панель','saas-development':'SaaS-сервис','ecommerce-development':'Интернет-магазин',
+      'excel-google-sheets-automation':'Excel / Google Sheets','python-scripts':'Python-скрипты','web-scraping-parsers':'Парсеры данных','automation-services':'Автоматизация процессов',
+      '1c-integration':'Интеграция 1С','payment-integration':'Онлайн-оплата','crm-integration':'CRM-интеграции','api-development':'Разработка API',
+      'site-repair':'Доработка сайта','ai-chatbot-development':'AI-ассистенты','tilda-development':'Tilda','bitrix-development':'1С-Битрикс',
+    }
+    GROUPS = [
+      ('01 / PRODUCTS','Продукты и кабинеты',['personal-cabinet-development','admin-panel-development','saas-development','ecommerce-development']),
+      ('02 / AUTOMATION','Автоматизация и данные',['excel-google-sheets-automation','python-scripts','web-scraping-parsers','automation-services']),
+      ('03 / INTEGRATIONS','Интеграции',['1c-integration','payment-integration','crm-integration','api-development']),
+      ('04 / SUPPORT + AI','Доработка и AI',['site-repair','ai-chatbot-development','tilda-development','bitrix-development']),
+    ]
+    cards=[]
+    selected=set(slugs)
+    for eyebrow, title, members in GROUPS:
+        members=[m for m in members if m in selected]
+        if not members: continue
+        rows=''.join(
+          f'<a href="/{m}/"><strong>{html.escape(SHORT_LABELS.get(m,m))}</strong><span>Открыть направление</span><b>↗</b></a>'
+          for m in members
+        )
+        cards.append(f'<article class="stage172-task-map__group"><p>{eyebrow}</p><h3>{html.escape(title)}</h3><nav aria-label="{html.escape(title)}">{rows}</nav></article>')
+    cross=f'<section class="stage172-task-map" data-stage172-crosslinks="true"><div class="stage172-task-map__shell"><div class="stage172-task-map__head"><p class="stage172-task-map__eyebrow">RELATED TASKS</p><div><h2>Следующий шаг - по типу задачи.</h2><p>Не список технологий, а понятные направления: продукт, автоматизация, интеграция или доработка.</p></div></div><div class="stage172-task-map__grid">{''.join(cards)}</div></div></section>'
     markers=[r'<section class="p129-contact', r'<section class="s165-bridge', r'</main>']
     done=False
     for marker in markers:
