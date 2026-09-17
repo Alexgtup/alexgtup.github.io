@@ -12,7 +12,7 @@ PROFESSIONALISM = 10
 COMMUNICATION = 9
 CLAIMS = 0
 REVIEWS_URL = "https://freelance.ru/reviews/gglalex/"
-TELEGRAM = "https://t.me/Alexuys"
+TELEGRAM = "https://t.me/Alexuys"\nBASE = "https://alexgtup.github.io"\nTODAY = "2026-09-18"
 
 STYLE = r'''<style id="stage177-conversion-trust">
 .s177-conversion{background:#f2efe8;color:#171914;border-top:1px solid rgba(27,31,25,.1);border-bottom:1px solid rgba(27,31,25,.12)}
@@ -168,5 +168,22 @@ for rel in ("index.html", "about/index.html", "freelance-developer/index.html"):
     text = (ROOT / rel).read_text(encoding="utf-8")
     if "17 отзывов" in text or ">17</strong><span>публичных отзывов" in text:
         raise SystemExit(f"stage177: stale 17-review fact on {rel}")
+
+# Mark the pages changed by this final conversion/reputation pass as fresh for crawlers.
+routes = ["/", "/about/", "/freelance-developer/"] + [f"/{slug}/" for slug in PAGES]
+for sitemap_name in ("sitemap.xml", "sitemap-google.xml"):
+    sitemap = ROOT / sitemap_name
+    if not sitemap.is_file():
+        continue
+    xml = sitemap.read_text(encoding="utf-8")
+    touched = 0
+    for route in routes:
+        url = BASE + route
+        pattern = r'(<loc>' + re.escape(url) + r'</loc>\\s*<lastmod>)[^<]+'
+        xml, n = re.subn(pattern, r'\\g<1>' + TODAY, xml, count=1)
+        touched += n
+    if sitemap_name == "sitemap.xml" and touched != len(routes):
+        raise SystemExit(f"stage177: sitemap freshness mismatch {touched}/{len(routes)}")
+    sitemap.write_text(xml, encoding="utf-8")
 
 print(f"stage177 conversion trust: service_pages={changed}; reviews={REVIEWS}; claims={CLAIMS}")
