@@ -5,13 +5,13 @@ ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 CASES={
 '/cases/fin-planner/':('TELEGRAM PRODUCT','/assets/cases/fin-planner/fin-planner-original-800w.webp','800','605','FIN PLANNER'),
 '/cases/swift-calendar/':('iOS PRODUCT','/assets/cases/swift-calendar/calendar-original-800w.webp','800','551','SWIFT CALENDAR'),
-'/cases/sheetpilot-ai/':('WEB PRODUCT','/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp','720','540','SHEETPILOT AI'),
-'/cases/seo-control-center/':('SEO / INTERNAL TOOL','/assets/cases/seo-control-center/seo-control-center-card-02.svg','1536','1024','SEO CONTROL CENTER'),
-'/cases/auto-crm/':('CRM / INTERNAL SYSTEM',None,None,None,'AUTO CRM'),
-'/cases/factory-catalog/':('B2B / WEB',None,None,None,'FACTORY CATALOG'),
-'/cases/taxi-app/':('MOBILE PRODUCT',None,None,None,'TAXI APP'),
-'/cases/siteaudit-studio/':('WEB TOOL',None,None,None,'SITEAUDIT STUDIO'),
-'/cases/freelance-os/':('PRODUCTIVITY PRODUCT',None,None,None,'FREELANCE OS'),
+'/cases/sheetpilot-ai/':('WEB PRODUCT','/assets/cases/sheetpilot-ai/sheetpilot-live-01.webp','1600','1000','SHEETPILOT AI'),
+'/cases/seo-control-center/':('SEO / INTERNAL TOOL','/assets/cases/seo-control-center/seo-control-center-live-01.webp','1600','1000','SEO CONTROL CENTER'),
+'/cases/auto-crm/':('CRM / INTERNAL SYSTEM','/assets/cases/auto-crm/auto-crm-real-01.webp','1280','502','AUTO CRM'),
+'/cases/factory-catalog/':('B2B / WEB','/assets/cases/factory-catalog/factory-catalog-real-01.webp','1345','841','FACTORY CATALOG'),
+'/cases/taxi-app/':('MOBILE PRODUCT','/assets/cases/taxi-app/taxi-app-real-01.webp','684','927','TAXI APP'),
+'/cases/siteaudit-studio/':('WEB TOOL','/assets/cases/siteaudit-studio/siteaudit-live-01.webp','1600','1000','SITEAUDIT STUDIO'),
+'/cases/freelance-os/':('PRODUCTIVITY PRODUCT','/assets/cases/freelance-os/freelance-os-live-01.webp','1600','1000','FREELANCE OS'),
 }
 
 def page(route): return ROOT/route.strip('/')/'index.html'

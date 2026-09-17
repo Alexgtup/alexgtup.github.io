@@ -24,7 +24,7 @@ main = r'''<main id="main-content" class="p128-home" data-stage128-home="true">
     <div class="p128-hero__visual" aria-label="Примеры реальных проектов">
       <a class="p128-shot p128-shot--one" href="/cases/fin-planner/"><img src="/assets/cases/fin-planner/fin-planner-card-01-720w.webp" width="720" height="900" alt="Интерфейс Fin Planner" decoding="async" fetchpriority="high"><span>Fin Planner</span></a>
       <a class="p128-shot p128-shot--two" href="/cases/swift-calendar/"><img src="/assets/cases/swift-calendar/calendar-card-01-720w.webp" width="720" height="900" alt="Интерфейс Swift Calendar" loading="lazy" decoding="async"><span>Swift Calendar</span></a>
-      <a class="p128-shot p128-shot--three" href="/cases/sheetpilot-ai/"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" alt="Интерфейс SheetPilot AI" loading="lazy" decoding="async"><span>SheetPilot AI</span></a>
+      <a class="p128-shot p128-shot--three" href="/cases/sheetpilot-ai/"><img src="/assets/cases/sheetpilot-ai/sheetpilot-live-01.webp" width="1600" height="1000" alt="Интерфейс SheetPilot AI" loading="lazy" decoding="async"><span>SheetPilot AI</span></a>
       <div class="p128-orbit" aria-hidden="true"></div>
     </div>
     <div class="p128-proofbar" aria-label="Проверяемые факты">
@@ -45,11 +45,11 @@ main = r'''<main id="main-content" class="p128-home" data-stage128-home="true">
         <div class="p128-feature__copy"><span>01 / TELEGRAM PRODUCT</span><h3>Fin Planner</h3><p>Финансовый сервис внутри Telegram - без отдельного приложения и лишних экранов.</p><ul class="p128-feature__points"><li>Учёт расходов и доходов</li><li>Регулярные операции</li><li>Цели и прогноз</li><li>Аналитика и отчёты</li></ul><a href="/cases/fin-planner/">Разобрать кейс ↗</a></div>
       </article>
       <article class="p128-feature p128-feature--portfolio">
-        <a class="p128-feature__media" href="/cases/seo-control-center/" aria-label="Открыть кейс SEO Control Center"><img src="/assets/cases/seo-control-center/seo-control-center-card-01.svg" width="1280" height="760" loading="lazy" decoding="async" alt="SEO Control Center - панель мониторинга поисковой видимости"></a>
+        <a class="p128-feature__media" href="/cases/seo-control-center/" aria-label="Открыть кейс SEO Control Center"><img src="/assets/cases/seo-control-center/seo-control-center-live-01.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="SEO Control Center - панель мониторинга поисковой видимости"></a>
         <div class="p128-feature__copy"><span>02 / SEO PLATFORM</span><h3>SEO Control Center</h3><p>Единая панель для контроля индексации, поисковых метрик и проблем сайта.</p><ul class="p128-feature__points"><li>Мониторинг индексации</li><li>Показы, CTR и позиции</li><li>Контроль sitemap</li><li>Сигналы по падениям</li></ul><a href="/cases/seo-control-center/">Разобрать кейс ↗</a></div>
       </article>
       <article class="p128-feature p128-feature--portfolio">
-        <a class="p128-feature__media" href="/cases/sheetpilot-ai/" aria-label="Открыть кейс SheetPilot AI"><img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" width="720" height="540" loading="lazy" decoding="async" alt="SheetPilot AI - веб-интерфейс обработки Excel"></a>
+        <a class="p128-feature__media" href="/cases/sheetpilot-ai/" aria-label="Открыть кейс SheetPilot AI"><img src="/assets/cases/sheetpilot-ai/sheetpilot-live-01.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="SheetPilot AI - веб-интерфейс обработки Excel"></a>
         <div class="p128-feature__copy"><span>03 / AI WEB PRODUCT</span><h3>SheetPilot AI</h3><p>Excel меняется обычной фразой: загрузить файл, описать действие и получить готовую версию.</p><ul class="p128-feature__points"><li>Загрузка Excel</li><li>Команды обычным языком</li><li>Предпросмотр результата</li><li>Экспорт новой версии</li></ul><a href="/cases/sheetpilot-ai/">Открыть кейс и демо ↗</a></div>
       </article>
       <article class="p128-feature p128-feature--portfolio">
