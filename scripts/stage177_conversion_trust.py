@@ -181,8 +181,11 @@ for sitemap_name in ("sitemap.xml", "sitemap-google.xml"):
     touched = 0
     for route in routes:
         url = BASE + route
-        pattern = r'(<loc>' + re.escape(url) + r'</loc>\\s*<lastmod>)[^<]+'
-        xml, n = re.subn(pattern, r'\\g<1>' + TODAY, xml, count=1)
+        pattern = (
+            r'(<(?:[A-Za-z0-9_]+:)?loc>' + re.escape(url) +
+            r'</(?:[A-Za-z0-9_]+:)?loc>\\s*<(?:[A-Za-z0-9_]+:)?lastmod>)[^<]+'
+        )
+        xml, n = re.subn(pattern, lambda m: m.group(1) + TODAY, xml, count=1)
         touched += n
     if sitemap_name == "sitemap.xml" and touched != len(routes):
         raise SystemExit(f"stage177: sitemap freshness mismatch {touched}/{len(routes)}")
