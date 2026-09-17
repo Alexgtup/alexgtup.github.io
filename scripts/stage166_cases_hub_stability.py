@@ -62,5 +62,6 @@ for script in (
     "stage167_final_design_system.py",
     "stage169_retire_legacy_depth_theme.py",
     "stage170_case_about_contrast.py",
+    "stage171_contrast_contract_audit.py",
 ):
     subprocess.run([sys.executable, str(Path(__file__).with_name(script)), str(ROOT)], check=True)
