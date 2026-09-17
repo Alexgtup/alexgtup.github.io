@@ -24,6 +24,7 @@ pairs = {
     "light body": ("#555c53", "#ffffff", 4.5),
     "dark heading": ("#f3f6f4", "#0d1115", 4.5),
     "dark case CTA": ("#f3f6f4", "#0b1015", 4.5),
+    "dark hub CTA": ("#f3f6f4", "#0b1015", 4.5),
     "lime button": ("#071008", "#c9ff4a", 4.5),
 }
 for label, (fg, bg, minimum) in pairs.items():
@@ -60,6 +61,22 @@ for path in urls:
     if "stage170-case-about-contrast" in text:
         raise SystemExit(f"stage171: obsolete about recolor remains {path}")
 
+hub_checks = [
+    "cases/index.html",
+    "services/index.html",
+    "guides/index.html",
+    "about/index.html",
+    "freelance-developer/index.html",
+]
+for rel in hub_checks:
+    text = (ROOT / rel).read_text(encoding="utf-8")
+    if "stage170-case-contrast" not in text:
+        raise SystemExit(f"stage171: hub contrast layer missing {rel}")
+    if 'main.p130-hub .p130-footer-cta :is(h2,h3,strong)' not in text:
+        raise SystemExit(f"stage171: hub CTA heading contrast missing {rel}")
+    if 'main.p130-hub .p130-footer-cta :is(p,li)' not in text:
+        raise SystemExit(f"stage171: hub CTA body contrast missing {rel}")
+
 case_checks = [
     "cases/auto-crm/index.html",
     "cases/taxi-app/index.html",
@@ -73,4 +90,4 @@ for rel in case_checks:
     if "stage170-case-contrast" not in text:
         raise SystemExit(f"stage171: case contrast layer missing {rel}")
 
-print(f"stage171 contrast contract: {len(urls)} RU sitemap pages, {len(pairs)} contrast pairs OK")
+print(f"stage171 contrast contract: {len(urls)} RU sitemap pages, {len(pairs)} contrast pairs OK, hub CTA guarded")
