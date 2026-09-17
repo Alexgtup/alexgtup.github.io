@@ -61,6 +61,7 @@ print("stage166 cases hub stability: legacy WebGL removed, flow guarded")
 for script in (
     "stage172_search_expansion.py",
     "stage173_growth_consolidation.py",
+    "stage174_intent_depth.py",
     "stage167_final_design_system.py",
     "stage169_retire_legacy_depth_theme.py",
     "stage170_case_about_contrast.py",
