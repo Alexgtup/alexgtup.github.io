@@ -59,6 +59,7 @@ if 'data-stage130-hub="cases"' not in final or 'class="p130-mosaic"' not in fina
 
 print("stage166 cases hub stability: legacy WebGL removed, flow guarded")
 for script in (
+    "stage172_search_expansion.py",
     "stage167_final_design_system.py",
     "stage169_retire_legacy_depth_theme.py",
     "stage170_case_about_contrast.py",
