@@ -12,7 +12,9 @@ PROFESSIONALISM = 10
 COMMUNICATION = 9
 CLAIMS = 0
 REVIEWS_URL = "https://freelance.ru/reviews/gglalex/"
-TELEGRAM = "https://t.me/Alexuys"\nBASE = "https://alexgtup.github.io"\nTODAY = "2026-09-18"
+TELEGRAM = "https://t.me/Alexuys"
+BASE = "https://alexgtup.github.io"
+TODAY = "2026-09-18"
 
 STYLE = r'''<style id="stage177-conversion-trust">
 .s177-conversion{background:#f2efe8;color:#171914;border-top:1px solid rgba(27,31,25,.1);border-bottom:1px solid rgba(27,31,25,.12)}
