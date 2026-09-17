@@ -28,7 +28,7 @@ main = r'''<main id="main-content" class="p128-home" data-stage128-home="true">
       <div class="p128-orbit" aria-hidden="true"></div>
     </div>
     <div class="p128-proofbar" aria-label="Проверяемые факты">
-      <a href="https://freelance.ru/gglalex" target="_blank" rel="me noopener noreferrer"><strong>20</strong><span>публичных отзывов</span></a>
+      <a href="https://freelance.ru/gglalex" target="_blank" rel="me noopener noreferrer"><strong>17</strong><span>публичных отзывов</span></a>
       <a href="/cases/"><strong>9</strong><span>подробных кейсов</span></a>
       <a href="/demos/"><strong>4</strong><span>публичных демо</span></a>
       <span><strong>6 лет</strong><span>в публичном профиле</span></span>
@@ -74,8 +74,8 @@ main = r'''<main id="main-content" class="p128-home" data-stage128-home="true">
 
 <section class="p128-proof" id="reviews" aria-labelledby="p128-proof-title">
   <div class="p128-shell p128-proof__grid">
-    <div class="p128-proof__statement"><p>PUBLIC PROOF</p><h2 id="p128-proof-title">Не нужно верить сайту <span>на слово.</span></h2><blockquote>«Задачу понял сразу, задал нужные вопросы, всё сдал быстро. Рекомендую.»</blockquote><p class="p128-proof__author"><strong>Иван</strong><span>публичный отзыв на Freelance.ru</span></p><a class="p128-link" href="https://freelance.ru/reviews/gglalex/" target="_blank" rel="noopener noreferrer">Посмотреть все отзывы ↗</a></div>
-    <div class="p128-proof__numbers"><div><strong>20</strong><span>отзывов в открытом профиле</span></div><div><strong>9/10</strong><span>профессионализм</span></div><div><strong>9/10</strong><span>коммуникация</span></div><div><strong>6 лет</strong><span>опыта в публичном профиле</span></div></div>
+    <div class="p128-proof__statement"><p>PUBLIC PROOF</p><h2 id="p128-proof-title">Не нужно верить сайту <span>на слово.</span></h2><blockquote>«Отличный специалист, вник в суть, оперативно помог.»</blockquote><p class="p128-proof__author"><strong>Ева Григорова</strong><span>отзыв от 04.09.2026 на Freelance.ru</span></p><a class="p128-link" href="https://freelance.ru/reviews/gglalex/" target="_blank" rel="noopener noreferrer">Посмотреть все отзывы ↗</a></div>
+    <div class="p128-proof__numbers"><div><strong>17</strong><span>отзывов в открытом профиле</span></div><div><strong>10/10</strong><span>профессионализм</span></div><div><strong>9/10</strong><span>коммуникация</span></div><div><strong>6 лет</strong><span>опыта в публичном профиле</span></div></div>
   </div>
 </section>
 
