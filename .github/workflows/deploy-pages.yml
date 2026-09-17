@@ -94,7 +94,6 @@ jobs:
           python scripts/stage65_analytics_centralization.py _site --check
           node --test tests/analytics.test.cjs
           python scripts/stage73_trust_freshness.py _site
-          python scripts/stage75_visible_authorship.py _site
           python scripts/stage76_yandex_serp_tuning.py _site
           python scripts/stage77_freelanceos_depth.py _site
           python scripts/stage77_sitewide_search_quality_v2.py _site
