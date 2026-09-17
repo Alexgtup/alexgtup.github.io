@@ -4,6 +4,28 @@
   if (window.alexuysAnalytics) return;
   const ID = 112290993;
   const KEY = 'alexuys-analytics-consent-v1';
+  const OWNER_KEY = 'alexuys-owner-analytics-skip-v1';
+  const params = new URLSearchParams(location.search);
+  try {
+    if (params.get('alexuys_owner') === '1') {
+      localStorage.setItem(OWNER_KEY, '1');
+      params.delete('alexuys_owner');
+      const clean = location.pathname + (params.toString() ? '?' + params.toString() : '') + location.hash;
+      history.replaceState(null, '', clean);
+    } else if (params.get('alexuys_owner') === '0') {
+      localStorage.removeItem(OWNER_KEY);
+      params.delete('alexuys_owner');
+      const clean = location.pathname + (params.toString() ? '?' + params.toString() : '') + location.hash;
+      history.replaceState(null, '', clean);
+    }
+  } catch (_) {}
+  let ownerSkip = false;
+  try { ownerSkip = localStorage.getItem(OWNER_KEY) === '1'; } catch (_) {}
+  const automated = navigator.webdriver === true || /HeadlessChrome/i.test(navigator.userAgent || '');
+  if (ownerSkip || automated) {
+    window.alexuysAnalytics = { goal() {}, get consent() { return 'declined'; }, get skipped() { return true; } };
+    return;
+  }
   let active = false;
   let consent = null;
   const normalize = value => ['accepted', 'yes'].includes(value) ? 'accepted'
@@ -49,7 +71,7 @@
       window.ym(ID, 'reachGoal', name, { page: location.pathname, ...params });
     }
   }
-  window.alexuysAnalytics = { goal, get consent() { return consent; } };
+  window.alexuysAnalytics = { goal, get consent() { return consent; }, get skipped() { return false; } };
   box?.addEventListener('click', event => {
     const button = event.target.closest('[data-analytics-choice]');
     if (button) { choose(button.dataset.analyticsChoice); settings?.focus(); }
