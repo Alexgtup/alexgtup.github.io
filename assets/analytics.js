@@ -31,7 +31,12 @@
   try { ownerSkip = localStorage.getItem(OWNER_KEY) === '1'; } catch (_) {}
   const nav = typeof navigator !== 'undefined' ? navigator : {};
   const automated = nav.webdriver === true || /HeadlessChrome/i.test(nav.userAgent || '');
-  if (ownerSkip || automated) {
+  let adminReferrer = false;
+  try {
+    const ref = String(document.referrer || '');
+    adminReferrer = /^https:\/\/(?:search\.google\.com|metrika\.yandex\.ru|webmaster\.yandex\.ru)(?:\/|$)/i.test(ref);
+  } catch (_) {}
+  if (ownerSkip || automated || adminReferrer) {
     window.alexuysAnalytics = { goal() {}, get consent() { return 'declined'; }, get skipped() { return true; } };
     return;
   }
