@@ -148,6 +148,8 @@ for slug, cfg in PAGES.items():
         raise SystemExit(f"stage177: head missing {slug}")
     text = text.replace("</head>", STYLE + "</head>", 1)
     hero = re.search(r'<section\b[^>]*class=["\'][^"\']*p129-svc-hero[^"\']*["\'][^>]*>.*?</section>', text, flags=re.I | re.S)
+    if not hero and slug == "wordpress-development":
+        hero = re.search(r'<section\b[^>]*class=["\']container hero["\'][^>]*>.*?</section>', text, flags=re.I | re.S)
     if not hero:
         raise SystemExit(f"stage177: service hero missing {slug}")
     text = text[:hero.end()] + block(cfg) + text[hero.end():]
