@@ -183,7 +183,7 @@ for sitemap_name in ("sitemap.xml", "sitemap-google.xml"):
         url = BASE + route
         pattern = (
             r'(<(?:[A-Za-z0-9_]+:)?loc>' + re.escape(url) +
-            r'</(?:[A-Za-z0-9_]+:)?loc>\\s*<(?:[A-Za-z0-9_]+:)?lastmod>)[^<]+'
+            r'</(?:[A-Za-z0-9_]+:)?loc>\s*<(?:[A-Za-z0-9_]+:)?lastmod>)[^<]+'
         )
         xml, n = re.subn(pattern, lambda m: m.group(1) + TODAY, xml, count=1)
         touched += n
