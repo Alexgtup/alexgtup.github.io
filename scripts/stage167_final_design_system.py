@@ -51,13 +51,12 @@ body[data-ux-family="hub"] main.p130-hub .x146-depth__intro{
   font-size:clamp(16px,1.15vw,19px)!important;line-height:1.72!important;
 }
 body[data-ux-family="hub"] main.p130-hub .x146-depth__grid{
-  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;
+  display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:0 clamp(34px,5vw,72px)!important;
 }
 body[data-ux-family="hub"] main.p130-hub .x146-depth__card{
-  min-height:0!important;padding:clamp(24px,2.5vw,34px)!important;
-  border:1px solid var(--ux-line-light)!important;border-radius:24px!important;
-  background:rgba(255,255,255,.70)!important;color:var(--ux-ink)!important;
-  box-shadow:0 18px 50px rgba(40,37,31,.06)!important;
+  min-height:0!important;padding:clamp(26px,3vw,40px) 0!important;
+  border:0!important;border-top:1px solid var(--ux-line-light)!important;border-radius:0!important;
+  background:transparent!important;color:var(--ux-ink)!important;box-shadow:none!important;
 }
 body[data-ux-family="hub"] main.p130-hub .x146-depth__card p{
   margin:14px 0 0!important;color:#555c53!important;font-size:clamp(15px,1vw,17px)!important;line-height:1.68!important;
@@ -89,10 +88,10 @@ body[data-ux-family="service"] main .x146-depth__head h2{
 }
 body[data-ux-family="service"] main .x146-depth__eyebrow{color:rgba(226,233,230,.50)!important;}
 body[data-ux-family="service"] main .x146-depth__intro{color:var(--ux-muted-light)!important;max-width:78ch!important;line-height:1.72!important;}
-body[data-ux-family="service"] main .x146-depth__grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px!important;}
+body[data-ux-family="service"] main .x146-depth__grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:0 clamp(34px,5vw,72px)!important;}
 body[data-ux-family="service"] main .x146-depth__card{
-  padding:clamp(24px,2.5vw,34px)!important;border:1px solid var(--ux-line-dark)!important;border-radius:24px!important;
-  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),var(--ux-card)!important;color:var(--ux-white)!important;
+  padding:clamp(26px,3vw,40px) 0!important;border:0!important;border-top:1px solid var(--ux-line-dark)!important;border-radius:0!important;
+  background:transparent!important;color:var(--ux-white)!important;box-shadow:none!important;
 }
 body[data-ux-family="service"] main .x146-depth__card p{color:var(--ux-muted-light)!important;line-height:1.68!important;}
 body[data-ux-family="service"] main .x146-depth__links a{
@@ -106,7 +105,7 @@ body[data-ux-family="hub"] main.p130-hub .secondary-demand{
 body[data-ux-family="hub"] main.p130-hub .secondary-demand :is(h2,h3){color:var(--ux-ink)!important;}
 body[data-ux-family="hub"] main.p130-hub .secondary-demand :is(p,.secondary-demand__intro){color:#555c53!important;}
 body[data-ux-family="hub"] main.p130-hub .secondary-demand__card{
-  background:#fff!important;color:var(--ux-ink)!important;border:1px solid var(--ux-line-light)!important;
+  background:transparent!important;color:var(--ux-ink)!important;border:0!important;border-top:1px solid var(--ux-line-light)!important;
 }
 body[data-ux-family="service"] main .secondary-demand{
   background:var(--ux-dark)!important;color:var(--ux-white)!important;border-top:1px solid var(--ux-line-dark)!important;
@@ -114,13 +113,13 @@ body[data-ux-family="service"] main .secondary-demand{
 body[data-ux-family="service"] main .secondary-demand :is(h2,h3){color:var(--ux-white)!important;}
 body[data-ux-family="service"] main .secondary-demand :is(p,.secondary-demand__intro){color:var(--ux-muted-light)!important;}
 body[data-ux-family="service"] main .secondary-demand__card{
-  background:var(--ux-card)!important;color:var(--ux-white)!important;border:1px solid var(--ux-line-dark)!important;
+  background:transparent!important;color:var(--ux-white)!important;border:0!important;border-top:1px solid var(--ux-line-dark)!important;
 }
 .secondary-demand__inner,.secondary-demand__shell{
   width:min(1320px,calc(100% - 64px))!important;max-width:1320px!important;margin:0 auto!important;padding:clamp(68px,6.5vw,104px) 0!important;
 }
-.secondary-demand__grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;}
-.secondary-demand__card{min-height:0!important;padding:24px!important;border-radius:22px!important;}
+.secondary-demand__grid{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0 clamp(28px,4vw,56px)!important;}
+.secondary-demand__card{min-height:0!important;padding:clamp(24px,2.5vw,34px) 0!important;border-radius:0!important;box-shadow:none!important;}
 
 /* Explicit DARK conversion components always carry LIGHT type. */
 body[data-ux-family="service"] .p129-contact-card,

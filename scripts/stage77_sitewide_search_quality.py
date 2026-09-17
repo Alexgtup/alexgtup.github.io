@@ -91,9 +91,9 @@ H1 = {
 }
 
 STYLE = '''<style data-stage77-css="true">
-.s77-section{width:min(100%,92rem);margin:clamp(2.4rem,6vw,5rem) auto 0;padding:clamp(1.2rem,3vw,2rem) clamp(1rem,4vw,2.2rem);border:1px solid rgba(255,255,255,.08);border-radius:18px;background:rgba(255,255,255,.018)}
+.s77-section{width:min(100%,92rem);margin:clamp(3.2rem,7vw,6rem) auto 0;padding:clamp(2rem,4vw,3.2rem) clamp(1rem,4vw,2.2rem);border:0;border-top:1px solid rgba(255,255,255,.10);border-radius:0;background:transparent}
 .s77-section h2{margin:0 0 .7rem;font-size:clamp(1.25rem,2.3vw,1.85rem)}.s77-section h3{margin:1.15rem 0 .35rem;font-size:1rem}.s77-section p{margin:.45rem 0;color:#aeb6bd;line-height:1.65}.s77-section ul,.s77-section ol{margin:.55rem 0 0;padding-left:1.25rem;color:#aeb6bd}.s77-section li{margin:.32rem 0;line-height:1.55}.s77-links{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1rem}.s77-links a{display:inline-flex;padding:.55rem .75rem;border:1px solid rgba(255,255,255,.1);border-radius:10px;text-decoration:none}.s77-links a:hover{text-decoration:underline}
-@media(max-width:640px){.s77-section{border-radius:14px}.s77-links{display:grid}.s77-links a{width:100%}}
+@media(max-width:640px){.s77-section{border-radius:0}.s77-links{display:grid}.s77-links a{width:100%}}
 </style>'''
 
 TOOL_DETAILS = {
