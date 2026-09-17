@@ -9,13 +9,36 @@ ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
 MARKER = "stage170-case-contrast"
 
 STYLE = r'''<style id="stage170-case-contrast">
-/* Final case-only contrast fixes. Do not recolor page/body globally. */
+/* Final component-level contrast fixes. Never recolor page/body globally. */
 body[data-ux-family="case"] main .p132-cover-graphic strong{
   color:rgba(243,246,244,.18)!important;
   -webkit-text-stroke:1px rgba(243,246,244,.10)!important;
 }
 body[data-ux-family="case"] main .p132-cover-graphic span{
   color:rgba(243,246,244,.70)!important;
+}
+
+/* Hub footer CTA: the surface is dark, so every readable descendant must be light. */
+main.p130-hub .p130-footer-cta{
+  color:#f3f6f4!important;
+}
+main.p130-hub .p130-footer-cta>div{
+  color:#f3f6f4!important;
+}
+main.p130-hub .p130-footer-cta :is(h2,h3,strong){
+  color:#f3f6f4!important;
+}
+main.p130-hub .p130-footer-cta :is(p,li){
+  color:rgba(226,233,230,.74)!important;
+}
+main.p130-hub .p130-footer-cta :is(.p130-kicker,.eyebrow,small){
+  color:rgba(226,233,230,.56)!important;
+}
+main.p130-hub .p130-footer-cta a:not(.p130-btn):not(.btn){
+  color:#f3f6f4!important;
+}
+main.p130-hub .p130-footer-cta :is(.p130-btn,.btn){
+  color:#071008!important;
 }
 
 body[data-ux-family="case"] main section.p132-end :is(.s51-contact-card,.cta-box),
@@ -115,6 +138,11 @@ for path in sorted(ROOT.rglob("index.html")):
     changed.append(rel)
 
 for rel in [
+    "cases/index.html",
+    "services/index.html",
+    "guides/index.html",
+    "about/index.html",
+    "freelance-developer/index.html",
     "cases/auto-crm/index.html",
     "cases/taxi-app/index.html",
     "cases/factory-catalog/index.html",
@@ -126,4 +154,4 @@ for rel in [
     if text.count(MARKER) != 1:
         raise SystemExit(f"stage170: marker guard failed {rel}")
 
-print(f"stage170 case contrast: {len(changed)} pages")
+print(f"stage170 component contrast: {len(changed)} pages")
