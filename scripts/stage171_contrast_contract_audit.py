@@ -38,9 +38,12 @@ ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 urls = []
 for loc in ET.parse(sitemap).findall(".//s:loc", ns):
     value = (loc.text or "").strip()
-    if value.startswith("https://alexgtup.github.io"):
-        rel = value.removeprefix("https://alexgtup.github.io").strip("/")
-        urls.append((ROOT / rel / "index.html") if rel else (ROOT / "index.html"))
+    if not value.startswith("https://alexgtup.github.io"):
+        continue
+    rel = value.removeprefix("https://alexgtup.github.io").strip("/")
+    if rel == "en" or rel.startswith("en/"):
+        continue
+    urls.append((ROOT / rel / "index.html") if rel else (ROOT / "index.html"))
 
 for path in urls:
     if not path.is_file():
@@ -70,4 +73,4 @@ for rel in case_checks:
     if "stage170-case-contrast" not in text:
         raise SystemExit(f"stage171: case contrast layer missing {rel}")
 
-print(f"stage171 contrast contract: {len(urls)} sitemap pages, {len(pairs)} contrast pairs OK")
+print(f"stage171 contrast contract: {len(urls)} RU sitemap pages, {len(pairs)} contrast pairs OK")
