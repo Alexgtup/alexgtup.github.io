@@ -94,6 +94,22 @@ for filename in ("sitemap.txt", "llms.txt"):
     lines = [line for line in lines if BASE + "/en/" not in line]
     path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
+# sitemap.txt is only an alternate discovery representation of sitemap.xml.
+# Regenerate it from the cleaned XML so late-added routes (for example
+# wordpress-development) can never leave the two public sitemaps out of sync.
+xml_path = ROOT / "sitemap.xml"
+txt_path = ROOT / "sitemap.txt"
+if xml_path.exists() and txt_path.exists():
+    ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+    urls = []
+    seen = set()
+    for loc in ET.parse(xml_path).findall(".//s:loc", ns):
+        value = (loc.text or "").strip()
+        if value and value not in seen:
+            seen.add(value)
+            urls.append(value)
+    txt_path.write_text("\n".join(urls).rstrip() + "\n", encoding="utf-8")
+
 # Keep the main feed purely Russian as well if an old EN entry was ever copied in.
 feed = ROOT / "feed.xml"
 if feed.exists():

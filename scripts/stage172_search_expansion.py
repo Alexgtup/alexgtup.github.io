@@ -44,6 +44,16 @@ def set_meta(text: str, page: dict) -> str:
         if re.search(pat,text,re.I): text = re.sub(pat,repl,text,count=1,flags=re.I)
         else: text = text.replace('</head>', repl+'</head>',1)
     text = re.sub(r'<link[^>]+rel=["\']canonical["\'][^>]*>', f'<link rel="canonical" href="{url}"/>', text, count=1, flags=re.I)
+    # Generated commercial pages use python-development as a visual template.
+    # Never inherit its hreflang URLs: each RU/x-default alternate must point to
+    # the generated page itself or search engines can group unrelated services.
+    for lang in ('ru', 'x-default'):
+        pat = rf'<link\b(?=[^>]*\bhreflang=["\']{re.escape(lang)}["\'])[^>]*>'
+        repl = f'<link rel="alternate" hreflang="{lang}" href="{url}"/>'
+        if re.search(pat, text, re.I):
+            text = re.sub(pat, repl, text, count=1, flags=re.I)
+        else:
+            text = text.replace('</head>', repl + '</head>', 1)
     text = re.sub(r'<meta[^>]+property=["\']og:url["\'][^>]*>', f'<meta property="og:url" content="{url}"/>', text, count=1, flags=re.I)
     text = re.sub(r'<script[^>]+type=["\']application/ld\+json["\'][^>]*>.*?</script>', '', text, flags=re.I|re.S)
     faq = [{'@type':'Question','name':q,'acceptedAnswer':{'@type':'Answer','text':a}} for q,a in page['faqs']]
