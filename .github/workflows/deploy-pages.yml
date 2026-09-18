@@ -128,6 +128,7 @@ jobs:
           python scripts/stage179_mobile_visual_contract.py _site
           python scripts/stage180_screenshot_qa.py _site
           python scripts/stage181_yandex_query_targets.py _site
+          python scripts/stage182_yandex_ctr_clusters.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
