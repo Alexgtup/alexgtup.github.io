@@ -127,9 +127,8 @@ if js_marker not in js_text:
     const draft = `Приветствую. Пишу с сайта Alexuys.\n\nТип задачи: ${kind}\nБюджет: ${budget}\n\nЧто нужно:\n${task}`;
     const url = `https://t.me/Alexuys?text=${encodeURIComponent(draft)}`;
     if (status) status.textContent = 'Открываю Telegram с готовым сообщением…';
-    if (typeof window.ym === 'function') {
-      try { window.ym(112290993, 'reachGoal', 'lead_brief_submit', { page: location.pathname, kind, budget }); } catch (_) {}
-    }
+    window.alexuysAnalytics?.goal('lead_brief_submit', { kind, budget });
+    window.alexuysAnalytics?.lead?.('brief', { kind, budget });
     window.open(url, '_blank', 'noopener,noreferrer');
   });
 })();

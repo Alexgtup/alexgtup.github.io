@@ -5,6 +5,7 @@
   const ID = 112290993;
   const KEY = 'alexuys-analytics-consent-v1';
   const OWNER_KEY = 'alexuys-owner-analytics-skip-v1';
+  const LEAD_GOAL = 'contact_lead_v1';
 
   function ownerMode() {
     let search = '';
@@ -37,7 +38,7 @@
     adminReferrer = /^https:\/\/(?:search\.google\.com|metrika\.yandex\.ru|webmaster\.yandex\.ru)(?:\/|$)/i.test(ref);
   } catch (_) {}
   if (ownerSkip || automated || adminReferrer) {
-    window.alexuysAnalytics = { goal() {}, get consent() { return 'declined'; }, get skipped() { return true; } };
+    window.alexuysAnalytics = { goal() {}, lead() {}, get consent() { return 'declined'; }, get skipped() { return true; } };
     return;
   }
 
@@ -86,7 +87,10 @@
       window.ym(ID, 'reachGoal', name, { page: location.pathname, ...params });
     }
   }
-  window.alexuysAnalytics = { goal, get consent() { return consent; }, get skipped() { return false; } };
+  function lead(channel, params = {}) {
+    goal(LEAD_GOAL, { channel, ...params });
+  }
+  window.alexuysAnalytics = { goal, lead, get consent() { return consent; }, get skipped() { return false; } };
   box?.addEventListener('click', event => {
     const button = event.target.closest('[data-analytics-choice]');
     if (button) { choose(button.dataset.analyticsChoice); settings?.focus(); }
@@ -103,8 +107,14 @@
     if (!link) return;
     let url;
     try { url = new URL(link.href, location.href); } catch (_) { return; }
-    if (url.hostname === 't.me') goal('telegram_click', link.dataset.cta ? { placement: link.dataset.cta } : {});
-    else if (url.protocol === 'mailto:') goal('email_click');
+    if (url.hostname === 't.me') {
+      const params = link.dataset.cta ? { placement: link.dataset.cta } : {};
+      goal('telegram_click', params);
+      lead('telegram', params);
+    } else if (url.protocol === 'mailto:') {
+      goal('email_click');
+      lead('email');
+    }
     else if (url.hostname === 'freelance.ru') goal('freelance_click');
     if (link.dataset.demo) goal('demo_open', { project: link.dataset.demo });
     if (link.dataset.offer) goal('freelance_offer_open', { offer: link.dataset.offer });

@@ -342,6 +342,7 @@ if "// Stage 44: compact brief to Telegram." not in js_text:
     if (!prepared) return;
     status.textContent = 'Сообщение подготовлено. Нажмите «Отправить» в Telegram. Если переход не сработал, текст и другие способы связи доступны ниже.';
     goal('brief_to_telegram', { type: prepared.type });
+    window.alexuysAnalytics?.lead?.('brief', { type: prepared.type });
     window.open(prepared.url, '_blank', 'noopener,noreferrer');
   });
   form.querySelector('[data-brief-preview]').addEventListener('click', () => {

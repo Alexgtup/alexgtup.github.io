@@ -50,9 +50,21 @@ test('contact and demo goals are recorded after consent without message text', (
   const p = page(null); p.choose('accepted');
   p.click('https://t.me/Alexuys?text=private');
   p.click('https://sheetpilot-ai-6omr.onrender.com', 'sheetpilot-ai');
-  assert.deepEqual(p.calls.filter(c => c[1] === 'reachGoal').map(c => c[2]), ['telegram_click', 'demo_open']);
+  assert.deepEqual(p.calls.filter(c => c[1] === 'reachGoal').map(c => c[2]), ['telegram_click', 'contact_lead_v1', 'demo_open']);
   assert.equal(JSON.stringify(p.calls).includes('private'), false);
 });
+
+test('email and direct Telegram contacts also emit one canonical lead event', () => {
+  const p = page(null); p.choose('accepted');
+  p.click('mailto:alexgtup@gmail.com?subject=test');
+  p.click('https://t.me/Alexuys');
+  const goals = p.calls.filter(c => c[1] === 'reachGoal').map(c => [c[2], c[3]?.channel]);
+  assert.deepEqual(goals, [
+    ['email_click', undefined], ['contact_lead_v1', 'email'],
+    ['telegram_click', undefined], ['contact_lead_v1', 'telegram'],
+  ]);
+});
+
 test('freelance offer interest is recorded with a bounded offer key', () => {
   const p = page(null); p.choose('accepted');
   p.click('https://alexgtup.github.io/n8n-automation/', undefined, 'n8n');
@@ -90,6 +102,13 @@ test('UX analytics records funnel and proof metadata without sending visitor-ent
   assert.equal(/goal\([^\n]*task\.value/.test(handoff), false);
   assert.equal(/goal\([^\n]*search\.value/.test(handoff), false);
   assert.equal(/goal\([^\n]*url\.search/.test(handoff), false);
+});
+
+test('programmatic brief handoffs feed the same canonical lead goal', () => {
+  const stage39 = fs.readFileSync('scripts/stage39_growth_patch.py', 'utf8');
+  const stage44 = fs.readFileSync('scripts/stage44_experience_rebuild.py', 'utf8');
+  assert.equal(stage39.includes("window.alexuysAnalytics?.lead?.('brief'"), true);
+  assert.equal(stage44.includes("window.alexuysAnalytics?.lead?.('brief'"), true);
 });
 
 test('navigation continuity owns browsing state but not Telegram draft mutation', () => {
