@@ -143,6 +143,7 @@ jobs:
           python scripts/stage194_russian_integrations_and_commerce.py _site
           python scripts/stage195_russian_ai_python_data.py _site
           python scripts/stage195_russian_marketplace_and_demand.py _site
+          python scripts/stage196_home_market_position.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
