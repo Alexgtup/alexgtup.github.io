@@ -129,6 +129,9 @@ for pagefile in html_files:
     route=route_for_file(pagefile)
     is_404=route=='/404'
     if is_verify: continue
+    if '/assets/analytics.js' in text:
+        if 'data-analytics-consent' not in text: errors.append(f'analytics consent UI missing: {route}')
+        if 'data-analytics-settings' not in text: errors.append(f'analytics settings control missing: {route}')
     if not pp.html_lang: errors.append(f'missing html lang: {route}')
     if not is_404:
         if pp.h1_count != 1: errors.append(f'H1 count {pp.h1_count}: {route}')

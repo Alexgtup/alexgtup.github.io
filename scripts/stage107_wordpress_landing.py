@@ -70,6 +70,7 @@ def write_wordpress_page() -> None:
 <section class="contact container"><div class="contact-card"><h2>Пришлите ссылку <em>и проблему.</em></h2><p>Можно коротко: что сейчас происходит, как должно работать и на какой странице это видно. Этого достаточно, чтобы начать разбор.</p><div class="actions"><a class="btn primary" href="https://t.me/Alexuys?text=Здравствуйте.%20Нужна%20доработка%20WordPress%20сайта.%20Ссылка%3A%20" target="_blank" rel="noopener noreferrer">Написать в Telegram ↗</a><a class="btn" href="/cases/">Посмотреть кейсы</a></div></div></section>
 </main>
 <footer class="footer"><div class="container"><span>Alexuys · разработка и доработка цифровых продуктов</span><a href="/privacy/">Конфиденциальность</a></div></footer>
+<aside class="growth-cookie" data-analytics-consent hidden aria-labelledby="analytics-title" data-nosnippet><strong id="analytics-title">Аналитические cookie</strong><p>Метрика учитывает посещения, переходы и взаимодействия на странице только с вашего согласия. После разрешения может использоваться Вебвизор для записи взаимодействий. <a href="/privacy/">Конфиденциальность</a></p><div class="growth-actions"><button class="growth-link" type="button" data-analytics-choice="declined">Отклонить</button><button class="growth-link primary" type="button" data-analytics-choice="accepted">Разрешить</button></div></aside><button class="growth-cookie-settings" data-analytics-settings hidden type="button" data-nosnippet>Настройки cookie</button>
 <script src="/assets/analytics.js" defer></script><script src="/assets/site-enhancements.js" defer></script>
 </body></html>'''
     path.write_text(html, encoding="utf-8")
@@ -147,6 +148,8 @@ for required in (
     'Доработка WordPress',
     'application/ld+json',
     'href="https://t.me/Alexuys',
+    'data-analytics-consent',
+    'data-analytics-settings',
 ):
     if required not in html:
         raise SystemExit("stage107: WordPress page invariant missing: " + required)
