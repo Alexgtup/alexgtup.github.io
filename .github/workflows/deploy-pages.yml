@@ -146,6 +146,7 @@ jobs:
           python scripts/stage195_russian_marketplace_and_demand.py _site
           python scripts/stage196_home_market_position.py _site
           python scripts/stage197_internal_authority.py _site
+          python scripts/stage198_yandex_ctr_queries.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
