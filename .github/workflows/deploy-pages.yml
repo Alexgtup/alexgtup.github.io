@@ -137,6 +137,7 @@ jobs:
           python scripts/stage188_yandex_service_positions.py _site
           python scripts/stage189_russian_market_core.py _site
           python scripts/stage190_russian_commercial_depth.py _site
+          python scripts/stage191_russian_secondary_clusters.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
