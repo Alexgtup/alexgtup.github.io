@@ -132,6 +132,7 @@ jobs:
           python scripts/stage183_yandex_secondary_ctr.py _site
           python scripts/stage184_miniapp_authority_links.py _site
           python scripts/stage185_cost_guide_authority.py _site
+          python scripts/stage186_yandex_brief_intent.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
