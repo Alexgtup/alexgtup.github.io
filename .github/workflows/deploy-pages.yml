@@ -141,6 +141,7 @@ jobs:
           python scripts/stage192_russian_development_cost.py _site
           python scripts/stage193_russian_high_demand_and_schema.py _site
           python scripts/stage194_russian_integrations_and_commerce.py _site
+          python scripts/stage195_russian_marketplace_and_demand.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
