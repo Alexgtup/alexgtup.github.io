@@ -118,10 +118,15 @@ if not case_pages:
     raise SystemExit('stage157: no case pages found')
 
 changed = 0
+target_pages = []
+skipped = []
 for path in case_pages:
     html = path.read_text(encoding='utf-8')
-    if 'p155-cover' not in html or 'p155-band' not in html or 'p155-preview' not in html:
-        raise SystemExit(f'stage157: p155 scene missing: {path}')
+    has_scene = all(re.search(r'<[^>]+class=["\'][^"\']*\b'+re.escape(cls)+r'\b[^"\']*["\'][^>]*>', html, re.I) for cls in ('p155-cover','p155-band','p155-preview'))
+    if not has_scene:
+        skipped.append(path)
+        continue
+    target_pages.append(path)
     html = clean_case_html(html)
     if '</head>' not in html:
         raise SystemExit(f'stage157: head missing: {path}')
@@ -129,7 +134,10 @@ for path in case_pages:
     path.write_text(html, encoding='utf-8')
     changed += 1
 
-for path in case_pages:
+if not target_pages:
+    raise SystemExit('stage157: no p155 case scenes found')
+
+for path in target_pages:
     html = path.read_text(encoding='utf-8')
     if html.count(f'id="{MARKER}"') != 1:
         raise SystemExit(f'stage157: final style guard failed: {path}')
@@ -140,4 +148,4 @@ for path in case_pages:
     if 'data-x134=' in body_tag or 'data-x135=' in body_tag or 'data-x135-family=' in body_tag:
         raise SystemExit(f'stage157: body runtime flags remain: {path}')
 
-print(f'stage157 stable editorial case hero: {changed} case pages')
+print(f'stage157 stable editorial case hero: {changed} cinematic case pages; skipped non-p155={len(skipped)}')

@@ -244,7 +244,8 @@ if case_count == 0:
 
 for path in sorted((ROOT / 'cases').glob('*/index.html')):
     html = path.read_text(encoding='utf-8')
-    if 'p132-cover-copy' in html and 'data-stage155-case-scene="true"' not in html:
+    has_case_copy_dom = re.search(r'<[^>]+class=["\'][^"\']*\bp132-cover-copy\b[^"\']*["\'][^>]*>', html, re.I) is not None
+    if has_case_copy_dom and 'data-stage155-case-scene="true"' not in html:
         raise SystemExit(f'stage155: case scene guard failed: {path}')
 
 print(f'stage155 case DOM scene: {case_count} cases, {service_count} service heroes')
