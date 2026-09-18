@@ -151,6 +151,7 @@ jobs:
           python scripts/stage200_broad_web_software_demand.py _site
           python scripts/stage201_contextual_internal_links.py _site
           python scripts/stage202_person_entity_consistency.py _site
+          python scripts/stage203_russian_demand_priority.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
