@@ -134,6 +134,8 @@ jobs:
           python scripts/stage185_cost_guide_authority.py _site
           python scripts/stage186_yandex_brief_intent.py _site
           python scripts/stage187_yandex_sitemap_validator_ctr.py _site
+          python scripts/stage188_yandex_service_positions.py _site
+          python scripts/stage189_russian_market_core.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
