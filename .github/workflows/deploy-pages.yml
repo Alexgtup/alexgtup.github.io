@@ -46,7 +46,7 @@ jobs:
           cp -R assets/. _site/assets/
 
           for f in favicon.ico favicon.svg favicon-96.png apple-touch-icon.png site.webmanifest .nojekyll \
-                   google4d4487812e36d65c.html yandex_d89618159a40495b.html yandex_e868ce83ed0c1276.html \
+                   google4d4487812e36d65c.html yandex_d89618159a40495b.html yandex_e868ce83ed0c1276.html yandex_852b5c79a2e9766b.html \
                    *.txt; do
             test -f "$f"
             cp "$f" "_site/$f"
