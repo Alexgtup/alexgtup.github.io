@@ -9,7 +9,7 @@ DIMS={
 '/assets/cases/fin-planner/fin-planner-card-02-720w.webp':('720','900'),
 '/assets/cases/swift-calendar/calendar-original-800w.webp':('800','551'),
 '/assets/cases/swift-calendar/calendar-card-02-720w.webp':('720','900'),
-'/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp':('720','540'),
+'/assets/cases/sheetpilot-ai/sheetpilot-live-01.webp':('1600','1000'),
 '/assets/cases/seo-control-center/seo-control-center-card-02.svg':('1536','1024'),
 }
 

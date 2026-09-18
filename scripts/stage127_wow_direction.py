@@ -21,7 +21,7 @@ if 's127-shot--seo' not in html:
 <span><b>SEO CONTROL CENTER</b><small>Мониторинг · кейс</small></span>
 </a>
 <a class="s44-shot s127-shot--sheet" href="/cases/sheetpilot-ai/" aria-label="Открыть кейс SheetPilot AI">
-<img src="/assets/cases/sheetpilot-ai/sheetpilot-01-720w.webp" alt="Интерфейс SheetPilot AI" width="1440" height="1080" loading="lazy" decoding="async">
+<img src="/assets/cases/sheetpilot-ai/sheetpilot-live-01.webp" alt="Интерфейс SheetPilot AI" width="1600" height="1000" loading="lazy" decoding="async">
 <span><b>SHEETPILOT AI</b><small>Excel · продукт</small></span>
 </a>
 '''

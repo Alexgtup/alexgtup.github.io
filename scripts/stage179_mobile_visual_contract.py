@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 from pathlib import Path
+import re
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else '_site')
@@ -94,10 +95,9 @@ body[data-page="home"] .p128-orbit{right:0!important}
 changed = 0
 for path in sorted(ROOT.rglob('index.html')):
     text = path.read_text(encoding='utf-8', errors='ignore')
-    if MARKER in text:
-        continue
     if '</head>' not in text:
         continue
+    text = re.sub(r'<style\s+id=["\']stage179-mobile-visual-contract["\']>.*?</style>', '', text, flags=re.I | re.S)
     text = text.replace('</head>', STYLE + '</head>', 1)
     path.write_text(text, encoding='utf-8')
     changed += 1
