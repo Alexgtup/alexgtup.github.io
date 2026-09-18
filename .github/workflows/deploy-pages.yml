@@ -163,6 +163,12 @@ jobs:
           # English version is intentionally retired only after all legacy validators pass.
           python scripts/stage163_remove_english.py _site
 
+      - name: Prepare IndexNow delta against live production
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/prepare_indexnow_delta.py _site /tmp/indexnow-urls.txt
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
@@ -177,15 +183,19 @@ jobs:
         with:
           timeout: 900000
 
-      - name: Notify IndexNow and Yandex from final sitemap
+      - name: Notify IndexNow and Yandex only about changed URLs
         continue-on-error: true
         shell: bash
         run: |
           set -u
+          if [ ! -s /tmp/indexnow-urls.txt ]; then
+            echo "IndexNow delta is empty; nothing to notify."
+            exit 0
+          fi
+
           python - <<'PY2'
           import json
           from pathlib import Path
-          import xml.etree.ElementTree as ET
 
           base = 'https://alexgtup.github.io'
           host = 'alexgtup.github.io'
@@ -198,9 +208,7 @@ jobs:
           if not key:
               raise SystemExit('IndexNow key file not found in published site')
 
-          tree = ET.parse('_site/sitemap.xml')
-          ns = {'s':'http://www.sitemaps.org/schemas/sitemap/0.9'}
-          urls = sorted({(n.text or '').strip() for n in tree.findall('.//s:loc', ns) if (n.text or '').strip()})
+          urls = [x.strip() for x in Path('/tmp/indexnow-urls.txt').read_text(encoding='utf-8').splitlines() if x.strip()]
           payload = {
               'host': host,
               'key': key,
@@ -209,7 +217,7 @@ jobs:
           }
           with open('/tmp/indexnow.json','w',encoding='utf-8') as f:
               json.dump(payload, f, ensure_ascii=False)
-          print(f'IndexNow URLs from final sitemap: {len(urls)}')
+          print(f'IndexNow changed URLs: {len(urls)}')
           PY2
 
           FAILED=0
@@ -233,6 +241,6 @@ jobs:
           done
 
           if [ "$FAILED" -ne 0 ]; then
-            echo "::warning::One or more IndexNow endpoints rejected the sitemap payload"
+            echo "::warning::One or more IndexNow endpoints rejected the delta payload"
             exit 1
           fi
