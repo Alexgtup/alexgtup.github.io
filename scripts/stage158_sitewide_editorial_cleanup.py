@@ -32,6 +32,9 @@ body[data-ux-family="service"] .p155-service-hero::after{content:none!important;
 body[data-ux-family="service"] .p155-service-band,body[data-ux-family="service"] .p155-service-band .p129-svc-copy{position:relative!important;inset:auto!important;transform:none!important;translate:none!important;width:100%!important;max-width:none!important;min-width:0!important;min-height:0!important;height:auto!important;margin:0!important;padding:0!important;display:block!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;overflow:visible!important;}
 body[data-ux-family="service"] .p155-service-band::before,body[data-ux-family="service"] .p155-service-band::after,body[data-ux-family="service"] .p129-svc-copy::before,body[data-ux-family="service"] .p129-svc-copy::after{content:none!important;display:none!important;}
 body[data-ux-family="service"] .p129-kicker{margin:0 0 22px!important;color:rgba(226,233,228,.55)!important;font-size:12px!important;letter-spacing:.19em!important;text-transform:uppercase!important;}
+body[data-ux-family="service"] .p129-outcomes .p129-kicker{color:#4f5a55!important;}
+body[data-ux-family="service"] .p129-outcomes .p129-outcome>span{color:#536068!important;}
+body[data-ux-family="service"] .p129-outcomes .p129-outcome p{color:#555f5a!important;}
 body[data-ux-family="service"] .p129-svc-copy h1{width:100%!important;max-width:none!important;margin:0 0 30px!important;font-size:clamp(70px,6.25vw,116px)!important;line-height:.89!important;letter-spacing:-.068em!important;text-wrap:pretty!important;overflow-wrap:normal!important;word-break:normal!important;color:#f5f7f4!important;}
 body[data-ux-family="service"] .p129-svc-copy h1 em{color:#ff765e!important;font-family:Georgia,serif!important;font-weight:500!important;}
 body[data-ux-family="service"] .p129-lead{width:100%!important;max-width:70ch!important;margin:0!important;color:rgba(234,239,236,.74)!important;font-size:clamp(18px,1.2vw,21px)!important;line-height:1.72!important;text-wrap:pretty!important;}
@@ -91,6 +94,7 @@ def target(html:str)->bool:
  return not fam or fam.group(1) in {'cinematic','guide'}
 
 def clean(html:str)->str:
+ html=re.sub(r'<style\b[^>]*id="stage158-sitewide-editorial-cleanup"[^>]*>.*?</style>','',html,flags=re.I|re.S)
  html=OLD_STYLE_IDS_RE.sub('',html)
  html=RUNTIME_SCRIPT_RE.sub('',html)
  html=re.sub(r'\sdata-x134="[^"]*"','',html,count=1)
