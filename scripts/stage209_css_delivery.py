@@ -7,7 +7,7 @@ ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 TARGETS=(
  'universal-media.css','site-enhancements.css','stage105-layout-core.css',
  'stage94-site-ux.css','stage105-theme-search.css','growth.css','ux-pass.css',
- 'portfolio-showcase.css','stage105-final-ui.css',
+ 'portfolio-showcase.css','stage105-final-ui.css','stage213-impossible-polish.css',
 )
 
 def minify_css(s:str)->str:
