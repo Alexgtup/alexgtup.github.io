@@ -30,7 +30,7 @@ body[data-stage233-home="true"] .p233-case:nth-child(2){border-color:rgba(145,16
 body[data-stage233-home="true"] .p233-case:nth-child(3){border-color:rgba(169,152,255,.2)}
 body[data-stage233-home="true"] .p233-case:nth-child(4){border-color:rgba(124,231,255,.18)}
 
-body[data-stage233-home="true"] .p233-build{position:relative;isolation:isolate;min-height:720px;padding:88px 0 72px;background:#02060a url('/assets/stage235-cinematic-mountains.svg') center bottom/cover no-repeat;color:#f3f5f2;overflow:hidden}
+body[data-stage233-home="true"] .p233-build{position:relative;isolation:isolate;min-height:720px;padding:88px 0 72px;background:#02060a url('/assets/home-mountains-reference.webp') center bottom/cover no-repeat;color:#f3f5f2;overflow:hidden}
 body[data-stage233-home="true"] .p233-build::before{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(180deg,#02060a 0%,rgba(2,6,10,.94) 27%,rgba(2,6,10,.3) 67%,rgba(2,6,10,.06) 100%)}
 body[data-stage233-home="true"] .p233-build-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,.55fr) auto;grid-template-rows:auto auto;gap:18px 36px;align-items:end}
 body[data-stage233-home="true"] .p233-build-head .p233-kicker{grid-column:1/4}
