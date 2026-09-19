@@ -12,6 +12,6 @@ if n!=1: raise SystemExit('stage234 body missing')
 s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage234-background-reveal.css"></head>',1)
 p.write_text(s,encoding='utf8')
 f=p.read_text(encoding='utf8')
-for needle in ['data-stage231-home="true"','data-stage233-home="true"','data-stage234-home="true"','stage234-background-reveal.css','stage231-hero-installation.svg']:
+for needle in ['data-stage231-home="true"','data-stage233-home="true"','data-stage234-home="true"','stage234-background-reveal.css','stage235-crystal-system.svg']:
  if needle not in f: raise SystemExit(f'stage234 guard {needle}')
 print('stage234 background reveal: space/work/mountain SVG layers made explicit and visible')

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 820" preserveAspectRatio="xMidYMax slice">
+<defs>
+ <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#02050a"/><stop offset=".45" stop-color="#060a12"/><stop offset="1" stop-color="#010204"/></linearGradient>
+ <linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#1b2232"/><stop offset="1" stop-color="#070a0f"/></linearGradient>
+ <linearGradient id="mid" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#121925"/><stop offset="1" stop-color="#030609"/></linearGradient>
+ <linearGradient id="near" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0c121b"/><stop offset="1" stop-color="#010203"/></linearGradient>
+ <linearGradient id="road" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#92a9ff"/><stop offset=".44" stop-color="#d6ff73"/><stop offset="1" stop-color="#75e8ff"/></linearGradient>
+ <radialGradient id="fog" cx="54%" cy="58%" r="42%"><stop stop-color="#7867ff" stop-opacity=".12"/><stop offset="1" stop-opacity="0"/></radialGradient>
+ <filter id="g"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="s"><feGaussianBlur stdDeviation="26"/></filter>
+</defs>
+<rect width="1800" height="820" fill="url(#sky)"/>
+<rect width="1800" height="820" fill="url(#fog)"/>
+<ellipse cx="1050" cy="440" rx="720" ry="160" fill="#715cff" opacity=".055" filter="url(#s)"/>
+<ellipse cx="1380" cy="478" rx="380" ry="120" fill="#caff62" opacity=".035" filter="url(#s)"/>
+<g fill="#ecf3ff" opacity=".58"><circle cx="96" cy="88" r="1.1"/><circle cx="252" cy="158" r=".75"/><circle cx="430" cy="72" r="1"/><circle cx="602" cy="142" r=".8"/><circle cx="780" cy="94" r="1.1"/><circle cx="956" cy="164" r=".75"/><circle cx="1130" cy="80" r="1.15"/><circle cx="1304" cy="134" r=".82"/><circle cx="1480" cy="72" r="1"/><circle cx="1662" cy="150" r=".78"/></g>
+<!-- distant ridge -->
+<path d="M0 516 L110 470 L206 492 L314 424 L398 466 L506 344 L592 430 L684 298 L760 388 L854 330 L934 420 L1036 316 L1118 396 L1210 342 L1306 452 L1406 352 L1504 446 L1596 386 L1690 462 L1800 420 L1800 820 L0 820 Z" fill="url(#far)"/>
+<!-- detailed middle ridge -->
+<path d="M0 584 L126 522 L228 558 L350 446 L436 532 L552 402 L648 568 L782 438 L886 552 L1010 436 L1134 566 L1262 472 L1374 582 L1508 492 L1632 596 L1800 528 L1800 820 L0 820 Z" fill="url(#mid)"/>
+<!-- foreground -->
+<path d="M0 650 L166 590 L300 632 L432 532 L548 644 L710 510 L842 670 L1016 560 L1152 654 L1318 574 L1456 680 L1592 620 L1800 652 L1800 820 L0 820 Z" fill="url(#near)"/>
+<!-- ridge highlights -->
+<g fill="none" stroke-linecap="round">
+ <path d="M0 584 L126 522 L228 558 L350 446 L436 532 L552 402 L648 568 L782 438 L886 552 L1010 436 L1134 566 L1262 472 L1374 582 L1508 492 L1632 596 L1800 528" stroke="#8fa6ff" stroke-opacity=".42" stroke-width="2" filter="url(#g)"/>
+ <path d="M354 448 L436 532 L552 402" stroke="#79e7ff" stroke-opacity=".36" stroke-width="2.2" filter="url(#g)"/>
+ <path d="M1010 436 L1134 566 L1262 472" stroke="#caff62" stroke-opacity=".42" stroke-width="2.4" filter="url(#g)"/>
+ <path d="M1390 566 L1508 492 L1632 596" stroke="#a691ff" stroke-opacity=".28" stroke-width="2" filter="url(#g)"/>
+</g>
+<!-- internal mountain facets -->
+<g fill="none" stroke="#536381" stroke-opacity=".18"><path d="M126 522 228 558 350 446 436 532M552 402 648 568 782 438M886 552 1010 436 1134 566M1262 472 1374 582 1508 492"/><path d="M166 590 300 632 432 532 548 644M710 510 842 670 1016 560M1152 654 1318 574 1456 680"/></g>
+<!-- luminous road -->
+<path d="M1112 820 C1104 752 1056 724 1018 688 C980 650 980 610 1042 574 C1108 536 1154 506 1182 458" fill="none" stroke="url(#road)" stroke-width="8" stroke-linecap="round" opacity=".94" filter="url(#g)"/>
+<path d="M1112 820 C1104 752 1056 724 1018 688 C980 650 980 610 1042 574 C1108 536 1154 506 1182 458" fill="none" stroke="#fff" stroke-opacity=".46" stroke-width="1.2" stroke-linecap="round"/>
+<ellipse cx="1088" cy="684" rx="118" ry="36" fill="#caff62" opacity=".035" filter="url(#s)"/>
+</svg>

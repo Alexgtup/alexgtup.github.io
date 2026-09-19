@@ -1,7 +1,7 @@
 /* Stage234 — make the actual SVG environment visibly present, not buried under dark overlays. */
 body[data-stage234-home="true"] main.p128-home{
   background-color:#02060a!important;
-  background-image:url('/assets/stage231-space-world.svg')!important;
+  background-image:url('/assets/stage235-cinematic-space.svg')!important;
   background-repeat:no-repeat!important;
   background-position:center top!important;
   background-size:max(1600px,100vw) auto!important;
@@ -35,7 +35,7 @@ body[data-stage234-home="true"] .p231-hero-art{
 body[data-stage234-home="true"] .p233-work{
   background:
     linear-gradient(180deg,rgba(2,6,10,.02),rgba(2,6,10,.08)),
-    url('/assets/stage231-space-world.svg') center -760px/max(1600px,100vw) auto no-repeat!important;
+    url('/assets/stage235-cinematic-space.svg') center -760px/max(1600px,100vw) auto no-repeat!important;
 }
 body[data-stage234-home="true"] .p233-work::before{
   background:
@@ -53,7 +53,7 @@ body[data-stage234-home="true"] .p233-case{
 body[data-stage234-home="true"] .p233-build{
   min-height:760px!important;
   background-color:#02060a!important;
-  background-image:url('/assets/stage231-mountain-world.svg')!important;
+  background-image:url('/assets/stage235-cinematic-mountains.svg')!important;
   background-repeat:no-repeat!important;
   background-position:center bottom!important;
   background-size:cover!important;
