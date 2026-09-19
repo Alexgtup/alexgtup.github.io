@@ -111,3 +111,8 @@ body[data-stage217-flagship] section[data-p220-step][style*="background" i]::aft
 @media(hover:hover) and (pointer:fine){body[data-stage217-flagship] .p220-story-map a:hover{color:#dce2df;background:rgba(255,255,255,.025)}body[data-stage217-flagship] .p220-story-map a:hover b{color:var(--p217-accent)}}
 @media(max-width:720px){body[data-stage217-flagship] .p220-story-map-wrap{position:relative;top:auto;width:calc(100% - 24px);margin-top:14px;padding:0;overflow-x:auto;border-radius:15px;scrollbar-width:none}body[data-stage217-flagship] .p220-story-map-wrap::-webkit-scrollbar{display:none}body[data-stage217-flagship] .p220-story-map{display:flex!important;grid-template-columns:1fr!important;min-width:520px}body[data-stage217-flagship] .p220-story-map a{flex:1 0 130px}body[data-stage217-flagship] .p220-story-map a{padding:13px 11px}body[data-stage217-flagship] section[data-p220-step]{scroll-margin-top:24px}body[data-stage217-flagship] section[data-p220-step]::after{right:12px;top:18px;font-size:82px}}
 @media(prefers-reduced-motion:reduce){body[data-stage217-flagship] .p220-story-map::after{transition:none}}
+/* Stage217 accessibility refinement: technical labels stay legible on dark and light editorial panels. */
+body[data-stage217-flagship] .p217-manifest small{color:#7f8b94!important}
+body[data-stage217-flagship="fin-planner"] #case-overview .kicker{color:#56636d!important}
+body[data-stage217-flagship="fin-planner"] #case-overview .section-head h2 em{color:#66747d!important}
+body[data-stage217-flagship="fin-planner"] #case-overview .story article>span{color:#56636d!important}
