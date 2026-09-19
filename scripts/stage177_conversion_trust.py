@@ -7,10 +7,9 @@ import re
 import sys
 
 ROOT = Path(sys.argv[1] if len(sys.argv) > 1 else "_site")
-REVIEWS = 18
-PROFESSIONALISM = 10
+REVIEWS = 20
+PROFESSIONALISM = 9
 COMMUNICATION = 9
-CLAIMS = 0
 REVIEWS_URL = "https://freelance.ru/reviews/gglalex/"
 TELEGRAM = "https://t.me/Alexuys"
 BASE = "https://alexgtup.github.io"
@@ -92,7 +91,9 @@ def sync_reputation(text: str) -> str:
         (r'<strong>(?:17|18|20)</strong><span>публичных отзывов</span>', f'<strong>{REVIEWS}</strong><span>публичных отзывов</span>'),
         (r'<strong>(?:17|18|20)</strong><span>отзывов в открытом профиле</span>', f'<strong>{REVIEWS}</strong><span>отзывов в открытом профиле</span>'),
         (r'<strong>(?:17|18|20) отзывов</strong><span>в публичном профиле Freelance\.ru</span>', f'<strong>{REVIEWS} отзывов</strong><span>в публичном профиле Freelance.ru</span>'),
-        (r'<strong>(?:17|18|20) отзывов · 10/10</strong>', f'<strong>{REVIEWS} отзывов · 10/10</strong>'),
+        (r'<strong>(?:17|18|20) отзывов · (?:9|10)/10</strong>', f'<strong>{REVIEWS} отзывов · {PROFESSIONALISM}/10</strong>'),
+        (r'<strong>(?:17|18|20) отзывов · \d+ претензий</strong>', f'<strong>{REVIEWS} отзывов в профиле</strong>'),
+        (r'<span>(?:9|10)/10 профессионализм · (?:9|10)/10 коммуникация</span>', f'<span>{PROFESSIONALISM}/10 профессионализм · {COMMUNICATION}/10 коммуникация</span>'),
     ]
     for pattern, replacement in replacements:
         text = re.sub(pattern, replacement, text)
@@ -115,7 +116,7 @@ def block(cfg: dict) -> str:
         '<div class="s177-shell"><div class="s177-grid">'
         f'<a class="s177-card" href="{REVIEWS_URL}" target="_blank" rel="noopener noreferrer">'
         '<small class="s177-kicker">FREELANCE.RU</small>'
-        f'<strong>{REVIEWS} отзывов · {CLAIMS} претензий</strong>'
+        f'<strong>{REVIEWS} отзывов в профиле</strong>'
         f'<span>{PROFESSIONALISM}/10 профессионализм · {COMMUNICATION}/10 коммуникация</span></a>'
         '<a class="s177-card" href="' + REVIEWS_URL + '" target="_blank" rel="noopener noreferrer">'
         '<small class="s177-kicker">CLIENT REVIEW</small>'
