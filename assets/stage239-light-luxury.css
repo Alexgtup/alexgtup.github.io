@@ -33,14 +33,14 @@ body[data-stage239-light-luxury="true"] .site{
 body[data-stage239-light-luxury="true"] .site::before,
 body[data-stage239-light-luxury="true"] .site::after{display:none!important}
 body[data-stage239-light-luxury="true"] main.p128-home{
-  background-color:#f2f1ed!important;
+  background-color:#f2f6fb!important;
   background-image:
-    linear-gradient(180deg,rgba(255,255,255,.18) 0%,rgba(248,247,244,.24) 46%,rgba(244,244,242,.30) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.06) 0%,rgba(248,250,253,.08) 52%,rgba(246,249,253,.06) 100%),
     url('/assets/home-light-luxury.webp')!important;
-  background-repeat:no-repeat!important;
-  background-position:center center!important;
-  background-size:cover!important;
-  background-attachment:fixed!important;
+  background-repeat:no-repeat,repeat-y!important;
+  background-position:center top,center top!important;
+  background-size:100% 100%,100% auto!important;
+  background-attachment:scroll,scroll!important;
 }
 
 /* Kill the old dark section scenes; preserve only the continuous light artwork. */
@@ -312,16 +312,18 @@ body[data-stage239-light-luxury="true"] .growth-cookie p{color:#66747d!important
 
 @media(max-width:980px){
   body[data-stage239-light-luxury="true"] main.p128-home{
-    background-attachment:scroll!important;
-    background-position:center top!important;
-    background-size:auto 2200px!important;
-    background-repeat:repeat-y!important;
+    background-attachment:scroll,scroll!important;
+    background-position:center top,center top!important;
+    background-size:100% 100%,100% auto!important;
+    background-repeat:no-repeat,repeat-y!important;
   }
   body[data-stage239-light-luxury="true"] .p128-hero__copy{border-radius:24px!important}
 }
 @media(max-width:560px){
   body[data-stage239-light-luxury="true"] main.p128-home{
-    background-size:auto 1700px!important;
+    background-size:100% 100%,100% auto!important;
+    background-position:center top,center top!important;
+    background-attachment:scroll,scroll!important;
   }
   body[data-stage239-light-luxury="true"] .p128-hero__copy{
     padding:22px!important;
