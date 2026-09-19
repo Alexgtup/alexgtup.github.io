@@ -54,7 +54,7 @@ main.p130-hub[data-stage130-hub="about"] .p130-editorial-statement p{color:rgba(
 main.p130-hub[data-stage130-hub="about"] .p130-editorial-statement .p129-textlink{
   color:#17140f!important;border-bottom-color:rgba(23,20,15,.38)!important;
 }
-main.p130-hub[data-stage130-hub="about"] .p130-proof-stack span{color:rgba(20,19,15,.62)!important}
+main.p130-hub[data-stage130-hub="about"] .p130-proof-stack span{color:rgba(20,19,15,.76)!important}
 main.p130-hub[data-stage130-hub="about"] .p131-bridge{border-color:rgba(20,19,15,.14)!important}
 main.p130-hub[data-stage130-hub="about"] .p131-bridge :is(span,a){color:rgba(20,19,15,.70)!important}
 main.p130-hub[data-stage130-hub="about"] .p131-bridge a{
