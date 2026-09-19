@@ -18,15 +18,22 @@ def set_meta(body: str, route: str) -> str:
     canonical=base+route
 
     # Rich preview directives required by the site's final SEO validator.
+    # This stage runs twice. Match either attribute order and emit one tag;
+    # a word boundary after the closing quote incorrectly missed existing tags.
+    robots_tag='<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">'
+    robots_seen=False
+    def normalize_robots(match):
+        nonlocal robots_seen
+        if robots_seen:
+            return ''
+        robots_seen=True
+        return robots_tag
     body=re.sub(
-        r'<meta\s+name="robots"\s+content="[^"]*"\s*/?>',
-        '<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">',
-        body,
-        count=1,
-        flags=re.I,
+        r'<meta\b(?=[^>]*\bname\s*=\s*["\']robots["\'])[^>]*>',
+        normalize_robots, body, flags=re.I,
     )
-    if not re.search(r'<meta\s+name="robots"\b',body,re.I):
-        body=body.replace('</head>','<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1"></head>',1)
+    if not robots_seen:
+        body=body.replace('</head>',robots_tag+'</head>',1)
 
     def ensure_property(prop: str, value: str) -> None:
         nonlocal body
