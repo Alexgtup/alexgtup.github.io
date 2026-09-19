@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import re,sys
+ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
+p=ROOT/'index.html'
+if not p.is_file(): raise SystemExit('stage233 home missing')
+s=p.read_text(encoding='utf8')
+# cleanup/idempotence
+s=re.sub(r'\s*<link[^>]+stage233-home-sections\.css[^>]*>','',s,flags=re.I)
+s=re.sub(r'\sdata-stage233-home="true"','',s)
+s,n=re.subn(r'<body\b([^>]*)>',lambda m:'<body'+m.group(1)+' data-stage233-home="true">',s,count=1,flags=re.I)
+if n!=1: raise SystemExit('stage233 body missing')
+s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage233-home-sections.css"></head>',1)
+work='''<section class="p233-work" id="selected-work" aria-labelledby="p233-work-title"><div class="p233-shell"><div class="p233-work-head"><p class="p233-kicker">SELECTED WORK</p><h2 id="p233-work-title">Избранные проекты</h2><p>Разные задачи. Одна цель — работающие продукты, которые доходят до релиза.</p><a class="p233-work-all" href="/cases/">Смотреть все кейсы →</a></div><div class="p233-work-grid">
+<article class="p233-case" data-index="01"><a class="p233-case-media" href="/cases/wordpress-commercial/" aria-label="Открыть кейс Коммерческий WordPress"><img src="/assets/cases/wordpress-commercial/wordpress-commercial-01-800w.webp" width="800" height="727" loading="lazy" decoding="async" alt="Коммерческий WordPress — реальный проект"></a><div class="p233-case-body"><p class="p233-case-meta">САЙТ / БИЗНЕС</p><h3>Коммерческий WordPress</h3><p class="p233-case-copy">Работающий коммерческий сайт: формы, калькуляторы, страницы и мобильная версия без полной пересборки.</p><ul class="p233-tags"><li>WordPress</li><li>Формы</li><li>Mobile</li></ul><a class="p233-case-link" href="/cases/wordpress-commercial/">Разобрать кейс →</a><div class="p233-case-proof"><span>CLIENT WORK<b>REAL</b></span><span>PRODUCTION<b>VERIFIED</b></span></div></div></article>
+<article class="p233-case" data-index="02"><a class="p233-case-media" href="/cases/fin-planner/" aria-label="Открыть кейс Fin Planner"><img src="/assets/cases/fin-planner/fin-planner-original-800w.webp" width="800" height="605" loading="lazy" decoding="async" alt="Fin Planner — реальный Telegram-продукт"></a><div class="p233-case-body"><p class="p233-case-meta">TELEGRAM / PRODUCT</p><h3>Fin Planner</h3><p class="p233-case-copy">Финансовый сервис внутри Telegram: операции, цели, прогноз и отчёты в одном сценарии.</p><ul class="p233-tags"><li>Telegram</li><li>Состояния</li><li>Backend</li></ul><a class="p233-case-link" href="/cases/fin-planner/">Разобрать кейс →</a><div class="p233-case-proof"><span>TELEGRAM UI<b>REAL</b></span><span>FULL FLOW<b>VERIFIED</b></span></div></div></article>
+<article class="p233-case" data-index="03"><a class="p233-case-media" href="/cases/seo-control-center/" aria-label="Открыть кейс SEO Control Center"><img src="/assets/cases/seo-control-center/seo-control-center-live-01-800w.webp" width="800" height="500" loading="lazy" decoding="async" alt="SEO Control Center — реальный интерфейс"></a><div class="p233-case-body"><p class="p233-case-meta">SEO / TOOL</p><h3>SEO Control Center</h3><p class="p233-case-copy">Инструмент для контроля индексации, поисковых метрик, sitemap и технических событий.</p><ul class="p233-tags"><li>SEO</li><li>Analytics</li><li>PostgreSQL</li></ul><a class="p233-case-link" href="/cases/seo-control-center/">Разобрать кейс →</a><div class="p233-case-proof"><span>SEARCH DATA<b>REAL</b></span><span>MULTI-SITE<b>VERIFIED</b></span></div></div></article>
+<article class="p233-case" data-index="04"><a class="p233-case-media" href="/cases/sheetpilot-ai/" aria-label="Открыть кейс SheetPilot AI"><img src="/assets/cases/sheetpilot-ai/sheetpilot-live-01-800w.webp" width="800" height="500" loading="lazy" decoding="async" alt="SheetPilot AI — реальный AI-инструмент"></a><div class="p233-case-body"><p class="p233-case-meta">AI / DATA PRODUCT</p><h3>SheetPilot AI</h3><p class="p233-case-copy">Excel меняется обычной фразой: загрузить файл, описать действие, проверить и скачать результат.</p><ul class="p233-tags"><li>AI</li><li>Excel</li><li>Export</li></ul><a class="p233-case-link" href="/cases/sheetpilot-ai/">Открыть кейс →</a><div class="p233-case-proof"><span>XLSX INPUT<b>REAL</b></span><span>EXPORT<b>VERIFIED</b></span></div></div></article>
+</div></div></section>'''
+s,n=re.subn(r'<section class="(?:p128-work|p233-work)"[^>]*>.*?</section>',work,s,count=1,flags=re.S)
+if n!=1: raise SystemExit('stage233 work replace failed')
+build='''<section class="p233-build" aria-labelledby="p233-build-title"><div class="p233-shell"><div class="p233-build-head"><p class="p233-kicker">WHAT I BUILD</p><h2 id="p233-build-title">Превращаю задачи в работающие продукты</h2><p>Собираю интерфейс, разработку, данные и автоматизацию, чтобы идея становилась работающей системой.</p><a class="p233-build-cta" href="https://t.me/Alexuys" rel="noopener noreferrer" target="_blank">Обсудить проект →</a></div><div class="p233-build-grid">
+<a class="p233-build-item" href="/web-development/"><span class="p233-build-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></span><strong>Сайты и платформы</strong><span>От лендингов до сложных веб-сервисов</span></a>
+<a class="p233-build-item" href="/telegram-bots/"><span class="p233-build-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 11.5 21 4l-4 16-5.5-4-3 2.5 1-4.5z"/><path d="m9.5 14 7-6"/></svg></span><strong>Telegram-продукты</strong><span>Боты, mini apps и интеграции</span></a>
+<a class="p233-build-item" href="/automation-services/"><span class="p233-build-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M7.5 12h3.5c3 0 3-6 5.5-6M11 12h2c2.5 0 2 6 3.5 6"/></svg></span><strong>Автоматизация</strong><span>Сценарии, API и AI-агенты</span></a>
+<a class="p233-build-item" href="/tools/"><span class="p233-build-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20V7"/></svg></span><strong>Аналитика и инструменты</strong><span>Данные, визуализация и контроль</span></a>
+<a class="p233-build-item" href="/mvp-development/"><span class="p233-build-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg></span><strong>Приложения и MVP</strong><span>Быстрый запуск и рост продукта</span></a>
+</div></div></section>'''
+s,n=re.subn(r'<section class="(?:p128-capabilities[^"]*|p233-build)"[^>]*>.*?</section>',build,s,count=1,flags=re.S)
+if n!=1: raise SystemExit('stage233 build replace failed')
+p.write_text(s,encoding='utf8')
+f=p.read_text(encoding='utf8')
+for needle in ['data-stage233-home="true"','stage233-home-sections.css','class="p233-work"','class="p233-work-grid"','class="p233-build"','class="p233-build-grid"','Коммерческий WordPress','Fin Planner','SEO Control Center','SheetPilot AI','Сайты и платформы','Telegram-продукты','Автоматизация','Аналитика и инструменты','Приложения и MVP']:
+ if needle not in f: raise SystemExit(f'stage233 guard {needle}')
+for stale in ['<section class="p128-work"','<section class="p128-capabilities']:
+ if stale in f: raise SystemExit(f'stage233 stale block survived {stale}')
+if f.count('class="p233-case"')!=4 or f.count('class="p233-build-item"')!=5: raise SystemExit('stage233 count guard')
+print('stage233 homepage sections: old work/capabilities removed; new 4-case showcase + 5-item mountain build scene')

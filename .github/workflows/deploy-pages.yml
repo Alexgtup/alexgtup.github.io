@@ -178,6 +178,7 @@ jobs:
           python scripts/stage230_reference_fidelity.py _site
           python scripts/stage231_svg_world.py _site
           python scripts/stage232_home_cache_bust.py _site
+          python scripts/stage233_home_sections.py _site
           python scripts/stage208_search_intent_guard.py _site
           python scripts/stage209_css_delivery.py _site
           python scripts/stage25_navigation_audit.py _site
