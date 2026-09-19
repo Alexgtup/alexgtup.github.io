@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+from pathlib import Path
+import gzip,hashlib,re,sys
+
+ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
+TARGETS=(
+ 'universal-media.css','site-enhancements.css','stage105-layout-core.css',
+ 'stage94-site-ux.css','stage105-theme-search.css','growth.css','ux-pass.css',
+ 'portfolio-showcase.css','stage105-final-ui.css',
+)
+
+def minify_css(s:str)->str:
+    out=[];i=0;n=len(s);quote=None;pending_space=False
+    while i<n:
+        c=s[i]
+        if quote:
+            out.append(c)
+            if c=='\\' and i+1<n:
+                out.append(s[i+1]);i+=2;continue
+            if c==quote: quote=None
+            i+=1;continue
+        if c in ('"',"'"):
+            if pending_space and out and out[-1] not in '{:;,}': out.append(' ')
+            pending_space=False;quote=c;out.append(c);i+=1;continue
+        if c=='/' and i+1<n and s[i+1]=='*':
+            j=s.find('*/',i+2)
+            if j<0: raise SystemExit('stage209 unterminated CSS comment')
+            i=j+2;pending_space=True;continue
+        if c.isspace():
+            pending_space=True;i+=1;continue
+        if c in '{}:;,':
+            while out and out[-1]==' ': out.pop()
+            if c=='}' and out and out[-1]==';': out.pop()
+            out.append(c);pending_space=False;i+=1;continue
+        if pending_space:
+            if out and out[-1] not in '{:;,}': out.append(' ')
+            pending_space=False
+        out.append(c);i+=1
+    if quote: raise SystemExit('stage209 unterminated CSS string')
+    return ''.join(out).strip()
+
+def syntax_guard(s:str,name:str):
+    depth=0;quote=None;i=0
+    while i<len(s):
+        c=s[i]
+        if quote:
+            if c=='\\' and i+1<len(s): i+=2;continue
+            if c==quote:quote=None
+        elif c in ('"',"'"):quote=c
+        elif c=='{':depth+=1
+        elif c=='}':
+            depth-=1
+            if depth<0:raise SystemExit(f'stage209 negative brace depth: {name}')
+        i+=1
+    if quote or depth!=0:raise SystemExit(f'stage209 syntax guard failed {name}: quote={bool(quote)} depth={depth}')
+
+assets=ROOT/'assets'; stats=[]; hashes={}
+for name in TARGETS:
+    p=assets/name
+    if not p.is_file(): raise SystemExit(f'stage209 missing CSS: {name}')
+    src=p.read_text(encoding='utf-8'); before=len(src.encode()); before_gz=len(gzip.compress(src.encode(),9))
+    dst=minify_css(src); syntax_guard(dst,name)
+    p.write_text(dst,encoding='utf-8')
+    after=len(dst.encode()); after_gz=len(gzip.compress(dst.encode(),9))
+    if after>=before: raise SystemExit(f'stage209 no raw saving: {name}')
+    digest=hashlib.sha256(dst.encode()).hexdigest()[:12];hashes[name]=digest
+    stats.append((name,before,after,before_gz,after_gz))
+
+# Rotate every HTML cache key for files whose bytes changed.
+refs=0
+for p in ROOT.rglob('*.html'):
+    s=p.read_text(encoding='utf-8',errors='ignore'); original=s
+    for name,digest in hashes.items():
+        pat=rf'(/assets/{re.escape(name)})(?:\?v=[^"\']+)?'
+        s,n=re.subn(pat,rf'\1?v={digest}',s)
+        refs+=n
+    if s!=original:p.write_text(s,encoding='utf-8')
+
+# Critical home assets must still be referenced exactly once.
+home=(ROOT/'index.html').read_text(encoding='utf-8')
+for name,digest in hashes.items():
+    if f'/assets/{name}?v={digest}' not in home:
+        raise SystemExit(f'stage209 home cache ref missing: {name}')
+raw_before=sum(x[1] for x in stats); raw_after=sum(x[2] for x in stats)
+gz_before=sum(x[3] for x in stats); gz_after=sum(x[4] for x in stats)
+if gz_before-gz_after<15000:raise SystemExit(f'stage209 gzip saving unexpectedly low: {gz_before-gz_after}')
+print(f'stage209 CSS delivery: files={len(stats)}, html_refs={refs}, raw={raw_before}->{raw_after} (-{raw_before-raw_after}), gzip={gz_before}->{gz_after} (-{gz_before-gz_after})')
