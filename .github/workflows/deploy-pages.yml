@@ -156,6 +156,7 @@ jobs:
           python scripts/stage204_ai_implementation_intent.py _site
           python scripts/stage205_freelance_portfolio_cases.py _site
           python scripts/stage206_case_service_authority.py _site
+          python scripts/stage207_search_concentration.py _site
           python scripts/stage25_navigation_audit.py _site
           python scripts/stage27_endings_audit.py _site
           python scripts/stage28_overflow_audit.py _site
