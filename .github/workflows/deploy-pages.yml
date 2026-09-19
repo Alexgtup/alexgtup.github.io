@@ -162,6 +162,7 @@ jobs:
           python scripts/stage212_reputation_consistency.py _site
           python scripts/stage213_impossible_polish.py _site
           python scripts/stage214_case_exhibition.py _site
+          python scripts/stage215_service_scenes.py _site
           python scripts/stage208_search_intent_guard.py _site
           python scripts/stage209_css_delivery.py _site
           python scripts/stage25_navigation_audit.py _site

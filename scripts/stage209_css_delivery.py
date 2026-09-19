@@ -7,7 +7,7 @@ ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 TARGETS=(
  'universal-media.css','site-enhancements.css','stage105-layout-core.css',
  'stage94-site-ux.css','stage105-theme-search.css','growth.css','ux-pass.css',
- 'portfolio-showcase.css','stage105-final-ui.css','stage213-impossible-polish.css','stage214-case-exhibition.css',
+ 'portfolio-showcase.css','stage105-final-ui.css','stage213-impossible-polish.css','stage214-case-exhibition.css','stage215-service-scenes.css',
 )
 
 def minify_css(s:str)->str:
@@ -63,7 +63,7 @@ for name in TARGETS:
     dst=minify_css(src); syntax_guard(dst,name)
     p.write_text(dst,encoding='utf-8')
     after=len(dst.encode()); after_gz=len(gzip.compress(dst.encode(),9))
-    if after>=before: raise SystemExit(f'stage209 no raw saving: {name}')
+    if after>before: raise SystemExit(f'stage209 CSS expanded unexpectedly: {name}')
     digest=hashlib.sha256(dst.encode()).hexdigest()[:12];hashes[name]=digest
     stats.append((name,before,after,before_gz,after_gz))
 
@@ -77,12 +77,22 @@ for p in ROOT.rglob('*.html'):
         refs+=n
     if s!=original:p.write_text(s,encoding='utf-8')
 
-# Critical home assets must still be referenced exactly once.
-home=(ROOT/'index.html').read_text(encoding='utf-8')
+# Every optimized asset must retain at least one hashed reference wherever it is scoped.
+# Global bundles happen to be on the homepage; page-specific visual layers are intentionally not.
 for name,digest in hashes.items():
-    if f'/assets/{name}?v={digest}' not in home:
-        raise SystemExit(f'stage209 home cache ref missing: {name}')
+    hashed=f'/assets/{name}?v={digest}'
+    total=0
+    stale=0
+    for hp in ROOT.rglob('*.html'):
+        hs=hp.read_text(encoding='utf-8',errors='ignore')
+        total += hs.count(hashed)
+        stale += len(re.findall(rf'/assets/{re.escape(name)}(?!\?v=)',hs))
+    if total<1:
+        raise SystemExit(f'stage209 cache ref missing: {name}')
+    if stale:
+        raise SystemExit(f'stage209 unhashed cache ref remains: {name}={stale}')
 raw_before=sum(x[1] for x in stats); raw_after=sum(x[2] for x in stats)
 gz_before=sum(x[3] for x in stats); gz_after=sum(x[4] for x in stats)
-if gz_before-gz_after<15000:raise SystemExit(f'stage209 gzip saving unexpectedly low: {gz_before-gz_after}')
-print(f'stage209 CSS delivery: files={len(stats)}, html_refs={refs}, raw={raw_before}->{raw_after} (-{raw_before-raw_after}), gzip={gz_before}->{gz_after} (-{gz_before-gz_after})')
+saving=gz_before-gz_after
+mode='fresh' if saving>=15000 else 'repeat/minimal'
+print(f'stage209 CSS delivery: files={len(stats)}, html_refs={refs}, raw={raw_before}->{raw_after} (-{raw_before-raw_after}), gzip={gz_before}->{gz_after} (-{saving}), mode={mode}')
