@@ -190,6 +190,7 @@ jobs:
           python scripts/validate_site.py _site
           # English version is intentionally retired only after all legacy validators pass.
           python scripts/stage163_remove_english.py _site
+          python scripts/validate_final_indexability.py _site
 
       - name: Prepare IndexNow delta against live production
         shell: bash
