@@ -173,6 +173,7 @@ jobs:
           python scripts/stage226_home_masterpiece.py _site
           python scripts/stage226_home_responsive_media.py _site
           python scripts/stage227_cases_responsive_media.py _site
+          python scripts/stage228_home_art_polish.py _site
           python scripts/stage208_search_intent_guard.py _site
           python scripts/stage209_css_delivery.py _site
           python scripts/stage25_navigation_audit.py _site
