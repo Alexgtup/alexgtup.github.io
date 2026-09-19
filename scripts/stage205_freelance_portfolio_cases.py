@@ -30,17 +30,37 @@ PROOF={
  'web-development/index.html':[CASES[3]],
  'freelance-developer/index.html':[CASES[3]],
 }
+PLACEMENT={
+ 'marketplace-integration/index.html':'<section class="p129-contact',
+ 'excel-google-sheets-automation/index.html':'<section class="p129-contact',
+ 'site-repair/index.html':'<section class="p129-contact',
+ 'web-development/index.html':'<section class="s165-bridge',
+ 'freelance-developer/index.html':'<section class="p130-footer-cta',
+}
 changed=[]
 for rel,items in PROOF.items():
  p=ROOT/rel
  if not p.is_file(): continue
  s=p.read_text(encoding='utf-8')
  if 'stage205-case-proof-style' not in s:s=s.replace('</head>',STYLE+'</head>',1)
- if 'data-stage205-case-proof' not in s:
-  cards=''.join(f'<a class="s205-proof__card" href="{route}"><img src="{img}" width="{IMAGE_DIMS[img][0]}" height="{IMAGE_DIMS[img][1]}" loading="lazy" decoding="async" alt="{html.escape(title,quote=True)}"/><div><strong>{html.escape(title)}</strong><span>{html.escape(desc)}</span></div></a>' for route,title,desc,img in items)
-  block=f'<section class="s205-proof" data-stage205-case-proof="true"><div class="container"><div class="s205-proof__head"><small>РЕАЛЬНЫЕ КЕЙСЫ</small><h2>Похожая задача уже была в работе.</h2></div><div class="s205-proof__grid">{cards}</div></div></section>'
+ # Rebuild the proof block every run so its position stays deterministic.
+ start=s.find('<section class="s205-proof" data-stage205-case-proof="true">')
+ if start>=0:
+  end=s.find('</section>',start)
+  if end<0: raise SystemExit(f'stage205 malformed existing proof: {rel}')
+  s=s[:start]+s[end+10:]
+ cards=''.join(f'<a class="s205-proof__card" href="{route}"><img src="{img}" width="{IMAGE_DIMS[img][0]}" height="{IMAGE_DIMS[img][1]}" loading="lazy" decoding="async" alt="{html.escape(title,quote=True)}"/><div><strong>{html.escape(title)}</strong><span>{html.escape(desc)}</span></div></a>' for route,title,desc,img in items)
+ block=f'<section class="s205-proof" data-stage205-case-proof="true"><div class="container"><div class="s205-proof__head"><small>РЕАЛЬНЫЕ КЕЙСЫ</small><h2>Похожая задача уже была в работе.</h2></div><div class="s205-proof__grid">{cards}</div></div></section>'
+ if rel=='wordpress-development/index.html':
+  m=re.search(r'<section class="stage173-endcap"[^>]*>.*?</section>',s,re.I|re.S)
+  if not m: raise SystemExit('stage205 wordpress contact endcap missing')
+  endcap=m.group(0);s=s[:m.start()]+s[m.end():]
   if '</main>' not in s: raise SystemExit(f'stage205 no main close: {rel}')
-  s=s.replace('</main>',block+'</main>',1)
+  s=s.replace('</main>',block+endcap+'</main>',1)
+ else:
+  marker=PLACEMENT[rel];i=s.rfind(marker)
+  if i<0: raise SystemExit(f'stage205 placement marker missing: {rel}')
+  s=s[:i]+block+s[i:]
  p.write_text(s,encoding='utf-8');changed.append('/'+rel.replace('index.html',''))
 
 # Broaden case hub metadata after stage93 has rebuilt the library.
@@ -77,5 +97,10 @@ hub=(ROOT/'cases/index.html').read_text(encoding='utf-8')
 for route,_,_,_ in CASES:
  if f'href="{route}"' not in hub: raise SystemExit(f'stage205 hub missing {route}')
 for rel in PROOF:
- if 'data-stage205-case-proof="true"' not in (ROOT/rel).read_text(encoding='utf-8'):raise SystemExit(f'stage205 proof missing {rel}')
+ txt=(ROOT/rel).read_text(encoding='utf-8')
+ if txt.count('data-stage205-case-proof="true"')!=1:raise SystemExit(f'stage205 proof invalid {rel}')
+ main_end=txt.find('</main>');last=txt.rfind('<section',0,main_end)
+ tail=txt[last:main_end] if last>=0 and main_end>=0 else ''
+ if 'https://t.me/Alexuys' not in tail and 'mailto:alexgtup@gmail.com' not in tail:
+  raise SystemExit(f'stage205 final contact path missing {rel}')
 print(f'stage205 freelance portfolio cases: cases={len(CASES)}, proof_pages={len(PROOF)}')
