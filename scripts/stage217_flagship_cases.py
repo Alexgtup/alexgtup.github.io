@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import re,sys
+import hashlib,re,sys
 ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 CFG={
  'wordpress-commercial':{
-  'index':'01','type':'WORDPRESS / PRODUCTION','surface':'Действующий коммерческий сайт','scope':'Формы · калькуляторы · mobile','output':'Точечная доработка без rewrite','note':'Рабочая основа сохранена','detail':'Новые блоки и исправления встроены в существующий WordPress-контур.'},
+  'index':'01','type':'WORDPRESS / PRODUCTION','surface':'Действующий коммерческий сайт','scope':'Формы · калькуляторы · mobile','output':'Точечная доработка без rewrite','note':'Рабочая основа сохранена','detail':'Новые блоки и исправления встроены в существующий WordPress-контур.','story':['Контекст','Реальный экран','Изменения','Production']},
  'fin-planner':{
-  'index':'02','type':'TELEGRAM / PRODUCT','surface':'Реальный интерфейс Telegram','scope':'Доходы · расходы · отчёты','output':'Состояния · данные · backend','note':'Telegram — основной интерфейс','detail':'Кейс показывает реальные экраны и пользовательские сценарии продукта.'},
+  'index':'02','type':'TELEGRAM / PRODUCT','surface':'Реальный интерфейс Telegram','scope':'Доходы · расходы · отчёты','output':'Состояния · данные · backend','note':'Telegram — основной интерфейс','detail':'Кейс показывает реальные экраны и пользовательские сценарии продукта.','story':['Сценарий','Интерфейс','Возможности','Proof']},
  'portfolio-site':{
-  'index':'04','type':'WEB / PRODUCT SYSTEM','surface':'Многостраничный portfolio product','scope':'Cases · services · responsive','output':'SEO · schema · internal graph','note':'Portfolio как система','detail':'Контент, навигация, кейсы и поисковая структура работают как один продукт.'},
+  'index':'04','type':'WEB / PRODUCT SYSTEM','surface':'Многостраничный portfolio product','scope':'Cases · services · responsive','output':'SEO · schema · internal graph','note':'Portfolio как система','detail':'Контент, навигация, кейсы и поисковая структура работают как один продукт.','story':['Контекст','Реальный экран','Система','Результат']},
 }
 CSS='<link rel="stylesheet" href="/assets/stage217-flagship-cases.css">'
 for slug,c in CFG.items():
@@ -25,6 +25,10 @@ for slug,c in CFG.items():
  s=re.sub(r'\s*<span class="p217-screen-shade"[^>]*></span>','',s,flags=re.S)
  s=s.replace(' p217-frame','').replace(' p217-hero-shell','')
  s=re.sub(r'\sdata-p217-index="[^"]+"','',s)
+ s=re.sub(r'\s*<div class="p220-story-map-wrap".*?</nav></div>','',s,flags=re.S)
+ s=re.sub(r'\s*<script[^>]+stage220-case-story-map\.js[^>]*></script>','',s,flags=re.I)
+ s=re.sub(r'\sdata-p220-step="[^"]+"','',s)
+ s=re.sub(r'\s+id="(?:case-build|case-result)"','',s)
  # body flag and CSS
  s,n=re.subn(r'<body\b([^>]*)>',lambda m:'<body'+m.group(1)+f' data-stage217-flagship="{slug}">',s,count=1,flags=re.I)
  if n!=1:raise SystemExit(f'stage217 body missing {slug}')
@@ -64,6 +68,37 @@ for slug,c in CFG.items():
   s,n=re.subn(pat,lambda m:m.group(1)+note+m.group(2),s,count=1,flags=re.S)
   if n!=1:raise SystemExit(f'stage217 visual metadata failed {slug}')
   s=s.replace('<h1>',f'<span class="p217-real-badge">REAL PROJECT · {c["type"]}</span><h1>',1)
+ # Stage220 story map: four real sections, no invented metrics.
+ story_ids=['case-overview','gallery','case-build','case-result']
+ # Add deterministic IDs to the two narrative sections following gallery.
+ gpos=s.find('id="gallery"')
+ if gpos<0:raise SystemExit(f'stage220 gallery missing {slug}')
+ tail=s[gpos:]
+ starts=list(re.finditer(r'<section\b([^>]*)>',tail,re.I))
+ candidates=[]
+ for sm in starts:
+  tag=sm.group(0)
+  if 'id=' not in tag and 'case-contact' not in tag and 'source' not in tag and 'stage173-case-links' not in tag:
+   candidates.append(sm)
+  if len(candidates)==2:break
+ if len(candidates)!=2:raise SystemExit(f'stage220 narrative sections missing {slug}: {len(candidates)}')
+ # Replace from right to left so offsets stay valid.
+ for sid,sm in reversed(list(zip(['case-build','case-result'],candidates))):
+  a=gpos+sm.start();b=gpos+sm.end();tag=s[a:b];tag=tag[:-1]+f' id="{sid}">';s=s[:a]+tag+s[b:]
+ # Mark all four chapters for visual numbering and scroll targets.
+ for idx,sid in enumerate(story_ids,1):
+  pat=rf'<section\b(?=[^>]*\bid="{sid}")([^>]*)>'
+  s,n=re.subn(pat,lambda m:'<section'+m.group(1)+f' data-p220-step="{idx:02d}">',s,count=1,flags=re.I)
+  if n!=1:raise SystemExit(f'stage220 section mark failed {slug}:{sid}')
+ links=''.join(f'<a href="#{sid}"><b>{i:02d}</b><span>{label}</span></a>' for i,(sid,label) in enumerate(zip(story_ids,c['story']),1))
+ nav=f'<div class="p220-story-map-wrap"><nav class="p220-story-map" data-p220-map aria-label="Навигация по кейсу">{links}</nav></div>'
+ # Place map after manifest.
+ if manifest not in s:raise SystemExit(f'stage220 manifest missing {slug}')
+ s=s.replace(manifest,manifest+nav,1)
+ js=ROOT/'assets/stage220-case-story-map.js'
+ if not js.is_file():raise SystemExit('stage220 JS asset missing')
+ jsv=hashlib.sha256(js.read_bytes()).hexdigest()[:12]
+ s=s.replace('</body>',f'<script defer src="/assets/stage220-case-story-map.js?v={jsv}"></script></body>',1)
  p.write_text(s,encoding='utf8')
 # Guards
 for slug,c in CFG.items():
@@ -71,4 +106,5 @@ for slug,c in CFG.items():
  for needle in [f'data-stage217-flagship="{slug}"','stage217-flagship-cases.css','p217-manifest','p217-real-badge','p217-frame','p217-flagship-note',c['type']]:
   if needle not in s:raise SystemExit(f'stage217 guard {slug}: {needle}')
  if s.count('stage217-flagship-cases.css')!=1 or s.count('p217-manifest')<1:raise SystemExit(f'stage217 duplicate guard {slug}')
-print('stage217 flagship cases: wordpress-commercial, fin-planner, portfolio-site')
+ if s.count('data-p220-map')!=1 or s.count('stage220-case-story-map.js')!=1 or s.count('data-p220-step=')!=4:raise SystemExit(f'stage220 guard {slug}')
+print('stage217 flagship cases + stage220 story map: wordpress-commercial, fin-planner, portfolio-site')
