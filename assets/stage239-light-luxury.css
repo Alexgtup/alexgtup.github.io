@@ -123,6 +123,103 @@ body[data-stage239-light-luxury="true"] .button.primary:hover{
 }
 body[data-stage239-light-luxury="true"] .p128-link{color:#29343c!important}
 
+
+/* HERO CLEANUP — the old neon system artwork is removed on the light homepage. */
+body[data-stage239-light-luxury="true"] .p128-hero__visual,
+body[data-stage239-light-luxury="true"] .p231-hero-scene,
+body[data-stage239-light-luxury="true"] .p231-hero-art,
+body[data-stage239-light-luxury="true"] .p231-hotspot,
+body[data-stage239-light-luxury="true"] .p231-system-note{
+  display:none!important;
+}
+body[data-stage239-light-luxury="true"] .p128-hero>.p128-shell{
+  grid-template-columns:minmax(0,780px)!important;
+  justify-content:start!important;
+  column-gap:0!important;
+}
+body[data-stage239-light-luxury="true"] .p128-hero__copy{
+  width:100%!important;
+  max-width:780px!important;
+}
+body[data-stage239-light-luxury="true"] .p128-proofbar{
+  grid-column:1!important;
+  width:100%!important;
+  max-width:780px!important;
+}
+
+/* CONTRAST SAFETY — no legacy white typography may survive on light surfaces. */
+body[data-stage239-light-luxury="true"] :is(
+  .p128-hero__copy,
+  .p128-proofbar,
+  .p233-work-head,
+  .p233-case-body,
+  .p233-build-head,
+  .p233-build-item,
+  .stage174-head,
+  .stage174-popular__links>a,
+  .stage173-head,
+  .stage173-group,
+  .p128-proof__statement,
+  .p128-proof__numbers>div,
+  .p128-start__copy,
+  .p128-form
+){
+  color:#1b2329!important;
+}
+body[data-stage239-light-luxury="true"] :is(
+  .p128-hero__copy,
+  .p128-proofbar,
+  .p233-work-head,
+  .p233-case-body,
+  .p233-build-head,
+  .p233-build-item,
+  .stage174-head,
+  .stage174-popular__links>a,
+  .stage173-head,
+  .stage173-group,
+  .p128-proof__statement,
+  .p128-proof__numbers>div,
+  .p128-start__copy,
+  .p128-form
+) :is(h1,h2,h3,h4,strong,b){
+  color:#182027!important;
+  text-shadow:none!important;
+}
+body[data-stage239-light-luxury="true"] :is(
+  .p128-hero__copy,
+  .p233-work-head,
+  .p233-case-body,
+  .p233-build-head,
+  .p233-build-item,
+  .stage174-head,
+  .stage174-popular__links>a,
+  .stage173-head,
+  .stage173-group,
+  .p128-proof__statement,
+  .p128-proof__numbers>div,
+  .p128-start__copy,
+  .p128-form
+) :is(p,li,label,summary){
+  color:#52606a!important;
+  text-shadow:none!important;
+}
+body[data-stage239-light-luxury="true"] .p128-proofbar span{
+  color:#5f6d76!important;
+  text-shadow:none!important;
+}
+body[data-stage239-light-luxury="true"] :is(
+  .p233-case-link,.p233-work-all,.p233-build-cta,
+  .stage173-group nav a,.p128-link,.ux-brief-more summary
+){
+  color:#26343d!important;
+}
+body[data-stage239-light-luxury="true"] .p128-btn--primary,
+body[data-stage239-light-luxury="true"] .button.primary,
+body[data-stage239-light-luxury="true"] .p128-btn--primary :is(span,strong,b),
+body[data-stage239-light-luxury="true"] .button.primary :is(span,strong,b){
+  color:#fff!important;
+}
+
 /* Hero evidence bar */
 body[data-stage239-light-luxury="true"] .p128-proofbar{
   border-color:rgba(255,255,255,.75)!important;
