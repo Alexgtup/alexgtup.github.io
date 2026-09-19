@@ -17,13 +17,13 @@ if n!=1:
 # Homepage is now intentionally light.
 s=re.sub(r'<meta\s+content="dark"\s+name="color-scheme"\s*/?>','<meta content="light" name="color-scheme"/>',s,count=1,flags=re.I)
 s=re.sub(r'<meta\s+content="#08090b"\s+name="theme-color"\s*/?>','<meta content="#f2f1ed" name="theme-color"/>',s,count=1,flags=re.I)
-s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage239-light-luxury.css?v=2394"></head>',1)
+s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage239-light-luxury.css?v=2395"></head>',1)
 p.write_text(s,encoding='utf8')
 
 f=p.read_text(encoding='utf8')
 for needle in [
     'data-stage239-light-luxury="true"',
-    'stage239-light-luxury.css?v=2394',
+    'stage239-light-luxury.css?v=2395',
     'content="light" name="color-scheme"',
     'content="#f2f1ed" name="theme-color"',
     'data-stage238-home-cards="true"'
