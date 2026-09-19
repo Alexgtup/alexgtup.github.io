@@ -78,11 +78,28 @@ for name in ('sitemap.xml','sitemap-google.xml'):
         s=re.sub(r'(<loc>'+re.escape(BASE+route)+r'</loc><lastmod>)[^<]+',rf'\g<1>{TODAY}',s,count=1)
     p.write_text(s,encoding='utf-8')
 
-# Visible FAQ and FAQPage must agree exactly once each.
+# Visible FAQ and FAQPage must agree. The stage is intentionally idempotent:
+# a later/parallel semantic stage may already have added the same useful question.
 for slug,cfg in CFG.items():
     s=(ROOT/slug/'index.html').read_text(encoding='utf-8')
-    if s.count(cfg['q'])!=2:
-        raise SystemExit(f'stage204 question count {slug}: {s.count(cfg["q"])}')
-    if 'data-stage204-commercial="true"' not in s:
-        raise SystemExit(f'stage204 visible guard {slug}')
+    visible=re.sub(r'<script\b[^>]*>.*?</script>','',s,flags=re.I|re.S)
+    if cfg['q'] not in visible:
+        raise SystemExit(f'stage204 visible question missing {slug}')
+    schema_has=False
+    for m in re.finditer(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>',s,re.I|re.S):
+        try:o=json.loads(m.group(1))
+        except Exception:continue
+        def walk(x):
+            nonlocal_marker=[False]
+        stack=[o]
+        while stack:
+            x=stack.pop()
+            if isinstance(x,dict):
+                if x.get('@type')=='FAQPage' and any(isinstance(q,dict) and q.get('name')==cfg['q'] for q in x.get('mainEntity',[])):
+                    schema_has=True
+                stack.extend(x.values())
+            elif isinstance(x,list):
+                stack.extend(x)
+    if not schema_has:
+        raise SystemExit(f'stage204 FAQ schema missing {slug}')
 print('stage204 commercial FAQ alignment: pages=4')
