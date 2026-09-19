@@ -157,6 +157,7 @@ jobs:
           python scripts/stage205_freelance_portfolio_cases.py _site
           python scripts/stage206_case_service_authority.py _site
           python scripts/stage207_search_concentration.py _site
+          python scripts/stage210_buyer_intent_depth.py _site
           python scripts/stage208_search_intent_guard.py _site
           python scripts/stage209_css_delivery.py _site
           python scripts/stage25_navigation_audit.py _site
