@@ -29,7 +29,7 @@ def minify_css(s:str)->str:
             i=j+2;pending_space=True;continue
         if c.isspace():
             pending_space=True;i+=1;continue
-        if c in '{}:;,':
+        if c in '{};,':
             while out and out[-1]==' ': out.pop()
             if c=='}' and out and out[-1]==';': out.pop()
             out.append(c);pending_space=False;i+=1;continue
@@ -39,6 +39,12 @@ def minify_css(s:str)->str:
         out.append(c);i+=1
     if quote: raise SystemExit('stage209 unterminated CSS string')
     return ''.join(out).strip()
+
+# Regression guard: whitespace before a pseudo-class can be a descendant combinator.
+# `.a :is(...)` and `.a:is(...)` are different selectors and must never collapse.
+_MINIFIER_PROBE=minify_css('.a :is(.b,.c) { color: red; } .x:hover { opacity: 1; }')
+if '.a :is(' not in _MINIFIER_PROBE or '.a:is(' in _MINIFIER_PROBE or '.x:hover' not in _MINIFIER_PROBE:
+    raise SystemExit(f'stage209 selector whitespace regression: {_MINIFIER_PROBE}')
 
 def syntax_guard(s:str,name:str):
     depth=0;quote=None;i=0
