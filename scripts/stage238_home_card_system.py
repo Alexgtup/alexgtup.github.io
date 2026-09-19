@@ -24,7 +24,7 @@ p.write_text(s,encoding='utf8')
 f=p.read_text(encoding='utf8')
 for needle in [
     'data-stage238-home-cards="true"',
-    'stage238-home-card-system.css?v=2381',
+    'stage238-home-card-system.css?v=2382',
     'class="p233-work-grid"',
     'class="p233-build-grid"',
     'class="stage174-popular__links"',
