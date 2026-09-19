@@ -6,9 +6,9 @@ p=ROOT/'services/index.html'
 if not p.is_file():raise SystemExit('stage224 services missing')
 s=p.read_text(encoding='utf8')
 CSS='<link rel="stylesheet" href="/assets/stage224-services-decision.css">'
-PRIMARY=['/web-development/','/telegram-bots/','/n8n-automation/','/api-integrations/','/crm-development/','/project-repair/']
-SECONDARY=['/app-development/','/mvp-development/','/python-development/','/ios-development/']
-CODES={'/web-development/':'BUILD','/telegram-bots/':'BOT','/n8n-automation/':'FLOW','/api-integrations/':'LINK','/crm-development/':'OPS','/project-repair/':'FIX','/app-development/':'APP','/mvp-development/':'MVP','/python-development/':'PY','/ios-development/':'iOS'}
+PRIMARY=['/web-development/','/telegram-bots/','/automation-services/','/api-integrations/','/crm-development/','/project-repair/']
+SECONDARY=['/development/','/1c-integration/','/ai-automation/','/app-development/','/ecommerce-development/','/marketplace-integration/']
+CODES={'/web-development/':'BUILD','/telegram-bots/':'BOT','/automation-services/':'FLOW','/api-integrations/':'LINK','/crm-development/':'OPS','/project-repair/':'FIX','/development/':'DEV','/1c-integration/':'1C','/ai-automation/':'AI','/app-development/':'APP','/ecommerce-development/':'SHOP','/marketplace-integration/':'MKT'}
 # cleanup
 s=re.sub(r'\s*<link[^>]+stage224-services-decision\.css[^>]*>','',s,flags=re.I)
 s=re.sub(r'\sdata-stage224-services="true"','',s)
@@ -25,27 +25,27 @@ intro='<div class="p129-section-head"><p class="p130-kicker">CAPABILITIES</p><h2
 head_pat=r'<div class="p129-section-head"><p class="p130-kicker">CAPABILITIES</p><h2>(?:Основные направления\.|Выберите результат, а не стек\.)</h2>(?:<p class="p224-decision-intro">.*?</p>)?</div>'
 s,n=re.subn(head_pat,intro,s,count=1,flags=re.S)
 if n!=1:raise SystemExit('stage224 list heading missing')
-# Extract all ten canonical rows then recompose order: decision-first + specialist rail.
-m=re.search(r'(<div class="p130-list">)(.*?)(</div></div></section>)',s,re.S)
-if not m:raise SystemExit('stage224 list missing')
-rows=re.findall(r'<a class="p130-row" href="([^"]+)">.*?</a>',m.group(2),re.S)
-if set(rows)!=set(PRIMARY+SECONDARY):raise SystemExit(f'stage224 route mismatch: {rows}')
-blocks={}
-for route in rows:
- rm=re.search(r'<a class="p130-row" href="'+re.escape(route)+r'">.*?</a>',m.group(2),re.S)
- blocks[route]=rm.group(0)
+# Extract all ten canonical rows then recompose only the row span. Earlier stages may
+# append SEO/discovery blocks inside the same section, so do not depend on a specific
+# sequence of closing </div></section> tags.
+row_pat=re.compile(r'<a\b(?=[^>]*class="[^"]*\bp130-row\b[^"]*")(?=[^>]*href="([^"]+)")[^>]*>.*?</a>',re.S|re.I)
+row_matches=[m for m in row_pat.finditer(s) if m.group(1) in set(PRIMARY+SECONDARY)]
+rows=[m.group(1) for m in row_matches]
+if len(row_matches)!=12 or set(rows)!=set(PRIMARY+SECONDARY):raise SystemExit(f'stage224 route mismatch: {rows}')
+blocks={m.group(1):m.group(0) for m in row_matches}
 out=[]
 for idx,route in enumerate(PRIMARY,1):
  b=blocks[route].replace(f'href="{route}"',f'href="{route}" data-stage224-primary="{idx:02d}" data-stage224-code="{CODES[route]}"',1)
  out.append(b)
-out.append('<div class="p224-specialist-label" aria-hidden="true">SPECIALIST ROUTES · 04</div>')
+out.append('<div class="p224-specialist-label" aria-hidden="true">SPECIALIST ROUTES · 06</div>')
 for route in SECONDARY:
  b=blocks[route].replace(f'href="{route}"',f'href="{route}" data-stage224-secondary="true" data-stage224-code="{CODES[route]}"',1)
  out.append(b)
-s=s[:m.start()]+m.group(1)+''.join(out)+m.group(3)+s[m.end():]
+first=min(m.start() for m in row_matches); last=max(m.end() for m in row_matches)
+s=s[:first]+''.join(out)+s[last:]
 # Replace single featured card with verified commercial client work.
 featured='''<section class="p130-featured"><div class="p130-shell"><a class="p130-featured-card" href="/cases/wordpress-commercial/"><div class="p130-featured-media"><img src="/assets/cases/wordpress-commercial/wordpress-commercial-01.webp" width="1600" height="1000" alt="Коммерческий WordPress — реальный проект" loading="lazy" decoding="async"></div><div class="p130-featured-copy"><p class="p130-kicker">FEATURED / CLIENT WORK</p><h2>Коммерческий WordPress</h2><p>Доработка существующего сайта: формы, калькуляторы, страницы, мобильная версия и технические исправления без полной пересборки рабочей темы.</p><span class="p129-textlink">Открыть реальный кейс ↗</span></div></a></div></section>'''
-s,n=re.subn(r'<section class="p130-featured">.*?</section>',featured,s,count=1,flags=re.S)
+s,n=re.subn(r'<section\b(?=[^>]*class="[^"]*\bp130-featured\b[^"]*")[^>]*>.*?</section>',featured,s,count=1,flags=re.S|re.I)
 if n!=1:raise SystemExit('stage224 featured missing')
 p.write_text(s,encoding='utf8')
 # guards
@@ -53,7 +53,7 @@ f=p.read_text(encoding='utf8')
 for route in PRIMARY+SECONDARY:
  if f.count(f'href="{route}"')<1:raise SystemExit(f'stage224 lost route {route}')
 if f.count('data-stage224-primary=')!=6:raise SystemExit('stage224 primary count')
-if f.count('data-stage224-secondary="true"')!=4:raise SystemExit('stage224 secondary count')
-for needle in ['data-stage224-services="true"','stage224-services-decision.css','/cases/wordpress-commercial/','SPECIALIST ROUTES · 04']:
+if f.count('data-stage224-secondary="true"')!=6:raise SystemExit('stage224 secondary count')
+for needle in ['data-stage224-services="true"','stage224-services-decision.css','/cases/wordpress-commercial/','SPECIALIST ROUTES · 06']:
  if needle not in f:raise SystemExit(f'stage224 guard {needle}')
-print('stage224 services decision: primary=6, specialist=4, featured=wordpress-commercial')
+print('stage224 services decision: primary=6, specialist=6, featured=wordpress-commercial')
