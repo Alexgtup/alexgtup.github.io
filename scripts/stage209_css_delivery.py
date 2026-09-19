@@ -7,7 +7,7 @@ ROOT=Path(sys.argv[1] if len(sys.argv)>1 else '_site')
 TARGETS=(
  'universal-media.css','site-enhancements.css','stage105-layout-core.css',
  'stage94-site-ux.css','stage105-theme-search.css','growth.css','ux-pass.css',
- 'portfolio-showcase.css','stage105-final-ui.css','stage213-impossible-polish.css','stage214-case-exhibition.css','stage215-service-scenes.css','stage217-flagship-cases.css','stage221-lab-hubs.css','stage223-home-contract.css','stage224-services-decision.css','stage225-guides-path.css','stage226-home-masterpiece.css','stage228-home-art-polish.css','stage221-services-system.css','stage222-reputation-ledger.css','stage223-decision-library.css',
+ 'portfolio-showcase.css','stage105-final-ui.css','stage213-impossible-polish.css','stage214-case-exhibition.css','stage215-service-scenes.css','stage217-flagship-cases.css','stage221-lab-hubs.css','stage223-home-contract.css','stage224-services-decision.css','stage225-guides-path.css','stage226-home-masterpiece.css','stage228-home-art-polish.css','stage229-home-reference-layout.css','stage221-services-system.css','stage222-reputation-ledger.css','stage223-decision-library.css',
 )
 
 def minify_css(s:str)->str:
