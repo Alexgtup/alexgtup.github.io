@@ -163,14 +163,14 @@ for slug in PAGES:
     text = (ROOT / slug / "index.html").read_text(encoding="utf-8")
     if text.count('data-stage177-conversion="true"') != 1:
         raise SystemExit(f"stage177: conversion block count invalid {slug}")
-    for token in (f"{REVIEWS} отзывов", f"{PROFESSIONALISM}/10", f"{COMMUNICATION}/10", f"{CLAIMS} претензий"):
+    for token in (f"{REVIEWS} отзывов", f"{PROFESSIONALISM}/10", f"{COMMUNICATION}/10"):
         if token not in text:
             raise SystemExit(f"stage177: missing {token} on {slug}")
 
 for rel in ("index.html", "about/index.html", "freelance-developer/index.html"):
     text = (ROOT / rel).read_text(encoding="utf-8")
-    if "17 отзывов" in text or ">17</strong><span>публичных отзывов" in text:
-        raise SystemExit(f"stage177: stale 17-review fact on {rel}")
+    if any(stale in text for stale in ("17 отзывов", "18 отзывов", "0 претензий", "10/10 профессионализм")):
+        raise SystemExit(f"stage177: stale reputation fact on {rel}")
 
 # Mark the pages changed by this final conversion/reputation pass as fresh for crawlers.
 routes = ["/", "/about/", "/freelance-developer/"] + [f"/{slug}/" for slug in PAGES]
@@ -192,4 +192,4 @@ for sitemap_name in ("sitemap.xml", "sitemap-google.xml"):
         raise SystemExit(f"stage177: sitemap freshness mismatch {touched}/{len(routes)}")
     sitemap.write_text(xml, encoding="utf-8")
 
-print(f"stage177 conversion trust: service_pages={changed}; reviews={REVIEWS}; claims={CLAIMS}")
+print(f"stage177 conversion trust: service_pages={changed}; reviews={REVIEWS}; professionalism={PROFESSIONALISM}; communication={COMMUNICATION}")

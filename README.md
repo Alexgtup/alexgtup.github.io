@@ -1,6 +1,6 @@
 # Alexuys - разработка, автоматизация и доработка цифровых проектов
 
-Портфолио Александра: Telegram-боты и Mini Apps, сайты и веб-сервисы, CRM, API-интеграции, Python/backend, n8n/Make и мобильные приложения. Работаю как с новыми задачами, так и с существующими проектами, которые нужно продолжить, исправить или связать с другими системами.
+Портфолио Александра: Telegram-боты, доработка WordPress, n8n-автоматизация, сайты и веб-сервисы, CRM, API-интеграции, Python/backend и мобильные приложения. Работаю как с новыми задачами, так и с существующими проектами, которые нужно продолжить, исправить или связать с другими системами.
 
 **[Открыть портфолио](https://alexgtup.github.io/)** · **[Кейсы](https://alexgtup.github.io/cases/)** · **[Услуги](https://alexgtup.github.io/services/)** · **[Telegram @Alexuys](https://t.me/Alexuys)** · **[Freelance.ru](https://freelance.ru/gglalex)**
 
@@ -10,13 +10,14 @@
 
 - [Telegram-боты](https://alexgtup.github.io/telegram-bots/) - Python, aiogram, заявки, CRM/API, оплаты, базы данных.
 - [Доработка Telegram-бота](https://alexgtup.github.io/telegram-bot-repair/) - ошибки, чужой код, новые функции и интеграции.
-- [Разработка ПО на заказ](https://alexgtup.github.io/development/) - веб-сервисы, внутренние системы, backend, API и автоматизация.
+- [Доработка WordPress-сайта](https://alexgtup.github.io/wordpress-development/) - тема, плагины, формы, адаптив, PHP/JS, API, скорость и SEO без полной пересборки.
+- [n8n автоматизация на заказ](https://alexgtup.github.io/n8n-automation/) - workflows, webhooks, Telegram, CRM, Google Sheets, API и обработка ошибок.
 - [Сайты и веб-приложения](https://alexgtup.github.io/web-development/) - сайты под ключ, каталоги, кабинеты и web apps.
+- [Разработка ПО на заказ](https://alexgtup.github.io/development/) - веб-сервисы, внутренние системы, backend, API и автоматизация.
 - [Автоматизация бизнеса](https://alexgtup.github.io/automation-services/) - процессы, данные, n8n, Python и API.
 - [ИИ для бизнеса](https://alexgtup.github.io/ai-automation/) - AI-агенты и AI-функции внутри рабочих процессов.
 - [Интеграция 1С](https://alexgtup.github.io/1c-integration/) - сайт, CRM, каталог, заказы и API.
 - [Интеграция с маркетплейсами](https://alexgtup.github.io/marketplace-integration/) - 1С, Ozon, Wildberries и Яндекс Маркет.
-- [n8n / Make](https://alexgtup.github.io/n8n-automation/) - workflows, webhooks, Telegram, CRM, Google Sheets и API.
 - [CRM-разработка](https://alexgtup.github.io/crm-development/) - заявки, статусы, роли, данные и автоматизация процессов.
 - [API-интеграции](https://alexgtup.github.io/api-integrations/) - связь существующих сервисов и обработка данных.
 - [Доработка существующего проекта](https://alexgtup.github.io/project-repair/) - диагностика, исправления и следующий релиз без обязательного переписывания с нуля.
