@@ -427,3 +427,171 @@ body[data-stage239-light-luxury="true"] .growth-cookie p{color:#66747d!important
     border-radius:20px!important;
   }
 }
+
+
+/* STAGE239 / contrast repair v2 — tuned from live light-theme screenshots. */
+body[data-stage239-light-luxury="true"]{
+  --s239-readable:#182129;
+  --s239-readable-2:#2f3c45;
+  --s239-readable-3:#4a5963;
+  --s239-readable-4:#64737d;
+}
+
+/* Header / brand / navigation */
+body[data-stage239-light-luxury="true"] .header{
+  background:rgba(248,249,248,.94)!important;
+  border-bottom:1px solid rgba(31,45,55,.11)!important;
+  box-shadow:0 8px 26px rgba(41,54,64,.045)!important;
+}
+body[data-stage239-light-luxury="true"] :is(
+  .brand-name,.brand-name strong,.brand-name small,
+  .nav a,.header a,.header .link-arrow,.mobile-menu
+){
+  color:var(--s239-readable-2)!important;
+  opacity:1!important;
+  text-shadow:none!important;
+}
+body[data-stage239-light-luxury="true"] .brand-name strong{
+  color:#172027!important;
+  font-weight:760!important;
+}
+body[data-stage239-light-luxury="true"] .brand-name small{
+  color:#667680!important;
+}
+body[data-stage239-light-luxury="true"] .nav a{
+  font-weight:560!important;
+}
+body[data-stage239-light-luxury="true"] .nav a:hover{
+  color:#11181d!important;
+}
+
+/* Hero: all copy must remain readable against the bright image. */
+body[data-stage239-light-luxury="true"] .p128-eyebrow{
+  color:#526775!important;
+  opacity:1!important;
+  font-weight:720!important;
+}
+body[data-stage239-light-luxury="true"] .p128-lead{
+  color:#44535e!important;
+  opacity:1!important;
+  font-weight:500!important;
+}
+body[data-stage239-light-luxury="true"] .p128-hero__copy>p,
+body[data-stage239-light-luxury="true"] .p128-hero__copy li{
+  color:#44535e!important;
+}
+body[data-stage239-light-luxury="true"] .p128-link{
+  color:#25333c!important;
+  opacity:1!important;
+  font-weight:650!important;
+}
+body[data-stage239-light-luxury="true"] .p128-proofbar strong{
+  color:#172027!important;
+}
+body[data-stage239-light-luxury="true"] .p128-proofbar span{
+  color:#52616b!important;
+  opacity:1!important;
+}
+
+/* Section heading copy */
+body[data-stage239-light-luxury="true"] :is(
+  .p233-kicker,.stage174-head>p:first-child,.stage173-eyebrow,
+  .p128-proof__statement>p:first-child,.p128-start__copy>p:first-child
+){
+  color:#526775!important;
+  opacity:1!important;
+  font-weight:720!important;
+}
+body[data-stage239-light-luxury="true"] .p233-work-head>p:last-of-type{
+  color:#42515b!important;
+  opacity:1!important;
+  font-weight:520!important;
+  line-height:1.58!important;
+}
+body[data-stage239-light-luxury="true"] .p233-work-all{
+  color:#26343d!important;
+  background:rgba(255,255,255,.78)!important;
+  border:1px solid rgba(31,45,55,.13)!important;
+  font-weight:650!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] :is(
+  .p233-build-head>p:last-of-type,
+  .stage174-head div>p,.stage173-head div>p,
+  .p128-start__copy>p:not(:first-child)
+){
+  color:#485761!important;
+  opacity:1!important;
+  font-weight:480!important;
+}
+
+/* Project cards */
+body[data-stage239-light-luxury="true"] .p233-case-copy{
+  color:#4b5a64!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p233-tags li{
+  color:#4f5e68!important;
+  background:#f1f3f4!important;
+  border-color:rgba(31,45,55,.12)!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p233-case-proof span{
+  color:#697983!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p233-case-proof b,
+body[data-stage239-light-luxury="true"] .p233-case-link{
+  color:#24323b!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p233-case-cap>span{
+  color:#f7fafb!important;
+}
+
+/* Capabilities / popular tasks / task map */
+body[data-stage239-light-luxury="true"] .p233-build-item span:last-child,
+body[data-stage239-light-luxury="true"] .stage174-popular__links span,
+body[data-stage239-light-luxury="true"] .stage173-group nav span{
+  color:#52616b!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .stage174-popular__links>a::before{
+  color:#657680!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .stage173-group nav b{
+  color:#53636d!important;
+  opacity:1!important;
+}
+
+/* Proof / form */
+body[data-stage239-light-luxury="true"] .p128-proof__author span,
+body[data-stage239-light-luxury="true"] .p128-proof__numbers span{
+  color:#52616b!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p128-form label>span,
+body[data-stage239-light-luxury="true"] .s44-brief__footer p,
+body[data-stage239-light-luxury="true"] .ux-brief-more summary{
+  color:#42515b!important;
+  opacity:1!important;
+}
+body[data-stage239-light-luxury="true"] .p128-form ::placeholder{
+  color:#71818b!important;
+  opacity:1!important;
+}
+
+/* Any muted legacy helper text inside light homepage surfaces gets a safe floor. */
+body[data-stage239-light-luxury="true"] main.p128-home :is(
+  small,.muted,[class*="meta"],[class*="subtitle"]
+){
+  color:#5d6c76;
+}
+
+@media(max-width:680px){
+  body[data-stage239-light-luxury="true"] .nav a,
+  body[data-stage239-light-luxury="true"] .mobile-menu{
+    color:#1c252b!important;
+  }
+}
