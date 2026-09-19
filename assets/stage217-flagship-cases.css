@@ -84,3 +84,12 @@ body[data-stage217-flagship="fin-planner"] .p132-case>.p132-panel:not(.p132-end)
 body[data-stage217-flagship="fin-planner"] .p132-case>.p132-panel:not(.p132-end):nth-of-type(odd) :is(article,.card,.proof-card,.implemented-card,.s51-card){background:#0f151b!important;border-color:rgba(255,255,255,.10)!important;color:#f4f6f3!important}
 body[data-stage217-flagship="fin-planner"] .p132-case>.p132-panel:not(.p132-end):nth-of-type(odd) :is(article,.card,.proof-card,.implemented-card,.s51-card) p{color:#aab4bb!important}
 body[data-stage217-flagship="fin-planner"] .gallery-cards figcaption{color:#87949e!important}
+
+/* Flagship accessibility and tonal cleanup. */
+body[data-stage217-flagship="fin-planner"] #case-overview .kicker,
+body[data-stage217-flagship="fin-planner"] main .section .section-head .kicker{color:#59646d!important}
+body[data-stage217-flagship="fin-planner"] main .section .section-head h2 em{color:#66727b!important}
+body[data-stage217-flagship="fin-planner"] #case-overview .story article>span{color:#5a6570!important}
+body[data-stage217-flagship="fin-planner"] .gallery-cards figcaption{color:#89949d!important}
+body[data-stage217-flagship="fin-planner"] .deliver article h3{color:#f4f7f5!important}
+body[data-stage217-flagship="fin-planner"] .deliver article p{color:#aeb8b2!important}
