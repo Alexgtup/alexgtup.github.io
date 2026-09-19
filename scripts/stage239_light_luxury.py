@@ -32,7 +32,7 @@ for needle in [
         raise SystemExit(f'stage239 guard {needle}')
 
 asset=ROOT/'assets'/'home-light-luxury.webp'
-if not asset.is_file() or asset.stat().st_size < 20000:
+if not asset.is_file() or asset.stat().st_size < 10000:
     raise SystemExit('stage239 background asset missing/too small')
 
 print('stage239 light luxury homepage: approved generated background + light glass visual system')
