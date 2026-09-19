@@ -18,7 +18,7 @@ s,n=re.subn(
 if n!=1:
     raise SystemExit('stage238 body missing')
 
-s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage238-home-card-system.css?v=2381"></head>',1)
+s=s.replace('</head>','<link rel="stylesheet" href="/assets/stage238-home-card-system.css?v=2382"></head>',1)
 p.write_text(s,encoding='utf8')
 
 f=p.read_text(encoding='utf8')
