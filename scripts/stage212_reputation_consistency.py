@@ -26,7 +26,7 @@ for p in ROOT.rglob('*.html'):
         if stale in s:issues.append(f'{p.relative_to(ROOT)} :: {stale}')
 if issues:raise SystemExit('stage212 reputation consistency failed:\n'+'\n'.join(' - '+x for x in issues))
 # Ensure current facts exist on representative independent-proof surfaces.
-for rel in ('about/index.html','freelance-developer/index.html','telegram-bots/index.html','wordpress-development/index.html','n8n-automation/index.html'):
+for rel in ('about/index.html','freelance-developer/index.html','telegram-bots/index.html','telegram-bot-repair/index.html','wordpress-development/index.html','n8n-automation/index.html'):
     p=ROOT/rel
     if not p.is_file() or '20 отзывов' not in p.read_text(encoding='utf-8',errors='ignore'):
         raise SystemExit(f'stage212 current reputation missing: {rel}')
