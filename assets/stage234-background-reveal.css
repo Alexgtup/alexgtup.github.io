@@ -31,11 +31,9 @@ body[data-stage234-home="true"] .p231-hero-art{
   filter:drop-shadow(0 34px 60px rgba(0,0,0,.24)) drop-shadow(0 0 28px rgba(113,133,255,.10))!important;
 }
 
-/* Selected work gets an explicit space-scene slice so it cannot look like flat black. */
+/* Selected work continues the single main cosmic image — never restart the planet here. */
 body[data-stage234-home="true"] .p233-work{
-  background:
-    linear-gradient(180deg,rgba(2,6,10,.02),rgba(2,6,10,.08)),
-    url('/assets/home-space-reference.webp') center -760px/max(1600px,100vw) auto no-repeat!important;
+  background:linear-gradient(180deg,rgba(2,6,10,.015),rgba(2,6,10,.12))!important;
 }
 body[data-stage234-home="true"] .p233-work::before{
   background:
@@ -78,7 +76,6 @@ body[data-stage234-home="true"] .p233-build-icon{
 
 @media(max-width:980px){
   body[data-stage234-home="true"] main.p128-home{background-size:auto 1800px!important}
-  body[data-stage234-home="true"] .p233-work{background-size:auto 1800px!important;background-position:center -650px!important}
   body[data-stage234-home="true"] .p233-build{background-size:auto 100%!important;background-position:center bottom!important}
 }
 @media(max-width:680px){
