@@ -1,0 +1,669 @@
+/* Stage 98 - cohesive visual system. One calm product/engineering language across the site. */
+:root{
+  --ds-bg:#090b0e;
+  --ds-surface:#0f1318;
+  --ds-surface-2:#131820;
+  --ds-line:rgba(255,255,255,.09);
+  --ds-line-strong:rgba(255,255,255,.16);
+  --ds-text:#f3f5f2;
+  --ds-muted:#969da6;
+  --ds-muted-2:#757e88;
+  --ds-accent:#c9ff4a;
+  --ds-radius:1.15rem;
+  --ds-radius-lg:1.45rem;
+  --ds-shadow:0 18px 50px rgba(0,0,0,.18);
+  --ds-shell:min(calc(100% - 2.4rem),1280px);
+}
+
+html{background:var(--ds-bg)}
+body[data-ux-family]{background:var(--ds-bg);color:var(--ds-text)}
+body[data-ux-family] main{background:var(--ds-bg)}
+body[data-ux-family] main :is(p,li){color:var(--ds-muted)}
+body[data-ux-family] main a{text-underline-offset:3px}
+body[data-ux-family] .container,
+body[data-ux-family] .intl-container{width:var(--ds-shell)!important;max-width:1280px!important}
+
+/* One restrained surface language. */
+body[data-ux-family] :is(
+  .s44-route,.s44-value-grid article,.s44-price-grid article,.s44-trust-card,
+  .s48-fit-grid article,.s48-budget article,.s48-process article,.s48-proof div,
+  .s50-case-list a,.s50-guide-grid a,.s50-card,
+  .s51-card,.case-library-card,.portfolio-card,.dt-tool-card,
+  .growth-card,.s72-offer,.s77-card
+){
+  border-color:var(--ds-line)!important;
+  background:var(--ds-surface)!important;
+  border-radius:var(--ds-radius)!important;
+  box-shadow:none!important;
+}
+body[data-ux-family] :is(
+  .s44-route,.s50-case-list a,.s50-guide-grid a,.case-library-card,.portfolio-card,.dt-tool-card
+):hover{
+  border-color:var(--ds-line-strong)!important;
+  background:var(--ds-surface-2)!important;
+  transform:translateY(-2px);
+}
+
+/* Buttons are visually consistent everywhere. */
+body[data-ux-family] :is(.button,.btn,a.btn,.cta,a[class*="btn"],button[class*="btn"]){
+  border-radius:.82rem!important;
+  font-weight:800!important;
+  letter-spacing:-.01em;
+}
+body[data-ux-family] :is(.button.primary,.btn.primary,.cta.primary,a.btn.primary){
+  background:var(--ds-accent)!important;
+  color:#0a0d08!important;
+  border-color:var(--ds-accent)!important;
+}
+
+/* Homepage: calmer hero and six equal task entries rather than a collage. */
+body[data-ux-family="home"] .s44-hero{padding-top:clamp(4rem,7vw,6.4rem)!important;padding-bottom:clamp(4.2rem,7vw,6.6rem)!important}
+body[data-ux-family="home"] .s44-hero__grid{gap:clamp(2.5rem,5vw,5rem)!important}
+body[data-ux-family="home"] .s44-lead{max-width:58ch!important;color:var(--ds-muted)!important}
+body[data-ux-family="home"] .s44-proofline{gap:.7rem!important}
+body[data-ux-family="home"] .s44-proofline>a,
+body[data-ux-family="home"] .s44-proofline>div{background:transparent!important;border-top:1px solid var(--ds-line)!important;padding:1rem 0!important}
+body[data-ux-family="home"] .s44-route-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:.8rem!important}
+body[data-ux-family="home"] .s44-route,
+body[data-ux-family="home"] .s44-route--wide,
+body[data-ux-family="home"] .s44-route--accent{grid-column:auto!important;min-height:15rem!important;padding:1.35rem!important;background:var(--ds-surface)!important}
+body[data-ux-family="home"] .s44-route h3{margin:auto 0 .65rem!important;font-size:clamp(1.35rem,2vw,1.8rem)!important;max-width:18ch!important}
+body[data-ux-family="home"] .s44-route p{max-width:34ch!important}
+
+/* Homepage projects: real work gets the visual priority; filter becomes a compact tool row. */
+body[data-ux-family="home"] .portfolio-showcase{background:transparent!important;border-block:1px solid var(--ds-line)!important;padding:clamp(4rem,6vw,6rem) 0!important}
+body[data-ux-family="home"] .portfolio-showcase__head{grid-template-columns:minmax(0,1fr) minmax(18rem,.55fr)!important;max-width:none!important;margin-bottom:1.5rem!important}
+body[data-ux-family="home"] .portfolio-showcase__head h2{max-width:14ch!important}
+body[data-ux-family="home"] .portfolio-showcase__intro{max-width:34rem!important;color:var(--ds-muted)!important}
+body[data-ux-family="home"] .portfolio-showcase__layout{display:grid!important;grid-template-columns:1fr!important;gap:.8rem!important}
+body[data-ux-family="home"] .project-radar{order:-1;display:flex!important;align-items:center;gap:.65rem!important;min-height:auto!important;padding:.65rem .75rem!important;border:1px solid var(--ds-line)!important;border-radius:1rem!important;background:transparent!important;overflow:visible!important}
+body[data-ux-family="home"] .project-radar::after,
+body[data-ux-family="home"] .project-radar__head,
+body[data-ux-family="home"] .project-radar__stats{display:none!important}
+body[data-ux-family="home"] .project-radar__filters{display:flex!important;flex-wrap:wrap!important;gap:.42rem!important;flex:1!important}
+body[data-ux-family="home"] .project-radar__filters button{width:auto!important;min-height:2.35rem!important;padding:.5rem .72rem!important;border:1px solid var(--ds-line)!important;border-radius:999px!important;background:transparent!important;color:#aab1b8!important}
+body[data-ux-family="home"] .project-radar__filters button[aria-pressed="true"]{background:var(--ds-accent)!important;border-color:var(--ds-accent)!important;color:#0a0d08!important}
+body[data-ux-family="home"] .project-radar__link{margin:0!important;min-height:2.35rem!important;white-space:nowrap!important;border-radius:999px!important;background:transparent!important}
+body[data-ux-family="home"] .portfolio-carousel{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important}
+body[data-ux-family="home"] .portfolio-carousel__top{min-height:3rem!important;padding:.25rem 0 .75rem!important;border-bottom:0!important}
+body[data-ux-family="home"] .portfolio-carousel__status strong{display:none!important}
+body[data-ux-family="home"] .portfolio-carousel__viewport{padding:0!important;min-height:0!important}
+body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:.85rem!important}
+body[data-ux-family="home"] .portfolio-card{--card-accent:var(--ds-accent)!important;background:var(--ds-surface)!important;border-radius:1.25rem!important}
+body[data-ux-family="home"] .portfolio-card__media{aspect-ratio:16/10!important;background:#0b0e12!important}
+body[data-ux-family="home"] .portfolio-card--poster .portfolio-card__media{background:linear-gradient(145deg,#11161d,#0b0e12)!important}
+body[data-ux-family="home"] .portfolio-poster{background:transparent!important;border-color:var(--ds-line)!important}
+body[data-ux-family="home"] .portfolio-card__body{padding:1.05rem 1.08rem 1.1rem!important;gap:.55rem!important}
+body[data-ux-family="home"] .portfolio-card h3{font-size:1.22rem!important;line-height:1.15!important}
+body[data-ux-family="home"] .portfolio-card p{font-size:.94rem!important;line-height:1.55!important;-webkit-line-clamp:3!important}
+body[data-ux-family="home"] .portfolio-card__meta{font-size:.68rem!important;color:var(--ds-muted-2)!important}
+body[data-ux-family="home"] .portfolio-card__footer{font-size:.82rem!important;padding-top:.7rem!important}
+body[data-ux-family="home"] .portfolio-showcase__foot{margin-top:.85rem!important}
+body[data-ux-family="home"] .portfolio-showcase__foot>span{display:none!important}
+
+/* Approach and budget read as editorial 2x2 systems, not tiny dashboard tiles. */
+body[data-ux-family="home"] .s44-value-grid,
+body[data-ux-family="home"] .s44-price-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:.8rem!important}
+body[data-ux-family="home"] .s44-value-grid article,
+body[data-ux-family="home"] .s44-price-grid article{min-height:14rem!important;padding:1.35rem 1.4rem!important}
+body[data-ux-family="home"] .s44-value-grid h3{margin-top:3rem!important;font-size:1.22rem!important}
+body[data-ux-family="home"] .s44-price-grid strong{font-size:clamp(2rem,3vw,2.7rem)!important}
+body[data-ux-family="home"] .s44-price-grid h3{font-size:1.18rem!important}
+body[data-ux-family="home"] .s44-trust-card{padding:clamp(1.5rem,3vw,2.2rem)!important;background:var(--ds-surface)!important}
+body[data-ux-family="home"] .s44-trust-card>div:first-child{max-width:48rem!important}
+body[data-ux-family="home"] .s44-trust-card p{max-width:62ch!important}
+
+/* Service families use the same section/card rhythm. */
+body[data-ux-family="service"] .stage95-service-core,
+body[data-ux-family="service"] .stage95-service-meta{width:var(--ds-shell)!important;gap:0!important;padding-block:clamp(3.5rem,5.5vw,5.5rem)!important}
+body[data-ux-family="service"] .stage95-service-core>.s48-section,
+body[data-ux-family="service"] .stage95-service-meta>.s48-section{border:0!important;border-top:1px solid var(--ds-line)!important;border-radius:0!important;background:transparent!important}
+body[data-ux-family="service"] .stage95-service-core>.s48-section>.container,
+body[data-ux-family="service"] .stage95-service-meta>.s48-section>.container{padding:clamp(2.1rem,4vw,3.2rem) 0!important}
+body[data-ux-family="service"] :is(.s48-fit-grid,.s48-budget,.s48-process){gap:.8rem!important}
+body[data-ux-family="service"] :is(.s48-fit-grid,.s48-budget,.s48-process) article{padding:1.25rem 1.3rem!important}
+body[data-ux-family="service"] :is(.s48-fit-grid,.s48-budget,.s48-process) p{max-width:42ch!important}
+body[data-ux-family="service"] .s48-head>div:last-child{max-width:52rem!important}
+
+/* Hubs/case library: neutral, product-like cards rather than competing themes. */
+body[data-ux-family="hub"] :is(.case-library,.s50-section,.dt-section){background:transparent!important}
+body[data-ux-family="hub"] .case-library__layout{grid-template-columns:15rem minmax(0,1fr)!important;gap:1.1rem!important}
+body[data-ux-family="hub"] .case-filter{border-color:var(--ds-line)!important;background:transparent!important;box-shadow:none!important}
+body[data-ux-family="hub"] .case-library__grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:.85rem!important}
+body[data-ux-family="hub"] .case-library-card{--card-accent:var(--ds-accent)!important;background:var(--ds-surface)!important}
+body[data-ux-family="hub"] .case-library-card__body{padding:1.05rem!important}
+body[data-ux-family="hub"] .case-library-card p{font-size:.94rem!important;line-height:1.55!important}
+
+/* Guides/cases stay editorial and readable. */
+body[data-ux-family="guide"] :is(.article,.guide-article){max-width:58rem}
+body[data-ux-family="guide"] :is(.article,.guide-article) :is(p,li){max-width:68ch!important}
+body[data-ux-family="case"] main :is(.section,.s51-section){border-color:var(--ds-line)!important}
+
+@media(max-width:1120px){
+  body[data-ux-family="home"] .portfolio-carousel__grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  body[data-ux-family="hub"] .case-library__grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:900px){
+  :root{--ds-shell:min(calc(100% - 2rem),1280px)}
+  body[data-ux-family="home"] .s44-route-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  body[data-ux-family="home"] .portfolio-showcase__head{grid-template-columns:1fr!important;gap:.8rem!important}
+  body[data-ux-family="home"] .project-radar{align-items:flex-start!important;flex-direction:column!important}
+  body[data-ux-family="home"] .project-radar__link{width:100%!important}
+  body[data-ux-family="hub"] .case-library__layout{grid-template-columns:1fr!important}
+  body[data-ux-family="hub"] .case-filter{position:static!important}
+}
+@media(max-width:680px){
+  :root{--ds-shell:min(calc(100% - 1.6rem),1280px)}
+  body[data-ux-family="home"] .s44-route-grid,
+  body[data-ux-family="home"] .s44-value-grid,
+  body[data-ux-family="home"] .s44-price-grid,
+  body[data-ux-family="home"] .portfolio-carousel__grid,
+  body[data-ux-family="hub"] .case-library__grid{grid-template-columns:1fr!important}
+  body[data-ux-family="home"] .s44-route{min-height:12rem!important}
+  body[data-ux-family="home"] .project-radar__filters{width:100%!important;overflow-x:auto!important;flex-wrap:nowrap!important;padding-bottom:.15rem!important}
+  body[data-ux-family="home"] .project-radar__filters button{flex:0 0 auto!important}
+  body[data-ux-family="home"] .portfolio-card__media{aspect-ratio:16/9!important}
+}
+
+/* stage108-sitewide-visual-cleanup */
+/* Earlier visual passes accumulated vertical padding on the same service sections. */
+body[data-ux-family="service"] .stage95-service-core,
+body[data-ux-family="service"] .stage95-service-meta{
+  padding-block:clamp(2.25rem,3.4vw,3.25rem)!important;
+}
+body[data-ux-family="service"] .stage95-service-core>.s48-section>.container,
+body[data-ux-family="service"] .stage95-service-meta>.s48-section>.container{
+  padding:clamp(1.85rem,2.9vw,2.7rem) 0!important;
+}
+body[data-ux-family="service"] main.ux-service-main>.s48-section,
+body[data-ux-family="service"] main.ux-service-main>.stage95-review-strip.s48-section{
+  padding-block:clamp(3rem,4.7vw,4.15rem)!important;
+}
+body[data-ux-family="service"] main.ux-service-main>.s101-related{
+  padding:clamp(3rem,4.5vw,4rem) 0!important;
+}
+body[data-ux-family="service"] main.ux-service-main>.s101-related .s101-card{
+  min-height:11.5rem!important;
+}
+body[data-ux-family="service"] .s48-proof .s48-case{
+  min-height:21rem!important;
+}
+body[data-ux-family="service"] .s48-proof :is(.s48-case__image,.s48-case__diagram){
+  min-height:20rem!important;
+}
+body[data-ux-family="service"] .s48-proof .s48-case__body{
+  padding:clamp(1.35rem,3vw,2.5rem)!important;
+}
+body[data-ux-family="service"] .s48-proof .s48-case__body h3{
+  font-size:clamp(1.65rem,2.8vw,2.8rem)!important;
+}
+body[data-ux-family="service"] .s48-proof .s48-case__body b{margin-top:1.25rem!important}
+
+/* Generic case art now reads like a system surface instead of an empty placeholder. */
+body[data-ux-family="service"] .s48-case__diagram{
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px),
+    radial-gradient(circle at 50% 48%,rgba(129,149,255,.13),transparent 12rem),#0a0d11!important;
+  background-size:34px 34px,34px 34px,auto,auto!important;
+}
+body[data-ux-family="service"] .s48-case__diagram i{border-color:rgba(255,255,255,.1)!important}
+body[data-ux-family="service"] .s48-case__diagram i:nth-child(1){border-color:rgba(201,255,74,.28)!important}
+body[data-ux-family="service"] .s48-case__diagram b{
+  display:grid!important;
+  place-items:center!important;
+  width:6.5rem;
+  height:6.5rem;
+  border:1px solid rgba(201,255,74,.24);
+  border-radius:50%;
+  background:rgba(9,12,15,.86);
+  color:var(--ds-text)!important;
+  font-size:.72rem!important;
+  line-height:1.35!important;
+  letter-spacing:.13em!important;
+  box-shadow:0 0 0 1rem rgba(201,255,74,.015)!important;
+}
+
+/* Discovery links remain crawlable, but no longer appear as raw SEO text. */
+body[data-ux-family] main>.s103-discovery{
+  width:var(--ds-shell,min(calc(100% - 2.4rem),1280px))!important;
+  max-width:1280px!important;
+  margin:clamp(1.2rem,2.4vw,2rem) auto!important;
+  padding:.7rem!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:.45rem!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:1rem!important;
+  background:var(--ds-surface)!important;
+}
+body[data-ux-family] main>.s103-discovery a{
+  min-height:2.25rem!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  padding:.48rem .7rem!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:999px!important;
+  background:transparent!important;
+  color:var(--ds-muted)!important;
+  text-decoration:none!important;
+  font-size:.75rem!important;
+  font-weight:750!important;
+}
+body[data-ux-family] main>.s103-discovery a:hover{
+  color:var(--ds-text)!important;
+  border-color:var(--ds-line-strong)!important;
+  background:var(--ds-surface-2)!important;
+}
+
+/* The final action should end the page without a large empty tail. */
+body[data-ux-family] main>.stage108-endcap{
+  padding-block:clamp(3rem,4.8vw,4.25rem)!important;
+}
+body[data-ux-family] .stage108-endcap :is(
+  .s48-contact__box,.s51-contact-card,.cta-box,.dt-contact__card,
+  .s64-conversion__inner,.intl-cta-box,.ux-product-contact
+){
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius-lg)!important;
+  background:linear-gradient(145deg,var(--ds-surface-2),var(--ds-surface))!important;
+  box-shadow:none!important;
+}
+body[data-ux-family] .stage108-endcap :is(
+  .s48-contact__box,.s51-contact-card,.dt-contact__card,.s64-conversion__inner,.intl-cta-box
+){
+  padding:clamp(1.35rem,2.6vw,2.2rem)!important;
+}
+body[data-ux-family] .stage108-endcap h2{max-width:18ch!important}
+body[data-ux-family] .stage108-endcap p{max-width:62ch!important}
+
+/* One footer component replaces the legacy footer variants. */
+body[data-ux-family] .stage108-footer{
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-top:1px solid var(--ds-line)!important;
+  background:var(--ds-bg)!important;
+  color:var(--ds-muted)!important;
+}
+body[data-ux-family] .stage108-footer__inner{
+  padding-block:2.15rem 2.35rem!important;
+  display:grid!important;
+  grid-template-columns:minmax(13rem,.7fr) minmax(0,1.3fr)!important;
+  grid-template-areas:"brand nav" "meta meta";
+  gap:1.8rem 2.5rem!important;
+  align-items:start!important;
+}
+body[data-ux-family] .stage108-footer__brand{
+  grid-area:brand;
+  display:grid;
+  gap:.4rem;
+  align-content:start;
+}
+body[data-ux-family] .stage108-footer__brand>a{
+  width:max-content;
+  color:var(--ds-text)!important;
+  text-decoration:none!important;
+  font-size:1.08rem!important;
+  font-weight:850!important;
+  letter-spacing:-.04em;
+}
+body[data-ux-family] .stage108-footer__brand>span{
+  color:var(--ds-muted-2)!important;
+  font:700 .6rem/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace!important;
+  letter-spacing:.12em!important;
+}
+body[data-ux-family] .stage108-footer__nav{
+  grid-area:nav;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-end!important;
+  gap:.55rem 1.05rem!important;
+}
+body[data-ux-family] .stage108-footer__nav a,
+body[data-ux-family] .stage108-footer__meta a{
+  color:var(--ds-muted)!important;
+  text-decoration:none!important;
+  font-size:.8rem!important;
+  line-height:1.35!important;
+}
+body[data-ux-family] .stage108-footer__nav a:hover,
+body[data-ux-family] .stage108-footer__meta a:hover{color:var(--ds-text)!important}
+body[data-ux-family] .stage108-footer__meta{
+  grid-area:meta;
+  padding-top:1rem!important;
+  border-top:1px solid var(--ds-line)!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+  align-items:center!important;
+  gap:.55rem 1.05rem!important;
+  color:var(--ds-muted-2)!important;
+  font-size:.74rem!important;
+}
+body[data-ux-family] .stage108-footer__meta>span{margin-right:auto}
+body[data-ux-family] .stage108-footer .stage95-footer-cookie{
+  min-height:auto!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  color:var(--ds-muted)!important;
+  font-size:.74rem!important;
+}
+
+/* Services hub: discovery belongs to the shell and the final action stays close. */
+body[data-page="services"] #service-options{
+  padding-bottom:clamp(2.8rem,4vw,3.8rem)!important;
+}
+body[data-page="services"] main>.s103-discovery{
+  margin-top:0!important;
+  margin-bottom:clamp(2rem,3.4vw,3rem)!important;
+}
+body[data-page="services"] main>.s64-conversion.stage108-endcap{padding-top:0!important}
+
+@media(max-width:820px){
+  body[data-ux-family="service"] .stage95-service-core,
+  body[data-ux-family="service"] .stage95-service-meta{padding-block:1.8rem!important}
+  body[data-ux-family="service"] .stage95-service-core>.s48-section>.container,
+  body[data-ux-family="service"] .stage95-service-meta>.s48-section>.container{padding:1.65rem 0!important}
+  body[data-ux-family="service"] main.ux-service-main>.s48-section,
+  body[data-ux-family="service"] main.ux-service-main>.stage95-review-strip.s48-section{padding-block:2.7rem!important}
+  body[data-ux-family="service"] main.ux-service-main>.s101-related{padding:2.7rem 0!important}
+  body[data-ux-family="service"] .s48-proof .s48-case{min-height:0!important}
+  body[data-ux-family="service"] .s48-proof :is(.s48-case__image,.s48-case__diagram){min-height:17rem!important}
+  body[data-ux-family] main>.s103-discovery{
+    width:min(calc(100% - 2rem),1280px)!important;
+    margin:1rem auto!important;
+    padding:.55rem!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    scrollbar-width:none;
+  }
+  body[data-ux-family] main>.s103-discovery::-webkit-scrollbar{display:none}
+  body[data-ux-family] main>.s103-discovery a{
+    flex:0 0 auto!important;
+    min-height:2.15rem!important;
+  }
+  body[data-ux-family] main>.stage108-endcap{padding-block:2.7rem!important}
+  body[data-ux-family] .stage108-footer__inner{
+    grid-template-columns:1fr!important;
+    grid-template-areas:"brand" "nav" "meta";
+    gap:1.25rem!important;
+    padding-block:1.75rem 2rem!important;
+  }
+  body[data-ux-family] .stage108-footer__nav{justify-content:flex-start!important}
+  body[data-ux-family] .stage108-footer__meta{
+    align-items:flex-start!important;
+    flex-direction:column!important;
+    gap:.6rem!important;
+  }
+  body[data-ux-family] .stage108-footer__meta>span{margin-right:0}
+}
+
+/* stage109-content-visual-consistency */
+body[data-ux-family="service"] .stage109-case-diagram{
+  position:relative!important;
+  min-height:20rem!important;
+  overflow:hidden!important;
+  background:
+    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(201,255,74,.08),transparent 12rem),
+    #0a0d11!important;
+  background-size:36px 36px,36px 36px,auto,auto!important;
+}
+body[data-ux-family="service"] .stage109-case-diagram>i{display:none!important}
+body[data-ux-family="service"] .stage109-case-diagram::before,
+body[data-ux-family="service"] .stage109-case-diagram::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  background:rgba(255,255,255,.1);
+  transform:translate(-50%,-50%);
+}
+body[data-ux-family="service"] .stage109-case-diagram::before{width:min(68%,24rem);height:1px}
+body[data-ux-family="service"] .stage109-case-diagram::after{width:1px;height:min(60%,15rem)}
+body[data-ux-family="service"] .stage109-case-diagram>b{
+  position:absolute!important;
+  z-index:3!important;
+  left:50%!important;top:50%!important;
+  transform:translate(-50%,-50%)!important;
+  width:8.1rem!important;height:8.1rem!important;
+  display:grid!important;place-items:center!important;
+  border:1px solid rgba(201,255,74,.34)!important;
+  border-radius:50%!important;
+  background:#0d1116!important;
+  color:var(--ds-text)!important;
+  font:850 .7rem/1.25 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.11em!important;
+  text-align:center!important;
+  box-shadow:0 0 0 1.1rem rgba(201,255,74,.025)!important;
+}
+body[data-ux-family="service"] .stage109-case-diagram>span{
+  position:absolute;
+  z-index:2;
+  min-width:6.8rem;
+  padding:.58rem .7rem;
+  border:1px solid var(--ds-line);
+  border-radius:.72rem;
+  background:rgba(15,19,24,.94);
+  color:var(--ds-muted)!important;
+  font:800 .63rem/1.2 ui-monospace,SFMono-Regular,Menlo,monospace!important;
+  letter-spacing:.08em!important;
+  text-align:center;
+}
+body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(1){left:9%;top:18%}
+body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(2){right:9%;top:18%}
+body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(3){left:9%;bottom:18%}
+body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(4){right:9%;bottom:18%}
+
+body[data-ux-family="guide"] main>.stage109-guide-endcap{
+  padding-block:clamp(3rem,4.5vw,4rem)!important;
+  background:transparent!important;
+  border-top:1px solid var(--ds-line)!important;
+}
+body[data-ux-family="guide"] main>.stage109-guide-endcap>.container{
+  width:var(--ds-shell,min(calc(100% - 2.4rem),1280px))!important;
+  padding:clamp(1.45rem,3vw,2.35rem)!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius-lg)!important;
+  background:linear-gradient(145deg,var(--ds-surface-2),var(--ds-surface))!important;
+}
+body[data-ux-family="guide"] .stage109-guide-endcap .section-head{margin-bottom:1.2rem!important}
+body[data-ux-family="guide"] .stage109-guide-endcap .related{display:flex!important;flex-wrap:wrap!important;gap:.55rem!important}
+body[data-ux-family="guide"] .stage109-guide-endcap .related a{
+  min-height:2.35rem!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  padding:.55rem .75rem!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:.72rem!important;
+  background:transparent!important;
+  color:var(--ds-text)!important;
+  text-decoration:none!important;
+  font-size:.78rem!important;
+  font-weight:800!important;
+}
+body[data-ux-family="guide"] .stage109-guide-endcap .related a[href*="t.me/Alexuys"]{
+  margin-left:auto!important;
+  border-color:var(--ds-accent)!important;
+  background:var(--ds-accent)!important;
+  color:#0a0d08!important;
+}
+
+body[data-ux-family="product"] main>.ux-product-contact.stage109-endcap{
+  width:var(--ds-shell,min(calc(100% - 2.4rem),1280px))!important;
+  margin:clamp(2.2rem,4vw,3.5rem) auto clamp(3rem,5vw,4.5rem)!important;
+  padding:clamp(1.25rem,2.5vw,1.8rem)!important;
+  border:1px solid var(--ds-line)!important;
+  border-radius:var(--ds-radius-lg)!important;
+  background:linear-gradient(145deg,var(--ds-surface-2),var(--ds-surface))!important;
+}
+
+@media(max-width:760px){
+  body[data-ux-family="service"] .stage109-case-diagram{min-height:16rem!important}
+  body[data-ux-family="service"] .stage109-case-diagram>b{width:6.8rem!important;height:6.8rem!important;font-size:.62rem!important}
+  body[data-ux-family="service"] .stage109-case-diagram>span{min-width:5.4rem;padding:.48rem .55rem;font-size:.56rem!important}
+  body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(1),
+  body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(3){left:4%}
+  body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(2),
+  body[data-ux-family="service"] .stage109-case-diagram>span:nth-of-type(4){right:4%}
+  body[data-ux-family="guide"] .stage109-guide-endcap .related a{width:100%!important;justify-content:space-between!important}
+  body[data-ux-family="guide"] .stage109-guide-endcap .related a[href*="t.me/Alexuys"]{margin-left:0!important}
+}
+
+/* stage110-responsive-quality */
+/*
+  Final cross-family QA layer after the DOM/content passes.
+  Goals: no hidden mobile navigation content, denser service reading rhythm,
+  safer case media, larger secondary tap targets, and a shorter mobile footer.
+*/
+
+/* Case media should never escape the reading column when a legacy case uses
+   intrinsic image widths larger than its current card/hero container. */
+body[data-ux-family="case"] :is(.visual,.hero-visual,.s51-map){
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+}
+body[data-ux-family="case"] :is(.visual,.hero-visual) :is(picture,img){
+  display:block!important;
+  max-width:100%!important;
+}
+body[data-ux-family="case"] :is(.visual,.hero-visual) img{
+  width:100%!important;
+  height:auto!important;
+}
+
+/* The three newer comparison guides had a larger closing rhythm than the rest
+   of the editorial family. Keep the CTA prominent without creating a visual gap. */
+body[data-ux-family="guide"] main>.stage109-guide-endcap{
+  padding-block:clamp(2.25rem,3.4vw,3.1rem)!important;
+}
+
+/* Secondary actions should still feel clickable. This deliberately targets
+   navigation/action surfaces only, never links inside article prose. */
+body[data-ux-family] main :is(
+  .portfolio-card__footer,
+  .case-library-card__action,
+  .s101-related,
+  .s103-discovery,
+  .related,
+  .s48-related,
+  .s50-related
+) a{
+  min-height:2.25rem;
+  display:inline-flex;
+  align-items:center;
+}
+
+@media(max-width:820px){
+  /* Service pages were still noticeably taller than adjacent families after
+     stacking to one column. Reduce only whitespace, not content. */
+  body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta){
+    padding-block:1.35rem!important;
+  }
+  body[data-ux-family="service"] :is(.stage95-service-core,.stage95-service-meta)>.s48-section>.container{
+    padding:1.35rem 0!important;
+  }
+  body[data-ux-family="service"] main.ux-service-main>.s48-section,
+  body[data-ux-family="service"] main.ux-service-main>.stage95-review-strip.s48-section{
+    padding-block:2.15rem!important;
+  }
+  body[data-ux-family="service"] main.ux-service-main>.s101-related{
+    padding:2.1rem 0!important;
+  }
+  body[data-ux-family="service"] .s48-proof :is(.s48-case__image,.s48-case__diagram,.stage109-case-diagram){
+    min-height:14.5rem!important;
+  }
+  body[data-ux-family] main>.stage108-endcap{
+    padding-block:2.15rem!important;
+  }
+
+  /* Legacy article TOCs used a horizontally clipped one-line rail. Showing all
+     chapters is more predictable on phone and removes the hidden-content edge. */
+  body[data-page^="guides--"] .toc{
+    display:flex!important;
+    flex-wrap:wrap!important;
+    align-items:center!important;
+    width:100%!important;
+    max-width:100%!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    gap:.38rem!important;
+    padding:.5rem!important;
+  }
+  body[data-page^="guides--"] .toc a{
+    flex:0 1 auto!important;
+    min-height:2.35rem!important;
+    white-space:normal!important;
+  }
+  body[data-page^="guides--"] :is(.crumbs,.breadcrumbs){
+    max-width:100%!important;
+    overflow:visible!important;
+    white-space:normal!important;
+    overflow-wrap:anywhere!important;
+  }
+
+  /* Shared footer: two compact navigation columns instead of one long vertical
+     list. Metadata remains fully visible and keeps comfortable tap height. */
+  body[data-ux-family] .stage108-footer__inner{
+    gap:.9rem!important;
+    padding-block:1.35rem 1.55rem!important;
+  }
+  body[data-ux-family] .stage108-footer__nav{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    justify-content:stretch!important;
+    gap:.12rem .8rem!important;
+  }
+  body[data-ux-family] .stage108-footer__nav a,
+  body[data-ux-family] .stage108-footer__meta a{
+    min-height:2.25rem!important;
+    display:flex!important;
+    align-items:center!important;
+  }
+  body[data-ux-family] .stage108-footer__meta{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    align-items:start!important;
+    gap:.1rem .8rem!important;
+    padding-top:.7rem!important;
+  }
+  body[data-ux-family] .stage108-footer__meta>span{
+    grid-column:1/-1!important;
+    margin-right:0!important;
+    min-height:2rem;
+    display:flex;
+    align-items:center;
+  }
+
+  /* Common card and catalog actions previously rendered as 14-20px text rows. */
+  body[data-ux-family] main :is(
+    .portfolio-card__footer,
+    .case-library-card__action,
+    .s101-card,
+    .s50-card,
+    .s44-route,
+    .s48-proof,
+    .s48-related,
+    .s101-related
+  ) a{
+    min-height:2.4rem!important;
+    display:inline-flex!important;
+    align-items:center!important;
+  }
+}
+
+@media(max-width:520px){
+  /* Very narrow phones: preserve readable footer labels without horizontal
+     overflow while keeping the two-column information density. */
+  body[data-ux-family] .stage108-footer__nav,
+  body[data-ux-family] .stage108-footer__meta{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  }
+  body[data-ux-family] .stage108-footer__nav a,
+  body[data-ux-family] .stage108-footer__meta a{
+    min-width:0!important;
+    overflow-wrap:anywhere!important;
+  }
+}

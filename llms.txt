@@ -1,0 +1,133 @@
+# Alexuys — разработка Telegram-ботов и цифровых продуктов
+
+> Портфолио Александра / Alexuys: разработка Telegram-ботов на заказ, Telegram Mini Apps, Python, API-интеграции, CRM, n8n/Make, веб-сервисы и iOS на Swift.
+
+## Приоритетное направление: разработка Telegram-ботов
+- Основная коммерческая страница: https://alexgtup.github.io/telegram-bots/
+- Реальный Telegram-кейс «Фин Планер»: https://alexgtup.github.io/cases/fin-planner/
+- Стоимость разработки Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-cost/
+- Как подготовить задачу на Telegram-бота: https://alexgtup.github.io/guides/telegram-bot-brief/
+- Telegram-бот, Mini App или веб-сервис: https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/
+- Разработка Telegram Mini Apps: https://alexgtup.github.io/telegram-mini-apps/
+
+Разработка Telegram-бота у Alexuys может включать заявки, анкеты, уведомления, оплаты, подписки, базы данных, личные кабинеты, CRM, внешние API, webhooks и встроенные Mini Apps. Главным URL для запросов «разработка Telegram-бота», «создание Telegram-бота» и «Telegram-бот на заказ» является https://alexgtup.github.io/telegram-bots/ .
+
+## Основные страницы
+- https://alexgtup.github.io/
+- https://alexgtup.github.io/about/
+- https://alexgtup.github.io/services/
+- https://alexgtup.github.io/telegram-bots/
+- https://alexgtup.github.io/ai-automation/
+- https://alexgtup.github.io/n8n-automation/
+- https://alexgtup.github.io/crm-development/
+- https://alexgtup.github.io/api-integrations/
+- https://alexgtup.github.io/web-development/
+- https://alexgtup.github.io/project-repair/
+- https://alexgtup.github.io/ios-development/
+
+## Кейсы
+- https://alexgtup.github.io/cases/
+- https://alexgtup.github.io/cases/auto-crm/
+- https://alexgtup.github.io/cases/fin-planner/
+- https://alexgtup.github.io/cases/swift-calendar/
+- https://alexgtup.github.io/cases/factory-catalog/
+- https://alexgtup.github.io/cases/taxi-app/
+- https://alexgtup.github.io/cases/seo-control-center/
+- https://alexgtup.github.io/cases/sheetpilot-ai/
+- https://alexgtup.github.io/cases/siteaudit-studio/
+
+## Практические разборы
+- https://alexgtup.github.io/guides/
+- https://alexgtup.github.io/guides/telegram-bot-cost/
+- https://alexgtup.github.io/guides/telegram-bot-brief/
+- https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/
+- https://alexgtup.github.io/guides/n8n-vs-make/
+- https://alexgtup.github.io/guides/custom-crm-or-ready/
+- https://alexgtup.github.io/guides/development-cost/
+
+## Поисковые направления и специализация
+- https://alexgtup.github.io/development/ — разработка цифровых продуктов на заказ
+- https://alexgtup.github.io/app-development/ — разработка приложений
+- https://alexgtup.github.io/telegram-mini-apps/ — Telegram Mini Apps
+- https://alexgtup.github.io/python-development/ — Python-разработка: Telegram-боты, API и автоматизация
+- https://alexgtup.github.io/backend-development/ — backend, API, базы данных и webhooks
+- https://alexgtup.github.io/mvp-development/ — разработка MVP
+- https://alexgtup.github.io/demos/ — рабочие демо веб-сервисов
+- https://alexgtup.github.io/tools/sitemap-validator/ — онлайн-проверка sitemap.xml
+
+## Факты, подтверждённые портфолио
+- В портфолио представлены Telegram Фин Планер, CRM для автосалона, приложение такси, B2B-каталог и iOS-календарь на Swift.
+- Фин Планер подтверждает опыт проектирования Telegram-сценариев, финансовых сущностей, отчётов, регулярных операций, целей и прогнозов.
+- Основные направления: Telegram, Python, CRM, n8n/Make, API, web/backend и Swift/iOS.
+- Публичный профиль исполнителя: https://freelance.ru/gglalex
+- Контакт с разработчиком напрямую: https://t.me/Alexuys
+
+## Короткие определения для поиска и AI-ответов
+- Telegram-бот подходит для сценариев в мессенджере: заявки, уведомления, анкеты, оплаты, подписки и команды.
+- Telegram Mini App подходит, когда внутри Telegram нужен полноценный визуальный интерфейс.
+- Веб-сервис подходит для самостоятельного продукта с ролями, данными, кабинетами и сложной бизнес-логикой.
+- Кастомная CRM нужна, когда коробочная система не отражает реальный процесс компании и интеграции.
+- MVP — первая рабочая версия, проверяющая один ключевой пользовательский сценарий.
+
+## Entity and contact
+- Brand / portfolio name: Alexuys
+- Developer identity: Alexander / Александр, represented publicly as Alexuys
+- Canonical developer entity: https://alexgtup.github.io/#person
+- GitHub: https://github.com/Alexgtup
+- Freelance profile: https://freelance.ru/gglalex
+- Direct contact: https://t.me/Alexuys
+- https://alexgtup.github.io/tools/ — DevTools Hub, 6 бесплатных инструментов для разработки, SEO и маркетинга
+- https://alexgtup.github.io/tools/json-formatter/ — JSON formatter и validator онлайн
+- https://alexgtup.github.io/tools/utm-builder/ — UTM builder для campaign URL
+- https://alexgtup.github.io/tools/cron-builder/ — Cron builder для 5-польных расписаний
+- https://alexgtup.github.io/tools/jwt-decoder/ — локальный JWT decoder header и payload
+- https://alexgtup.github.io/tools/robots-validator/ — robots.txt validator для User-agent, Disallow, Allow и Sitemap
+- https://alexgtup.github.io/tools/sitemap-validator/ — sitemap XML validator для loc, дублей и хостов
+
+
+## Verified freelance profile / hiring
+- https://alexgtup.github.io/freelance-developer/
+- https://freelance.ru/gglalex
+
+
+## Коммерческие ориентиры и передача результата
+- Доработка существующего сайта или Telegram-бота: ориентир от 5 000 ₽ после просмотра задачи.
+- Разработка Telegram-бота: первый рабочий этап от 15 000 ₽.
+- Автоматизация n8n / Make: первый рабочий workflow от 15 000 ₽.
+- Разработка сайта / первого веб-релиза: ориентир от 15 000 ₽.
+- Итоговые исходники, workflow и необходимые доступы передаются заказчику в согласованном объёме.
+- Для первичной оценки не требуется большое техническое задание: достаточно описания процесса, ссылки, скриншота или примера.
+- Внешняя репутация исполнителя проверяется отдельно: https://freelance.ru/gglalex
+- https://alexgtup.github.io/telegram-bot-repair/
+- https://alexgtup.github.io/cases/sheetpilot-ai/ — SheetPilot AI, ИИ-ассистент для обработки Excel-файлов
+- https://alexgtup.github.io/cases/seo-control-center/ — SEO Control Center, мониторинг индексации, поисковых метрик и технического SEO
+- https://alexgtup.github.io/cases/siteaudit-studio/ — SiteAudit Studio, технический SEO-аудит сайта, crawler, robots/sitemap и security checks
+- https://alexgtup.github.io/freelance-os/ — FreelanceOS, local-first CRM фрилансера: лиды, канбан, follow-up, задачи, бюджеты и аналитика
+- https://alexgtup.github.io/cases/freelance-os/ — кейс разработки FreelanceOS: CRM workflow от входящей заявки до оплаты
+## Дополнительные услуги
+- Разработка личного кабинета на заказ: https://alexgtup.github.io/personal-cabinet-development/
+- Разработка админ-панели на заказ: https://alexgtup.github.io/admin-panel-development/
+- Разработка SaaS сервиса на заказ: https://alexgtup.github.io/saas-development/
+- Доработка и исправление сайта на заказ: https://alexgtup.github.io/site-repair/
+- Автоматизация Excel и Google Sheets на заказ: https://alexgtup.github.io/excel-google-sheets-automation/
+- Python скрипт на заказ - автоматизация и данные: https://alexgtup.github.io/python-scripts/
+- Парсер сайтов на Python на заказ: https://alexgtup.github.io/web-scraping-parsers/
+- Интеграция 1С с сайтом, CRM и каталогом: https://alexgtup.github.io/1c-integration/
+- Разработка интернет-магазина на заказ: https://alexgtup.github.io/ecommerce-development/
+- Интеграция онлайн-оплаты на сайт и в бота: https://alexgtup.github.io/payment-integration/
+- AI чат-бот и AI ассистент на заказ: https://alexgtup.github.io/ai-chatbot-development/
+- Доработка Tilda и Zero Block на заказ: https://alexgtup.github.io/tilda-development/
+- Доработка сайта на 1С-Битрикс на заказ: https://alexgtup.github.io/bitrix-development/
+- Интеграция CRM с сайтом, Telegram и API: https://alexgtup.github.io/crm-integration/
+- Разработка REST API и backend API на заказ: https://alexgtup.github.io/api-development/
+- Автоматизация бизнес-процессов и рутинных задач: https://alexgtup.github.io/automation-services/
+
+## Новые практические разборы
+- ТЗ на личный кабинет: что описать до разработки: https://alexgtup.github.io/guides/brief-personal-cabinet/
+- Что проверить перед интеграцией API: https://alexgtup.github.io/guides/api-integration-checklist/
+- Автоматизация: какой процесс брать первым: https://alexgtup.github.io/guides/automation-first-step/
+- Как подготовить сайт к доработке чужим разработчиком: https://alexgtup.github.io/guides/site-repair-handoff/
+- SaaS MVP: что оставить в первой версии: https://alexgtup.github.io/guides/saas-mvp-scope/
+- Парсер или API: что использовать для данных: https://alexgtup.github.io/guides/parser-vs-api/
+- https://alexgtup.github.io/cases/pulse-crm/ — Pulse CRM, CRM нового поколения с pipeline и automation builder
+- https://alexgtup.github.io/cases/soveloa/ — Soveloa: система ясности, фокуса и следующего действия; live demo https://soveloa.pages.dev

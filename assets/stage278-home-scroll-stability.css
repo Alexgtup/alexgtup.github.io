@@ -1,0 +1,50 @@
+
+/* stage278 — keep the home document geometry stable while scrolling */
+html{scroll-behavior:auto!important}
+
+/* Root cause of the repeated "jump upward":
+   stage254 reveals every narrative section from +16px and every staggered child
+   from +12px. As the user scrolls, each new section physically travels upward.
+   Keep the homepage live through hover/pointer effects, but never move document
+   sections as they enter the viewport. */
+html.s254-js body[data-page="home"][data-stage254-live="true"] [data-s254-reveal],
+html.s254-js body[data-page="home"][data-stage254-live="true"] [data-s254-reveal].is-s254-in{
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+  transition:none!important;
+}
+html.s254-js body[data-page="home"][data-stage254-live="true"] [data-s254-stagger]>*,
+html.s254-js body[data-page="home"][data-stage254-live="true"] [data-s254-stagger]:not(.is-s254-in)>*,
+html.s254-js body[data-page="home"][data-stage254-live="true"] [data-s254-stagger].is-s254-in>*{
+  opacity:1!important;
+  filter:none!important;
+  transform:none!important;
+  transition:none!important;
+}
+
+/* Old performance optimization used a fake 900px intrinsic height and then
+   swapped in the real section height as it approached the viewport. That is
+   exactly the kind of late geometry correction that makes the page jump. */
+body[data-page="home"] main>section,
+body[data-page="home"] :is(.p128-work,.p128-capabilities,.p128-proof,.stage173-map,.p276-work,.stage277-rail){
+  content-visibility:visible!important;
+  contain-intrinsic-size:none!important;
+}
+
+body[data-page="home"] .p255-output{
+  min-height:112px!important;
+}
+body[data-page="home"] .p255-output strong[data-p255-output]{
+  display:block!important;
+  min-height:3.45em!important;
+}
+body[data-page="home"] .p255-machine,
+body[data-page="home"] .p255-routes,
+body[data-page="home"] .p255-route{
+  contain:layout paint!important;
+}
+@media(max-width:680px){
+  body[data-page="home"] .p255-output{min-height:132px!important}
+  body[data-page="home"] .p255-output strong[data-p255-output]{min-height:4.9em!important}
+}

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Alexuys — кейсы и разборы</title>
+  <link href="https://alexgtup.github.io/feed.xml" rel="self" />
+  <link href="https://alexgtup.github.io/" />
+  <id>https://alexgtup.github.io/</id>
+  <updated>2026-09-17T00:00:00Z</updated>
+  <author><name>Александр</name><uri>https://alexgtup.github.io/about/</uri></author>
+  <entry>
+    <title>Разработка Telegram-ботов, CRM и автоматизации | Alexuys</title>
+    <link href="https://alexgtup.github.io/" />
+    <id>https://alexgtup.github.io/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Разработка Telegram-ботов, CRM, n8n/Make-автоматизации, веб-сервисов и API-интеграций. Реальные проекты, прямой контакт с разработчиком, запуск и доработка.</summary>
+  </entry>
+  <entry>
+    <title>Разработка Telegram-ботов на заказ — API, CRM, оплаты | Александр</title>
+    <link href="https://alexgtup.github.io/telegram-bots/" />
+    <id>https://alexgtup.github.io/telegram-bots/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Разработка Telegram-ботов на заказ: заявки, личные кабинеты, оплаты, подписки, CRM, API, уведомления и Mini Apps. От сценария до запуска и поддержки.</summary>
+  </entry>
+  <entry>
+    <title>Автоматизация n8n и Make на заказ — CRM, Telegram, API | Александр</title>
+    <link href="https://alexgtup.github.io/n8n-automation/" />
+    <id>https://alexgtup.github.io/n8n-automation/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Автоматизация процессов в n8n и Make: CRM, Telegram, формы, таблицы, API, webhooks, отчёты и уведомления. Проектирование workflow, тестирование и запуск.</summary>
+  </entry>
+  <entry>
+    <title>Разработка CRM на заказ — заявки, статусы, интеграции | Александр</title>
+    <link href="https://alexgtup.github.io/crm-development/" />
+    <id>https://alexgtup.github.io/crm-development/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Разработка CRM на заказ под конкретный процесс: заявки, клиенты, статусы, роли, фильтры, аналитика и интеграции с сайтом, Telegram и API.</summary>
+  </entry>
+  <entry>
+    <title>Фин Планер — кейс Telegram-бота для бюджета и финансового анализа</title>
+    <link href="https://alexgtup.github.io/cases/fin-planner/" />
+    <id>https://alexgtup.github.io/cases/fin-planner/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Кейс Telegram-бота Фин Планер: личный бюджет, доходы и расходы, регулярные платежи, баланс, отчёты, цели, прогноз и финансовый анализ в Telegram.</summary>
+  </entry>
+  <entry>
+    <title>iOS-календарь на Swift — кейс разработки приложения</title>
+    <link href="https://alexgtup.github.io/cases/swift-calendar/" />
+    <id>https://alexgtup.github.io/cases/swift-calendar/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Кейс iOS-календаря на Swift: интерфейс задач и событий, пользовательский аккаунт, подписочная модель и визуальная упаковка реальных экранов приложения.</summary>
+  </entry>
+  <entry>
+    <title>CRM для автосалона: заявки и автоматизация — кейс</title>
+    <link href="https://alexgtup.github.io/cases/auto-crm/" />
+    <id>https://alexgtup.github.io/cases/auto-crm/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Кейс разработки CRM для автосалона: единый учёт заявок, статусы работы менеджеров, вебхуки и автоматизация рабочего процесса.</summary>
+  </entry>
+  <entry>
+    <title>Сколько стоит Telegram-бот в 2026: из чего складывается цена | Александр</title>
+    <link href="https://alexgtup.github.io/guides/telegram-bot-cost/" />
+    <id>https://alexgtup.github.io/guides/telegram-bot-cost/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>От чего зависит стоимость разработки Telegram-бота в 2026 году: сценарии, база данных, CRM, API, оплаты, Mini App и ошибки. Как подготовить задачу к точной оценке.</summary>
+  </entry>
+  <entry>
+    <title>n8n или Make: что выбрать для автоматизации в 2026 | Александр</title>
+    <link href="https://alexgtup.github.io/guides/n8n-vs-make/" />
+    <id>https://alexgtup.github.io/guides/n8n-vs-make/</id>
+    <updated>2026-09-06T00:00:00Z</updated>
+    <summary>Практическое сравнение n8n и Make: self-hosted, интеграции, кастомная логика, обслуживание и сценарии. Когда лучше n8n, а когда Make.</summary>
+  </entry>
+
+  <entry><title>Сколько стоит разработка проекта</title><link href="https://alexgtup.github.io/guides/development-cost/" /><id>https://alexgtup.github.io/guides/development-cost/</id><updated>2026-09-06T00:00:00+08:00</updated><summary>Что влияет на оценку Telegram-бота, CRM, приложения, веб-сервиса, MVP и интеграции.</summary></entry>
+  <entry><title>Бот, Mini App или web: что выбрать</title><link href="https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/" /><id>https://alexgtup.github.io/guides/bot-vs-mini-app-vs-web/</id><updated>2026-09-06T00:00:00+08:00</updated><summary>Сравнение Telegram-бота, Mini App, веб-приложения и нативного mobile.</summary></entry>
+<entry><title>Python-разработка: API, автоматизация и Telegram</title><link href="https://alexgtup.github.io/python-development/" /><id>https://alexgtup.github.io/python-development/</id><updated>2026-09-08T00:00:00Z</updated><summary>Python-разработка для API, Telegram-ботов, автоматизации, обработки данных и backend-задач.</summary></entry><entry><title>Backend-разработка: API, данные и серверная логика</title><link href="https://alexgtup.github.io/backend-development/" /><id>https://alexgtup.github.io/backend-development/</id><updated>2026-09-08T00:00:00Z</updated><summary>Backend-разработка: REST API, базы данных, авторизация, интеграции, фоновые процессы и production-логика.</summary></entry><entry><title>FreelanceOS — local-first CRM фрилансера</title><link href="https://alexgtup.github.io/freelance-os/" /><id>https://alexgtup.github.io/freelance-os/</id><updated>2026-09-08T00:00:00Z</updated><summary>Рабочая CRM без регистрации: лиды, pipeline, follow-up, задачи, источники и финансовая аналитика в браузере.</summary></entry><entry><title>FreelanceOS — кейс CRM от лида до оплаты</title><link href="https://alexgtup.github.io/cases/freelance-os/" /><id>https://alexgtup.github.io/cases/freelance-os/</id><updated>2026-09-08T00:00:00Z</updated><summary>Кейс разработки local-first CRM для фриланс-практики: workflow, канбан, задачи, аналитика и JSON backup.</summary></entry><entry><title>DevTools Hub — бесплатные инструменты разработчика</title><link href="https://alexgtup.github.io/tools/" /><id>https://alexgtup.github.io/tools/</id><updated>2026-09-08T00:00:00Z</updated><summary>Браузерные инструменты без регистрации: JSON, UTM, Cron, JWT, robots.txt и sitemap XML.</summary></entry><entry><title>robots.txt Validator — проверка robots.txt в браузере</title><link href="https://alexgtup.github.io/tools/robots-validator/" /><id>https://alexgtup.github.io/tools/robots-validator/</id><updated>2026-09-08T00:00:00Z</updated><summary>Локальная проверка robots.txt: директивы, группы user-agent, sitemap и базовые риски индексации.</summary></entry><entry><title>Sitemap XML Validator — проверка sitemap.xml</title><link href="https://alexgtup.github.io/tools/sitemap-validator/" /><id>https://alexgtup.github.io/tools/sitemap-validator/</id><updated>2026-09-08T00:00:00Z</updated><summary>Локальная проверка sitemap XML: структура, URL, дубли и базовые ошибки без отправки содержимого на сервер.</summary></entry><entry><title>SiteAudit Studio — кейс технического аудита сайта</title><link href="https://alexgtup.github.io/cases/siteaudit-studio/" /><id>https://alexgtup.github.io/cases/siteaudit-studio/</id><updated>2026-09-08T00:00:00Z</updated><summary>Кейс web-сервиса для технического SEO-аудита с ограниченным crawler, explainable score и SSRF-защитой.</summary></entry><entry><title>SEO Control Center — мониторинг индексации и поисковых метрик</title><link href="https://alexgtup.github.io/cases/seo-control-center/" /><id>https://alexgtup.github.io/cases/seo-control-center/</id><updated>2026-09-08T00:00:00Z</updated><summary>Кейс панели для контроля индексации, показов, CTR, позиций и технического состояния страниц.</summary></entry><entry><title>SheetPilot AI — обработка Excel с предпросмотром</title><link href="https://alexgtup.github.io/cases/sheetpilot-ai/" /><id>https://alexgtup.github.io/cases/sheetpilot-ai/</id><updated>2026-09-08T00:00:00Z</updated><summary>Кейс ассистента для обработки Excel-файлов с предпросмотром изменений и выгрузкой результата.</summary></entry><entry><title>ТЗ на личный кабинет: что описать до разработки</title><link href="https://alexgtup.github.io/guides/brief-personal-cabinet/" /><id>https://alexgtup.github.io/guides/brief-personal-cabinet/</id><updated>2026-09-17T00:00:00Z</updated><summary>Практический чек-лист для личного кабинета: роли, вход, данные, ключевые действия, статусы, документы, интеграции и критерии готовности.</summary></entry><entry><title>Что проверить перед интеграцией API</title><link href="https://alexgtup.github.io/guides/api-integration-checklist/" /><id>https://alexgtup.github.io/guides/api-integration-checklist/</id><updated>2026-09-17T00:00:00Z</updated><summary>Чек-лист API-интеграции: авторизация, сущности, webhooks, лимиты, ошибки, идемпотентность, тестовый контур и журнал обмена.</summary></entry><entry><title>Автоматизация: какой процесс брать первым</title><link href="https://alexgtup.github.io/guides/automation-first-step/" /><id>https://alexgtup.github.io/guides/automation-first-step/</id><updated>2026-09-17T00:00:00Z</updated><summary>Как выбрать первый процесс для автоматизации: частота, повторяемость, цена ошибки, доступность API, исключения и измеримый результат.</summary></entry><entry><title>Как подготовить сайт к доработке чужим разработчиком</title><link href="https://alexgtup.github.io/guides/site-repair-handoff/" /><id>https://alexgtup.github.io/guides/site-repair-handoff/</id><updated>2026-09-17T00:00:00Z</updated><summary>Что передать разработчику для доработки сайта: ссылка, доступы, репозиторий, воспроизведение ошибки, окружение, резервная копия и критерий проверки.</summary></entry><entry><title>SaaS MVP: что оставить в первой версии</title><link href="https://alexgtup.github.io/guides/saas-mvp-scope/" /><id>https://alexgtup.github.io/guides/saas-mvp-scope/</id><updated>2026-09-17T00:00:00Z</updated><summary>Как выбрать состав первой версии SaaS: core-flow, роли, тарифы, платежи, админка, интеграции и функции, которые можно отложить.</summary></entry><entry><title>Парсер или API: что использовать для данных</title><link href="https://alexgtup.github.io/guides/parser-vs-api/" /><id>https://alexgtup.github.io/guides/parser-vs-api/</id><updated>2026-09-17T00:00:00Z</updated><summary>Когда использовать официальный API, а когда HTML-парсер: стабильность, лимиты, авторизация, структура данных, частота обновления и поддержка.</summary></entry></feed>
